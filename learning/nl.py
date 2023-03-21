@@ -219,7 +219,7 @@ def evaluate_reasoner(results_path: str,
         results_obj = {
             'dataset': dataset.id,
             'problem': p.id,
-            'reasoner': reasoner.id,
+            'reasoner': reasoner.name(),
             'prediction': prediction,
             'error': error,
             'reasoning': reasoning,
