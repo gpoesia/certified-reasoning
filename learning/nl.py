@@ -45,13 +45,15 @@ class RateLimiter:
         now = datetime.datetime.now()
 
         if self._last_request is not None:
-            wait = (self._min_interval - (self._last_request - now)).total_seconds()
+            wait = (self._min_interval - (now - self._last_request)).total_seconds()
+            if wait > 0:
+                print('wait', wait)
             time.sleep(max(0, wait))
 
         self._last_request = datetime.datetime.now()
 
 
-rate_limiter = RateLimiter()
+rate_limiter = RateLimiter(10000)
 
 
 def _split_question(question: str):
@@ -155,7 +157,6 @@ class PeanoLMReasoner:
         self._temperature = temperature
         self._separator = '###'
 
-
         with open(prompt_file, 'r') as f:
             self._prompt = f.read().strip()
 
@@ -174,9 +175,11 @@ class PeanoLMReasoner:
         lm = OpenAIModel(self._model,
                          prompt,
                          temperature=self._temperature,
-                         before_prediction_hook=rate_limiter.wait)
+                         before_prediction_hook=rate_limiter.wait,
+                         )
 
-        response = predict_constrained(self._completion_engine, lm, batch_size=500)
+        response = predict_constrained(self._completion_engine, lm, batch_size=500,
+                                       stop_tokens=[self._separator])
         done, answer = self._completion_engine.is_complete(response)
         assert done
 
@@ -201,6 +204,7 @@ def evaluate_reasoner(results_path: str,
 
         if key in results:
             print('Skipping', key)
+            success.append(results[key]['correct'])
             continue
 
         try:
@@ -208,7 +212,7 @@ def evaluate_reasoner(results_path: str,
             error = None
             correct = (prediction == p.test_example.answer)
             print(key, 'success?', correct)
-        except Exception as e:
+        except (Exception, RuntimeError) as e:
             print('Error:', e)
             correct = False
             error = str(e)
@@ -254,10 +258,10 @@ if __name__ == '__main__':
         PeanoLMReasoner(fol_completion_engine,
                         'prompts/peano_prontoqa_long_prompt',
                         'text-davinci-003'),
-        OpenAILanguageModelReasoner('code-davinci-002'),
-        PeanoLMReasoner(fol_completion_engine,
-                        'prompts/peano_prontoqa_long_prompt',
-                        'code-davinci-002'),
+        # OpenAILanguageModelReasoner('code-davinci-002'),
+        # PeanoLMReasoner(fol_completion_engine,
+        #                'prompts/peano_prontoqa_long_prompt',
+        #                'code-davinci-002'),
     ]
 
     for ds in datasets:
