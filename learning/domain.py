@@ -226,6 +226,8 @@ div_self_id : [((/ 'a 'a) : real) -> (= (/ 'a 'a) 1)].
 class DomainFromTheory(Domain):
     'Creates a domain from one of the theories implemented in the environment.'
     def __init__(self, theory, actions):
+        super().__init__()
+
         with open(os.path.join(os.path.dirname(__file__),
                                '..', 'environment', 'theories', theory)) as f:
             self.theory = str(f.read())
@@ -425,6 +427,53 @@ class NatOneStepAddEq(DomainFromTheory):
             m = re.match(fr'^\(= x {nat}\)$', dtype)
             if m and m.groups()[0].find('n-') == -1:
                 return name
+        return None
+
+
+class FirstOrderLogicDomain(DomainFromTheory):
+    def __init__(self, theory='fol.p', with_equality=False):
+        super().__init__(theory, [])
+        self._ignored_actions = {'not'}.union(
+            {'eq_refl', 'eq_symm', 'rewrite'}
+            if not with_equality
+            else set()
+        )
+
+    def generate_derivation(self, _seed: int):
+        return self.start_derivation(None, None)
+
+    def start_derivation(self, problem=None, goal=None):
+        u = self.base_derivation.clone()
+        if problem:
+            u.incorporate(problem)
+        return Problem(u, problem, goal, self)
+
+    def derivation_actions(self, d) -> list[str]:
+        return list(set(d.actions()) - self._ignored_actions)
+
+    @staticmethod
+    def _negate(goal: str) -> str:
+        if goal.startswith('(not '):
+            return goal[len('(not '):-1]
+        else:
+            return f'(not {goal})'
+
+    def derivation_done(self, problem: Problem) -> Optional[str]:
+        'Find a proof of either the goal type or its negation.'
+
+        # If no goal was set yet, should not stop.
+        if problem.goal is None:
+            return None
+
+        negated_goal = FirstOrderLogicDomain._negate(problem.goal)
+
+        for name, dtype, _, is_prop, _deps in problem.universe.state():
+            if not is_prop:
+                continue
+
+            if dtype in (problem.goal, negated_goal):
+                return name, dtype == problem.goal
+
         return None
 
 
