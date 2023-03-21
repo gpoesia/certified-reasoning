@@ -227,7 +227,7 @@ def evaluate_reasoner(results_path: str,
         }
 
         results[key] = results_obj
-        with open(results_path, 'rb') as f:
+        with open(results_path, 'w') as f:
             json.dump(results, f, indent=4)
 
     print(f'Accuracy: {100 * sum(success) / len(success):.2f}%')
