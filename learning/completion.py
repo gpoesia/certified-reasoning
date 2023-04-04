@@ -2,11 +2,12 @@
 
 import copy
 import regex
+import unittest
 
 from typing import Optional
 
-import unittest
 import domain
+import util
 
 
 class CountingDomain:
@@ -71,7 +72,7 @@ class PeanoCompletionEngine:
 
         if not b:
             # The block was just open: return the supported keywords.
-            block_keywords = f'(prop|object|axiom|goal|infer):'
+            block_keywords = f'(prop|object|axiom|goal|infer|var|eq):'
             return regex.compile(block_keywords)
 
         block_keyword, block_contents = _split_block(b)
@@ -79,6 +80,12 @@ class PeanoCompletionEngine:
 
         if block_keyword in ('prop', 'object'):
             return regex.compile('[a-z_]+' + end_marker)
+
+        if block_keyword == 'var':
+            return regex.compile('[a-z_]+' + end_marker)
+
+        if block_keyword == 'eq':
+            return regex.compile('[\\(\\)a-z0-9\\-=+\\*/ ]+' + end_marker)
 
         if block_keyword in ('axiom', 'goal'):
             # NOTE: We can plug in a grammar for axioms here,
@@ -132,6 +139,10 @@ class PeanoCompletionEngine:
                 u.incorporate(f'let {block_content} : object.')
             elif block_type == 'goal':
                 goal = block_content
+            elif block_type == 'var':
+                u.incorporate(f'let {block_content} : real.')
+            elif block_type == 'eq':
+                u.incorporate(f'eq{i} : {util.format_infix(block_content)}.')
             elif block_type == 'infer':
                 choices = self.enumerate_choices(u)
 
@@ -143,7 +154,9 @@ class PeanoCompletionEngine:
                         self.domain.define(u, f'!step{i}', c)
                         break
 
-                assert found, 'Could not replay inference in verified block.'
+                assert found, f'Could not replay inference in verified block {block_content}.'
+            else:
+                raise ValueError(f'Invalid block type {block_type}')
 
         d_prime = copy.copy(self.start_derivation)
         d_prime.universe = u
@@ -155,7 +168,7 @@ class PeanoCompletionEngine:
     def enumerate_choices(self, universe):
         initial_actions = set(self.domain.derivation_actions(self.start_derivation.universe) +
                               self.domain.tactic_actions())
-        arrows = self.domain.derivation_actions(universe)
+        arrows = set(self.domain.derivation_actions(universe)).union(initial_actions)
 
         choices = []
 
@@ -262,3 +275,50 @@ Reasoning: [[infer:(wumpus sally)]] Sally is a wumpus. [[infer:'''
         self.assertTrue(ce.complete(prefix).match('(vumpus sally)]]'))
         # Duplicate
         self.assertFalse(ce.complete(prefix).match('(wumpus sally)]]'))
+
+    def test_algebra_problem(self):
+        import tactics
+
+        d = domain.AlgebraDomain()
+        d.load_tactics([
+            tactics.Tactic(
+                'eval_rewrite',
+                [
+                    tactics.Step(['eval'], ['?a@*'], '?0'),
+                    tactics.Step(['rewrite'], ['?0', '?a@*'], '?1'),
+                ]
+            ),
+            tactics.Tactic(
+                'eval_rewrite_loop',
+                [
+                    tactics.Step(['eval_rewrite'], ['?a'], '?0'),
+                    tactics.Step(['eval_rewrite_loop', 'eval_rewrite'], ['?0'], '?1'),
+                ]
+            )
+        ])
+
+        prob = d.start_derivation()
+
+        ce = PeanoCompletionEngine(d, prob, util.format_infix)
+
+        prefix = '''Problem #1
+Context: Let x = f^3 + 2g - 4h. Suppose f = 2, g = 3 and h = 4.
+Query: Find the value of x.
+Formalized context: We have the following variables: [[var:x]], [[var:f]], [[var:g]] and [[var:h]]. We're also given the following equations: [[eq:(x = (((f * (f * f)) + (2 * g)) - (4 * h)))]], [[eq:(f = 2)]], [[eq:(g = 3)]] and finally [[eq:(h = 4)]].
+Formalized goal: We want to find [[goal:x]].
+Formal solution: Let's substitute until we have no more variables on the right-hand side. First we get [[infer:(x = (((2 * (f * f)) + (2 * g)) - (4 * h)))]]. Then, we get [[infer:(x = (((2 * (2 * f)) + (2 * g)) - (4 * h)))]]. Substituting one more, we get [[infer:(x = (((2 * (2 * 2)) + (2 * g)) - (4 * h)))]]. One more time and we get [[infer:(x = (((2 * (2 * 2)) + (2 * 3)) - (4 * h)))]]. Finally we get [[infer:(x = (((2 * (2 * 2)) + (2 * 3)) - (4 * 4)))]]. We can now start evaluating the expression. [[infer:(x = (((2 * 4) + (2 * 3)) - (4 * 4)))]]. [[infer:(x = ((8 + (2 * 3)) - (4 * 4)))]]. [[infer:(x = ((8 + 6) - (4 * 4)))]]. [[infer:(x = (14 - (4 * 4)))]]. [[infer:(x = (14 - 16))]]. '''
+
+        self.assertFalse(ce.is_complete(prefix))
+
+        prefix += '[[infer:(x = -2)]]'
+
+        self.assertTrue(ce.is_complete(prefix))
+
+        prefix = '''Problem #2
+Context: Let x = 8 - m/n + p^2. Suppose m = 8, n = 2 and p = 7.
+Query: Find the value of x.
+Formalized context: We have the following variables: [[var:x]], [[var:m]], [[var:n]], and [[var:p]]. We're also given the following equations: [[eq:(x = ((8 - (m / n)) + (p * p)))]], [[eq:(m = 8)]], [[eq:(n = 2)]] and finally [[eq:(p = 7)]].
+Formalized goal: We want to find [[goal:x]].
+Formal solution: Let's substitute until we have no more variables on the right-hand side. First we get [[infer:(x = ((8 - (8 / n)) + (p * p)))]]. Then, we get [[infer:(x = ((8 - (8 / 2)) + (p * p)))]]. Substituting for p once, we get [[infer:(x = ((8 - (8 / 2)) + (7 * p)))]]. Finally we have [[infer:(x = ((8 - (8 / 2)) + (7 * 7)))]]. We can now evaluate. First we get [[infer:(x = ((8 - 4) + (7 * 7)))]]. Then we get [[infer:(x = (4 + (7 * 7)))]]. Finalizing, we get [[infer:(x = 53)]]. That is the answer.
+Answer: 53'''
+        self.assertTrue(ce.is_complete(prefix))

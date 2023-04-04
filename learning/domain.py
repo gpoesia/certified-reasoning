@@ -430,6 +430,36 @@ class NatOneStepAddEq(DomainFromTheory):
         return None
 
 
+class AlgebraDomain(DomainFromTheory):
+    def __init__(self):
+        super().__init__('equations.p', ['rewrite', 'eval'])
+
+    def start_derivation(self):
+        u = self.base_derivation.clone()
+        return Problem(u, '', None, self)
+
+    def derivation_done(self, problem: Problem) -> Optional[str]:
+        'Find an equality between the goal variables and numbers.'
+
+        # If no goal was set yet, should not stop.
+        if problem.goal is None:
+            return None
+
+        for name, dtype, _, is_prop, _deps in problem.universe.state():
+            if not is_prop:
+                continue
+
+            m = re.match(rf'^\(= {problem.goal} (.*)\)$', dtype)
+            if m:
+                try:
+                    value = Fraction(m.group(1))
+                    return name, str(value)
+                except ValueError:
+                    pass
+
+        return None
+
+
 class FirstOrderLogicDomain(DomainFromTheory):
     def __init__(self, theory='fol.p', with_equality=False):
         super().__init__(theory, [])

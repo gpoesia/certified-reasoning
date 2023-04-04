@@ -1,0 +1,21 @@
+Instructions: when formatting expressions inside [[ and ]] blocks, always put parentheses around every operation. For instance, if you have x = a * b * c, you should write [[eq:(x = ((a * (b * c))))]].
+
+Problem #1
+Context: Let x = f^3 + 2g - 4h. Suppose f = 2, g = 3 and h = 4.
+Query: Find the value of x.
+Formalized context: We have the following variables: [[var:x]], [[var:f]], [[var:g]] and [[var:h]]. We're also given the following equations: [[eq:(x = (((f * (f * f)) + (2 * g)) - (4 * h)))]], [[eq:(f = 2)]], [[eq:(g = 3)]] and finally [[eq:(h = 4)]].
+Formalized goal: We want to find [[goal:x]].
+Formal solution: Let's substitute until we have no more variables on the right-hand side. First we get [[infer:(x = (((2 * (f * f)) + (2 * g)) - (4 * h)))]]. Then, we get [[infer:(x = (((2 * (2 * f)) + (2 * g)) - (4 * h)))]]. Substituting one more, we get [[infer:(x = (((2 * (2 * 2)) + (2 * g)) - (4 * h)))]]. One more time and we get [[infer:(x = (((2 * (2 * 2)) + (2 * 3)) - (4 * h)))]]. Finally we get [[infer:(x = (((2 * (2 * 2)) + (2 * 3)) - (4 * 4)))]]. We can now start evaluating the expression. [[infer:(x = (((2 * 4) + (2 * 3)) - (4 * 4)))]]. [[infer:(x = ((8 + (2 * 3)) - (4 * 4)))]]. [[infer:(x = ((8 + 6) - (4 * 4)))]]. [[infer:(x = (14 - (4 * 4)))]]. [[infer:(x = (14 - 16))]]. With one more step we have [[infer:(x = -2)]]. This equation tells us the value of x is -2, so we are done.
+Answer: -2
+###
+
+Problem #2
+Context: Let x = 8 - m/n + p^2. Suppose m = 8, n = 2 and p = 7.
+Query: Find the value of x.
+Formalized context: We have the following variables: [[var:x]], [[var:m]], [[var:n]], and [[var:p]]. We're also given the following equations: [[eq:(x = ((8 - (m / n)) + (p * p)))]], [[eq:(m = 8)]], [[eq:(n = 2)]] and finally [[eq:(p = 7)]].
+Formalized goal: We want to find [[goal:x]].
+Formal solution: Let's substitute until we have no more variables on the right-hand side. First we get [[infer:(x = ((8 - (8 / n)) + (p * p)))]]. Then, we get [[infer:(x = ((8 - (8 / 2)) + (p * p)))]]. Substituting for p once, we get [[infer:(x = ((8 - (8 / 2)) + (7 * p)))]]. Finally we have [[infer:(x = ((8 - (8 / 2)) + (7 * 7)))]]. We can now evaluate. First we get [[infer:(x = ((8 - 4) + (7 * 7)))]]. Then we get [[infer:(x = (4 + (7 * 7)))]]. That gives us [[infer:(x = 53)]]. This equation tells us the value of x is 53, so we are done.
+Answer: 53
+###
+
+Problem #3

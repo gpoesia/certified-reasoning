@@ -186,6 +186,11 @@ def toggle_infix(sexp):
     return children
 
 
+def format_infix(sexp_str: str) -> str:
+    sexp, _ = parse_sexp(sexp_str)
+    return format_sexp(toggle_infix(sexp))
+
+
 def randomly_mask_atoms(sexp, probability):
     if isinstance(sexp, str):
         if random.random() < probability:
