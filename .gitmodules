@@ -1,0 +1,3 @@
+[submodule "learning/ext/synchromesh"]
+	path = learning/ext/synchromesh
+	url = https://github.com/kanishkg/synchromesh/
