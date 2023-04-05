@@ -432,10 +432,10 @@ def evaluate_reasoner(results_path: str,
 
 def run_prontoqa_experiments():
     datasets = [
-        PrOntoQADataset.load('./prontoqa/1hop_random.json'),
-        PrOntoQADataset.load('./prontoqa/2hop_random.json'),
-        PrOntoQADataset.load('./prontoqa/3hop_random.json'),
-        PrOntoQADataset.load('./prontoqa/4hop_random.json'),
+        # PrOntoQADataset.load('./prontoqa/1hop_random.json'),
+        # PrOntoQADataset.load('./prontoqa/2hop_random.json'),
+        # PrOntoQADataset.load('./prontoqa/3hop_random.json'),
+        # PrOntoQADataset.load('./prontoqa/4hop_random.json'),
         PrOntoQADataset.load('./prontoqa/5hop_random.json')
     ]
 
@@ -452,7 +452,7 @@ def run_prontoqa_experiments():
         #                'prompts/peano_prontoqa_long_prompt',
         #                'text-davinci-003'),
         OpenAIChatModelReasoner('gpt-3.5-turbo'),
-        OpenAIChatModelReasoner('gpt-4'),
+        # OpenAIChatModelReasoner('gpt-4'),
         # PeanoLMReasoner(fol_completion_engine,
         #                'prompts/peano_prontoqa_long_prompt',
         #                'code-davinci-002'),
