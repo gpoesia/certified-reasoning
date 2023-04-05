@@ -8,3 +8,5 @@ torch
 tqdm
 transformers
 wandb
+openai
+tokenizers
