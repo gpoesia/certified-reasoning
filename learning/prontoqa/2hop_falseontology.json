@@ -1,0 +1,1862 @@
+{
+ "example1": {
+  "in_context_example0": {
+   "question": "Insects are hot. Insects are animals. Animals are kind. Animals are moths. Each butterfly is blue. Each moth is not blue. Every moth is a spider. Each spider is small. Every spider is an invertebrate. Invertebrates are spicy. Every invertebrate is a crustacean. Crustaceans are floral. Crustaceans are arthropods. Alex is an animal.",
+   "query": "True or false: Alex is blue.",
+   "chain_of_thought": [
+    "Alex is an animal.",
+    "Animals are moths.",
+    "Alex is a moth.",
+    "Each moth is not blue.",
+    "Alex is not blue."
+   ],
+   "answer": "False"
+  },
+  "in_context_example1": {
+   "question": "Every crustacean is earthy. Crustaceans are lepidopterans. Lepidopterans are hot. Every lepidopteran is an animal. Each animal is not spicy. Each animal is an invertebrate. Each invertebrate is small. Invertebrates are moths. Moths are not happy. Each moth is a butterfly. Each butterfly is transparent. Butterflies are ants. Ants are luminous. Insects are not bright. Each ant is an arthropod. Every arthropod is bright. Arthropods are spiders. Sam is an ant.",
+   "query": "True or false: Sam is bright.",
+   "chain_of_thought": [
+    "Sam is an ant.",
+    "Each ant is an arthropod.",
+    "Sam is an arthropod.",
+    "Every arthropod is bright.",
+    "Sam is bright."
+   ],
+   "answer": "True"
+  },
+  "in_context_example2": {
+   "question": "Mersenne primes are not transparent. Mersenne primes are real numbers. Real numbers are not cold. Each real number is a negative number. Negative numbers are metallic. Every negative number is a prime number. Prime numbers are bright. Each prime number is an even number. Each even number is brown. Even numbers are composite numbers. Every composite number is earthy. Natural numbers are not bright. Composite numbers are numbers. Rex is a negative number.",
+   "query": "True or false: Rex is not bright.",
+   "chain_of_thought": [
+    "Rex is a negative number.",
+    "Every negative number is a prime number.",
+    "Rex is a prime number.",
+    "Prime numbers are bright.",
+    "Rex is bright."
+   ],
+   "answer": "False"
+  },
+  "in_context_example3": {
+   "question": "Every invertebrate is large. Each invertebrate is an ant. Every ant is opaque. Each ant is a crustacean. Each crustacean is spicy. Each arthropod is not spicy. Crustaceans are animals. Animals are liquid. Every animal is a spider. Each spider is bright. Each spider is a lepidopteran. Every lepidopteran is not feisty. Lepidopterans are butterflies. Every butterfly is not aggressive. Each butterfly is a moth. Moths are not cold. Each moth is an insect. Alex is an ant.",
+   "query": "True or false: Alex is not spicy.",
+   "chain_of_thought": [
+    "Alex is an ant.",
+    "Each ant is a crustacean.",
+    "Alex is a crustacean.",
+    "Each crustacean is spicy.",
+    "Alex is spicy."
+   ],
+   "answer": "False"
+  },
+  "test_example": {
+   "question": "Fractions are luminous. Every fraction is a negative number. Negative numbers are not transparent. Every negative number is a Mersenne prime. Every Mersenne prime is temperate. Mersenne primes are integers. Integers are small. Integers are natural numbers. Natural numbers are kind. Natural numbers are real numbers. Real numbers are spicy. Each number is transparent. Every real number is an even number. Every even number is not dull. Even numbers are prime numbers. Every prime number is not shy. Every prime number is a composite number. Max is a fraction.",
+   "query": "True or false: Max is not transparent.",
+   "chain_of_thought": [
+    "Max is a fraction.",
+    "Every fraction is a negative number.",
+    "Max is a negative number.",
+    "Negative numbers are not transparent.",
+    "Max is not transparent."
+   ],
+   "answer": "True"
+  }
+ },
+ "example2": {
+  "in_context_example0": {
+   "question": "Each spider is dull. Each spider is an animal. Each animal is metallic. Animals are moths. Each moth is red. Every moth is an arthropod. Insects are not small. Every arthropod is cold. Arthropods are invertebrates. Invertebrates are small. Invertebrates are crustaceans. Each crustacean is sour. Every crustacean is a lepidopteran. Each lepidopteran is not angry. Lepidopterans are butterflies. Every butterfly is nervous. Butterflies are ants. Sally is an arthropod.",
+   "query": "True or false: Sally is not small.",
+   "chain_of_thought": [
+    "Sally is an arthropod.",
+    "Arthropods are invertebrates.",
+    "Sally is an invertebrate.",
+    "Invertebrates are small.",
+    "Sally is small."
+   ],
+   "answer": "False"
+  },
+  "in_context_example1": {
+   "question": "Each sheep is bright. Sheep are carnivores. Carnivores are shy. Carnivores are animals. Each animal is not luminous. Animals are cats. Each cat is not spicy. Each cat is a vertebrate. Every vertebrate is temperate. Vertebrates are dogs. Dogs are not transparent. Every mammal is luminous. Dogs are felines. Felines are earthy. Every feline is a snake. Each snake is brown. Every snake is a cow. Max is a carnivore.",
+   "query": "True or false: Max is luminous.",
+   "chain_of_thought": [
+    "Max is a carnivore.",
+    "Carnivores are animals.",
+    "Max is an animal.",
+    "Each animal is not luminous.",
+    "Max is not luminous."
+   ],
+   "answer": "False"
+  },
+  "in_context_example2": {
+   "question": "Each animal is brown. Animals are ants. Every ant is hot. Every ant is a butterfly. Each butterfly is not large. Every lepidopteran is not luminous. Every butterfly is an insect. Each insect is not floral. Every insect is an arthropod. Arthropods are luminous. Arthropods are moths. Stella is an insect.",
+   "query": "True or false: Stella is luminous.",
+   "chain_of_thought": [
+    "Stella is an insect.",
+    "Every insect is an arthropod.",
+    "Stella is an arthropod.",
+    "Arthropods are luminous.",
+    "Stella is luminous."
+   ],
+   "answer": "True"
+  },
+  "in_context_example3": {
+   "question": "Moths are not luminous. Every moth is an animal. Ants are brown. Animals are kind. Every animal is a butterfly. Every butterfly is not brown. Each butterfly is a crustacean. Sally is an animal.",
+   "query": "True or false: Sally is not brown.",
+   "chain_of_thought": [
+    "Sally is an animal.",
+    "Every animal is a butterfly.",
+    "Sally is a butterfly.",
+    "Every butterfly is not brown.",
+    "Sally is not brown."
+   ],
+   "answer": "True"
+  },
+  "test_example": {
+   "question": "Composite numbers are liquid. Each composite number is a fraction. Each negative number is earthy. Every fraction is not earthy. Fractions are numbers. Rex is a composite number.",
+   "query": "True or false: Rex is not earthy.",
+   "chain_of_thought": [
+    "Rex is a composite number.",
+    "Each composite number is a fraction.",
+    "Rex is a fraction.",
+    "Every fraction is not earthy.",
+    "Rex is not earthy."
+   ],
+   "answer": "True"
+  }
+ },
+ "example3": {
+  "in_context_example0": {
+   "question": "Crustaceans are earthy. Each crustacean is an invertebrate. Each invertebrate is not happy. Insects are happy. Every invertebrate is a spider. Rex is a crustacean.",
+   "query": "True or false: Rex is happy.",
+   "chain_of_thought": [
+    "Rex is a crustacean.",
+    "Each crustacean is an invertebrate.",
+    "Rex is an invertebrate.",
+    "Each invertebrate is not happy.",
+    "Rex is not happy."
+   ],
+   "answer": "False"
+  },
+  "in_context_example1": {
+   "question": "Composite numbers are happy. Every composite number is a fraction. Fractions are fruity. Every fraction is an even number. Each even number is not bright. Each even number is an integer. Real numbers are bright. Sam is a fraction.",
+   "query": "True or false: Sam is bright.",
+   "chain_of_thought": [
+    "Sam is a fraction.",
+    "Every fraction is an even number.",
+    "Sam is an even number.",
+    "Each even number is not bright.",
+    "Sam is not bright."
+   ],
+   "answer": "False"
+  },
+  "in_context_example2": {
+   "question": "Each moth is blue. Each moth is a lepidopteran. Lepidopterans are amenable. Butterflies are not amenable. Lepidopterans are arthropods. Sally is a moth.",
+   "query": "True or false: Sally is amenable.",
+   "chain_of_thought": [
+    "Sally is a moth.",
+    "Each moth is a lepidopteran.",
+    "Sally is a lepidopteran.",
+    "Lepidopterans are amenable.",
+    "Sally is amenable."
+   ],
+   "answer": "True"
+  },
+  "in_context_example3": {
+   "question": "Snakes are not hot. Felines are spicy. Felines are carnivores. Carnivores are feisty. Carnivores are cats. Each cat is hot. Every cat is a vertebrate. Every vertebrate is opaque. Every vertebrate is a sheep. Alex is a carnivore.",
+   "query": "True or false: Alex is hot.",
+   "chain_of_thought": [
+    "Alex is a carnivore.",
+    "Carnivores are cats.",
+    "Alex is a cat.",
+    "Each cat is hot.",
+    "Alex is hot."
+   ],
+   "answer": "True"
+  },
+  "test_example": {
+   "question": "Each spider is not opaque. Spiders are lepidopterans. Lepidopterans are feisty. Lepidopterans are invertebrates. Invertebrates are not bright. Each invertebrate is an arthropod. Each arthropod is not temperate. Arthropods are crustaceans. Crustaceans are luminous. Each moth is temperate. Each crustacean is an animal. Sam is an invertebrate.",
+   "query": "True or false: Sam is temperate.",
+   "chain_of_thought": [
+    "Sam is an invertebrate.",
+    "Each invertebrate is an arthropod.",
+    "Sam is an arthropod.",
+    "Each arthropod is not temperate.",
+    "Sam is not temperate."
+   ],
+   "answer": "False"
+  }
+ },
+ "example4": {
+  "in_context_example0": {
+   "question": "Vertebrates are not happy. Each animal is dull. Every vertebrate is a feline. Felines are not dull. Felines are cows. Every cow is small. Cows are cats. Each cat is metallic. Cats are snakes. Snakes are bitter. Snakes are carnivores. Every carnivore is hot. Each carnivore is a sheep. Every sheep is opaque. Sheep are mammals. Every mammal is orange. Every mammal is a dog. Alex is a vertebrate.",
+   "query": "True or false: Alex is not dull.",
+   "chain_of_thought": [
+    "Alex is a vertebrate.",
+    "Every vertebrate is a feline.",
+    "Alex is a feline.",
+    "Felines are not dull.",
+    "Alex is not dull."
+   ],
+   "answer": "True"
+  },
+  "in_context_example1": {
+   "question": "Moths are not bright. Each moth is an insect. Every insect is fruity. Every insect is a crustacean. Crustaceans are shy. Every crustacean is an ant. Each lepidopteran is temperate. Each ant is not temperate. Every ant is a butterfly. Each butterfly is wooden. Each butterfly is an arthropod. Arthropods are not mean. Every arthropod is a spider. Polly is a crustacean.",
+   "query": "True or false: Polly is temperate.",
+   "chain_of_thought": [
+    "Polly is a crustacean.",
+    "Every crustacean is an ant.",
+    "Polly is an ant.",
+    "Each ant is not temperate.",
+    "Polly is not temperate."
+   ],
+   "answer": "False"
+  },
+  "in_context_example2": {
+   "question": "Each dog is not spicy. Dogs are vertebrates. Vertebrates are not opaque. Each vertebrate is a cat. Cats are blue. Every cat is a sheep. Sheep are dull. Sheep are animals. Animals are aggressive. Each animal is a feline. Every mammal is not large. Each feline is earthy. Felines are cows. Each cow is large. Cows are carnivores. Max is a feline.",
+   "query": "True or false: Max is large.",
+   "chain_of_thought": [
+    "Max is a feline.",
+    "Felines are cows.",
+    "Max is a cow.",
+    "Each cow is large.",
+    "Max is large."
+   ],
+   "answer": "True"
+  },
+  "in_context_example3": {
+   "question": "Cows are bright. Cows are snakes. Each snake is earthy. Snakes are dogs. Every dog is not shy. Dogs are animals. Each animal is metallic. Animals are mammals. Vertebrates are shy. Sally is a snake.",
+   "query": "True or false: Sally is not shy.",
+   "chain_of_thought": [
+    "Sally is a snake.",
+    "Snakes are dogs.",
+    "Sally is a dog.",
+    "Every dog is not shy.",
+    "Sally is not shy."
+   ],
+   "answer": "True"
+  },
+  "test_example": {
+   "question": "Every spider is angry. Every spider is a crustacean. Each crustacean is temperate. Every crustacean is an insect. Every insect is brown. Insects are butterflies. Every butterfly is not happy. Butterflies are animals. Every animal is earthy. Lepidopterans are not brown. Animals are arthropods. Arthropods are small. Arthropods are invertebrates. Wren is a crustacean.",
+   "query": "True or false: Wren is not brown.",
+   "chain_of_thought": [
+    "Wren is a crustacean.",
+    "Every crustacean is an insect.",
+    "Wren is an insect.",
+    "Every insect is brown.",
+    "Wren is brown."
+   ],
+   "answer": "False"
+  }
+ },
+ "example5": {
+  "in_context_example0": {
+   "question": "Dogs are not brown. Every dog is a cat. Every cat is not opaque. Mammals are feisty. Every cat is a carnivore. Carnivores are not feisty. Each carnivore is a vertebrate. Fae is a cat.",
+   "query": "True or false: Fae is not feisty.",
+   "chain_of_thought": [
+    "Fae is a cat.",
+    "Every cat is a carnivore.",
+    "Fae is a carnivore.",
+    "Carnivores are not feisty.",
+    "Fae is not feisty."
+   ],
+   "answer": "True"
+  },
+  "in_context_example1": {
+   "question": "Every composite number is not bright. Composite numbers are numbers. Each number is not opaque. Each number is a natural number. Natural numbers are hot. Each natural number is a fraction. Every fraction is bitter. Every real number is not bitter. Fractions are prime numbers. Sally is a natural number.",
+   "query": "True or false: Sally is not bitter.",
+   "chain_of_thought": [
+    "Sally is a natural number.",
+    "Each natural number is a fraction.",
+    "Sally is a fraction.",
+    "Every fraction is bitter.",
+    "Sally is bitter."
+   ],
+   "answer": "False"
+  },
+  "in_context_example2": {
+   "question": "Each insect is not angry. Each insect is a butterfly. Butterflies are happy. Each butterfly is an arthropod. Every spider is dull. Arthropods are not brown. Each arthropod is a moth. Moths are liquid. Every moth is a crustacean. Each crustacean is floral. Crustaceans are lepidopterans. Lepidopterans are not cold. Lepidopterans are ants. Every ant is large. Ants are animals. Animals are not dull. Every animal is an invertebrate. Sally is an ant.",
+   "query": "True or false: Sally is dull.",
+   "chain_of_thought": [
+    "Sally is an ant.",
+    "Ants are animals.",
+    "Sally is an animal.",
+    "Animals are not dull.",
+    "Sally is not dull."
+   ],
+   "answer": "False"
+  },
+  "in_context_example3": {
+   "question": "Every number is not kind. Each number is a fraction. Fractions are not large. Every fraction is a Mersenne prime. Mersenne primes are bitter. Each Mersenne prime is a composite number. Every composite number is nervous. Each composite number is a negative number. Every negative number is not floral. Negative numbers are integers. Integers are cold. Each integer is an even number. Each real number is not wooden. Even numbers are red. Each even number is a prime number. Every prime number is wooden. Prime numbers are natural numbers. Rex is an even number.",
+   "query": "True or false: Rex is not wooden.",
+   "chain_of_thought": [
+    "Rex is an even number.",
+    "Each even number is a prime number.",
+    "Rex is a prime number.",
+    "Every prime number is wooden.",
+    "Rex is wooden."
+   ],
+   "answer": "False"
+  },
+  "test_example": {
+   "question": "Each composite number is orange. Every real number is metallic. Every real number is a negative number. Each negative number is not cold. Negative numbers are prime numbers. Prime numbers are not large. Each prime number is an integer. Every integer is opaque. Each integer is a natural number. Every natural number is not orange. Natural numbers are fractions. Every fraction is fruity. Each fraction is a Mersenne prime. Every Mersenne prime is shy. Mersenne primes are even numbers. Every even number is not bright. Even numbers are numbers. Wren is an integer.",
+   "query": "True or false: Wren is orange.",
+   "chain_of_thought": [
+    "Wren is an integer.",
+    "Each integer is a natural number.",
+    "Wren is a natural number.",
+    "Every natural number is not orange.",
+    "Wren is not orange."
+   ],
+   "answer": "False"
+  }
+ },
+ "example6": {
+  "in_context_example0": {
+   "question": "Ants are hot. Ants are animals. Every animal is amenable. Animals are lepidopterans. Every crustacean is not amenable. Sam is an ant.",
+   "query": "True or false: Sam is amenable.",
+   "chain_of_thought": [
+    "Sam is an ant.",
+    "Ants are animals.",
+    "Sam is an animal.",
+    "Every animal is amenable.",
+    "Sam is amenable."
+   ],
+   "answer": "True"
+  },
+  "in_context_example1": {
+   "question": "Every composite number is not metallic. Composite numbers are numbers. Every number is small. Every number is a natural number. Every natural number is earthy. Every natural number is a Mersenne prime. Mersenne primes are sweet. Mersenne primes are negative numbers. Negative numbers are orange. Negative numbers are prime numbers. Each prime number is not bright. Every even number is not small. Every prime number is a real number. Each real number is temperate. Each real number is an integer. Fae is a composite number.",
+   "query": "True or false: Fae is small.",
+   "chain_of_thought": [
+    "Fae is a composite number.",
+    "Composite numbers are numbers.",
+    "Fae is a number.",
+    "Every number is small.",
+    "Fae is small."
+   ],
+   "answer": "True"
+  },
+  "in_context_example2": {
+   "question": "Even numbers are hot. Even numbers are negative numbers. Negative numbers are not transparent. Numbers are transparent. Each negative number is an integer. Each integer is not earthy. Every integer is a composite number. Polly is an even number.",
+   "query": "True or false: Polly is not transparent.",
+   "chain_of_thought": [
+    "Polly is an even number.",
+    "Even numbers are negative numbers.",
+    "Polly is a negative number.",
+    "Negative numbers are not transparent.",
+    "Polly is not transparent."
+   ],
+   "answer": "True"
+  },
+  "in_context_example3": {
+   "question": "Every mammal is not large. Felines are kind. Each mammal is a carnivore. Each carnivore is not kind. Every carnivore is a dog. Sam is a mammal.",
+   "query": "True or false: Sam is kind.",
+   "chain_of_thought": [
+    "Sam is a mammal.",
+    "Each mammal is a carnivore.",
+    "Sam is a carnivore.",
+    "Each carnivore is not kind.",
+    "Sam is not kind."
+   ],
+   "answer": "False"
+  },
+  "test_example": {
+   "question": "Integers are not earthy. Every integer is a real number. Real numbers are not angry. Real numbers are fractions. Fractions are opaque. Every fraction is a composite number. Each composite number is not happy. Each composite number is a natural number. Natural numbers are not large. Each natural number is a prime number. Every negative number is bitter. Prime numbers are bright. Prime numbers are even numbers. Every even number is not bitter. Each even number is a number. Alex is a prime number.",
+   "query": "True or false: Alex is not bitter.",
+   "chain_of_thought": [
+    "Alex is a prime number.",
+    "Prime numbers are even numbers.",
+    "Alex is an even number.",
+    "Every even number is not bitter.",
+    "Alex is not bitter."
+   ],
+   "answer": "True"
+  }
+ },
+ "example7": {
+  "in_context_example0": {
+   "question": "Ants are mean. Each ant is an insect. Insects are not earthy. Insects are lepidopterans. Every lepidopteran is temperate. Lepidopterans are invertebrates. Each invertebrate is not bright. Invertebrates are moths. Moths are not shy. Moths are crustaceans. Every crustacean is small. Each butterfly is not small. Crustaceans are spiders. Spiders are not opaque. Every spider is an arthropod. Each arthropod is wooden. Each arthropod is an animal. Stella is a moth.",
+   "query": "True or false: Stella is not small.",
+   "chain_of_thought": [
+    "Stella is a moth.",
+    "Moths are crustaceans.",
+    "Stella is a crustacean.",
+    "Every crustacean is small.",
+    "Stella is small."
+   ],
+   "answer": "False"
+  },
+  "in_context_example1": {
+   "question": "Each dog is feisty. Dogs are cats. Each cat is transparent. Cats are felines. Felines are sweet. Felines are mammals. Each mammal is not small. Mammals are vertebrates. Vertebrates are not hot. Vertebrates are carnivores. Snakes are aggressive. Carnivores are orange. Carnivores are cows. Each cow is not aggressive. Cows are animals. Animals are not dull. Animals are sheep. Sam is a carnivore.",
+   "query": "True or false: Sam is aggressive.",
+   "chain_of_thought": [
+    "Sam is a carnivore.",
+    "Carnivores are cows.",
+    "Sam is a cow.",
+    "Each cow is not aggressive.",
+    "Sam is not aggressive."
+   ],
+   "answer": "False"
+  },
+  "in_context_example2": {
+   "question": "Snakes are blue. Every snake is a vertebrate. Every vertebrate is transparent. Vertebrates are mammals. Mammals are bitter. Animals are not angry. Each mammal is a cow. Cows are large. Every cow is a dog. Every dog is shy. Each dog is a feline. Felines are bright. Each feline is a cat. Cats are metallic. Each cat is a sheep. Each sheep is angry. Every sheep is a carnivore. Sam is a cat.",
+   "query": "True or false: Sam is not angry.",
+   "chain_of_thought": [
+    "Sam is a cat.",
+    "Each cat is a sheep.",
+    "Sam is a sheep.",
+    "Each sheep is angry.",
+    "Sam is angry."
+   ],
+   "answer": "False"
+  },
+  "in_context_example3": {
+   "question": "Arthropods are bright. Spiders are orange. Each spider is an animal. Animals are not bright. Animals are lepidopterans. Lepidopterans are bitter. Lepidopterans are butterflies. Alex is a spider.",
+   "query": "True or false: Alex is bright.",
+   "chain_of_thought": [
+    "Alex is a spider.",
+    "Each spider is an animal.",
+    "Alex is an animal.",
+    "Animals are not bright.",
+    "Alex is not bright."
+   ],
+   "answer": "False"
+  },
+  "test_example": {
+   "question": "Every lepidopteran is transparent. Lepidopterans are animals. Animals are not spicy. Every animal is an insect. Insects are happy. Insects are invertebrates. Invertebrates are not luminous. Invertebrates are moths. Moths are floral. Every moth is a spider. Each spider is not bright. Each spider is a crustacean. Each crustacean is temperate. Butterflies are luminous. Every crustacean is an arthropod. Every arthropod is not small. Each arthropod is an ant. Sam is an insect.",
+   "query": "True or false: Sam is luminous.",
+   "chain_of_thought": [
+    "Sam is an insect.",
+    "Insects are invertebrates.",
+    "Sam is an invertebrate.",
+    "Invertebrates are not luminous.",
+    "Sam is not luminous."
+   ],
+   "answer": "False"
+  }
+ },
+ "example8": {
+  "in_context_example0": {
+   "question": "Fractions are metallic. Fractions are negative numbers. Every real number is not fruity. Negative numbers are temperate. Each negative number is a composite number. Composite numbers are fruity. Composite numbers are even numbers. Even numbers are happy. Even numbers are prime numbers. Every prime number is blue. Prime numbers are integers. Every integer is kind. Integers are natural numbers. Each natural number is not transparent. Natural numbers are numbers. Numbers are small. Every number is a Mersenne prime. Polly is a negative number.",
+   "query": "True or false: Polly is not fruity.",
+   "chain_of_thought": [
+    "Polly is a negative number.",
+    "Each negative number is a composite number.",
+    "Polly is a composite number.",
+    "Composite numbers are fruity.",
+    "Polly is fruity."
+   ],
+   "answer": "False"
+  },
+  "in_context_example1": {
+   "question": "Every spider is shy. Every spider is an ant. Every moth is large. Every ant is not large. Each ant is an invertebrate. Max is a spider.",
+   "query": "True or false: Max is not large.",
+   "chain_of_thought": [
+    "Max is a spider.",
+    "Every spider is an ant.",
+    "Max is an ant.",
+    "Every ant is not large.",
+    "Max is not large."
+   ],
+   "answer": "True"
+  },
+  "in_context_example2": {
+   "question": "Each spider is happy. Every moth is large. Every spider is a butterfly. Every butterfly is not luminous. Each butterfly is a crustacean. Every crustacean is not fruity. Crustaceans are invertebrates. Each invertebrate is sour. Invertebrates are lepidopterans. Every lepidopteran is not opaque. Lepidopterans are ants. Ants are not amenable. Each ant is an arthropod. Arthropods are not large. Arthropods are animals. Each animal is dull. Every animal is an insect. Sally is an ant.",
+   "query": "True or false: Sally is large.",
+   "chain_of_thought": [
+    "Sally is an ant.",
+    "Each ant is an arthropod.",
+    "Sally is an arthropod.",
+    "Arthropods are not large.",
+    "Sally is not large."
+   ],
+   "answer": "False"
+  },
+  "in_context_example3": {
+   "question": "Every feline is angry. Every vertebrate is hot. Each feline is a carnivore. Carnivores are opaque. Each carnivore is a dog. Dogs are spicy. Every dog is a cow. Cows are luminous. Cows are snakes. Snakes are bright. Each snake is an animal. Animals are earthy. Animals are cats. Each cat is not happy. Cats are sheep. Sheep are not hot. Each sheep is a mammal. Rex is a cat.",
+   "query": "True or false: Rex is not hot.",
+   "chain_of_thought": [
+    "Rex is a cat.",
+    "Cats are sheep.",
+    "Rex is a sheep.",
+    "Sheep are not hot.",
+    "Rex is not hot."
+   ],
+   "answer": "True"
+  },
+  "test_example": {
+   "question": "Every animal is not bright. Every dog is not cold. Dogs are felines. Each feline is bright. Every feline is a snake. Each snake is not sour. Each snake is a cow. Every cow is aggressive. Every cow is a vertebrate. Each vertebrate is nervous. Every vertebrate is a sheep. Every sheep is not transparent. Sheep are carnivores. Each carnivore is floral. Carnivores are cats. Cats are liquid. Each cat is a mammal. Polly is a dog.",
+   "query": "True or false: Polly is bright.",
+   "chain_of_thought": [
+    "Polly is a dog.",
+    "Dogs are felines.",
+    "Polly is a feline.",
+    "Each feline is bright.",
+    "Polly is bright."
+   ],
+   "answer": "True"
+  }
+ },
+ "example9": {
+  "in_context_example0": {
+   "question": "Animals are not brown. Each animal is a sheep. Each sheep is spicy. Sheep are dogs. Every dog is transparent. Dogs are felines. Every snake is not nervous. Felines are bright. Felines are vertebrates. Vertebrates are small. Vertebrates are cats. Every cat is nervous. Each cat is a mammal. Every mammal is wooden. Mammals are cows. Each cow is not earthy. Cows are carnivores. Stella is a vertebrate.",
+   "query": "True or false: Stella is nervous.",
+   "chain_of_thought": [
+    "Stella is a vertebrate.",
+    "Vertebrates are cats.",
+    "Stella is a cat.",
+    "Every cat is nervous.",
+    "Stella is nervous."
+   ],
+   "answer": "True"
+  },
+  "in_context_example1": {
+   "question": "Every butterfly is red. Every butterfly is an animal. Animals are nervous. Animals are ants. Each ant is not mean. Ants are spiders. Each spider is not opaque. Spiders are insects. Crustaceans are fruity. Insects are not fruity. Every insect is an invertebrate. Stella is a spider.",
+   "query": "True or false: Stella is fruity.",
+   "chain_of_thought": [
+    "Stella is a spider.",
+    "Spiders are insects.",
+    "Stella is an insect.",
+    "Insects are not fruity.",
+    "Stella is not fruity."
+   ],
+   "answer": "False"
+  },
+  "in_context_example2": {
+   "question": "Felines are not opaque. Cows are not cold. Cows are sheep. Every sheep is opaque. Every sheep is a mammal. Wren is a cow.",
+   "query": "True or false: Wren is opaque.",
+   "chain_of_thought": [
+    "Wren is a cow.",
+    "Cows are sheep.",
+    "Wren is a sheep.",
+    "Every sheep is opaque.",
+    "Wren is opaque."
+   ],
+   "answer": "True"
+  },
+  "in_context_example3": {
+   "question": "Real numbers are cold. Prime numbers are not feisty. Real numbers are negative numbers. Negative numbers are orange. Negative numbers are integers. Every integer is not sour. Integers are numbers. Every number is not opaque. Numbers are Mersenne primes. Mersenne primes are feisty. Mersenne primes are natural numbers. Every natural number is small. Each natural number is an even number. Each even number is wooden. Even numbers are composite numbers. Polly is a number.",
+   "query": "True or false: Polly is feisty.",
+   "chain_of_thought": [
+    "Polly is a number.",
+    "Numbers are Mersenne primes.",
+    "Polly is a Mersenne prime.",
+    "Mersenne primes are feisty.",
+    "Polly is feisty."
+   ],
+   "answer": "True"
+  },
+  "test_example": {
+   "question": "Cows are dull. Each cow is a vertebrate. Vertebrates are spicy. Cats are small. Every vertebrate is a feline. Each feline is not small. Felines are snakes. Snakes are opaque. Snakes are carnivores. Carnivores are orange. Every carnivore is an animal. Every animal is not floral. Animals are dogs. Each dog is not happy. Every dog is a sheep. Each sheep is hot. Each sheep is a mammal. Wren is a vertebrate.",
+   "query": "True or false: Wren is small.",
+   "chain_of_thought": [
+    "Wren is a vertebrate.",
+    "Every vertebrate is a feline.",
+    "Wren is a feline.",
+    "Each feline is not small.",
+    "Wren is not small."
+   ],
+   "answer": "False"
+  }
+ },
+ "example10": {
+  "in_context_example0": {
+   "question": "Spiders are bitter. Spiders are arthropods. Arthropods are temperate. Arthropods are ants. Each ant is large. Every ant is a butterfly. Butterflies are earthy. Each invertebrate is not bright. Butterflies are crustaceans. Each crustacean is opaque. Crustaceans are lepidopterans. Lepidopterans are not feisty. Every lepidopteran is an insect. Insects are blue. Every insect is an animal. Each animal is bright. Every animal is a moth. Sally is an insect.",
+   "query": "True or false: Sally is not bright.",
+   "chain_of_thought": [
+    "Sally is an insect.",
+    "Every insect is an animal.",
+    "Sally is an animal.",
+    "Each animal is bright.",
+    "Sally is bright."
+   ],
+   "answer": "False"
+  },
+  "in_context_example1": {
+   "question": "Butterflies are not temperate. Each butterfly is an invertebrate. Invertebrates are large. Each invertebrate is a moth. Moths are not sour. Moths are lepidopterans. Every lepidopteran is not orange. Lepidopterans are crustaceans. Each crustacean is fruity. Every crustacean is an animal. Each animal is not bright. Arthropods are not large. Every animal is an insect. Insects are not metallic. Insects are spiders. Spiders are not nervous. Spiders are ants. Sally is a butterfly.",
+   "query": "True or false: Sally is large.",
+   "chain_of_thought": [
+    "Sally is a butterfly.",
+    "Each butterfly is an invertebrate.",
+    "Sally is an invertebrate.",
+    "Invertebrates are large.",
+    "Sally is large."
+   ],
+   "answer": "True"
+  },
+  "in_context_example2": {
+   "question": "Every spider is red. Every spider is an insect. Insects are not luminous. Each insect is an animal. Every animal is aggressive. Animals are moths. Each moth is spicy. Moths are ants. Ants are cold. Each ant is an arthropod. Each arthropod is nervous. Each arthropod is an invertebrate. Invertebrates are opaque. Every invertebrate is a crustacean. Each butterfly is not aggressive. Crustaceans are dull. Crustaceans are lepidopterans. Sally is an insect.",
+   "query": "True or false: Sally is not aggressive.",
+   "chain_of_thought": [
+    "Sally is an insect.",
+    "Each insect is an animal.",
+    "Sally is an animal.",
+    "Every animal is aggressive.",
+    "Sally is aggressive."
+   ],
+   "answer": "False"
+  },
+  "in_context_example3": {
+   "question": "Fractions are mean. Each negative number is fruity. Fractions are natural numbers. Every natural number is sweet. Natural numbers are numbers. Numbers are transparent. Numbers are prime numbers. Each prime number is not fruity. Every prime number is a Mersenne prime. Mersenne primes are not large. Mersenne primes are integers. Integers are not shy. Integers are composite numbers. Each composite number is brown. Each composite number is an even number. Each even number is not metallic. Each even number is a real number. Sam is a number.",
+   "query": "True or false: Sam is not fruity.",
+   "chain_of_thought": [
+    "Sam is a number.",
+    "Numbers are prime numbers.",
+    "Sam is a prime number.",
+    "Each prime number is not fruity.",
+    "Sam is not fruity."
+   ],
+   "answer": "True"
+  },
+  "test_example": {
+   "question": "Every invertebrate is hot. Every crustacean is not floral. Each invertebrate is an ant. Ants are floral. Every ant is an arthropod. Polly is an invertebrate.",
+   "query": "True or false: Polly is not floral.",
+   "chain_of_thought": [
+    "Polly is an invertebrate.",
+    "Each invertebrate is an ant.",
+    "Polly is an ant.",
+    "Ants are floral.",
+    "Polly is floral."
+   ],
+   "answer": "False"
+  }
+ },
+ "example11": {
+  "in_context_example0": {
+   "question": "Every snake is not wooden. Snakes are carnivores. Every carnivore is fruity. Each carnivore is an animal. Each animal is not transparent. Each mammal is transparent. Animals are felines. Felines are not happy. Felines are sheep. Sam is a carnivore.",
+   "query": "True or false: Sam is transparent.",
+   "chain_of_thought": [
+    "Sam is a carnivore.",
+    "Each carnivore is an animal.",
+    "Sam is an animal.",
+    "Each animal is not transparent.",
+    "Sam is not transparent."
+   ],
+   "answer": "False"
+  },
+  "in_context_example1": {
+   "question": "Every invertebrate is not small. Every invertebrate is an ant. Each ant is floral. Each ant is an insect. Each insect is dull. Insects are crustaceans. Each crustacean is spicy. Crustaceans are moths. Moths are not brown. Moths are animals. Lepidopterans are not kind. Every animal is opaque. Animals are spiders. Spiders are kind. Each spider is an arthropod. Arthropods are not cold. Arthropods are butterflies. Rex is an animal.",
+   "query": "True or false: Rex is not kind.",
+   "chain_of_thought": [
+    "Rex is an animal.",
+    "Animals are spiders.",
+    "Rex is a spider.",
+    "Spiders are kind.",
+    "Rex is kind."
+   ],
+   "answer": "False"
+  },
+  "in_context_example2": {
+   "question": "Every invertebrate is temperate. Each arthropod is not liquid. Each invertebrate is a lepidopteran. Each lepidopteran is liquid. Every lepidopteran is a crustacean. Crustaceans are bright. Every crustacean is an ant. Alex is an invertebrate.",
+   "query": "True or false: Alex is liquid.",
+   "chain_of_thought": [
+    "Alex is an invertebrate.",
+    "Each invertebrate is a lepidopteran.",
+    "Alex is a lepidopteran.",
+    "Each lepidopteran is liquid.",
+    "Alex is liquid."
+   ],
+   "answer": "True"
+  },
+  "in_context_example3": {
+   "question": "Each crustacean is not feisty. Every crustacean is an insect. Insects are not bright. Insects are butterflies. Butterflies are brown. Invertebrates are bright. Every butterfly is an animal. Animals are cold. Animals are ants. Every ant is opaque. Ants are lepidopterans. Each lepidopteran is not small. Each lepidopteran is a spider. Sally is a crustacean.",
+   "query": "True or false: Sally is not bright.",
+   "chain_of_thought": [
+    "Sally is a crustacean.",
+    "Every crustacean is an insect.",
+    "Sally is an insect.",
+    "Insects are not bright.",
+    "Sally is not bright."
+   ],
+   "answer": "True"
+  },
+  "test_example": {
+   "question": "Cats are not spicy. Each carnivore is not dull. Cats are felines. Each feline is not angry. Felines are animals. Animals are dull. Every animal is a snake. Each snake is hot. Snakes are sheep. Sheep are not earthy. Sheep are cows. Wren is a feline.",
+   "query": "True or false: Wren is not dull.",
+   "chain_of_thought": [
+    "Wren is a feline.",
+    "Felines are animals.",
+    "Wren is an animal.",
+    "Animals are dull.",
+    "Wren is dull."
+   ],
+   "answer": "False"
+  }
+ },
+ "example12": {
+  "in_context_example0": {
+   "question": "Carnivores are orange. Carnivores are snakes. Each snake is not sweet. Each vertebrate is sweet. Every snake is an animal. Each animal is feisty. Every animal is a cow. Cows are not metallic. Cows are mammals. Every mammal is small. Mammals are dogs. Dogs are not dull. Each dog is a cat. Cats are not opaque. Every cat is a feline. Felines are fruity. Felines are sheep. Sam is a carnivore.",
+   "query": "True or false: Sam is sweet.",
+   "chain_of_thought": [
+    "Sam is a carnivore.",
+    "Carnivores are snakes.",
+    "Sam is a snake.",
+    "Each snake is not sweet.",
+    "Sam is not sweet."
+   ],
+   "answer": "False"
+  },
+  "in_context_example1": {
+   "question": "Mersenne primes are not kind. Mersenne primes are fractions. Fractions are not large. Fractions are negative numbers. Real numbers are not bitter. Every negative number is transparent. Each negative number is an even number. Even numbers are bitter. Each even number is a composite number. Composite numbers are not hot. Composite numbers are prime numbers. Prime numbers are wooden. Prime numbers are integers. Integers are dull. Integers are numbers. Numbers are fruity. Numbers are natural numbers. Wren is a negative number.",
+   "query": "True or false: Wren is bitter.",
+   "chain_of_thought": [
+    "Wren is a negative number.",
+    "Each negative number is an even number.",
+    "Wren is an even number.",
+    "Even numbers are bitter.",
+    "Wren is bitter."
+   ],
+   "answer": "True"
+  },
+  "in_context_example2": {
+   "question": "Each negative number is small. Negative numbers are real numbers. Every real number is luminous. Real numbers are natural numbers. Each natural number is bright. Natural numbers are integers. Every integer is nervous. Each integer is a Mersenne prime. Every Mersenne prime is not fruity. Each Mersenne prime is a fraction. Fractions are not orange. Numbers are hot. Every fraction is a composite number. Each composite number is not hot. Composite numbers are even numbers. Even numbers are opaque. Even numbers are prime numbers. Wren is a fraction.",
+   "query": "True or false: Wren is hot.",
+   "chain_of_thought": [
+    "Wren is a fraction.",
+    "Every fraction is a composite number.",
+    "Wren is a composite number.",
+    "Each composite number is not hot.",
+    "Wren is not hot."
+   ],
+   "answer": "False"
+  },
+  "in_context_example3": {
+   "question": "Each ant is not cold. Ants are spiders. Each lepidopteran is opaque. Every spider is not opaque. Every spider is a butterfly. Stella is an ant.",
+   "query": "True or false: Stella is opaque.",
+   "chain_of_thought": [
+    "Stella is an ant.",
+    "Ants are spiders.",
+    "Stella is a spider.",
+    "Every spider is not opaque.",
+    "Stella is not opaque."
+   ],
+   "answer": "False"
+  },
+  "test_example": {
+   "question": "Each even number is not dull. Prime numbers are not large. Even numbers are natural numbers. Each natural number is sweet. Natural numbers are composite numbers. Composite numbers are not wooden. Composite numbers are Mersenne primes. Each Mersenne prime is large. Mersenne primes are negative numbers. Every negative number is floral. Each negative number is an integer. Max is a composite number.",
+   "query": "True or false: Max is large.",
+   "chain_of_thought": [
+    "Max is a composite number.",
+    "Composite numbers are Mersenne primes.",
+    "Max is a Mersenne prime.",
+    "Each Mersenne prime is large.",
+    "Max is large."
+   ],
+   "answer": "True"
+  }
+ },
+ "example13": {
+  "in_context_example0": {
+   "question": "Each animal is small. Animals are mammals. Mammals are wooden. Each mammal is a sheep. Sheep are not opaque. Each sheep is a carnivore. Carnivores are amenable. Every carnivore is a feline. Dogs are not hot. Every feline is blue. Felines are cows. Cows are hot. Cows are vertebrates. Vertebrates are not floral. Vertebrates are snakes. Each snake is not nervous. Each snake is a cat. Sally is a feline.",
+   "query": "True or false: Sally is hot.",
+   "chain_of_thought": [
+    "Sally is a feline.",
+    "Felines are cows.",
+    "Sally is a cow.",
+    "Cows are hot.",
+    "Sally is hot."
+   ],
+   "answer": "True"
+  },
+  "in_context_example1": {
+   "question": "Each cow is bright. Cows are felines. Felines are spicy. Every feline is a carnivore. Each carnivore is cold. Each carnivore is a snake. Each snake is not transparent. Snakes are mammals. Each mammal is shy. Each mammal is a vertebrate. Vertebrates are floral. Vertebrates are dogs. Dogs are small. Each dog is a cat. Every cat is wooden. Cats are sheep. Animals are not spicy. Max is a cow.",
+   "query": "True or false: Max is spicy.",
+   "chain_of_thought": [
+    "Max is a cow.",
+    "Cows are felines.",
+    "Max is a feline.",
+    "Felines are spicy.",
+    "Max is spicy."
+   ],
+   "answer": "True"
+  },
+  "in_context_example2": {
+   "question": "Each carnivore is not large. Carnivores are cows. Cows are nervous. Every cow is a feline. Each feline is not aggressive. Every feline is a cat. Every cat is dull. Every cat is a snake. Every animal is wooden. Snakes are cold. Each snake is a sheep. Sheep are not wooden. Every sheep is a dog. Each dog is earthy. Each dog is a mammal. Mammals are transparent. Mammals are vertebrates. Alex is a snake.",
+   "query": "True or false: Alex is wooden.",
+   "chain_of_thought": [
+    "Alex is a snake.",
+    "Each snake is a sheep.",
+    "Alex is a sheep.",
+    "Sheep are not wooden.",
+    "Alex is not wooden."
+   ],
+   "answer": "False"
+  },
+  "in_context_example3": {
+   "question": "Real numbers are bright. Real numbers are negative numbers. Every negative number is large. Negative numbers are even numbers. Every even number is sour. Every even number is an integer. Each integer is not opaque. Each integer is a natural number. Natural numbers are cold. Natural numbers are Mersenne primes. Prime numbers are luminous. Each Mersenne prime is not luminous. Every Mersenne prime is a fraction. Fractions are red. Fractions are numbers. Alex is a natural number.",
+   "query": "True or false: Alex is not luminous.",
+   "chain_of_thought": [
+    "Alex is a natural number.",
+    "Natural numbers are Mersenne primes.",
+    "Alex is a Mersenne prime.",
+    "Each Mersenne prime is not luminous.",
+    "Alex is not luminous."
+   ],
+   "answer": "True"
+  },
+  "test_example": {
+   "question": "Every composite number is shy. Every negative number is not fruity. Composite numbers are real numbers. Real numbers are brown. Real numbers are even numbers. Even numbers are luminous. Even numbers are fractions. Fractions are transparent. Each fraction is a number. Every number is fruity. Numbers are integers. Every integer is mean. Integers are Mersenne primes. Mersenne primes are small. Each Mersenne prime is a natural number. Natural numbers are not spicy. Natural numbers are prime numbers. Polly is a fraction.",
+   "query": "True or false: Polly is not fruity.",
+   "chain_of_thought": [
+    "Polly is a fraction.",
+    "Each fraction is a number.",
+    "Polly is a number.",
+    "Every number is fruity.",
+    "Polly is fruity."
+   ],
+   "answer": "False"
+  }
+ },
+ "example14": {
+  "in_context_example0": {
+   "question": "Each carnivore is dull. Carnivores are animals. Animals are liquid. Each animal is a dog. Every dog is sweet. Every dog is a sheep. Each sheep is not amenable. Every sheep is a cat. Every cat is happy. Every vertebrate is amenable. Every cat is a mammal. Every mammal is fruity. Mammals are snakes. Snakes are not orange. Every snake is a feline. Felines are opaque. Every feline is a cow. Wren is a dog.",
+   "query": "True or false: Wren is not amenable.",
+   "chain_of_thought": [
+    "Wren is a dog.",
+    "Every dog is a sheep.",
+    "Wren is a sheep.",
+    "Each sheep is not amenable.",
+    "Wren is not amenable."
+   ],
+   "answer": "True"
+  },
+  "in_context_example1": {
+   "question": "Every number is not amenable. Numbers are prime numbers. Prime numbers are brown. Prime numbers are composite numbers. Every composite number is feisty. Composite numbers are integers. Integers are opaque. Integers are even numbers. Every even number is fruity. Even numbers are real numbers. Every real number is bright. Real numbers are negative numbers. Negative numbers are small. Every negative number is a Mersenne prime. Each Mersenne prime is sweet. Mersenne primes are natural numbers. Every fraction is not opaque. Sally is a composite number.",
+   "query": "True or false: Sally is not opaque.",
+   "chain_of_thought": [
+    "Sally is a composite number.",
+    "Composite numbers are integers.",
+    "Sally is an integer.",
+    "Integers are opaque.",
+    "Sally is opaque."
+   ],
+   "answer": "False"
+  },
+  "in_context_example2": {
+   "question": "Negative numbers are not fruity. Negative numbers are even numbers. Even numbers are not small. Every even number is a number. Numbers are not orange. Numbers are real numbers. Real numbers are nervous. Composite numbers are small. Real numbers are fractions. Fractions are dull. Fractions are Mersenne primes. Every Mersenne prime is not hot. Mersenne primes are natural numbers. Max is a negative number.",
+   "query": "True or false: Max is small.",
+   "chain_of_thought": [
+    "Max is a negative number.",
+    "Negative numbers are even numbers.",
+    "Max is an even number.",
+    "Even numbers are not small.",
+    "Max is not small."
+   ],
+   "answer": "False"
+  },
+  "in_context_example3": {
+   "question": "Mammals are not earthy. Every vertebrate is small. Each vertebrate is a dog. Dogs are earthy. Every dog is a feline. Felines are bright. Every feline is a snake. Fae is a vertebrate.",
+   "query": "True or false: Fae is not earthy.",
+   "chain_of_thought": [
+    "Fae is a vertebrate.",
+    "Each vertebrate is a dog.",
+    "Fae is a dog.",
+    "Dogs are earthy.",
+    "Fae is earthy."
+   ],
+   "answer": "False"
+  },
+  "test_example": {
+   "question": "Every natural number is liquid. Every natural number is a Mersenne prime. Each Mersenne prime is amenable. Mersenne primes are numbers. Every number is fruity. Each number is a negative number. Negative numbers are cold. Every real number is not cold. Each negative number is an integer. Sally is a number.",
+   "query": "True or false: Sally is not cold.",
+   "chain_of_thought": [
+    "Sally is a number.",
+    "Each number is a negative number.",
+    "Sally is a negative number.",
+    "Negative numbers are cold.",
+    "Sally is cold."
+   ],
+   "answer": "False"
+  }
+ },
+ "example15": {
+  "in_context_example0": {
+   "question": "Every fraction is not dull. Each fraction is a composite number. Each composite number is temperate. Composite numbers are even numbers. Each even number is nervous. Even numbers are integers. Each integer is sweet. Integers are negative numbers. Each negative number is small. Every negative number is a number. Numbers are not floral. Each number is a real number. Every real number is transparent. Each natural number is not sweet. Every real number is a prime number. Prime numbers are angry. Prime numbers are Mersenne primes. Rex is an even number.",
+   "query": "True or false: Rex is not sweet.",
+   "chain_of_thought": [
+    "Rex is an even number.",
+    "Even numbers are integers.",
+    "Rex is an integer.",
+    "Each integer is sweet.",
+    "Rex is sweet."
+   ],
+   "answer": "False"
+  },
+  "in_context_example1": {
+   "question": "Every prime number is not nervous. Prime numbers are even numbers. Each even number is metallic. Each even number is a natural number. Natural numbers are large. Each natural number is a negative number. Every negative number is not red. Negative numbers are fractions. Each fraction is hot. Every fraction is a real number. Every real number is dull. Real numbers are numbers. Numbers are not transparent. Numbers are integers. Every Mersenne prime is transparent. Every integer is kind. Integers are composite numbers. Sally is a real number.",
+   "query": "True or false: Sally is not transparent.",
+   "chain_of_thought": [
+    "Sally is a real number.",
+    "Real numbers are numbers.",
+    "Sally is a number.",
+    "Numbers are not transparent.",
+    "Sally is not transparent."
+   ],
+   "answer": "True"
+  },
+  "in_context_example2": {
+   "question": "Every butterfly is bright. Arthropods are not blue. Each arthropod is an animal. Animals are cold. Animals are spiders. Spiders are liquid. Every spider is an insect. Insects are opaque. Insects are lepidopterans. Every lepidopteran is angry. Every lepidopteran is an ant. Every ant is not bright. Every ant is an invertebrate. Invertebrates are fruity. Invertebrates are crustaceans. Every crustacean is feisty. Crustaceans are moths. Sally is a lepidopteran.",
+   "query": "True or false: Sally is not bright.",
+   "chain_of_thought": [
+    "Sally is a lepidopteran.",
+    "Every lepidopteran is an ant.",
+    "Sally is an ant.",
+    "Every ant is not bright.",
+    "Sally is not bright."
+   ],
+   "answer": "True"
+  },
+  "in_context_example3": {
+   "question": "Every natural number is sweet. Every natural number is a composite number. Each number is nervous. Every composite number is not nervous. Every composite number is an integer. Rex is a natural number.",
+   "query": "True or false: Rex is not nervous.",
+   "chain_of_thought": [
+    "Rex is a natural number.",
+    "Every natural number is a composite number.",
+    "Rex is a composite number.",
+    "Every composite number is not nervous.",
+    "Rex is not nervous."
+   ],
+   "answer": "True"
+  },
+  "test_example": {
+   "question": "Every carnivore is small. Carnivores are sheep. Sheep are happy. Each sheep is a snake. Snakes are angry. Each animal is not happy. Every snake is a mammal. Stella is a carnivore.",
+   "query": "True or false: Stella is not happy.",
+   "chain_of_thought": [
+    "Stella is a carnivore.",
+    "Carnivores are sheep.",
+    "Stella is a sheep.",
+    "Sheep are happy.",
+    "Stella is happy."
+   ],
+   "answer": "False"
+  }
+ },
+ "example16": {
+  "in_context_example0": {
+   "question": "Sheep are sweet. Each animal is not brown. Sheep are cats. Cats are brown. Cats are snakes. Wren is a sheep.",
+   "query": "True or false: Wren is brown.",
+   "chain_of_thought": [
+    "Wren is a sheep.",
+    "Sheep are cats.",
+    "Wren is a cat.",
+    "Cats are brown.",
+    "Wren is brown."
+   ],
+   "answer": "True"
+  },
+  "in_context_example1": {
+   "question": "Arthropods are luminous. Arthropods are ants. Each ant is sour. Every ant is a butterfly. Butterflies are kind. Each butterfly is a spider. Every spider is not fruity. Crustaceans are opaque. Every spider is an invertebrate. Each invertebrate is not opaque. Each invertebrate is a lepidopteran. Rex is a spider.",
+   "query": "True or false: Rex is opaque.",
+   "chain_of_thought": [
+    "Rex is a spider.",
+    "Every spider is an invertebrate.",
+    "Rex is an invertebrate.",
+    "Each invertebrate is not opaque.",
+    "Rex is not opaque."
+   ],
+   "answer": "False"
+  },
+  "in_context_example2": {
+   "question": "Real numbers are sweet. Real numbers are composite numbers. Each composite number is happy. Composite numbers are fractions. Fractions are amenable. Every fraction is an integer. Integers are not large. Integers are prime numbers. Each prime number is bright. Prime numbers are even numbers. Each number is large. Even numbers are orange. Every even number is a negative number. Negative numbers are fruity. Negative numbers are Mersenne primes. Fae is a fraction.",
+   "query": "True or false: Fae is not large.",
+   "chain_of_thought": [
+    "Fae is a fraction.",
+    "Every fraction is an integer.",
+    "Fae is an integer.",
+    "Integers are not large.",
+    "Fae is not large."
+   ],
+   "answer": "True"
+  },
+  "in_context_example3": {
+   "question": "Every Mersenne prime is hot. Mersenne primes are integers. Every fraction is not dull. Integers are large. Integers are composite numbers. Each composite number is not transparent. Composite numbers are natural numbers. Natural numbers are not happy. Natural numbers are even numbers. Every even number is blue. Each even number is a negative number. Negative numbers are fruity. Every negative number is a real number. Real numbers are amenable. Every real number is a number. Numbers are dull. Numbers are prime numbers. Max is a real number.",
+   "query": "True or false: Max is dull.",
+   "chain_of_thought": [
+    "Max is a real number.",
+    "Every real number is a number.",
+    "Max is a number.",
+    "Numbers are dull.",
+    "Max is dull."
+   ],
+   "answer": "True"
+  },
+  "test_example": {
+   "question": "Each arthropod is not nervous. Each arthropod is a moth. Moths are not dull. Moths are animals. Each butterfly is aggressive. Animals are not spicy. Each animal is an insect. Insects are not liquid. Each insect is an invertebrate. Each invertebrate is not hot. Invertebrates are lepidopterans. Lepidopterans are earthy. Each lepidopteran is an ant. Every ant is not aggressive. Ants are crustaceans. Crustaceans are orange. Every crustacean is a spider. Sally is a lepidopteran.",
+   "query": "True or false: Sally is aggressive.",
+   "chain_of_thought": [
+    "Sally is a lepidopteran.",
+    "Each lepidopteran is an ant.",
+    "Sally is an ant.",
+    "Every ant is not aggressive.",
+    "Sally is not aggressive."
+   ],
+   "answer": "False"
+  }
+ },
+ "example17": {
+  "in_context_example0": {
+   "question": "Crustaceans are not red. Ants are feisty. Each ant is an insect. Each insect is red. Insects are animals. Animals are angry. Animals are butterflies. Rex is an ant.",
+   "query": "True or false: Rex is red.",
+   "chain_of_thought": [
+    "Rex is an ant.",
+    "Each ant is an insect.",
+    "Rex is an insect.",
+    "Each insect is red.",
+    "Rex is red."
+   ],
+   "answer": "True"
+  },
+  "in_context_example1": {
+   "question": "Insects are aggressive. Every insect is a spider. Lepidopterans are not hot. Spiders are hot. Spiders are butterflies. Rex is an insect.",
+   "query": "True or false: Rex is not hot.",
+   "chain_of_thought": [
+    "Rex is an insect.",
+    "Every insect is a spider.",
+    "Rex is a spider.",
+    "Spiders are hot.",
+    "Rex is hot."
+   ],
+   "answer": "False"
+  },
+  "in_context_example2": {
+   "question": "Each even number is spicy. Even numbers are fractions. Fractions are earthy. Fractions are negative numbers. Every number is opaque. Every negative number is not temperate. Negative numbers are composite numbers. Each composite number is not opaque. Composite numbers are prime numbers. Prime numbers are not dull. Every prime number is a Mersenne prime. Every Mersenne prime is angry. Every Mersenne prime is an integer. Every integer is luminous. Every integer is a real number. Each real number is not orange. Each real number is a natural number. Stella is a negative number.",
+   "query": "True or false: Stella is opaque.",
+   "chain_of_thought": [
+    "Stella is a negative number.",
+    "Negative numbers are composite numbers.",
+    "Stella is a composite number.",
+    "Each composite number is not opaque.",
+    "Stella is not opaque."
+   ],
+   "answer": "False"
+  },
+  "in_context_example3": {
+   "question": "Lepidopterans are earthy. Lepidopterans are butterflies. Each butterfly is not brown. Every butterfly is an animal. Each animal is not metallic. Animals are invertebrates. Invertebrates are mean. Each invertebrate is an insect. Crustaceans are brown. Insects are transparent. Each insect is a spider. Spiders are hot. Every spider is an ant. Every ant is not large. Ants are arthropods. Every arthropod is sour. Arthropods are moths. Sam is a lepidopteran.",
+   "query": "True or false: Sam is brown.",
+   "chain_of_thought": [
+    "Sam is a lepidopteran.",
+    "Lepidopterans are butterflies.",
+    "Sam is a butterfly.",
+    "Each butterfly is not brown.",
+    "Sam is not brown."
+   ],
+   "answer": "False"
+  },
+  "test_example": {
+   "question": "Sheep are not shy. Every sheep is a carnivore. Each carnivore is small. Carnivores are cats. Cats are not wooden. Every cat is an animal. Animals are brown. Each animal is a feline. Felines are transparent. Felines are vertebrates. Each vertebrate is sour. Vertebrates are cows. Every cow is floral. Each cow is a mammal. Every mammal is dull. Mammals are snakes. Each dog is not floral. Alex is a vertebrate.",
+   "query": "True or false: Alex is not floral.",
+   "chain_of_thought": [
+    "Alex is a vertebrate.",
+    "Vertebrates are cows.",
+    "Alex is a cow.",
+    "Every cow is floral.",
+    "Alex is floral."
+   ],
+   "answer": "False"
+  }
+ },
+ "example18": {
+  "in_context_example0": {
+   "question": "Dogs are not angry. Every dog is a carnivore. Each animal is not brown. Carnivores are brown. Carnivores are sheep. Rex is a dog.",
+   "query": "True or false: Rex is not brown.",
+   "chain_of_thought": [
+    "Rex is a dog.",
+    "Every dog is a carnivore.",
+    "Rex is a carnivore.",
+    "Carnivores are brown.",
+    "Rex is brown."
+   ],
+   "answer": "False"
+  },
+  "in_context_example1": {
+   "question": "Animals are not transparent. Every animal is an invertebrate. Each invertebrate is spicy. Invertebrates are lepidopterans. Every lepidopteran is not mean. Lepidopterans are spiders. Spiders are not hot. Spiders are butterflies. Butterflies are not metallic. Each butterfly is an ant. Every crustacean is hot. Alex is a lepidopteran.",
+   "query": "True or false: Alex is hot.",
+   "chain_of_thought": [
+    "Alex is a lepidopteran.",
+    "Lepidopterans are spiders.",
+    "Alex is a spider.",
+    "Spiders are not hot.",
+    "Alex is not hot."
+   ],
+   "answer": "False"
+  },
+  "in_context_example2": {
+   "question": "Real numbers are spicy. Real numbers are negative numbers. Every negative number is mean. Negative numbers are prime numbers. Every prime number is temperate. Numbers are not metallic. Every prime number is a natural number. Natural numbers are not fruity. Natural numbers are fractions. Fractions are not large. Fractions are composite numbers. Composite numbers are metallic. Every composite number is an integer. Fae is a fraction.",
+   "query": "True or false: Fae is not metallic.",
+   "chain_of_thought": [
+    "Fae is a fraction.",
+    "Fractions are composite numbers.",
+    "Fae is a composite number.",
+    "Composite numbers are metallic.",
+    "Fae is metallic."
+   ],
+   "answer": "False"
+  },
+  "in_context_example3": {
+   "question": "Each invertebrate is spicy. Invertebrates are ants. Ants are hot. Ants are insects. Insects are happy. Moths are not hot. Each insect is a spider. Spiders are small. Each spider is an animal. Max is an invertebrate.",
+   "query": "True or false: Max is hot.",
+   "chain_of_thought": [
+    "Max is an invertebrate.",
+    "Invertebrates are ants.",
+    "Max is an ant.",
+    "Ants are hot.",
+    "Max is hot."
+   ],
+   "answer": "True"
+  },
+  "test_example": {
+   "question": "Negative numbers are not fruity. Every prime number is mean. Prime numbers are composite numbers. Composite numbers are fruity. Composite numbers are even numbers. Each even number is transparent. Every even number is a fraction. Each fraction is small. Fractions are real numbers. Each real number is not cold. Each real number is a number. Numbers are metallic. Numbers are natural numbers. Wren is a prime number.",
+   "query": "True or false: Wren is not fruity.",
+   "chain_of_thought": [
+    "Wren is a prime number.",
+    "Prime numbers are composite numbers.",
+    "Wren is a composite number.",
+    "Composite numbers are fruity.",
+    "Wren is fruity."
+   ],
+   "answer": "False"
+  }
+ },
+ "example19": {
+  "in_context_example0": {
+   "question": "Each arthropod is opaque. Every arthropod is a butterfly. Butterflies are not blue. Butterflies are lepidopterans. Every lepidopteran is not large. Lepidopterans are spiders. Spiders are aggressive. Ants are not dull. Spiders are insects. Insects are not metallic. Each insect is an invertebrate. Every invertebrate is fruity. Invertebrates are animals. Each animal is bitter. Every animal is a moth. Moths are dull. Moths are crustaceans. Rex is an animal.",
+   "query": "True or false: Rex is not dull.",
+   "chain_of_thought": [
+    "Rex is an animal.",
+    "Every animal is a moth.",
+    "Rex is a moth.",
+    "Moths are dull.",
+    "Rex is dull."
+   ],
+   "answer": "False"
+  },
+  "in_context_example1": {
+   "question": "Ants are not metallic. Ants are crustaceans. Crustaceans are not sweet. Animals are sweet. Every crustacean is an arthropod. Sam is an ant.",
+   "query": "True or false: Sam is not sweet.",
+   "chain_of_thought": [
+    "Sam is an ant.",
+    "Ants are crustaceans.",
+    "Sam is a crustacean.",
+    "Crustaceans are not sweet.",
+    "Sam is not sweet."
+   ],
+   "answer": "True"
+  },
+  "in_context_example2": {
+   "question": "Animals are small. Each animal is a spider. Spiders are transparent. Spiders are lepidopterans. Lepidopterans are angry. Each lepidopteran is a moth. Every moth is not red. Every moth is an arthropod. Arthropods are earthy. Each arthropod is an invertebrate. Invertebrates are hot. Each invertebrate is a butterfly. Every insect is wooden. Butterflies are sour. Each butterfly is a crustacean. Crustaceans are not wooden. Crustaceans are ants. Wren is a butterfly.",
+   "query": "True or false: Wren is not wooden.",
+   "chain_of_thought": [
+    "Wren is a butterfly.",
+    "Each butterfly is a crustacean.",
+    "Wren is a crustacean.",
+    "Crustaceans are not wooden.",
+    "Wren is not wooden."
+   ],
+   "answer": "True"
+  },
+  "in_context_example3": {
+   "question": "Each number is not transparent. Every natural number is happy. Natural numbers are integers. Each integer is not floral. Integers are even numbers. Every even number is hot. Even numbers are negative numbers. Negative numbers are transparent. Every negative number is a Mersenne prime. Each Mersenne prime is wooden. Every Mersenne prime is a composite number. Each composite number is red. Every composite number is a fraction. Each fraction is dull. Every fraction is a prime number. Prime numbers are not angry. Prime numbers are real numbers. Stella is an even number.",
+   "query": "True or false: Stella is transparent.",
+   "chain_of_thought": [
+    "Stella is an even number.",
+    "Even numbers are negative numbers.",
+    "Stella is a negative number.",
+    "Negative numbers are transparent.",
+    "Stella is transparent."
+   ],
+   "answer": "True"
+  },
+  "test_example": {
+   "question": "Spiders are liquid. Spiders are arthropods. Crustaceans are not temperate. Arthropods are not opaque. Arthropods are insects. Insects are temperate. Each insect is a butterfly. Fae is an arthropod.",
+   "query": "True or false: Fae is temperate.",
+   "chain_of_thought": [
+    "Fae is an arthropod.",
+    "Arthropods are insects.",
+    "Fae is an insect.",
+    "Insects are temperate.",
+    "Fae is temperate."
+   ],
+   "answer": "True"
+  }
+ },
+ "example20": {
+  "in_context_example0": {
+   "question": "Arthropods are kind. Each arthropod is an ant. Crustaceans are not feisty. Ants are not brown. Ants are lepidopterans. Every lepidopteran is fruity. Every lepidopteran is an animal. Each animal is not bright. Every animal is a butterfly. Every butterfly is feisty. Each butterfly is an insect. Insects are metallic. Insects are moths. Each moth is not hot. Each moth is a spider. Every spider is sour. Spiders are invertebrates. Alex is an animal.",
+   "query": "True or false: Alex is feisty.",
+   "chain_of_thought": [
+    "Alex is an animal.",
+    "Every animal is a butterfly.",
+    "Alex is a butterfly.",
+    "Every butterfly is feisty.",
+    "Alex is feisty."
+   ],
+   "answer": "True"
+  },
+  "in_context_example1": {
+   "question": "Arthropods are cold. Arthropods are crustaceans. Crustaceans are not mean. Every crustacean is an insect. Each insect is dull. Insects are spiders. Each spider is transparent. Every spider is a butterfly. Butterflies are large. Butterflies are ants. Ants are spicy. Every ant is an animal. Animals are wooden. Animals are invertebrates. Moths are not wooden. Each invertebrate is floral. Invertebrates are lepidopterans. Polly is an ant.",
+   "query": "True or false: Polly is wooden.",
+   "chain_of_thought": [
+    "Polly is an ant.",
+    "Every ant is an animal.",
+    "Polly is an animal.",
+    "Animals are wooden.",
+    "Polly is wooden."
+   ],
+   "answer": "True"
+  },
+  "in_context_example2": {
+   "question": "Each real number is spicy. Real numbers are fractions. Every fraction is not bright. Fractions are even numbers. Even numbers are not orange. Each even number is a prime number. Prime numbers are opaque. Prime numbers are negative numbers. Negative numbers are aggressive. Every negative number is a number. Each composite number is bright. Numbers are temperate. Numbers are natural numbers. Each natural number is not fruity. Natural numbers are integers. Integers are not nervous. Integers are Mersenne primes. Wren is a real number.",
+   "query": "True or false: Wren is not bright.",
+   "chain_of_thought": [
+    "Wren is a real number.",
+    "Real numbers are fractions.",
+    "Wren is a fraction.",
+    "Every fraction is not bright.",
+    "Wren is not bright."
+   ],
+   "answer": "True"
+  },
+  "in_context_example3": {
+   "question": "Each number is not temperate. Each number is an even number. Even numbers are shy. Each natural number is liquid. Even numbers are negative numbers. Negative numbers are not kind. Negative numbers are fractions. Fractions are large. Fractions are Mersenne primes. Each Mersenne prime is opaque. Mersenne primes are integers. Integers are not liquid. Each integer is a prime number. Prime numbers are bitter. Every prime number is a composite number. Every composite number is not dull. Every composite number is a real number. Max is a Mersenne prime.",
+   "query": "True or false: Max is not liquid.",
+   "chain_of_thought": [
+    "Max is a Mersenne prime.",
+    "Mersenne primes are integers.",
+    "Max is an integer.",
+    "Integers are not liquid.",
+    "Max is not liquid."
+   ],
+   "answer": "True"
+  },
+  "test_example": {
+   "question": "Dogs are cold. Dogs are snakes. Every snake is large. Each snake is a cow. Cows are amenable. Each cow is a feline. Felines are happy. Each feline is an animal. Animals are bright. Carnivores are not bright. Each animal is a cat. Cats are opaque. Cats are vertebrates. Max is a feline.",
+   "query": "True or false: Max is not bright.",
+   "chain_of_thought": [
+    "Max is a feline.",
+    "Each feline is an animal.",
+    "Max is an animal.",
+    "Animals are bright.",
+    "Max is bright."
+   ],
+   "answer": "False"
+  }
+ },
+ "example21": {
+  "in_context_example0": {
+   "question": "Animals are temperate. Animals are cows. Every cow is sweet. Cows are carnivores. Mammals are not sweet. Sam is an animal.",
+   "query": "True or false: Sam is not sweet.",
+   "chain_of_thought": [
+    "Sam is an animal.",
+    "Animals are cows.",
+    "Sam is a cow.",
+    "Every cow is sweet.",
+    "Sam is sweet."
+   ],
+   "answer": "False"
+  },
+  "in_context_example1": {
+   "question": "Cows are large. Every cow is a snake. Every snake is spicy. Every snake is a sheep. Sheep are transparent. Each sheep is an animal. Animals are hot. Cats are not hot. Animals are dogs. Each dog is bright. Dogs are mammals. Mammals are not blue. Each mammal is a carnivore. Fae is a sheep.",
+   "query": "True or false: Fae is not hot.",
+   "chain_of_thought": [
+    "Fae is a sheep.",
+    "Each sheep is an animal.",
+    "Fae is an animal.",
+    "Animals are hot.",
+    "Fae is hot."
+   ],
+   "answer": "False"
+  },
+  "in_context_example2": {
+   "question": "Every insect is not blue. Insects are arthropods. Arthropods are not sour. Arthropods are lepidopterans. Every lepidopteran is transparent. Lepidopterans are animals. Animals are wooden. Each animal is a butterfly. Butterflies are bright. Butterflies are ants. Ants are aggressive. Every ant is a moth. Moths are cold. Every moth is a crustacean. Crustaceans are not shy. Each invertebrate is not wooden. Crustaceans are spiders. Max is a lepidopteran.",
+   "query": "True or false: Max is not wooden.",
+   "chain_of_thought": [
+    "Max is a lepidopteran.",
+    "Lepidopterans are animals.",
+    "Max is an animal.",
+    "Animals are wooden.",
+    "Max is wooden."
+   ],
+   "answer": "False"
+  },
+  "in_context_example3": {
+   "question": "Insects are cold. Insects are animals. Animals are happy. Every animal is a crustacean. Crustaceans are not dull. Crustaceans are butterflies. Butterflies are not wooden. Butterflies are spiders. Every spider is small. Each spider is a lepidopteran. Each moth is not happy. Lepidopterans are not orange. Lepidopterans are arthropods. Max is an insect.",
+   "query": "True or false: Max is happy.",
+   "chain_of_thought": [
+    "Max is an insect.",
+    "Insects are animals.",
+    "Max is an animal.",
+    "Animals are happy.",
+    "Max is happy."
+   ],
+   "answer": "True"
+  },
+  "test_example": {
+   "question": "Real numbers are fruity. Real numbers are even numbers. Every even number is not shy. Even numbers are composite numbers. Each composite number is luminous. Composite numbers are prime numbers. Each Mersenne prime is sweet. Each prime number is red. Every prime number is a natural number. Natural numbers are not sweet. Natural numbers are integers. Every integer is angry. Each integer is a fraction. Fractions are hot. Every fraction is a negative number. Every negative number is not dull. Each negative number is a number. Sally is a prime number.",
+   "query": "True or false: Sally is not sweet.",
+   "chain_of_thought": [
+    "Sally is a prime number.",
+    "Every prime number is a natural number.",
+    "Sally is a natural number.",
+    "Natural numbers are not sweet.",
+    "Sally is not sweet."
+   ],
+   "answer": "True"
+  }
+ },
+ "example22": {
+  "in_context_example0": {
+   "question": "Composite numbers are not transparent. Composite numbers are natural numbers. Natural numbers are orange. Every natural number is a real number. Every even number is not orange. Real numbers are bitter. Real numbers are integers. Every integer is fruity. Each integer is a prime number. Every prime number is kind. Every prime number is a number. Alex is a composite number.",
+   "query": "True or false: Alex is not orange.",
+   "chain_of_thought": [
+    "Alex is a composite number.",
+    "Composite numbers are natural numbers.",
+    "Alex is a natural number.",
+    "Natural numbers are orange.",
+    "Alex is orange."
+   ],
+   "answer": "False"
+  },
+  "in_context_example1": {
+   "question": "Mersenne primes are not opaque. Mersenne primes are natural numbers. Natural numbers are not amenable. Natural numbers are composite numbers. Each composite number is dull. Composite numbers are negative numbers. Each negative number is red. Prime numbers are amenable. Negative numbers are real numbers. Real numbers are not cold. Each real number is an even number. Even numbers are sour. Every even number is a fraction. Each fraction is earthy. Every fraction is a number. Every number is not large. Numbers are integers. Stella is a Mersenne prime.",
+   "query": "True or false: Stella is amenable.",
+   "chain_of_thought": [
+    "Stella is a Mersenne prime.",
+    "Mersenne primes are natural numbers.",
+    "Stella is a natural number.",
+    "Natural numbers are not amenable.",
+    "Stella is not amenable."
+   ],
+   "answer": "False"
+  },
+  "in_context_example2": {
+   "question": "Insects are bright. Insects are spiders. Butterflies are not transparent. Each spider is transparent. Spiders are crustaceans. Wren is an insect.",
+   "query": "True or false: Wren is transparent.",
+   "chain_of_thought": [
+    "Wren is an insect.",
+    "Insects are spiders.",
+    "Wren is a spider.",
+    "Each spider is transparent.",
+    "Wren is transparent."
+   ],
+   "answer": "True"
+  },
+  "in_context_example3": {
+   "question": "Each prime number is not angry. Prime numbers are even numbers. Even numbers are earthy. Even numbers are Mersenne primes. Mersenne primes are dull. Each Mersenne prime is a negative number. Each negative number is brown. Every negative number is an integer. Integers are liquid. Each real number is not brown. Integers are numbers. Stella is a Mersenne prime.",
+   "query": "True or false: Stella is not brown.",
+   "chain_of_thought": [
+    "Stella is a Mersenne prime.",
+    "Each Mersenne prime is a negative number.",
+    "Stella is a negative number.",
+    "Each negative number is brown.",
+    "Stella is brown."
+   ],
+   "answer": "False"
+  },
+  "test_example": {
+   "question": "Each butterfly is small. Each butterfly is an animal. Each animal is dull. Every animal is an insect. Every ant is not angry. Every insect is not feisty. Every insect is an arthropod. Arthropods are angry. Arthropods are invertebrates. Every invertebrate is not sweet. Each invertebrate is a moth. Fae is an insect.",
+   "query": "True or false: Fae is not angry.",
+   "chain_of_thought": [
+    "Fae is an insect.",
+    "Every insect is an arthropod.",
+    "Fae is an arthropod.",
+    "Arthropods are angry.",
+    "Fae is angry."
+   ],
+   "answer": "False"
+  }
+ },
+ "example23": {
+  "in_context_example0": {
+   "question": "Insects are not opaque. Every insect is a crustacean. Every crustacean is not feisty. Each invertebrate is feisty. Crustaceans are lepidopterans. Max is an insect.",
+   "query": "True or false: Max is not feisty.",
+   "chain_of_thought": [
+    "Max is an insect.",
+    "Every insect is a crustacean.",
+    "Max is a crustacean.",
+    "Every crustacean is not feisty.",
+    "Max is not feisty."
+   ],
+   "answer": "True"
+  },
+  "in_context_example1": {
+   "question": "Prime numbers are red. Each composite number is hot. Composite numbers are numbers. Numbers are happy. Each number is an even number. Even numbers are not red. Even numbers are fractions. Every fraction is opaque. Fractions are integers. Every integer is not dull. Every integer is a natural number. Fae is a number.",
+   "query": "True or false: Fae is not red.",
+   "chain_of_thought": [
+    "Fae is a number.",
+    "Each number is an even number.",
+    "Fae is an even number.",
+    "Even numbers are not red.",
+    "Fae is not red."
+   ],
+   "answer": "True"
+  },
+  "in_context_example2": {
+   "question": "Cows are not liquid. Cows are animals. Every animal is not blue. Animals are felines. Felines are large. Every sheep is not kind. Felines are cats. Every cat is kind. Every cat is a mammal. Mammals are floral. Every mammal is a snake. Stella is a feline.",
+   "query": "True or false: Stella is kind.",
+   "chain_of_thought": [
+    "Stella is a feline.",
+    "Felines are cats.",
+    "Stella is a cat.",
+    "Every cat is kind.",
+    "Stella is kind."
+   ],
+   "answer": "True"
+  },
+  "in_context_example3": {
+   "question": "Every invertebrate is bitter. Invertebrates are moths. Each moth is nervous. Moths are lepidopterans. Lepidopterans are orange. Lepidopterans are butterflies. Butterflies are kind. Butterflies are ants. Spiders are not floral. Ants are floral. Ants are insects. Every insect is metallic. Every insect is a crustacean. Crustaceans are opaque. Every crustacean is an arthropod. Each arthropod is not bright. Every arthropod is an animal. Stella is a butterfly.",
+   "query": "True or false: Stella is floral.",
+   "chain_of_thought": [
+    "Stella is a butterfly.",
+    "Butterflies are ants.",
+    "Stella is an ant.",
+    "Ants are floral.",
+    "Stella is floral."
+   ],
+   "answer": "True"
+  },
+  "test_example": {
+   "question": "Cats are metallic. Every cat is an animal. Every animal is not earthy. Every animal is a snake. Snakes are not opaque. Each snake is a carnivore. Each carnivore is large. Sheep are opaque. Every carnivore is a mammal. Mammals are not mean. Mammals are vertebrates. Vertebrates are not nervous. Each vertebrate is a feline. Each feline is not bright. Every feline is a dog. Dogs are orange. Each dog is a cow. Alex is an animal.",
+   "query": "True or false: Alex is not opaque.",
+   "chain_of_thought": [
+    "Alex is an animal.",
+    "Every animal is a snake.",
+    "Alex is a snake.",
+    "Snakes are not opaque.",
+    "Alex is not opaque."
+   ],
+   "answer": "True"
+  }
+ },
+ "example24": {
+  "in_context_example0": {
+   "question": "Snakes are not large. Snakes are cows. Every cat is red. Every cow is dull. Cows are animals. Animals are not bitter. Every animal is a feline. Each feline is not red. Every feline is a mammal. Polly is an animal.",
+   "query": "True or false: Polly is red.",
+   "chain_of_thought": [
+    "Polly is an animal.",
+    "Every animal is a feline.",
+    "Polly is a feline.",
+    "Each feline is not red.",
+    "Polly is not red."
+   ],
+   "answer": "False"
+  },
+  "in_context_example1": {
+   "question": "Real numbers are mean. Each real number is a negative number. Each negative number is not metallic. Negative numbers are prime numbers. Each fraction is metallic. Prime numbers are orange. Every prime number is an integer. Integers are not sweet. Integers are natural numbers. Stella is a real number.",
+   "query": "True or false: Stella is metallic.",
+   "chain_of_thought": [
+    "Stella is a real number.",
+    "Each real number is a negative number.",
+    "Stella is a negative number.",
+    "Each negative number is not metallic.",
+    "Stella is not metallic."
+   ],
+   "answer": "False"
+  },
+  "in_context_example2": {
+   "question": "Each prime number is sour. Prime numbers are fractions. Fractions are luminous. Each negative number is blue. Every fraction is a Mersenne prime. Each Mersenne prime is not blue. Each Mersenne prime is an integer. Every integer is not kind. Every integer is a natural number. Stella is a fraction.",
+   "query": "True or false: Stella is not blue.",
+   "chain_of_thought": [
+    "Stella is a fraction.",
+    "Every fraction is a Mersenne prime.",
+    "Stella is a Mersenne prime.",
+    "Each Mersenne prime is not blue.",
+    "Stella is not blue."
+   ],
+   "answer": "True"
+  },
+  "in_context_example3": {
+   "question": "Every animal is not small. Each animal is an invertebrate. Each invertebrate is transparent. Each invertebrate is a butterfly. Each butterfly is cold. Every butterfly is an arthropod. Each arthropod is bright. Arthropods are crustaceans. Every insect is not cold. Sam is an invertebrate.",
+   "query": "True or false: Sam is cold.",
+   "chain_of_thought": [
+    "Sam is an invertebrate.",
+    "Each invertebrate is a butterfly.",
+    "Sam is a butterfly.",
+    "Each butterfly is cold.",
+    "Sam is cold."
+   ],
+   "answer": "True"
+  },
+  "test_example": {
+   "question": "Felines are floral. Each cow is not temperate. Every feline is an animal. Animals are blue. Animals are dogs. Every dog is temperate. Dogs are carnivores. Stella is an animal.",
+   "query": "True or false: Stella is not temperate.",
+   "chain_of_thought": [
+    "Stella is an animal.",
+    "Animals are dogs.",
+    "Stella is a dog.",
+    "Every dog is temperate.",
+    "Stella is temperate."
+   ],
+   "answer": "False"
+  }
+ },
+ "example25": {
+  "in_context_example0": {
+   "question": "Real numbers are not aggressive. Every real number is a composite number. Composite numbers are shy. Every number is dull. Composite numbers are prime numbers. Prime numbers are floral. Prime numbers are even numbers. Even numbers are spicy. Each even number is a Mersenne prime. Mersenne primes are not dull. Mersenne primes are integers. Every integer is not liquid. Integers are fractions. Fractions are not opaque. Each fraction is a negative number. Negative numbers are hot. Negative numbers are natural numbers. Sally is an even number.",
+   "query": "True or false: Sally is dull.",
+   "chain_of_thought": [
+    "Sally is an even number.",
+    "Each even number is a Mersenne prime.",
+    "Sally is a Mersenne prime.",
+    "Mersenne primes are not dull.",
+    "Sally is not dull."
+   ],
+   "answer": "False"
+  },
+  "in_context_example1": {
+   "question": "Prime numbers are blue. Prime numbers are negative numbers. Negative numbers are sour. Negative numbers are real numbers. Every real number is bright. Real numbers are integers. Integers are opaque. Integers are Mersenne primes. Each natural number is not opaque. Sally is a real number.",
+   "query": "True or false: Sally is opaque.",
+   "chain_of_thought": [
+    "Sally is a real number.",
+    "Real numbers are integers.",
+    "Sally is an integer.",
+    "Integers are opaque.",
+    "Sally is opaque."
+   ],
+   "answer": "True"
+  },
+  "in_context_example2": {
+   "question": "Each moth is dull. Moths are animals. Every animal is transparent. Lepidopterans are not happy. Animals are crustaceans. Each crustacean is kind. Each crustacean is an arthropod. Every arthropod is metallic. Each arthropod is an invertebrate. Invertebrates are not large. Every invertebrate is a spider. Each spider is not temperate. Spiders are butterflies. Each butterfly is happy. Butterflies are ants. Each ant is bitter. Each ant is an insect. Fae is a spider.",
+   "query": "True or false: Fae is not happy.",
+   "chain_of_thought": [
+    "Fae is a spider.",
+    "Spiders are butterflies.",
+    "Fae is a butterfly.",
+    "Each butterfly is happy.",
+    "Fae is happy."
+   ],
+   "answer": "False"
+  },
+  "in_context_example3": {
+   "question": "Dogs are red. Every dog is a cat. Cats are spicy. Cats are snakes. Each snake is not opaque. Snakes are mammals. Animals are opaque. Alex is a cat.",
+   "query": "True or false: Alex is not opaque.",
+   "chain_of_thought": [
+    "Alex is a cat.",
+    "Cats are snakes.",
+    "Alex is a snake.",
+    "Each snake is not opaque.",
+    "Alex is not opaque."
+   ],
+   "answer": "True"
+  },
+  "test_example": {
+   "question": "Each insect is not earthy. Insects are butterflies. Butterflies are not sour. Butterflies are ants. Every spider is sour. Max is an insect.",
+   "query": "True or false: Max is not sour.",
+   "chain_of_thought": [
+    "Max is an insect.",
+    "Insects are butterflies.",
+    "Max is a butterfly.",
+    "Butterflies are not sour.",
+    "Max is not sour."
+   ],
+   "answer": "True"
+  }
+ },
+ "example26": {
+  "in_context_example0": {
+   "question": "Every even number is spicy. Each even number is a composite number. Each composite number is opaque. Each Mersenne prime is fruity. Every composite number is a fraction. Fractions are not fruity. Every fraction is a prime number. Wren is a composite number.",
+   "query": "True or false: Wren is fruity.",
+   "chain_of_thought": [
+    "Wren is a composite number.",
+    "Every composite number is a fraction.",
+    "Wren is a fraction.",
+    "Fractions are not fruity.",
+    "Wren is not fruity."
+   ],
+   "answer": "False"
+  },
+  "in_context_example1": {
+   "question": "Every ant is feisty. Ants are crustaceans. Crustaceans are not large. Crustaceans are lepidopterans. Each lepidopteran is not spicy. Lepidopterans are animals. Every animal is cold. Every spider is large. Each animal is an insect. Every insect is metallic. Insects are butterflies. Butterflies are not transparent. Butterflies are arthropods. Rex is an ant.",
+   "query": "True or false: Rex is not large.",
+   "chain_of_thought": [
+    "Rex is an ant.",
+    "Ants are crustaceans.",
+    "Rex is a crustacean.",
+    "Crustaceans are not large.",
+    "Rex is not large."
+   ],
+   "answer": "True"
+  },
+  "in_context_example2": {
+   "question": "Insects are opaque. Butterflies are not nervous. Insects are animals. Animals are not hot. Animals are arthropods. Every arthropod is floral. Every arthropod is a moth. Moths are nervous. Moths are crustaceans. Crustaceans are large. Crustaceans are lepidopterans. Every lepidopteran is orange. Lepidopterans are spiders. Spiders are not luminous. Every spider is an invertebrate. Max is an arthropod.",
+   "query": "True or false: Max is nervous.",
+   "chain_of_thought": [
+    "Max is an arthropod.",
+    "Every arthropod is a moth.",
+    "Max is a moth.",
+    "Moths are nervous.",
+    "Max is nervous."
+   ],
+   "answer": "True"
+  },
+  "in_context_example3": {
+   "question": "Mersenne primes are sour. Mersenne primes are natural numbers. Every natural number is temperate. Natural numbers are composite numbers. Each composite number is not amenable. Real numbers are not transparent. Every composite number is an even number. Even numbers are brown. Even numbers are prime numbers. Prime numbers are transparent. Prime numbers are fractions. Every fraction is metallic. Fractions are negative numbers. Wren is an even number.",
+   "query": "True or false: Wren is not transparent.",
+   "chain_of_thought": [
+    "Wren is an even number.",
+    "Even numbers are prime numbers.",
+    "Wren is a prime number.",
+    "Prime numbers are transparent.",
+    "Wren is transparent."
+   ],
+   "answer": "False"
+  },
+  "test_example": {
+   "question": "Each sheep is not hot. Sheep are vertebrates. Vertebrates are transparent. Each vertebrate is a carnivore. Carnivores are luminous. Every carnivore is a mammal. Each mammal is orange. Mammals are felines. Felines are not spicy. Each cow is not transparent. Felines are snakes. Every snake is not kind. Snakes are animals. Each animal is small. Animals are dogs. Dogs are feisty. Dogs are cats. Polly is a sheep.",
+   "query": "True or false: Polly is not transparent.",
+   "chain_of_thought": [
+    "Polly is a sheep.",
+    "Sheep are vertebrates.",
+    "Polly is a vertebrate.",
+    "Vertebrates are transparent.",
+    "Polly is transparent."
+   ],
+   "answer": "False"
+  }
+ },
+ "example27": {
+  "in_context_example0": {
+   "question": "Each spider is not sour. Every spider is an invertebrate. Invertebrates are small. Each invertebrate is a crustacean. Lepidopterans are not small. Fae is a spider.",
+   "query": "True or false: Fae is small.",
+   "chain_of_thought": [
+    "Fae is a spider.",
+    "Every spider is an invertebrate.",
+    "Fae is an invertebrate.",
+    "Invertebrates are small.",
+    "Fae is small."
+   ],
+   "answer": "True"
+  },
+  "in_context_example1": {
+   "question": "Mammals are not orange. Every mammal is a feline. Every feline is sweet. Every feline is a cow. Cows are not metallic. Each cow is a carnivore. Each carnivore is hot. Each carnivore is an animal. Animals are large. Animals are cats. Every cat is not opaque. Each cat is a sheep. Every vertebrate is metallic. Every sheep is feisty. Every sheep is a dog. Every dog is amenable. Dogs are snakes. Alex is a feline.",
+   "query": "True or false: Alex is not metallic.",
+   "chain_of_thought": [
+    "Alex is a feline.",
+    "Every feline is a cow.",
+    "Alex is a cow.",
+    "Cows are not metallic.",
+    "Alex is not metallic."
+   ],
+   "answer": "True"
+  },
+  "in_context_example2": {
+   "question": "Each dog is opaque. Dogs are vertebrates. Every vertebrate is not bright. Every vertebrate is a snake. Each snake is not sweet. Mammals are sweet. Each snake is an animal. Stella is a vertebrate.",
+   "query": "True or false: Stella is not sweet.",
+   "chain_of_thought": [
+    "Stella is a vertebrate.",
+    "Every vertebrate is a snake.",
+    "Stella is a snake.",
+    "Each snake is not sweet.",
+    "Stella is not sweet."
+   ],
+   "answer": "True"
+  },
+  "in_context_example3": {
+   "question": "Every dog is hot. Dogs are felines. Each feline is sour. Each feline is a cat. Cats are happy. Animals are aggressive. Every cat is a snake. Snakes are bright. Snakes are mammals. Mammals are not aggressive. Mammals are sheep. Each sheep is orange. Sheep are cows. Each cow is fruity. Each cow is a vertebrate. Vertebrates are large. Each vertebrate is a carnivore. Fae is a snake.",
+   "query": "True or false: Fae is not aggressive.",
+   "chain_of_thought": [
+    "Fae is a snake.",
+    "Snakes are mammals.",
+    "Fae is a mammal.",
+    "Mammals are not aggressive.",
+    "Fae is not aggressive."
+   ],
+   "answer": "True"
+  },
+  "test_example": {
+   "question": "Animals are nervous. Each animal is a snake. Each snake is mean. Snakes are sheep. Carnivores are not mean. Rex is an animal.",
+   "query": "True or false: Rex is mean.",
+   "chain_of_thought": [
+    "Rex is an animal.",
+    "Each animal is a snake.",
+    "Rex is a snake.",
+    "Each snake is mean.",
+    "Rex is mean."
+   ],
+   "answer": "True"
+  }
+ },
+ "example28": {
+  "in_context_example0": {
+   "question": "Each butterfly is not cold. Every invertebrate is fruity. Invertebrates are crustaceans. Each crustacean is cold. Crustaceans are arthropods. Arthropods are bright. Each arthropod is an animal. Each animal is feisty. Every animal is a moth. Each moth is not spicy. Moths are spiders. Sally is an invertebrate.",
+   "query": "True or false: Sally is cold.",
+   "chain_of_thought": [
+    "Sally is an invertebrate.",
+    "Invertebrates are crustaceans.",
+    "Sally is a crustacean.",
+    "Each crustacean is cold.",
+    "Sally is cold."
+   ],
+   "answer": "True"
+  },
+  "in_context_example1": {
+   "question": "Integers are cold. Integers are Mersenne primes. Each Mersenne prime is sour. Each Mersenne prime is a fraction. Fractions are orange. Each fraction is a negative number. Each negative number is aggressive. Negative numbers are natural numbers. Natural numbers are bright. Natural numbers are even numbers. Numbers are not aggressive. Each even number is fruity. Every even number is a real number. Every real number is not nervous. Each real number is a composite number. Stella is a fraction.",
+   "query": "True or false: Stella is aggressive.",
+   "chain_of_thought": [
+    "Stella is a fraction.",
+    "Each fraction is a negative number.",
+    "Stella is a negative number.",
+    "Each negative number is aggressive.",
+    "Stella is aggressive."
+   ],
+   "answer": "True"
+  },
+  "in_context_example2": {
+   "question": "Every spider is metallic. Each spider is an arthropod. Arthropods are blue. Each arthropod is a moth. Every moth is not spicy. Invertebrates are spicy. Moths are insects. Stella is an arthropod.",
+   "query": "True or false: Stella is not spicy.",
+   "chain_of_thought": [
+    "Stella is an arthropod.",
+    "Each arthropod is a moth.",
+    "Stella is a moth.",
+    "Every moth is not spicy.",
+    "Stella is not spicy."
+   ],
+   "answer": "True"
+  },
+  "in_context_example3": {
+   "question": "Lepidopterans are not orange. Each lepidopteran is a crustacean. Each crustacean is fruity. Moths are not fruity. Each crustacean is an insect. Sam is a lepidopteran.",
+   "query": "True or false: Sam is fruity.",
+   "chain_of_thought": [
+    "Sam is a lepidopteran.",
+    "Each lepidopteran is a crustacean.",
+    "Sam is a crustacean.",
+    "Each crustacean is fruity.",
+    "Sam is fruity."
+   ],
+   "answer": "True"
+  },
+  "test_example": {
+   "question": "Spiders are sweet. Spiders are ants. Arthropods are transparent. Ants are not transparent. Every ant is a lepidopteran. Sam is a spider.",
+   "query": "True or false: Sam is transparent.",
+   "chain_of_thought": [
+    "Sam is a spider.",
+    "Spiders are ants.",
+    "Sam is an ant.",
+    "Ants are not transparent.",
+    "Sam is not transparent."
+   ],
+   "answer": "False"
+  }
+ },
+ "example29": {
+  "in_context_example0": {
+   "question": "Each snake is not cold. Snakes are felines. Every cat is not luminous. Felines are dull. Felines are dogs. Dogs are nervous. Each dog is a cow. Cows are earthy. Cows are sheep. Each sheep is blue. Sheep are animals. Animals are large. Each animal is a mammal. Mammals are luminous. Every mammal is a vertebrate. Vertebrates are sour. Vertebrates are carnivores. Wren is an animal.",
+   "query": "True or false: Wren is luminous.",
+   "chain_of_thought": [
+    "Wren is an animal.",
+    "Each animal is a mammal.",
+    "Wren is a mammal.",
+    "Mammals are luminous.",
+    "Wren is luminous."
+   ],
+   "answer": "True"
+  },
+  "in_context_example1": {
+   "question": "Cats are temperate. Every cat is a cow. Cows are not luminous. Cows are vertebrates. Vertebrates are blue. Each vertebrate is a carnivore. Carnivores are bright. Carnivores are dogs. Every dog is spicy. Animals are large. Each dog is a sheep. Sheep are transparent. Sheep are mammals. Mammals are not large. Mammals are felines. Felines are not angry. Felines are snakes. Sally is a sheep.",
+   "query": "True or false: Sally is large.",
+   "chain_of_thought": [
+    "Sally is a sheep.",
+    "Sheep are mammals.",
+    "Sally is a mammal.",
+    "Mammals are not large.",
+    "Sally is not large."
+   ],
+   "answer": "False"
+  },
+  "in_context_example2": {
+   "question": "Every feline is not luminous. Each animal is opaque. Animals are carnivores. Each carnivore is luminous. Carnivores are sheep. Fae is an animal.",
+   "query": "True or false: Fae is not luminous.",
+   "chain_of_thought": [
+    "Fae is an animal.",
+    "Animals are carnivores.",
+    "Fae is a carnivore.",
+    "Each carnivore is luminous.",
+    "Fae is luminous."
+   ],
+   "answer": "False"
+  },
+  "in_context_example3": {
+   "question": "Every natural number is kind. Each natural number is a negative number. Real numbers are not wooden. Negative numbers are wooden. Negative numbers are numbers. Stella is a natural number.",
+   "query": "True or false: Stella is not wooden.",
+   "chain_of_thought": [
+    "Stella is a natural number.",
+    "Each natural number is a negative number.",
+    "Stella is a negative number.",
+    "Negative numbers are wooden.",
+    "Stella is wooden."
+   ],
+   "answer": "False"
+  },
+  "test_example": {
+   "question": "Natural numbers are not bright. Every natural number is a composite number. Composite numbers are not spicy. Every integer is spicy. Each composite number is a number. Alex is a natural number.",
+   "query": "True or false: Alex is spicy.",
+   "chain_of_thought": [
+    "Alex is a natural number.",
+    "Every natural number is a composite number.",
+    "Alex is a composite number.",
+    "Composite numbers are not spicy.",
+    "Alex is not spicy."
+   ],
+   "answer": "False"
+  }
+ },
+ "example30": {
+  "in_context_example0": {
+   "question": "Insects are not luminous. Arthropods are small. Each arthropod is an animal. Animals are luminous. Animals are ants. Sally is an arthropod.",
+   "query": "True or false: Sally is luminous.",
+   "chain_of_thought": [
+    "Sally is an arthropod.",
+    "Each arthropod is an animal.",
+    "Sally is an animal.",
+    "Animals are luminous.",
+    "Sally is luminous."
+   ],
+   "answer": "True"
+  },
+  "in_context_example1": {
+   "question": "Each ant is not opaque. Ants are arthropods. Arthropods are cold. Arthropods are moths. Every moth is kind. Every moth is an insect. Spiders are not liquid. Every insect is liquid. Insects are lepidopterans. Fae is a moth.",
+   "query": "True or false: Fae is liquid.",
+   "chain_of_thought": [
+    "Fae is a moth.",
+    "Every moth is an insect.",
+    "Fae is an insect.",
+    "Every insect is liquid.",
+    "Fae is liquid."
+   ],
+   "answer": "True"
+  },
+  "in_context_example2": {
+   "question": "Spiders are fruity. Spiders are arthropods. Every arthropod is orange. Arthropods are moths. Each butterfly is liquid. Moths are small. Moths are crustaceans. Every crustacean is dull. Crustaceans are invertebrates. Each invertebrate is aggressive. Every invertebrate is an insect. Insects are spicy. Insects are ants. Ants are temperate. Ants are animals. Each animal is not liquid. Each animal is a lepidopteran. Polly is an ant.",
+   "query": "True or false: Polly is not liquid.",
+   "chain_of_thought": [
+    "Polly is an ant.",
+    "Ants are animals.",
+    "Polly is an animal.",
+    "Each animal is not liquid.",
+    "Polly is not liquid."
+   ],
+   "answer": "True"
+  },
+  "in_context_example3": {
+   "question": "Every feline is not kind. Felines are dogs. Each dog is large. Every vertebrate is not large. Each dog is an animal. Animals are feisty. Animals are sheep. Polly is a feline.",
+   "query": "True or false: Polly is large.",
+   "chain_of_thought": [
+    "Polly is a feline.",
+    "Felines are dogs.",
+    "Polly is a dog.",
+    "Each dog is large.",
+    "Polly is large."
+   ],
+   "answer": "True"
+  },
+  "test_example": {
+   "question": "Real numbers are amenable. Each real number is a negative number. Composite numbers are not cold. Every negative number is cold. Each negative number is an even number. Even numbers are bright. Each even number is a natural number. Natural numbers are metallic. Each natural number is an integer. Polly is a real number.",
+   "query": "True or false: Polly is cold.",
+   "chain_of_thought": [
+    "Polly is a real number.",
+    "Each real number is a negative number.",
+    "Polly is a negative number.",
+    "Every negative number is cold.",
+    "Polly is cold."
+   ],
+   "answer": "True"
+  }
+ }
+}

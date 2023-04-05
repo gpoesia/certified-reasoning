@@ -1,0 +1,2162 @@
+{
+ "example1": {
+  "in_context_example0": {
+   "question": "Every tumpus is sour. Tumpuses are rompuses. Every rompus is small. Every rompus is an impus. Impuses are floral. Impuses are dumpuses. Dumpuses are not kind. Every dumpus is a yumpus. Each yumpus is feisty. Yumpuses are numpuses. Numpuses are not opaque. Each numpus is a zumpus. Every wumpus is opaque. Every zumpus is temperate. Each zumpus is a jompus. Every jompus is dull. Jompuses are vumpuses. Alex is a dumpus.",
+   "query": "True or false: Alex is not opaque.",
+   "chain_of_thought": [
+    "Alex is a dumpus.",
+    "Every dumpus is a yumpus.",
+    "Alex is a yumpus.",
+    "Yumpuses are numpuses.",
+    "Alex is a numpus.",
+    "Numpuses are not opaque.",
+    "Alex is not opaque."
+   ],
+   "answer": "True"
+  },
+  "in_context_example1": {
+   "question": "Every jompus is opaque. Jompuses are numpuses. Each numpus is bright. Numpuses are vumpuses. Each vumpus is not blue. Vumpuses are dumpuses. Dumpuses are hot. Dumpuses are tumpuses. Tumpuses are kind. Every tumpus is a wumpus. Every wumpus is happy. Wumpuses are rompuses. Each rompus is metallic. Each rompus is a yumpus. Each yumpus is not small. Zumpuses are small. Yumpuses are impuses. Max is a wumpus.",
+   "query": "True or false: Max is small.",
+   "chain_of_thought": [
+    "Max is a wumpus.",
+    "Wumpuses are rompuses.",
+    "Max is a rompus.",
+    "Each rompus is a yumpus.",
+    "Max is a yumpus.",
+    "Each yumpus is not small.",
+    "Max is not small."
+   ],
+   "answer": "False"
+  },
+  "in_context_example2": {
+   "question": "Tumpuses are not angry. Tumpuses are wumpuses. Wumpuses are happy. Every wumpus is a dumpus. Dumpuses are temperate. Each dumpus is an impus. Each impus is not spicy. Impuses are yumpuses. Yumpuses are not fruity. Each jompus is fruity. Each yumpus is a vumpus. Each vumpus is bright. Every vumpus is a numpus. Wren is a dumpus.",
+   "query": "True or false: Wren is not fruity.",
+   "chain_of_thought": [
+    "Wren is a dumpus.",
+    "Each dumpus is an impus.",
+    "Wren is an impus.",
+    "Impuses are yumpuses.",
+    "Wren is a yumpus.",
+    "Yumpuses are not fruity.",
+    "Wren is not fruity."
+   ],
+   "answer": "True"
+  },
+  "in_context_example3": {
+   "question": "Every dumpus is large. Dumpuses are yumpuses. Every yumpus is amenable. Each yumpus is a jompus. Jompuses are opaque. Each jompus is a numpus. Each numpus is bright. Numpuses are zumpuses. Every zumpus is not luminous. Every zumpus is a rompus. Rompuses are not shy. Rompuses are impuses. Every impus is not cold. Impuses are wumpuses. Wumpuses are not spicy. Each wumpus is a tumpus. Vumpuses are luminous. Max is a jompus.",
+   "query": "True or false: Max is luminous.",
+   "chain_of_thought": [
+    "Max is a jompus.",
+    "Each jompus is a numpus.",
+    "Max is a numpus.",
+    "Numpuses are zumpuses.",
+    "Max is a zumpus.",
+    "Every zumpus is not luminous.",
+    "Max is not luminous."
+   ],
+   "answer": "False"
+  },
+  "test_example": {
+   "question": "Tumpuses are brown. Each tumpus is a zumpus. Every zumpus is sour. Impuses are not bright. Zumpuses are numpuses. Numpuses are angry. Numpuses are jompuses. Each jompus is cold. Jompuses are yumpuses. Each yumpus is bright. Yumpuses are dumpuses. Each dumpus is wooden. Dumpuses are wumpuses. Every wumpus is large. Every wumpus is a rompus. Rompuses are not floral. Rompuses are vumpuses. Sally is a numpus.",
+   "query": "True or false: Sally is not bright.",
+   "chain_of_thought": [
+    "Sally is a numpus.",
+    "Numpuses are jompuses.",
+    "Sally is a jompus.",
+    "Jompuses are yumpuses.",
+    "Sally is a yumpus.",
+    "Each yumpus is bright.",
+    "Sally is bright."
+   ],
+   "answer": "False"
+  }
+ },
+ "example2": {
+  "in_context_example0": {
+   "question": "Tumpuses are not opaque. Tumpuses are dumpuses. Dumpuses are nervous. Dumpuses are rompuses. Impuses are not bitter. Each rompus is bitter. Every rompus is a zumpus. Rex is a tumpus.",
+   "query": "True or false: Rex is bitter.",
+   "chain_of_thought": [
+    "Rex is a tumpus.",
+    "Tumpuses are dumpuses.",
+    "Rex is a dumpus.",
+    "Dumpuses are rompuses.",
+    "Rex is a rompus.",
+    "Each rompus is bitter.",
+    "Rex is bitter."
+   ],
+   "answer": "True"
+  },
+  "in_context_example1": {
+   "question": "Every tumpus is small. Tumpuses are dumpuses. Dumpuses are not earthy. Dumpuses are vumpuses. Vumpuses are kind. Each vumpus is a wumpus. Each wumpus is liquid. Each wumpus is a rompus. Every rompus is opaque. Each rompus is a numpus. Numpuses are temperate. Numpuses are yumpuses. Yumpuses are feisty. Yumpuses are zumpuses. Each zumpus is not red. Every impus is not opaque. Every zumpus is a jompus. Max is a vumpus.",
+   "query": "True or false: Max is opaque.",
+   "chain_of_thought": [
+    "Max is a vumpus.",
+    "Each vumpus is a wumpus.",
+    "Max is a wumpus.",
+    "Each wumpus is a rompus.",
+    "Max is a rompus.",
+    "Every rompus is opaque.",
+    "Max is opaque."
+   ],
+   "answer": "True"
+  },
+  "in_context_example2": {
+   "question": "Wumpuses are not aggressive. Wumpuses are rompuses. Rompuses are small. Rompuses are numpuses. Each numpus is not fruity. Every numpus is a zumpus. Every zumpus is not opaque. Zumpuses are impuses. Every impus is temperate. Each impus is a yumpus. Every yumpus is red. Each jompus is sweet. Each yumpus is a dumpus. Each dumpus is not feisty. Dumpuses are vumpuses. Every vumpus is not sweet. Every vumpus is a tumpus. Wren is a yumpus.",
+   "query": "True or false: Wren is not sweet.",
+   "chain_of_thought": [
+    "Wren is a yumpus.",
+    "Each yumpus is a dumpus.",
+    "Wren is a dumpus.",
+    "Dumpuses are vumpuses.",
+    "Wren is a vumpus.",
+    "Every vumpus is not sweet.",
+    "Wren is not sweet."
+   ],
+   "answer": "True"
+  },
+  "in_context_example3": {
+   "question": "Every yumpus is luminous. Each yumpus is a rompus. Rompuses are brown. Each jompus is bright. Each rompus is a dumpus. Dumpuses are earthy. Dumpuses are numpuses. Numpuses are feisty. Numpuses are vumpuses. Vumpuses are hot. Vumpuses are wumpuses. Wumpuses are not bright. Wumpuses are tumpuses. Tumpuses are not large. Tumpuses are zumpuses. Zumpuses are transparent. Zumpuses are impuses. Polly is a numpus.",
+   "query": "True or false: Polly is not bright.",
+   "chain_of_thought": [
+    "Polly is a numpus.",
+    "Numpuses are vumpuses.",
+    "Polly is a vumpus.",
+    "Vumpuses are wumpuses.",
+    "Polly is a wumpus.",
+    "Wumpuses are not bright.",
+    "Polly is not bright."
+   ],
+   "answer": "True"
+  },
+  "test_example": {
+   "question": "Each yumpus is dull. Yumpuses are tumpuses. Each tumpus is not sour. Tumpuses are numpuses. Every numpus is feisty. Each numpus is a wumpus. Each impus is not feisty. Each wumpus is not cold. Wumpuses are zumpuses. Alex is a yumpus.",
+   "query": "True or false: Alex is not feisty.",
+   "chain_of_thought": [
+    "Alex is a yumpus.",
+    "Yumpuses are tumpuses.",
+    "Alex is a tumpus.",
+    "Tumpuses are numpuses.",
+    "Alex is a numpus.",
+    "Every numpus is feisty.",
+    "Alex is feisty."
+   ],
+   "answer": "False"
+  }
+ },
+ "example3": {
+  "in_context_example0": {
+   "question": "Every tumpus is not earthy. Wumpuses are not red. Wumpuses are vumpuses. Each vumpus is bitter. Vumpuses are zumpuses. Every zumpus is cold. Zumpuses are numpuses. Numpuses are aggressive. Numpuses are dumpuses. Dumpuses are opaque. Dumpuses are yumpuses. Yumpuses are not small. Each yumpus is a rompus. Every rompus is earthy. Each rompus is a jompus. Jompuses are metallic. Each jompus is an impus. Alex is a dumpus.",
+   "query": "True or false: Alex is not earthy.",
+   "chain_of_thought": [
+    "Alex is a dumpus.",
+    "Dumpuses are yumpuses.",
+    "Alex is a yumpus.",
+    "Each yumpus is a rompus.",
+    "Alex is a rompus.",
+    "Every rompus is earthy.",
+    "Alex is earthy."
+   ],
+   "answer": "False"
+  },
+  "in_context_example1": {
+   "question": "Numpuses are happy. Every numpus is a wumpus. Every wumpus is not liquid. Every wumpus is a rompus. Each rompus is opaque. Dumpuses are not orange. Each rompus is an impus. Impuses are orange. Impuses are vumpuses. Every vumpus is floral. Each vumpus is a zumpus. Every zumpus is dull. Each zumpus is a tumpus. Each tumpus is cold. Tumpuses are yumpuses. Every yumpus is sour. Every yumpus is a jompus. Fae is a wumpus.",
+   "query": "True or false: Fae is orange.",
+   "chain_of_thought": [
+    "Fae is a wumpus.",
+    "Every wumpus is a rompus.",
+    "Fae is a rompus.",
+    "Each rompus is an impus.",
+    "Fae is an impus.",
+    "Impuses are orange.",
+    "Fae is orange."
+   ],
+   "answer": "True"
+  },
+  "in_context_example2": {
+   "question": "Every jompus is dull. Every jompus is a tumpus. Tumpuses are not spicy. Tumpuses are numpuses. Each numpus is not transparent. Each rompus is fruity. Every numpus is a dumpus. Each dumpus is hot. Dumpuses are vumpuses. Vumpuses are not fruity. Vumpuses are wumpuses. Max is a numpus.",
+   "query": "True or false: Max is not fruity.",
+   "chain_of_thought": [
+    "Max is a numpus.",
+    "Every numpus is a dumpus.",
+    "Max is a dumpus.",
+    "Dumpuses are vumpuses.",
+    "Max is a vumpus.",
+    "Vumpuses are not fruity.",
+    "Max is not fruity."
+   ],
+   "answer": "True"
+  },
+  "in_context_example3": {
+   "question": "Every rompus is angry. Rompuses are yumpuses. Every yumpus is dull. Yumpuses are wumpuses. Every tumpus is shy. Every wumpus is not shy. Wumpuses are zumpuses. Zumpuses are bitter. Each zumpus is a numpus. Wren is a rompus.",
+   "query": "True or false: Wren is shy.",
+   "chain_of_thought": [
+    "Wren is a rompus.",
+    "Rompuses are yumpuses.",
+    "Wren is a yumpus.",
+    "Yumpuses are wumpuses.",
+    "Wren is a wumpus.",
+    "Every wumpus is not shy.",
+    "Wren is not shy."
+   ],
+   "answer": "False"
+  },
+  "test_example": {
+   "question": "Zumpuses are not kind. Each wumpus is floral. Every zumpus is a tumpus. Tumpuses are not liquid. Tumpuses are jompuses. Each jompus is not floral. Each jompus is a dumpus. Max is a zumpus.",
+   "query": "True or false: Max is floral.",
+   "chain_of_thought": [
+    "Max is a zumpus.",
+    "Every zumpus is a tumpus.",
+    "Max is a tumpus.",
+    "Tumpuses are jompuses.",
+    "Max is a jompus.",
+    "Each jompus is not floral.",
+    "Max is not floral."
+   ],
+   "answer": "False"
+  }
+ },
+ "example4": {
+  "in_context_example0": {
+   "question": "Yumpuses are spicy. Yumpuses are tumpuses. Tumpuses are not hot. Each tumpus is a rompus. Each rompus is large. Rompuses are impuses. Every impus is amenable. Impuses are dumpuses. Each dumpus is not dull. Every dumpus is a jompus. Every zumpus is not nervous. Jompuses are nervous. Jompuses are vumpuses. Rex is an impus.",
+   "query": "True or false: Rex is nervous.",
+   "chain_of_thought": [
+    "Rex is an impus.",
+    "Impuses are dumpuses.",
+    "Rex is a dumpus.",
+    "Every dumpus is a jompus.",
+    "Rex is a jompus.",
+    "Jompuses are nervous.",
+    "Rex is nervous."
+   ],
+   "answer": "True"
+  },
+  "in_context_example1": {
+   "question": "Every impus is not hot. Each impus is a zumpus. Every zumpus is dull. Each zumpus is a jompus. Each jompus is earthy. Jompuses are numpuses. Every numpus is sweet. Numpuses are rompuses. Rompuses are large. Rompuses are wumpuses. Each dumpus is not aggressive. Each wumpus is aggressive. Every wumpus is a vumpus. Each vumpus is not blue. Vumpuses are tumpuses. Tumpuses are transparent. Every tumpus is a yumpus. Polly is a numpus.",
+   "query": "True or false: Polly is not aggressive.",
+   "chain_of_thought": [
+    "Polly is a numpus.",
+    "Numpuses are rompuses.",
+    "Polly is a rompus.",
+    "Rompuses are wumpuses.",
+    "Polly is a wumpus.",
+    "Each wumpus is aggressive.",
+    "Polly is aggressive."
+   ],
+   "answer": "False"
+  },
+  "in_context_example2": {
+   "question": "Every dumpus is opaque. Each dumpus is a jompus. Jompuses are not feisty. Wumpuses are not wooden. Jompuses are impuses. Impuses are kind. Each impus is a numpus. Numpuses are not orange. Numpuses are vumpuses. Vumpuses are not bitter. Every vumpus is a rompus. Rompuses are small. Every rompus is a yumpus. Yumpuses are not earthy. Yumpuses are zumpuses. Zumpuses are wooden. Zumpuses are tumpuses. Alex is a rompus.",
+   "query": "True or false: Alex is wooden.",
+   "chain_of_thought": [
+    "Alex is a rompus.",
+    "Every rompus is a yumpus.",
+    "Alex is a yumpus.",
+    "Yumpuses are zumpuses.",
+    "Alex is a zumpus.",
+    "Zumpuses are wooden.",
+    "Alex is wooden."
+   ],
+   "answer": "True"
+  },
+  "in_context_example3": {
+   "question": "Each vumpus is transparent. Each vumpus is an impus. Every impus is not feisty. Every impus is a dumpus. Each dumpus is dull. Dumpuses are numpuses. Each jompus is floral. Numpuses are red. Numpuses are zumpuses. Zumpuses are not floral. Each zumpus is a tumpus. Tumpuses are not metallic. Each tumpus is a yumpus. Yumpuses are not aggressive. Every yumpus is a wumpus. Each wumpus is spicy. Wumpuses are rompuses. Wren is a dumpus.",
+   "query": "True or false: Wren is not floral.",
+   "chain_of_thought": [
+    "Wren is a dumpus.",
+    "Dumpuses are numpuses.",
+    "Wren is a numpus.",
+    "Numpuses are zumpuses.",
+    "Wren is a zumpus.",
+    "Zumpuses are not floral.",
+    "Wren is not floral."
+   ],
+   "answer": "True"
+  },
+  "test_example": {
+   "question": "Each impus is spicy. Each wumpus is large. Wumpuses are tumpuses. Tumpuses are cold. Every tumpus is a vumpus. Every vumpus is not spicy. Vumpuses are yumpuses. Yumpuses are angry. Each yumpus is a numpus. Numpuses are orange. Each numpus is a jompus. Jompuses are bright. Jompuses are dumpuses. Sam is a wumpus.",
+   "query": "True or false: Sam is not spicy.",
+   "chain_of_thought": [
+    "Sam is a wumpus.",
+    "Wumpuses are tumpuses.",
+    "Sam is a tumpus.",
+    "Every tumpus is a vumpus.",
+    "Sam is a vumpus.",
+    "Every vumpus is not spicy.",
+    "Sam is not spicy."
+   ],
+   "answer": "True"
+  }
+ },
+ "example5": {
+  "in_context_example0": {
+   "question": "Yumpuses are not floral. Rompuses are liquid. Rompuses are wumpuses. Wumpuses are dull. Wumpuses are zumpuses. Each zumpus is small. Every zumpus is a jompus. Jompuses are opaque. Every jompus is a dumpus. Each dumpus is not cold. Each dumpus is a numpus. Numpuses are sour. Numpuses are tumpuses. Every tumpus is nervous. Each tumpus is a vumpus. Each vumpus is floral. Vumpuses are impuses. Sally is a numpus.",
+   "query": "True or false: Sally is not floral.",
+   "chain_of_thought": [
+    "Sally is a numpus.",
+    "Numpuses are tumpuses.",
+    "Sally is a tumpus.",
+    "Each tumpus is a vumpus.",
+    "Sally is a vumpus.",
+    "Each vumpus is floral.",
+    "Sally is floral."
+   ],
+   "answer": "False"
+  },
+  "in_context_example1": {
+   "question": "Yumpuses are happy. Every yumpus is a numpus. Every numpus is not large. Every numpus is a dumpus. Zumpuses are mean. Dumpuses are floral. Each dumpus is a wumpus. Each wumpus is luminous. Every wumpus is a tumpus. Every tumpus is dull. Each tumpus is a vumpus. Vumpuses are not temperate. Each vumpus is an impus. Impuses are not mean. Impuses are jompuses. Jompuses are sour. Jompuses are rompuses. Polly is a tumpus.",
+   "query": "True or false: Polly is mean.",
+   "chain_of_thought": [
+    "Polly is a tumpus.",
+    "Each tumpus is a vumpus.",
+    "Polly is a vumpus.",
+    "Each vumpus is an impus.",
+    "Polly is an impus.",
+    "Impuses are not mean.",
+    "Polly is not mean."
+   ],
+   "answer": "False"
+  },
+  "in_context_example2": {
+   "question": "Zumpuses are shy. Every zumpus is a wumpus. Each wumpus is not wooden. Each wumpus is an impus. Impuses are not temperate. Impuses are dumpuses. Every yumpus is temperate. Dumpuses are dull. Dumpuses are numpuses. Numpuses are kind. Each numpus is a tumpus. Every tumpus is sour. Each tumpus is a rompus. Rompuses are not brown. Every rompus is a jompus. Each jompus is earthy. Every jompus is a vumpus. Alex is a zumpus.",
+   "query": "True or false: Alex is temperate.",
+   "chain_of_thought": [
+    "Alex is a zumpus.",
+    "Every zumpus is a wumpus.",
+    "Alex is a wumpus.",
+    "Each wumpus is an impus.",
+    "Alex is an impus.",
+    "Impuses are not temperate.",
+    "Alex is not temperate."
+   ],
+   "answer": "False"
+  },
+  "in_context_example3": {
+   "question": "Impuses are not feisty. Every impus is a vumpus. Vumpuses are orange. Vumpuses are yumpuses. Yumpuses are opaque. Yumpuses are wumpuses. Every zumpus is not opaque. Every wumpus is large. Each wumpus is a numpus. Numpuses are hot. Numpuses are tumpuses. Tumpuses are aggressive. Tumpuses are dumpuses. Each dumpus is luminous. Every dumpus is a rompus. Every rompus is not sweet. Each rompus is a jompus. Alex is an impus.",
+   "query": "True or false: Alex is not opaque.",
+   "chain_of_thought": [
+    "Alex is an impus.",
+    "Every impus is a vumpus.",
+    "Alex is a vumpus.",
+    "Vumpuses are yumpuses.",
+    "Alex is a yumpus.",
+    "Yumpuses are opaque.",
+    "Alex is opaque."
+   ],
+   "answer": "False"
+  },
+  "test_example": {
+   "question": "Each jompus is not temperate. Each wumpus is aggressive. Each wumpus is a dumpus. Dumpuses are orange. Every dumpus is a zumpus. Zumpuses are temperate. Zumpuses are numpuses. Every numpus is not bitter. Each numpus is a rompus. Sam is a wumpus.",
+   "query": "True or false: Sam is temperate.",
+   "chain_of_thought": [
+    "Sam is a wumpus.",
+    "Each wumpus is a dumpus.",
+    "Sam is a dumpus.",
+    "Every dumpus is a zumpus.",
+    "Sam is a zumpus.",
+    "Zumpuses are temperate.",
+    "Sam is temperate."
+   ],
+   "answer": "True"
+  }
+ },
+ "example6": {
+  "in_context_example0": {
+   "question": "Vumpuses are kind. Vumpuses are dumpuses. Dumpuses are fruity. Every dumpus is an impus. Every impus is not transparent. Each impus is a numpus. Jompuses are transparent. Rex is a vumpus.",
+   "query": "True or false: Rex is transparent.",
+   "chain_of_thought": [
+    "Rex is a vumpus.",
+    "Vumpuses are dumpuses.",
+    "Rex is a dumpus.",
+    "Every dumpus is an impus.",
+    "Rex is an impus.",
+    "Every impus is not transparent.",
+    "Rex is not transparent."
+   ],
+   "answer": "False"
+  },
+  "in_context_example1": {
+   "question": "Every tumpus is spicy. Tumpuses are wumpuses. Wumpuses are opaque. Wumpuses are impuses. Each impus is not brown. Every impus is a numpus. Yumpuses are dull. Each numpus is feisty. Each numpus is a rompus. Rompuses are metallic. Rompuses are dumpuses. Every dumpus is not dull. Dumpuses are jompuses. Sam is a numpus.",
+   "query": "True or false: Sam is dull.",
+   "chain_of_thought": [
+    "Sam is a numpus.",
+    "Each numpus is a rompus.",
+    "Sam is a rompus.",
+    "Rompuses are dumpuses.",
+    "Sam is a dumpus.",
+    "Every dumpus is not dull.",
+    "Sam is not dull."
+   ],
+   "answer": "False"
+  },
+  "in_context_example2": {
+   "question": "Rompuses are transparent. Rompuses are dumpuses. Dumpuses are not feisty. Every dumpus is a zumpus. Zumpuses are kind. Zumpuses are vumpuses. Vumpuses are red. Vumpuses are yumpuses. Each yumpus is not metallic. Every yumpus is a jompus. Jompuses are sour. Jompuses are wumpuses. Tumpuses are metallic. Wumpuses are not floral. Every wumpus is an impus. Each impus is dull. Each impus is a numpus. Stella is a zumpus.",
+   "query": "True or false: Stella is metallic.",
+   "chain_of_thought": [
+    "Stella is a zumpus.",
+    "Zumpuses are vumpuses.",
+    "Stella is a vumpus.",
+    "Vumpuses are yumpuses.",
+    "Stella is a yumpus.",
+    "Each yumpus is not metallic.",
+    "Stella is not metallic."
+   ],
+   "answer": "False"
+  },
+  "in_context_example3": {
+   "question": "Each vumpus is not mean. Every vumpus is a numpus. Each numpus is not nervous. Every tumpus is not liquid. Every numpus is a zumpus. Every zumpus is dull. Zumpuses are impuses. Every impus is liquid. Impuses are yumpuses. Yumpuses are orange. Yumpuses are wumpuses. Every wumpus is cold. Each wumpus is a dumpus. Each dumpus is bitter. Every dumpus is a jompus. Jompuses are floral. Every jompus is a rompus. Polly is a numpus.",
+   "query": "True or false: Polly is not liquid.",
+   "chain_of_thought": [
+    "Polly is a numpus.",
+    "Every numpus is a zumpus.",
+    "Polly is a zumpus.",
+    "Zumpuses are impuses.",
+    "Polly is an impus.",
+    "Every impus is liquid.",
+    "Polly is liquid."
+   ],
+   "answer": "False"
+  },
+  "test_example": {
+   "question": "Yumpuses are large. Yumpuses are numpuses. Each numpus is not opaque. Numpuses are tumpuses. Tumpuses are not orange. Every tumpus is a wumpus. Wumpuses are metallic. Each wumpus is a dumpus. Rompuses are nervous. Dumpuses are aggressive. Each dumpus is an impus. Each impus is not nervous. Each impus is a zumpus. Zumpuses are bitter. Zumpuses are vumpuses. Every vumpus is not dull. Each vumpus is a jompus. Sally is a wumpus.",
+   "query": "True or false: Sally is nervous.",
+   "chain_of_thought": [
+    "Sally is a wumpus.",
+    "Each wumpus is a dumpus.",
+    "Sally is a dumpus.",
+    "Each dumpus is an impus.",
+    "Sally is an impus.",
+    "Each impus is not nervous.",
+    "Sally is not nervous."
+   ],
+   "answer": "False"
+  }
+ },
+ "example7": {
+  "in_context_example0": {
+   "question": "Tumpuses are happy. Impuses are not brown. Tumpuses are zumpuses. Zumpuses are transparent. Zumpuses are numpuses. Numpuses are large. Numpuses are jompuses. Jompuses are metallic. Jompuses are vumpuses. Every vumpus is brown. Each vumpus is a dumpus. Every dumpus is sour. Each dumpus is a wumpus. Wumpuses are dull. Wumpuses are rompuses. Rompuses are hot. Rompuses are yumpuses. Stella is a numpus.",
+   "query": "True or false: Stella is not brown.",
+   "chain_of_thought": [
+    "Stella is a numpus.",
+    "Numpuses are jompuses.",
+    "Stella is a jompus.",
+    "Jompuses are vumpuses.",
+    "Stella is a vumpus.",
+    "Every vumpus is brown.",
+    "Stella is brown."
+   ],
+   "answer": "False"
+  },
+  "in_context_example1": {
+   "question": "Every tumpus is cold. Each tumpus is a numpus. Numpuses are sweet. Every numpus is an impus. Each impus is dull. Each zumpus is not shy. Each impus is a vumpus. Each vumpus is small. Vumpuses are jompuses. Each jompus is shy. Jompuses are rompuses. Each rompus is not metallic. Rompuses are yumpuses. Yumpuses are not brown. Yumpuses are dumpuses. Every dumpus is not mean. Dumpuses are wumpuses. Stella is an impus.",
+   "query": "True or false: Stella is not shy.",
+   "chain_of_thought": [
+    "Stella is an impus.",
+    "Each impus is a vumpus.",
+    "Stella is a vumpus.",
+    "Vumpuses are jompuses.",
+    "Stella is a jompus.",
+    "Each jompus is shy.",
+    "Stella is shy."
+   ],
+   "answer": "False"
+  },
+  "in_context_example2": {
+   "question": "Each dumpus is dull. Dumpuses are jompuses. Jompuses are spicy. Jompuses are numpuses. Each numpus is not hot. Numpuses are wumpuses. Every wumpus is transparent. Wumpuses are impuses. Impuses are not luminous. Each impus is a vumpus. Vumpuses are not mean. Rompuses are not transparent. Each vumpus is a tumpus. Tumpuses are not floral. Tumpuses are zumpuses. Zumpuses are small. Zumpuses are yumpuses. Sam is a jompus.",
+   "query": "True or false: Sam is transparent.",
+   "chain_of_thought": [
+    "Sam is a jompus.",
+    "Jompuses are numpuses.",
+    "Sam is a numpus.",
+    "Numpuses are wumpuses.",
+    "Sam is a wumpus.",
+    "Every wumpus is transparent.",
+    "Sam is transparent."
+   ],
+   "answer": "True"
+  },
+  "in_context_example3": {
+   "question": "Vumpuses are opaque. Every vumpus is a dumpus. Each dumpus is dull. Each dumpus is a wumpus. Each wumpus is not happy. Wumpuses are rompuses. Impuses are happy. Rex is a vumpus.",
+   "query": "True or false: Rex is happy.",
+   "chain_of_thought": [
+    "Rex is a vumpus.",
+    "Every vumpus is a dumpus.",
+    "Rex is a dumpus.",
+    "Each dumpus is a wumpus.",
+    "Rex is a wumpus.",
+    "Each wumpus is not happy.",
+    "Rex is not happy."
+   ],
+   "answer": "False"
+  },
+  "test_example": {
+   "question": "Dumpuses are not opaque. Wumpuses are earthy. Each wumpus is a tumpus. Every tumpus is spicy. Every tumpus is a numpus. Each numpus is large. Each numpus is a jompus. Jompuses are opaque. Each jompus is a zumpus. Zumpuses are not nervous. Zumpuses are rompuses. Rompuses are bright. Each rompus is an impus. Impuses are wooden. Every impus is a yumpus. Every yumpus is hot. Every yumpus is a vumpus. Stella is a tumpus.",
+   "query": "True or false: Stella is not opaque.",
+   "chain_of_thought": [
+    "Stella is a tumpus.",
+    "Every tumpus is a numpus.",
+    "Stella is a numpus.",
+    "Each numpus is a jompus.",
+    "Stella is a jompus.",
+    "Jompuses are opaque.",
+    "Stella is opaque."
+   ],
+   "answer": "False"
+  }
+ },
+ "example8": {
+  "in_context_example0": {
+   "question": "Each zumpus is not fruity. Zumpuses are rompuses. Rompuses are sour. Rompuses are impuses. Impuses are large. Impuses are dumpuses. Dumpuses are not feisty. Each dumpus is a vumpus. Each vumpus is brown. Vumpuses are numpuses. Numpuses are opaque. Every numpus is a tumpus. Each tumpus is mean. Wumpuses are not mean. Each tumpus is a jompus. Sally is a vumpus.",
+   "query": "True or false: Sally is mean.",
+   "chain_of_thought": [
+    "Sally is a vumpus.",
+    "Vumpuses are numpuses.",
+    "Sally is a numpus.",
+    "Every numpus is a tumpus.",
+    "Sally is a tumpus.",
+    "Each tumpus is mean.",
+    "Sally is mean."
+   ],
+   "answer": "True"
+  },
+  "in_context_example1": {
+   "question": "Zumpuses are fruity. Dumpuses are not brown. Every zumpus is a tumpus. Tumpuses are sour. Tumpuses are yumpuses. Yumpuses are cold. Each yumpus is a wumpus. Wumpuses are brown. Every wumpus is a jompus. Jompuses are bright. Each jompus is a numpus. Numpuses are opaque. Numpuses are rompuses. Rompuses are angry. Each rompus is a vumpus. Every vumpus is metallic. Each vumpus is an impus. Stella is a tumpus.",
+   "query": "True or false: Stella is not brown.",
+   "chain_of_thought": [
+    "Stella is a tumpus.",
+    "Tumpuses are yumpuses.",
+    "Stella is a yumpus.",
+    "Each yumpus is a wumpus.",
+    "Stella is a wumpus.",
+    "Wumpuses are brown.",
+    "Stella is brown."
+   ],
+   "answer": "False"
+  },
+  "in_context_example2": {
+   "question": "Every dumpus is not bitter. Every dumpus is an impus. Every impus is temperate. Each impus is a jompus. Jompuses are not orange. Jompuses are numpuses. Every tumpus is small. Every numpus is happy. Numpuses are zumpuses. Zumpuses are liquid. Zumpuses are rompuses. Every rompus is not small. Each rompus is a vumpus. Vumpuses are floral. Vumpuses are wumpuses. Each wumpus is not dull. Every wumpus is a yumpus. Alex is a numpus.",
+   "query": "True or false: Alex is not small.",
+   "chain_of_thought": [
+    "Alex is a numpus.",
+    "Numpuses are zumpuses.",
+    "Alex is a zumpus.",
+    "Zumpuses are rompuses.",
+    "Alex is a rompus.",
+    "Every rompus is not small.",
+    "Alex is not small."
+   ],
+   "answer": "True"
+  },
+  "in_context_example3": {
+   "question": "Dumpuses are large. Each dumpus is a tumpus. Each tumpus is bright. Every tumpus is a yumpus. Each yumpus is transparent. Every impus is not transparent. Each yumpus is a wumpus. Wumpuses are floral. Wumpuses are vumpuses. Vumpuses are nervous. Vumpuses are rompuses. Each rompus is luminous. Rompuses are jompuses. Each jompus is not cold. Each jompus is a zumpus. Zumpuses are angry. Each zumpus is a numpus. Polly is a dumpus.",
+   "query": "True or false: Polly is not transparent.",
+   "chain_of_thought": [
+    "Polly is a dumpus.",
+    "Each dumpus is a tumpus.",
+    "Polly is a tumpus.",
+    "Every tumpus is a yumpus.",
+    "Polly is a yumpus.",
+    "Each yumpus is transparent.",
+    "Polly is transparent."
+   ],
+   "answer": "False"
+  },
+  "test_example": {
+   "question": "Each dumpus is not transparent. Dumpuses are tumpuses. Tumpuses are luminous. Every tumpus is an impus. Every impus is not kind. Impuses are jompuses. Each rompus is large. Jompuses are not spicy. Jompuses are vumpuses. Vumpuses are not red. Each vumpus is a wumpus. Each wumpus is shy. Each wumpus is a yumpus. Every yumpus is not large. Yumpuses are zumpuses. Alex is a vumpus.",
+   "query": "True or false: Alex is large.",
+   "chain_of_thought": [
+    "Alex is a vumpus.",
+    "Each vumpus is a wumpus.",
+    "Alex is a wumpus.",
+    "Each wumpus is a yumpus.",
+    "Alex is a yumpus.",
+    "Every yumpus is not large.",
+    "Alex is not large."
+   ],
+   "answer": "False"
+  }
+ },
+ "example9": {
+  "in_context_example0": {
+   "question": "Yumpuses are angry. Yumpuses are dumpuses. Dumpuses are not sour. Each dumpus is a zumpus. Zumpuses are not fruity. Zumpuses are rompuses. Each jompus is fruity. Rompuses are not bright. Rompuses are impuses. Rex is a yumpus.",
+   "query": "True or false: Rex is fruity.",
+   "chain_of_thought": [
+    "Rex is a yumpus.",
+    "Yumpuses are dumpuses.",
+    "Rex is a dumpus.",
+    "Each dumpus is a zumpus.",
+    "Rex is a zumpus.",
+    "Zumpuses are not fruity.",
+    "Rex is not fruity."
+   ],
+   "answer": "False"
+  },
+  "in_context_example1": {
+   "question": "Dumpuses are not dull. Each dumpus is a tumpus. Tumpuses are not large. Each tumpus is a rompus. Rompuses are fruity. Rompuses are yumpuses. Each yumpus is not happy. Jompuses are opaque. Each yumpus is an impus. Each impus is cold. Each impus is a zumpus. Every zumpus is red. Each zumpus is a vumpus. Every vumpus is not opaque. Vumpuses are numpuses. Numpuses are angry. Every numpus is a wumpus. Polly is an impus.",
+   "query": "True or false: Polly is not opaque.",
+   "chain_of_thought": [
+    "Polly is an impus.",
+    "Each impus is a zumpus.",
+    "Polly is a zumpus.",
+    "Each zumpus is a vumpus.",
+    "Polly is a vumpus.",
+    "Every vumpus is not opaque.",
+    "Polly is not opaque."
+   ],
+   "answer": "True"
+  },
+  "in_context_example2": {
+   "question": "Each vumpus is opaque. Vumpuses are yumpuses. Every dumpus is not dull. Yumpuses are small. Each yumpus is a zumpus. Zumpuses are dull. Zumpuses are impuses. Sally is a vumpus.",
+   "query": "True or false: Sally is not dull.",
+   "chain_of_thought": [
+    "Sally is a vumpus.",
+    "Vumpuses are yumpuses.",
+    "Sally is a yumpus.",
+    "Each yumpus is a zumpus.",
+    "Sally is a zumpus.",
+    "Zumpuses are dull.",
+    "Sally is dull."
+   ],
+   "answer": "False"
+  },
+  "in_context_example3": {
+   "question": "Every dumpus is fruity. Dumpuses are wumpuses. Each wumpus is nervous. Every wumpus is a zumpus. Zumpuses are sweet. Zumpuses are numpuses. Numpuses are kind. Numpuses are rompuses. Every rompus is orange. Rompuses are jompuses. Every jompus is dull. Each jompus is a vumpus. Every vumpus is not cold. Vumpuses are tumpuses. Every tumpus is opaque. Every tumpus is an impus. Yumpuses are cold. Max is a rompus.",
+   "query": "True or false: Max is cold.",
+   "chain_of_thought": [
+    "Max is a rompus.",
+    "Rompuses are jompuses.",
+    "Max is a jompus.",
+    "Each jompus is a vumpus.",
+    "Max is a vumpus.",
+    "Every vumpus is not cold.",
+    "Max is not cold."
+   ],
+   "answer": "False"
+  },
+  "test_example": {
+   "question": "Tumpuses are not blue. Each tumpus is a vumpus. Vumpuses are aggressive. Each vumpus is a numpus. Numpuses are feisty. Each numpus is a jompus. Every rompus is temperate. Each jompus is bitter. Every jompus is a wumpus. Each wumpus is floral. Wumpuses are dumpuses. Dumpuses are not dull. Dumpuses are impuses. Every impus is transparent. Impuses are zumpuses. Each zumpus is not temperate. Every zumpus is a yumpus. Sally is a dumpus.",
+   "query": "True or false: Sally is not temperate.",
+   "chain_of_thought": [
+    "Sally is a dumpus.",
+    "Dumpuses are impuses.",
+    "Sally is an impus.",
+    "Impuses are zumpuses.",
+    "Sally is a zumpus.",
+    "Each zumpus is not temperate.",
+    "Sally is not temperate."
+   ],
+   "answer": "True"
+  }
+ },
+ "example10": {
+  "in_context_example0": {
+   "question": "Every zumpus is fruity. Every zumpus is a dumpus. Every wumpus is spicy. Each dumpus is kind. Dumpuses are impuses. Impuses are not feisty. Impuses are yumpuses. Each yumpus is wooden. Yumpuses are numpuses. Every numpus is large. Numpuses are vumpuses. Every vumpus is not spicy. Vumpuses are rompuses. Alex is a yumpus.",
+   "query": "True or false: Alex is not spicy.",
+   "chain_of_thought": [
+    "Alex is a yumpus.",
+    "Yumpuses are numpuses.",
+    "Alex is a numpus.",
+    "Numpuses are vumpuses.",
+    "Alex is a vumpus.",
+    "Every vumpus is not spicy.",
+    "Alex is not spicy."
+   ],
+   "answer": "True"
+  },
+  "in_context_example1": {
+   "question": "Wumpuses are not fruity. Dumpuses are transparent. Each dumpus is a tumpus. Each tumpus is dull. Each tumpus is a rompus. Rompuses are bitter. Rompuses are jompuses. Jompuses are not kind. Jompuses are impuses. Every impus is fruity. Impuses are vumpuses. Vumpuses are temperate. Vumpuses are zumpuses. Zumpuses are large. Each zumpus is a numpus. Numpuses are happy. Numpuses are yumpuses. Stella is a rompus.",
+   "query": "True or false: Stella is not fruity.",
+   "chain_of_thought": [
+    "Stella is a rompus.",
+    "Rompuses are jompuses.",
+    "Stella is a jompus.",
+    "Jompuses are impuses.",
+    "Stella is an impus.",
+    "Every impus is fruity.",
+    "Stella is fruity."
+   ],
+   "answer": "False"
+  },
+  "in_context_example2": {
+   "question": "Every rompus is feisty. Each wumpus is brown. Every rompus is a tumpus. Each tumpus is cold. Tumpuses are yumpuses. Every yumpus is luminous. Each yumpus is a dumpus. Dumpuses are small. Each dumpus is a jompus. Jompuses are not bright. Every jompus is a numpus. Numpuses are floral. Each numpus is a zumpus. Each zumpus is amenable. Zumpuses are vumpuses. Every vumpus is not brown. Vumpuses are impuses. Sally is a numpus.",
+   "query": "True or false: Sally is not brown.",
+   "chain_of_thought": [
+    "Sally is a numpus.",
+    "Each numpus is a zumpus.",
+    "Sally is a zumpus.",
+    "Zumpuses are vumpuses.",
+    "Sally is a vumpus.",
+    "Every vumpus is not brown.",
+    "Sally is not brown."
+   ],
+   "answer": "True"
+  },
+  "in_context_example3": {
+   "question": "Yumpuses are nervous. Every yumpus is a jompus. Jompuses are metallic. Every jompus is an impus. Impuses are not sweet. Each impus is a numpus. Every numpus is transparent. Numpuses are zumpuses. Zumpuses are small. Zumpuses are rompuses. Each dumpus is orange. Every rompus is not orange. Each rompus is a vumpus. Each vumpus is mean. Each vumpus is a wumpus. Each wumpus is temperate. Wumpuses are tumpuses. Sam is a numpus.",
+   "query": "True or false: Sam is orange.",
+   "chain_of_thought": [
+    "Sam is a numpus.",
+    "Numpuses are zumpuses.",
+    "Sam is a zumpus.",
+    "Zumpuses are rompuses.",
+    "Sam is a rompus.",
+    "Every rompus is not orange.",
+    "Sam is not orange."
+   ],
+   "answer": "False"
+  },
+  "test_example": {
+   "question": "Each rompus is earthy. Every rompus is a zumpus. Every zumpus is not large. Zumpuses are dumpuses. Dumpuses are not wooden. Dumpuses are vumpuses. Every vumpus is sweet. Vumpuses are numpuses. Numpuses are temperate. Every numpus is a yumpus. Every yumpus is feisty. Yumpuses are impuses. Each impus is not amenable. Impuses are tumpuses. Each tumpus is opaque. Tumpuses are wumpuses. Jompuses are not opaque. Stella is a yumpus.",
+   "query": "True or false: Stella is not opaque.",
+   "chain_of_thought": [
+    "Stella is a yumpus.",
+    "Yumpuses are impuses.",
+    "Stella is an impus.",
+    "Impuses are tumpuses.",
+    "Stella is a tumpus.",
+    "Each tumpus is opaque.",
+    "Stella is opaque."
+   ],
+   "answer": "False"
+  }
+ },
+ "example11": {
+  "in_context_example0": {
+   "question": "Wumpuses are not red. Wumpuses are yumpuses. Vumpuses are feisty. Each yumpus is floral. Each yumpus is a zumpus. Zumpuses are not feisty. Each zumpus is a numpus. Each numpus is angry. Numpuses are jompuses. Wren is a wumpus.",
+   "query": "True or false: Wren is feisty.",
+   "chain_of_thought": [
+    "Wren is a wumpus.",
+    "Wumpuses are yumpuses.",
+    "Wren is a yumpus.",
+    "Each yumpus is a zumpus.",
+    "Wren is a zumpus.",
+    "Zumpuses are not feisty.",
+    "Wren is not feisty."
+   ],
+   "answer": "False"
+  },
+  "in_context_example1": {
+   "question": "Every wumpus is feisty. Dumpuses are orange. Each dumpus is a yumpus. Yumpuses are hot. Yumpuses are impuses. Impuses are metallic. Every impus is a rompus. Rompuses are opaque. Rompuses are tumpuses. Every tumpus is angry. Every tumpus is a vumpus. Every vumpus is not feisty. Every vumpus is a zumpus. Zumpuses are floral. Zumpuses are jompuses. Every jompus is not bright. Jompuses are numpuses. Sally is a rompus.",
+   "query": "True or false: Sally is not feisty.",
+   "chain_of_thought": [
+    "Sally is a rompus.",
+    "Rompuses are tumpuses.",
+    "Sally is a tumpus.",
+    "Every tumpus is a vumpus.",
+    "Sally is a vumpus.",
+    "Every vumpus is not feisty.",
+    "Sally is not feisty."
+   ],
+   "answer": "True"
+  },
+  "in_context_example2": {
+   "question": "Vumpuses are fruity. Vumpuses are numpuses. Numpuses are happy. Numpuses are jompuses. Every jompus is transparent. Every jompus is a rompus. Rompuses are aggressive. Each rompus is a yumpus. Every yumpus is wooden. Yumpuses are dumpuses. Dumpuses are temperate. Each dumpus is a tumpus. Every tumpus is bitter. Tumpuses are impuses. Every wumpus is not wooden. Every impus is not dull. Every impus is a zumpus. Fae is a jompus.",
+   "query": "True or false: Fae is not wooden.",
+   "chain_of_thought": [
+    "Fae is a jompus.",
+    "Every jompus is a rompus.",
+    "Fae is a rompus.",
+    "Each rompus is a yumpus.",
+    "Fae is a yumpus.",
+    "Every yumpus is wooden.",
+    "Fae is wooden."
+   ],
+   "answer": "False"
+  },
+  "in_context_example3": {
+   "question": "Impuses are hot. Each impus is a tumpus. Each tumpus is not large. Tumpuses are yumpuses. Each yumpus is mean. Yumpuses are dumpuses. Every dumpus is not luminous. Dumpuses are zumpuses. Each wumpus is luminous. Zumpuses are spicy. Zumpuses are vumpuses. Each vumpus is shy. Vumpuses are rompuses. Each rompus is transparent. Each rompus is a numpus. Numpuses are not bright. Numpuses are jompuses. Fae is a tumpus.",
+   "query": "True or false: Fae is not luminous.",
+   "chain_of_thought": [
+    "Fae is a tumpus.",
+    "Tumpuses are yumpuses.",
+    "Fae is a yumpus.",
+    "Yumpuses are dumpuses.",
+    "Fae is a dumpus.",
+    "Every dumpus is not luminous.",
+    "Fae is not luminous."
+   ],
+   "answer": "True"
+  },
+  "test_example": {
+   "question": "Each zumpus is orange. Zumpuses are rompuses. Each rompus is not kind. Rompuses are wumpuses. Wumpuses are wooden. Wumpuses are numpuses. Numpuses are bright. Every numpus is a yumpus. Yumpuses are temperate. Yumpuses are impuses. Impuses are not shy. Each vumpus is not temperate. Every impus is a jompus. Jompuses are opaque. Jompuses are tumpuses. Tumpuses are large. Tumpuses are dumpuses. Fae is a wumpus.",
+   "query": "True or false: Fae is not temperate.",
+   "chain_of_thought": [
+    "Fae is a wumpus.",
+    "Wumpuses are numpuses.",
+    "Fae is a numpus.",
+    "Every numpus is a yumpus.",
+    "Fae is a yumpus.",
+    "Yumpuses are temperate.",
+    "Fae is temperate."
+   ],
+   "answer": "False"
+  }
+ },
+ "example12": {
+  "in_context_example0": {
+   "question": "Dumpuses are not feisty. Dumpuses are zumpuses. Zumpuses are bright. Zumpuses are yumpuses. Every yumpus is red. Yumpuses are numpuses. Wumpuses are spicy. Every numpus is transparent. Every numpus is a rompus. Every rompus is not spicy. Each rompus is a jompus. Every jompus is hot. Jompuses are impuses. Impuses are liquid. Impuses are vumpuses. Each vumpus is kind. Vumpuses are tumpuses. Polly is a yumpus.",
+   "query": "True or false: Polly is spicy.",
+   "chain_of_thought": [
+    "Polly is a yumpus.",
+    "Yumpuses are numpuses.",
+    "Polly is a numpus.",
+    "Every numpus is a rompus.",
+    "Polly is a rompus.",
+    "Every rompus is not spicy.",
+    "Polly is not spicy."
+   ],
+   "answer": "False"
+  },
+  "in_context_example1": {
+   "question": "Every rompus is not sour. Impuses are opaque. Rompuses are tumpuses. Tumpuses are not floral. Tumpuses are wumpuses. Each wumpus is not opaque. Every wumpus is a yumpus. Wren is a rompus.",
+   "query": "True or false: Wren is not opaque.",
+   "chain_of_thought": [
+    "Wren is a rompus.",
+    "Rompuses are tumpuses.",
+    "Wren is a tumpus.",
+    "Tumpuses are wumpuses.",
+    "Wren is a wumpus.",
+    "Each wumpus is not opaque.",
+    "Wren is not opaque."
+   ],
+   "answer": "True"
+  },
+  "in_context_example2": {
+   "question": "Jompuses are earthy. Each jompus is a zumpus. Zumpuses are not nervous. Each zumpus is a yumpus. Each yumpus is cold. Each yumpus is an impus. Impuses are not small. Impuses are dumpuses. Dumpuses are aggressive. Each dumpus is a tumpus. Tumpuses are transparent. Every tumpus is a vumpus. Each vumpus is not spicy. Rompuses are not wooden. Each vumpus is a numpus. Numpuses are wooden. Numpuses are wumpuses. Stella is a tumpus.",
+   "query": "True or false: Stella is wooden.",
+   "chain_of_thought": [
+    "Stella is a tumpus.",
+    "Every tumpus is a vumpus.",
+    "Stella is a vumpus.",
+    "Each vumpus is a numpus.",
+    "Stella is a numpus.",
+    "Numpuses are wooden.",
+    "Stella is wooden."
+   ],
+   "answer": "True"
+  },
+  "in_context_example3": {
+   "question": "Jompuses are orange. Every impus is amenable. Every impus is a wumpus. Every wumpus is temperate. Wumpuses are vumpuses. Each vumpus is bright. Each vumpus is a dumpus. Dumpuses are not orange. Dumpuses are zumpuses. Zumpuses are metallic. Every zumpus is a tumpus. Fae is a wumpus.",
+   "query": "True or false: Fae is orange.",
+   "chain_of_thought": [
+    "Fae is a wumpus.",
+    "Wumpuses are vumpuses.",
+    "Fae is a vumpus.",
+    "Each vumpus is a dumpus.",
+    "Fae is a dumpus.",
+    "Dumpuses are not orange.",
+    "Fae is not orange."
+   ],
+   "answer": "False"
+  },
+  "test_example": {
+   "question": "Each dumpus is not orange. Dumpuses are rompuses. Impuses are not temperate. Rompuses are not large. Every rompus is a wumpus. Each wumpus is fruity. Every wumpus is a zumpus. Zumpuses are opaque. Zumpuses are vumpuses. Vumpuses are temperate. Vumpuses are yumpuses. Rex is a wumpus.",
+   "query": "True or false: Rex is temperate.",
+   "chain_of_thought": [
+    "Rex is a wumpus.",
+    "Every wumpus is a zumpus.",
+    "Rex is a zumpus.",
+    "Zumpuses are vumpuses.",
+    "Rex is a vumpus.",
+    "Vumpuses are temperate.",
+    "Rex is temperate."
+   ],
+   "answer": "True"
+  }
+ },
+ "example13": {
+  "in_context_example0": {
+   "question": "Every vumpus is opaque. Wumpuses are sweet. Wumpuses are zumpuses. Every zumpus is brown. Zumpuses are jompuses. Jompuses are not liquid. Jompuses are impuses. Each impus is kind. Each impus is a tumpus. Each tumpus is earthy. Tumpuses are numpuses. Each numpus is not temperate. Numpuses are rompuses. Rompuses are feisty. Rompuses are yumpuses. Every yumpus is not opaque. Each yumpus is a dumpus. Sam is a numpus.",
+   "query": "True or false: Sam is opaque.",
+   "chain_of_thought": [
+    "Sam is a numpus.",
+    "Numpuses are rompuses.",
+    "Sam is a rompus.",
+    "Rompuses are yumpuses.",
+    "Sam is a yumpus.",
+    "Every yumpus is not opaque.",
+    "Sam is not opaque."
+   ],
+   "answer": "False"
+  },
+  "in_context_example1": {
+   "question": "Yumpuses are not bright. Every impus is nervous. Yumpuses are numpuses. Numpuses are transparent. Every numpus is a dumpus. Every dumpus is not nervous. Each dumpus is a zumpus. Sally is a yumpus.",
+   "query": "True or false: Sally is not nervous.",
+   "chain_of_thought": [
+    "Sally is a yumpus.",
+    "Yumpuses are numpuses.",
+    "Sally is a numpus.",
+    "Every numpus is a dumpus.",
+    "Sally is a dumpus.",
+    "Every dumpus is not nervous.",
+    "Sally is not nervous."
+   ],
+   "answer": "True"
+  },
+  "in_context_example2": {
+   "question": "Each rompus is not small. Every tumpus is not bright. Every rompus is a jompus. Jompuses are metallic. Jompuses are vumpuses. Every vumpus is transparent. Each vumpus is a dumpus. Dumpuses are bright. Each dumpus is an impus. Each impus is bitter. Impuses are yumpuses. Sam is a jompus.",
+   "query": "True or false: Sam is not bright.",
+   "chain_of_thought": [
+    "Sam is a jompus.",
+    "Jompuses are vumpuses.",
+    "Sam is a vumpus.",
+    "Each vumpus is a dumpus.",
+    "Sam is a dumpus.",
+    "Dumpuses are bright.",
+    "Sam is bright."
+   ],
+   "answer": "False"
+  },
+  "in_context_example3": {
+   "question": "Impuses are not blue. Every impus is a jompus. Every jompus is bitter. Every jompus is a vumpus. Vumpuses are wooden. Each vumpus is a wumpus. Wumpuses are hot. Dumpuses are not hot. Wumpuses are numpuses. Each numpus is not dull. Numpuses are zumpuses. Zumpuses are transparent. Each zumpus is a tumpus. Fae is a jompus.",
+   "query": "True or false: Fae is not hot.",
+   "chain_of_thought": [
+    "Fae is a jompus.",
+    "Every jompus is a vumpus.",
+    "Fae is a vumpus.",
+    "Each vumpus is a wumpus.",
+    "Fae is a wumpus.",
+    "Wumpuses are hot.",
+    "Fae is hot."
+   ],
+   "answer": "False"
+  },
+  "test_example": {
+   "question": "Numpuses are not orange. Every yumpus is transparent. Each yumpus is a jompus. Every jompus is not large. Jompuses are wumpuses. Each wumpus is orange. Wumpuses are zumpuses. Zumpuses are dull. Zumpuses are tumpuses. Max is a yumpus.",
+   "query": "True or false: Max is orange.",
+   "chain_of_thought": [
+    "Max is a yumpus.",
+    "Each yumpus is a jompus.",
+    "Max is a jompus.",
+    "Jompuses are wumpuses.",
+    "Max is a wumpus.",
+    "Each wumpus is orange.",
+    "Max is orange."
+   ],
+   "answer": "True"
+  }
+ },
+ "example14": {
+  "in_context_example0": {
+   "question": "Each jompus is floral. Jompuses are tumpuses. Tumpuses are temperate. Tumpuses are vumpuses. Vumpuses are not large. Every vumpus is a dumpus. Dumpuses are not bright. Every dumpus is a rompus. Rompuses are feisty. Rompuses are impuses. Each yumpus is bright. Alex is a tumpus.",
+   "query": "True or false: Alex is not bright.",
+   "chain_of_thought": [
+    "Alex is a tumpus.",
+    "Tumpuses are vumpuses.",
+    "Alex is a vumpus.",
+    "Every vumpus is a dumpus.",
+    "Alex is a dumpus.",
+    "Dumpuses are not bright.",
+    "Alex is not bright."
+   ],
+   "answer": "True"
+  },
+  "in_context_example1": {
+   "question": "Each wumpus is amenable. Wumpuses are rompuses. Each rompus is wooden. Each rompus is an impus. Tumpuses are red. Impuses are not red. Every impus is a vumpus. Fae is a wumpus.",
+   "query": "True or false: Fae is not red.",
+   "chain_of_thought": [
+    "Fae is a wumpus.",
+    "Wumpuses are rompuses.",
+    "Fae is a rompus.",
+    "Each rompus is an impus.",
+    "Fae is an impus.",
+    "Impuses are not red.",
+    "Fae is not red."
+   ],
+   "answer": "True"
+  },
+  "in_context_example2": {
+   "question": "Each wumpus is orange. Wumpuses are yumpuses. Yumpuses are floral. Yumpuses are zumpuses. Every tumpus is not large. Every zumpus is large. Every zumpus is a dumpus. Fae is a wumpus.",
+   "query": "True or false: Fae is not large.",
+   "chain_of_thought": [
+    "Fae is a wumpus.",
+    "Wumpuses are yumpuses.",
+    "Fae is a yumpus.",
+    "Yumpuses are zumpuses.",
+    "Fae is a zumpus.",
+    "Every zumpus is large.",
+    "Fae is large."
+   ],
+   "answer": "False"
+  },
+  "in_context_example3": {
+   "question": "Every dumpus is nervous. Dumpuses are vumpuses. Every vumpus is dull. Vumpuses are rompuses. Every rompus is mean. Every rompus is an impus. Impuses are transparent. Every impus is a zumpus. Zumpuses are large. Zumpuses are numpuses. Every numpus is liquid. Numpuses are tumpuses. Wumpuses are not brown. Tumpuses are brown. Each tumpus is a jompus. Every jompus is earthy. Every jompus is a yumpus. Wren is a zumpus.",
+   "query": "True or false: Wren is not brown.",
+   "chain_of_thought": [
+    "Wren is a zumpus.",
+    "Zumpuses are numpuses.",
+    "Wren is a numpus.",
+    "Numpuses are tumpuses.",
+    "Wren is a tumpus.",
+    "Tumpuses are brown.",
+    "Wren is brown."
+   ],
+   "answer": "False"
+  },
+  "test_example": {
+   "question": "Each wumpus is small. Every wumpus is a zumpus. Each zumpus is earthy. Zumpuses are tumpuses. Each tumpus is amenable. Each tumpus is a vumpus. Every vumpus is wooden. Vumpuses are dumpuses. Dumpuses are not nervous. Dumpuses are numpuses. Numpuses are temperate. Impuses are transparent. Every numpus is a yumpus. Every yumpus is not transparent. Yumpuses are rompuses. Each rompus is not dull. Every rompus is a jompus. Sally is a dumpus.",
+   "query": "True or false: Sally is not transparent.",
+   "chain_of_thought": [
+    "Sally is a dumpus.",
+    "Dumpuses are numpuses.",
+    "Sally is a numpus.",
+    "Every numpus is a yumpus.",
+    "Sally is a yumpus.",
+    "Every yumpus is not transparent.",
+    "Sally is not transparent."
+   ],
+   "answer": "True"
+  }
+ },
+ "example15": {
+  "in_context_example0": {
+   "question": "Dumpuses are brown. Dumpuses are numpuses. Numpuses are small. Every numpus is a jompus. Jompuses are not wooden. Every jompus is a tumpus. Zumpuses are wooden. Polly is a dumpus.",
+   "query": "True or false: Polly is not wooden.",
+   "chain_of_thought": [
+    "Polly is a dumpus.",
+    "Dumpuses are numpuses.",
+    "Polly is a numpus.",
+    "Every numpus is a jompus.",
+    "Polly is a jompus.",
+    "Jompuses are not wooden.",
+    "Polly is not wooden."
+   ],
+   "answer": "True"
+  },
+  "in_context_example1": {
+   "question": "Dumpuses are fruity. Each dumpus is a wumpus. Each wumpus is aggressive. Wumpuses are rompuses. Every rompus is sweet. Each rompus is a jompus. Every jompus is not temperate. Jompuses are vumpuses. Each vumpus is not shy. Each vumpus is a yumpus. Yumpuses are large. Each yumpus is a zumpus. Zumpuses are not orange. Zumpuses are tumpuses. Tumpuses are not bright. Impuses are shy. Each tumpus is a numpus. Max is a rompus.",
+   "query": "True or false: Max is not shy.",
+   "chain_of_thought": [
+    "Max is a rompus.",
+    "Each rompus is a jompus.",
+    "Max is a jompus.",
+    "Jompuses are vumpuses.",
+    "Max is a vumpus.",
+    "Each vumpus is not shy.",
+    "Max is not shy."
+   ],
+   "answer": "True"
+  },
+  "in_context_example2": {
+   "question": "Each impus is not spicy. Every impus is a rompus. Every rompus is happy. Every rompus is a tumpus. Tumpuses are large. Wumpuses are not dull. Each tumpus is a numpus. Every numpus is dull. Numpuses are jompuses. Every jompus is not opaque. Each jompus is a dumpus. Every dumpus is floral. Each dumpus is a zumpus. Zumpuses are not mean. Zumpuses are yumpuses. Each yumpus is not liquid. Each yumpus is a vumpus. Sam is a rompus.",
+   "query": "True or false: Sam is dull.",
+   "chain_of_thought": [
+    "Sam is a rompus.",
+    "Every rompus is a tumpus.",
+    "Sam is a tumpus.",
+    "Each tumpus is a numpus.",
+    "Sam is a numpus.",
+    "Every numpus is dull.",
+    "Sam is dull."
+   ],
+   "answer": "True"
+  },
+  "in_context_example3": {
+   "question": "Yumpuses are happy. Yumpuses are impuses. Impuses are not bitter. Every impus is a jompus. Jompuses are bright. Every jompus is a zumpus. Each zumpus is opaque. Each numpus is not bright. Each zumpus is a rompus. Every rompus is not kind. Rompuses are tumpuses. Every tumpus is not brown. Tumpuses are dumpuses. Dumpuses are not large. Dumpuses are vumpuses. Vumpuses are luminous. Each vumpus is a wumpus. Stella is a yumpus.",
+   "query": "True or false: Stella is not bright.",
+   "chain_of_thought": [
+    "Stella is a yumpus.",
+    "Yumpuses are impuses.",
+    "Stella is an impus.",
+    "Every impus is a jompus.",
+    "Stella is a jompus.",
+    "Jompuses are bright.",
+    "Stella is bright."
+   ],
+   "answer": "False"
+  },
+  "test_example": {
+   "question": "Each zumpus is not hot. Zumpuses are tumpuses. Every tumpus is not angry. Every tumpus is a numpus. Numpuses are not bitter. Numpuses are rompuses. Each rompus is nervous. Rompuses are jompuses. Each impus is floral. Jompuses are bright. Every jompus is a yumpus. Yumpuses are metallic. Yumpuses are dumpuses. Dumpuses are not floral. Each dumpus is a wumpus. Wumpuses are small. Wumpuses are vumpuses. Sam is a jompus.",
+   "query": "True or false: Sam is floral.",
+   "chain_of_thought": [
+    "Sam is a jompus.",
+    "Every jompus is a yumpus.",
+    "Sam is a yumpus.",
+    "Yumpuses are dumpuses.",
+    "Sam is a dumpus.",
+    "Dumpuses are not floral.",
+    "Sam is not floral."
+   ],
+   "answer": "False"
+  }
+ },
+ "example16": {
+  "in_context_example0": {
+   "question": "Each numpus is earthy. Each numpus is a yumpus. Each yumpus is orange. Yumpuses are zumpuses. Zumpuses are amenable. Each zumpus is a tumpus. Tumpuses are not nervous. Tumpuses are jompuses. Each jompus is hot. Every impus is transparent. Jompuses are rompuses. Each rompus is small. Rompuses are wumpuses. Wumpuses are not transparent. Wumpuses are vumpuses. Vumpuses are sour. Vumpuses are dumpuses. Sam is a jompus.",
+   "query": "True or false: Sam is transparent.",
+   "chain_of_thought": [
+    "Sam is a jompus.",
+    "Jompuses are rompuses.",
+    "Sam is a rompus.",
+    "Rompuses are wumpuses.",
+    "Sam is a wumpus.",
+    "Wumpuses are not transparent.",
+    "Sam is not transparent."
+   ],
+   "answer": "False"
+  },
+  "in_context_example1": {
+   "question": "Each zumpus is not large. Each zumpus is a jompus. Jompuses are fruity. Each jompus is an impus. Impuses are luminous. Every impus is a wumpus. Wumpuses are not temperate. Each wumpus is a numpus. Numpuses are sweet. Yumpuses are temperate. Numpuses are rompuses. Rompuses are red. Rompuses are tumpuses. Every tumpus is not opaque. Tumpuses are vumpuses. Every vumpus is not aggressive. Vumpuses are dumpuses. Sally is a jompus.",
+   "query": "True or false: Sally is temperate.",
+   "chain_of_thought": [
+    "Sally is a jompus.",
+    "Each jompus is an impus.",
+    "Sally is an impus.",
+    "Every impus is a wumpus.",
+    "Sally is a wumpus.",
+    "Wumpuses are not temperate.",
+    "Sally is not temperate."
+   ],
+   "answer": "False"
+  },
+  "in_context_example2": {
+   "question": "Every numpus is not liquid. Every numpus is a wumpus. Each wumpus is hot. Wumpuses are dumpuses. Dumpuses are blue. Dumpuses are tumpuses. Each tumpus is transparent. Every tumpus is a jompus. Every jompus is sour. Jompuses are yumpuses. Every yumpus is floral. Rompuses are not sour. Each yumpus is a zumpus. Zumpuses are not aggressive. Each zumpus is a vumpus. Each vumpus is shy. Every vumpus is an impus. Sam is a dumpus.",
+   "query": "True or false: Sam is sour.",
+   "chain_of_thought": [
+    "Sam is a dumpus.",
+    "Dumpuses are tumpuses.",
+    "Sam is a tumpus.",
+    "Every tumpus is a jompus.",
+    "Sam is a jompus.",
+    "Every jompus is sour.",
+    "Sam is sour."
+   ],
+   "answer": "True"
+  },
+  "in_context_example3": {
+   "question": "Wumpuses are mean. Wumpuses are tumpuses. Every tumpus is not opaque. Tumpuses are impuses. Every impus is not blue. Every impus is a zumpus. Every zumpus is happy. Zumpuses are yumpuses. Each yumpus is hot. Each yumpus is a numpus. Each numpus is not spicy. Every jompus is spicy. Numpuses are dumpuses. Dumpuses are small. Every dumpus is a vumpus. Each vumpus is earthy. Every vumpus is a rompus. Fae is a zumpus.",
+   "query": "True or false: Fae is spicy.",
+   "chain_of_thought": [
+    "Fae is a zumpus.",
+    "Zumpuses are yumpuses.",
+    "Fae is a yumpus.",
+    "Each yumpus is a numpus.",
+    "Fae is a numpus.",
+    "Each numpus is not spicy.",
+    "Fae is not spicy."
+   ],
+   "answer": "False"
+  },
+  "test_example": {
+   "question": "Wumpuses are wooden. Tumpuses are sweet. Each wumpus is a numpus. Each numpus is cold. Numpuses are rompuses. Each rompus is fruity. Each rompus is an impus. Impuses are not sweet. Impuses are dumpuses. Alex is a numpus.",
+   "query": "True or false: Alex is not sweet.",
+   "chain_of_thought": [
+    "Alex is a numpus.",
+    "Numpuses are rompuses.",
+    "Alex is a rompus.",
+    "Each rompus is an impus.",
+    "Alex is an impus.",
+    "Impuses are not sweet.",
+    "Alex is not sweet."
+   ],
+   "answer": "True"
+  }
+ },
+ "example17": {
+  "in_context_example0": {
+   "question": "Zumpuses are not brown. Each zumpus is a yumpus. Each jompus is shy. Each yumpus is liquid. Yumpuses are rompuses. Rompuses are fruity. Rompuses are dumpuses. Dumpuses are not bright. Every dumpus is a wumpus. Wumpuses are not shy. Every wumpus is a tumpus. Each tumpus is not opaque. Tumpuses are vumpuses. Vumpuses are not amenable. Every vumpus is a numpus. Numpuses are small. Every numpus is an impus. Max is a rompus.",
+   "query": "True or false: Max is not shy.",
+   "chain_of_thought": [
+    "Max is a rompus.",
+    "Rompuses are dumpuses.",
+    "Max is a dumpus.",
+    "Every dumpus is a wumpus.",
+    "Max is a wumpus.",
+    "Wumpuses are not shy.",
+    "Max is not shy."
+   ],
+   "answer": "True"
+  },
+  "in_context_example1": {
+   "question": "Yumpuses are angry. Yumpuses are rompuses. Each rompus is dull. Rompuses are tumpuses. Tumpuses are floral. Vumpuses are not floral. Each tumpus is a jompus. Sam is a yumpus.",
+   "query": "True or false: Sam is floral.",
+   "chain_of_thought": [
+    "Sam is a yumpus.",
+    "Yumpuses are rompuses.",
+    "Sam is a rompus.",
+    "Rompuses are tumpuses.",
+    "Sam is a tumpus.",
+    "Tumpuses are floral.",
+    "Sam is floral."
+   ],
+   "answer": "True"
+  },
+  "in_context_example2": {
+   "question": "Dumpuses are happy. Each dumpus is a rompus. Each rompus is floral. Each rompus is a yumpus. Every yumpus is brown. Yumpuses are numpuses. Tumpuses are not bright. Each numpus is not mean. Numpuses are vumpuses. Every vumpus is not cold. Each vumpus is an impus. Impuses are wooden. Every impus is a wumpus. Wumpuses are not transparent. Wumpuses are zumpuses. Zumpuses are bright. Each zumpus is a jompus. Max is an impus.",
+   "query": "True or false: Max is bright.",
+   "chain_of_thought": [
+    "Max is an impus.",
+    "Every impus is a wumpus.",
+    "Max is a wumpus.",
+    "Wumpuses are zumpuses.",
+    "Max is a zumpus.",
+    "Zumpuses are bright.",
+    "Max is bright."
+   ],
+   "answer": "True"
+  },
+  "in_context_example3": {
+   "question": "Tumpuses are hot. Each tumpus is a zumpus. Each zumpus is not spicy. Each vumpus is wooden. Zumpuses are impuses. Impuses are kind. Each impus is a rompus. Rompuses are floral. Rompuses are numpuses. Each numpus is large. Every numpus is a wumpus. Wumpuses are transparent. Wumpuses are yumpuses. Each yumpus is shy. Yumpuses are dumpuses. Dumpuses are not wooden. Dumpuses are jompuses. Sam is a wumpus.",
+   "query": "True or false: Sam is wooden.",
+   "chain_of_thought": [
+    "Sam is a wumpus.",
+    "Wumpuses are yumpuses.",
+    "Sam is a yumpus.",
+    "Yumpuses are dumpuses.",
+    "Sam is a dumpus.",
+    "Dumpuses are not wooden.",
+    "Sam is not wooden."
+   ],
+   "answer": "False"
+  },
+  "test_example": {
+   "question": "Yumpuses are temperate. Yumpuses are jompuses. Jompuses are not small. Each jompus is a vumpus. Vumpuses are not bright. Every vumpus is a zumpus. Zumpuses are metallic. Every zumpus is an impus. Every impus is nervous. Each impus is a numpus. Every numpus is kind. Every numpus is a rompus. Each rompus is transparent. Each rompus is a tumpus. Every tumpus is not spicy. Tumpuses are dumpuses. Every wumpus is bright. Fae is a yumpus.",
+   "query": "True or false: Fae is bright.",
+   "chain_of_thought": [
+    "Fae is a yumpus.",
+    "Yumpuses are jompuses.",
+    "Fae is a jompus.",
+    "Each jompus is a vumpus.",
+    "Fae is a vumpus.",
+    "Vumpuses are not bright.",
+    "Fae is not bright."
+   ],
+   "answer": "False"
+  }
+ },
+ "example18": {
+  "in_context_example0": {
+   "question": "Every numpus is kind. Every numpus is a wumpus. Each wumpus is blue. Each wumpus is a jompus. Jompuses are nervous. Jompuses are rompuses. Rompuses are fruity. Every vumpus is not fruity. Rompuses are yumpuses. Polly is a wumpus.",
+   "query": "True or false: Polly is fruity.",
+   "chain_of_thought": [
+    "Polly is a wumpus.",
+    "Each wumpus is a jompus.",
+    "Polly is a jompus.",
+    "Jompuses are rompuses.",
+    "Polly is a rompus.",
+    "Rompuses are fruity.",
+    "Polly is fruity."
+   ],
+   "answer": "True"
+  },
+  "in_context_example1": {
+   "question": "Numpuses are liquid. Numpuses are tumpuses. Zumpuses are opaque. Every tumpus is not angry. Tumpuses are wumpuses. Wumpuses are not floral. Wumpuses are vumpuses. Vumpuses are dull. Each vumpus is a rompus. Rompuses are not small. Rompuses are yumpuses. Each yumpus is not opaque. Yumpuses are jompuses. Every jompus is brown. Jompuses are impuses. Every impus is bitter. Impuses are dumpuses. Sam is a vumpus.",
+   "query": "True or false: Sam is not opaque.",
+   "chain_of_thought": [
+    "Sam is a vumpus.",
+    "Each vumpus is a rompus.",
+    "Sam is a rompus.",
+    "Rompuses are yumpuses.",
+    "Sam is a yumpus.",
+    "Each yumpus is not opaque.",
+    "Sam is not opaque."
+   ],
+   "answer": "True"
+  },
+  "in_context_example2": {
+   "question": "Each numpus is not dull. Each tumpus is small. Numpuses are dumpuses. Dumpuses are hot. Dumpuses are yumpuses. Each yumpus is not small. Every yumpus is a vumpus. Sally is a numpus.",
+   "query": "True or false: Sally is small.",
+   "chain_of_thought": [
+    "Sally is a numpus.",
+    "Numpuses are dumpuses.",
+    "Sally is a dumpus.",
+    "Dumpuses are yumpuses.",
+    "Sally is a yumpus.",
+    "Each yumpus is not small.",
+    "Sally is not small."
+   ],
+   "answer": "False"
+  },
+  "in_context_example3": {
+   "question": "Every zumpus is large. Zumpuses are yumpuses. Every yumpus is not angry. Every yumpus is an impus. Every wumpus is not dull. Every impus is sour. Each impus is a numpus. Numpuses are metallic. Each numpus is a jompus. Every jompus is not brown. Every jompus is a rompus. Each rompus is not cold. Each rompus is a dumpus. Dumpuses are transparent. Every dumpus is a vumpus. Vumpuses are dull. Every vumpus is a tumpus. Sally is a rompus.",
+   "query": "True or false: Sally is dull.",
+   "chain_of_thought": [
+    "Sally is a rompus.",
+    "Each rompus is a dumpus.",
+    "Sally is a dumpus.",
+    "Every dumpus is a vumpus.",
+    "Sally is a vumpus.",
+    "Vumpuses are dull.",
+    "Sally is dull."
+   ],
+   "answer": "True"
+  },
+  "test_example": {
+   "question": "Every yumpus is dull. Each yumpus is a wumpus. Wumpuses are fruity. Zumpuses are cold. Wumpuses are numpuses. Numpuses are not cold. Every numpus is a vumpus. Vumpuses are luminous. Vumpuses are impuses. Impuses are opaque. Every impus is a tumpus. Tumpuses are not bitter. Tumpuses are rompuses. Sam is a yumpus.",
+   "query": "True or false: Sam is not cold.",
+   "chain_of_thought": [
+    "Sam is a yumpus.",
+    "Each yumpus is a wumpus.",
+    "Sam is a wumpus.",
+    "Wumpuses are numpuses.",
+    "Sam is a numpus.",
+    "Numpuses are not cold.",
+    "Sam is not cold."
+   ],
+   "answer": "True"
+  }
+ },
+ "example19": {
+  "in_context_example0": {
+   "question": "Impuses are not kind. Every yumpus is not dull. Impuses are wumpuses. Each wumpus is temperate. Wumpuses are vumpuses. Vumpuses are not happy. Each vumpus is a jompus. Jompuses are dull. Each jompus is a numpus. Numpuses are wooden. Each numpus is a dumpus. Every dumpus is fruity. Every dumpus is a rompus. Wren is a wumpus.",
+   "query": "True or false: Wren is not dull.",
+   "chain_of_thought": [
+    "Wren is a wumpus.",
+    "Wumpuses are vumpuses.",
+    "Wren is a vumpus.",
+    "Each vumpus is a jompus.",
+    "Wren is a jompus.",
+    "Jompuses are dull.",
+    "Wren is dull."
+   ],
+   "answer": "False"
+  },
+  "in_context_example1": {
+   "question": "Every vumpus is not floral. Vumpuses are tumpuses. Dumpuses are happy. Each tumpus is liquid. Tumpuses are wumpuses. Wumpuses are large. Every wumpus is a zumpus. Each zumpus is not sweet. Zumpuses are rompuses. Every rompus is not angry. Each rompus is a jompus. Every jompus is not bright. Every jompus is a yumpus. Every yumpus is blue. Each yumpus is an impus. Impuses are not happy. Impuses are numpuses. Alex is a jompus.",
+   "query": "True or false: Alex is not happy.",
+   "chain_of_thought": [
+    "Alex is a jompus.",
+    "Every jompus is a yumpus.",
+    "Alex is a yumpus.",
+    "Each yumpus is an impus.",
+    "Alex is an impus.",
+    "Impuses are not happy.",
+    "Alex is not happy."
+   ],
+   "answer": "True"
+  },
+  "in_context_example2": {
+   "question": "Every vumpus is not cold. Every yumpus is small. Every yumpus is a tumpus. Tumpuses are not liquid. Each tumpus is a wumpus. Every wumpus is red. Each wumpus is a numpus. Numpuses are not feisty. Numpuses are jompuses. Jompuses are cold. Every jompus is a dumpus. Rex is a wumpus.",
+   "query": "True or false: Rex is cold.",
+   "chain_of_thought": [
+    "Rex is a wumpus.",
+    "Each wumpus is a numpus.",
+    "Rex is a numpus.",
+    "Numpuses are jompuses.",
+    "Rex is a jompus.",
+    "Jompuses are cold.",
+    "Rex is cold."
+   ],
+   "answer": "True"
+  },
+  "in_context_example3": {
+   "question": "Rompuses are shy. Each rompus is a zumpus. Every zumpus is orange. Each zumpus is a wumpus. Each wumpus is not floral. Each jompus is floral. Every wumpus is a tumpus. Sally is a rompus.",
+   "query": "True or false: Sally is not floral.",
+   "chain_of_thought": [
+    "Sally is a rompus.",
+    "Each rompus is a zumpus.",
+    "Sally is a zumpus.",
+    "Each zumpus is a wumpus.",
+    "Sally is a wumpus.",
+    "Each wumpus is not floral.",
+    "Sally is not floral."
+   ],
+   "answer": "True"
+  },
+  "test_example": {
+   "question": "Impuses are opaque. Every impus is a dumpus. Every dumpus is cold. Dumpuses are numpuses. Each numpus is small. Every numpus is a rompus. Each rompus is aggressive. Every rompus is a yumpus. Every yumpus is brown. Each yumpus is a vumpus. Every vumpus is not spicy. Vumpuses are zumpuses. Each zumpus is dull. Every tumpus is not dull. Zumpuses are wumpuses. Wumpuses are happy. Wumpuses are jompuses. Sally is a yumpus.",
+   "query": "True or false: Sally is dull.",
+   "chain_of_thought": [
+    "Sally is a yumpus.",
+    "Each yumpus is a vumpus.",
+    "Sally is a vumpus.",
+    "Vumpuses are zumpuses.",
+    "Sally is a zumpus.",
+    "Each zumpus is dull.",
+    "Sally is dull."
+   ],
+   "answer": "True"
+  }
+ },
+ "example20": {
+  "in_context_example0": {
+   "question": "Impuses are angry. Every impus is a jompus. Jompuses are not sour. Jompuses are yumpuses. Each yumpus is blue. Every yumpus is a numpus. Numpuses are not liquid. Numpuses are vumpuses. Each vumpus is not floral. Vumpuses are rompuses. Rompuses are not transparent. Rompuses are tumpuses. Every wumpus is not blue. Each tumpus is not dull. Tumpuses are zumpuses. Zumpuses are shy. Zumpuses are dumpuses. Polly is an impus.",
+   "query": "True or false: Polly is blue.",
+   "chain_of_thought": [
+    "Polly is an impus.",
+    "Every impus is a jompus.",
+    "Polly is a jompus.",
+    "Jompuses are yumpuses.",
+    "Polly is a yumpus.",
+    "Each yumpus is blue.",
+    "Polly is blue."
+   ],
+   "answer": "True"
+  },
+  "in_context_example1": {
+   "question": "Each zumpus is not cold. Zumpuses are tumpuses. Tumpuses are transparent. Tumpuses are dumpuses. Dumpuses are floral. Every dumpus is a jompus. Jompuses are angry. Jompuses are vumpuses. Vumpuses are feisty. Every vumpus is a numpus. Rompuses are not small. Every numpus is small. Numpuses are yumpuses. Every yumpus is not blue. Every yumpus is an impus. Impuses are not bitter. Impuses are wumpuses. Alex is a jompus.",
+   "query": "True or false: Alex is not small.",
+   "chain_of_thought": [
+    "Alex is a jompus.",
+    "Jompuses are vumpuses.",
+    "Alex is a vumpus.",
+    "Every vumpus is a numpus.",
+    "Alex is a numpus.",
+    "Every numpus is small.",
+    "Alex is small."
+   ],
+   "answer": "False"
+  },
+  "in_context_example2": {
+   "question": "Every zumpus is fruity. Every zumpus is a jompus. Jompuses are cold. Jompuses are yumpuses. Every yumpus is not bright. Every yumpus is a rompus. Rompuses are metallic. Tumpuses are bright. Each rompus is a vumpus. Every vumpus is shy. Every vumpus is a dumpus. Each dumpus is transparent. Dumpuses are impuses. Each impus is large. Every impus is a wumpus. Each wumpus is not orange. Wumpuses are numpuses. Sally is a zumpus.",
+   "query": "True or false: Sally is not bright.",
+   "chain_of_thought": [
+    "Sally is a zumpus.",
+    "Every zumpus is a jompus.",
+    "Sally is a jompus.",
+    "Jompuses are yumpuses.",
+    "Sally is a yumpus.",
+    "Every yumpus is not bright.",
+    "Sally is not bright."
+   ],
+   "answer": "True"
+  },
+  "in_context_example3": {
+   "question": "Wumpuses are not aggressive. Dumpuses are opaque. Every wumpus is a yumpus. Yumpuses are brown. Every yumpus is a tumpus. Each tumpus is floral. Tumpuses are rompuses. Rompuses are sweet. Rompuses are vumpuses. Every vumpus is not opaque. Vumpuses are zumpuses. Every zumpus is small. Zumpuses are numpuses. Numpuses are shy. Every numpus is an impus. Every impus is liquid. Impuses are jompuses. Rex is a tumpus.",
+   "query": "True or false: Rex is not opaque.",
+   "chain_of_thought": [
+    "Rex is a tumpus.",
+    "Tumpuses are rompuses.",
+    "Rex is a rompus.",
+    "Rompuses are vumpuses.",
+    "Rex is a vumpus.",
+    "Every vumpus is not opaque.",
+    "Rex is not opaque."
+   ],
+   "answer": "True"
+  },
+  "test_example": {
+   "question": "Every tumpus is sweet. Each tumpus is a numpus. Every numpus is shy. Numpuses are impuses. Every impus is not large. Impuses are wumpuses. Wumpuses are not mean. Each wumpus is a rompus. Every rompus is blue. Rompuses are zumpuses. Zumpuses are transparent. Each vumpus is large. Zumpuses are jompuses. Jompuses are wooden. Jompuses are dumpuses. Each dumpus is temperate. Every dumpus is a yumpus. Rex is a tumpus.",
+   "query": "True or false: Rex is large.",
+   "chain_of_thought": [
+    "Rex is a tumpus.",
+    "Each tumpus is a numpus.",
+    "Rex is a numpus.",
+    "Numpuses are impuses.",
+    "Rex is an impus.",
+    "Every impus is not large.",
+    "Rex is not large."
+   ],
+   "answer": "False"
+  }
+ },
+ "example21": {
+  "in_context_example0": {
+   "question": "Each yumpus is earthy. Every yumpus is an impus. Wumpuses are not bright. Every impus is mean. Impuses are zumpuses. Every zumpus is bitter. Zumpuses are jompuses. Each jompus is bright. Every jompus is a dumpus. Max is an impus.",
+   "query": "True or false: Max is bright.",
+   "chain_of_thought": [
+    "Max is an impus.",
+    "Impuses are zumpuses.",
+    "Max is a zumpus.",
+    "Zumpuses are jompuses.",
+    "Max is a jompus.",
+    "Each jompus is bright.",
+    "Max is bright."
+   ],
+   "answer": "True"
+  },
+  "in_context_example1": {
+   "question": "Rompuses are brown. Each rompus is an impus. Impuses are dull. Each impus is a jompus. Each wumpus is shy. Each jompus is not shy. Jompuses are tumpuses. Each tumpus is not amenable. Every tumpus is a zumpus. Zumpuses are small. Every zumpus is a yumpus. Yumpuses are not temperate. Yumpuses are numpuses. Numpuses are not sweet. Numpuses are dumpuses. Every dumpus is luminous. Each dumpus is a vumpus. Alex is a rompus.",
+   "query": "True or false: Alex is not shy.",
+   "chain_of_thought": [
+    "Alex is a rompus.",
+    "Each rompus is an impus.",
+    "Alex is an impus.",
+    "Each impus is a jompus.",
+    "Alex is a jompus.",
+    "Each jompus is not shy.",
+    "Alex is not shy."
+   ],
+   "answer": "True"
+  },
+  "in_context_example2": {
+   "question": "Each rompus is brown. Rompuses are tumpuses. Tumpuses are amenable. Every tumpus is a dumpus. Each dumpus is large. Each dumpus is a wumpus. Yumpuses are not large. Wumpuses are nervous. Wumpuses are numpuses. Every numpus is earthy. Each numpus is an impus. Impuses are transparent. Impuses are zumpuses. Every zumpus is bitter. Each zumpus is a vumpus. Vumpuses are bright. Vumpuses are jompuses. Fae is a rompus.",
+   "query": "True or false: Fae is not large.",
+   "chain_of_thought": [
+    "Fae is a rompus.",
+    "Rompuses are tumpuses.",
+    "Fae is a tumpus.",
+    "Every tumpus is a dumpus.",
+    "Fae is a dumpus.",
+    "Each dumpus is large.",
+    "Fae is large."
+   ],
+   "answer": "False"
+  },
+  "in_context_example3": {
+   "question": "Every zumpus is transparent. Zumpuses are impuses. Impuses are not cold. Impuses are tumpuses. Every tumpus is angry. Every tumpus is a vumpus. Each vumpus is bitter. Vumpuses are numpuses. Each numpus is not small. Each numpus is a dumpus. Dumpuses are not nervous. Dumpuses are wumpuses. Wumpuses are red. Rompuses are small. Every wumpus is a jompus. Jompuses are earthy. Jompuses are yumpuses. Sally is a tumpus.",
+   "query": "True or false: Sally is small.",
+   "chain_of_thought": [
+    "Sally is a tumpus.",
+    "Every tumpus is a vumpus.",
+    "Sally is a vumpus.",
+    "Vumpuses are numpuses.",
+    "Sally is a numpus.",
+    "Each numpus is not small.",
+    "Sally is not small."
+   ],
+   "answer": "False"
+  },
+  "test_example": {
+   "question": "Every jompus is spicy. Jompuses are vumpuses. Vumpuses are mean. Vumpuses are dumpuses. Dumpuses are not shy. Dumpuses are impuses. Impuses are opaque. Impuses are numpuses. Numpuses are temperate. Each numpus is a wumpus. Zumpuses are shy. Wumpuses are metallic. Wumpuses are yumpuses. Yumpuses are floral. Yumpuses are tumpuses. Each tumpus is bright. Each tumpus is a rompus. Alex is a jompus.",
+   "query": "True or false: Alex is shy.",
+   "chain_of_thought": [
+    "Alex is a jompus.",
+    "Jompuses are vumpuses.",
+    "Alex is a vumpus.",
+    "Vumpuses are dumpuses.",
+    "Alex is a dumpus.",
+    "Dumpuses are not shy.",
+    "Alex is not shy."
+   ],
+   "answer": "False"
+  }
+ },
+ "example22": {
+  "in_context_example0": {
+   "question": "Each rompus is sweet. Rompuses are impuses. Every dumpus is not blue. Every impus is hot. Impuses are tumpuses. Tumpuses are blue. Tumpuses are numpuses. Numpuses are shy. Numpuses are jompuses. Jompuses are angry. Each jompus is a vumpus. Every vumpus is bright. Each vumpus is a wumpus. Every wumpus is metallic. Each wumpus is a yumpus. Yumpuses are transparent. Yumpuses are zumpuses. Max is a rompus.",
+   "query": "True or false: Max is not blue.",
+   "chain_of_thought": [
+    "Max is a rompus.",
+    "Rompuses are impuses.",
+    "Max is an impus.",
+    "Impuses are tumpuses.",
+    "Max is a tumpus.",
+    "Tumpuses are blue.",
+    "Max is blue."
+   ],
+   "answer": "False"
+  },
+  "in_context_example1": {
+   "question": "Each yumpus is orange. Yumpuses are dumpuses. Every dumpus is large. Every dumpus is a rompus. Every rompus is metallic. Each rompus is a tumpus. Each tumpus is not feisty. Each tumpus is an impus. Impuses are bright. Vumpuses are feisty. Every impus is a wumpus. Every wumpus is temperate. Every wumpus is a jompus. Jompuses are fruity. Jompuses are numpuses. Each numpus is spicy. Numpuses are zumpuses. Sam is a dumpus.",
+   "query": "True or false: Sam is not feisty.",
+   "chain_of_thought": [
+    "Sam is a dumpus.",
+    "Every dumpus is a rompus.",
+    "Sam is a rompus.",
+    "Each rompus is a tumpus.",
+    "Sam is a tumpus.",
+    "Each tumpus is not feisty.",
+    "Sam is not feisty."
+   ],
+   "answer": "True"
+  },
+  "in_context_example2": {
+   "question": "Each dumpus is temperate. Each dumpus is a wumpus. Each wumpus is small. Wumpuses are numpuses. Numpuses are transparent. Numpuses are impuses. Rompuses are not bright. Every impus is bright. Every impus is a tumpus. Tumpuses are not spicy. Tumpuses are jompuses. Rex is a wumpus.",
+   "query": "True or false: Rex is bright.",
+   "chain_of_thought": [
+    "Rex is a wumpus.",
+    "Wumpuses are numpuses.",
+    "Rex is a numpus.",
+    "Numpuses are impuses.",
+    "Rex is an impus.",
+    "Every impus is bright.",
+    "Rex is bright."
+   ],
+   "answer": "True"
+  },
+  "in_context_example3": {
+   "question": "Each wumpus is small. Each wumpus is an impus. Every impus is transparent. Impuses are rompuses. Rompuses are floral. Rompuses are tumpuses. Jompuses are orange. Every tumpus is not nervous. Tumpuses are dumpuses. Every dumpus is not wooden. Dumpuses are yumpuses. Each yumpus is spicy. Every yumpus is a numpus. Numpuses are aggressive. Numpuses are zumpuses. Every zumpus is not orange. Zumpuses are vumpuses. Wren is a yumpus.",
+   "query": "True or false: Wren is not orange.",
+   "chain_of_thought": [
+    "Wren is a yumpus.",
+    "Every yumpus is a numpus.",
+    "Wren is a numpus.",
+    "Numpuses are zumpuses.",
+    "Wren is a zumpus.",
+    "Every zumpus is not orange.",
+    "Wren is not orange."
+   ],
+   "answer": "True"
+  },
+  "test_example": {
+   "question": "Each impus is cold. Impuses are tumpuses. Tumpuses are not metallic. Tumpuses are rompuses. Rompuses are nervous. Rompuses are wumpuses. Wumpuses are not large. Wumpuses are yumpuses. Yumpuses are not floral. Each numpus is floral. Each yumpus is a vumpus. Vumpuses are not spicy. Every vumpus is a dumpus. Every dumpus is not angry. Dumpuses are jompuses. Jompuses are bright. Every jompus is a zumpus. Max is a rompus.",
+   "query": "True or false: Max is floral.",
+   "chain_of_thought": [
+    "Max is a rompus.",
+    "Rompuses are wumpuses.",
+    "Max is a wumpus.",
+    "Wumpuses are yumpuses.",
+    "Max is a yumpus.",
+    "Yumpuses are not floral.",
+    "Max is not floral."
+   ],
+   "answer": "False"
+  }
+ },
+ "example23": {
+  "in_context_example0": {
+   "question": "Vumpuses are bright. Every vumpus is a jompus. Jompuses are large. Jompuses are numpuses. Each numpus is not transparent. Each numpus is a wumpus. Wumpuses are mean. Each wumpus is a tumpus. Every yumpus is transparent. Tumpuses are happy. Every tumpus is an impus. Each impus is not bitter. Each impus is a rompus. Rompuses are not fruity. Each rompus is a dumpus. Dumpuses are not temperate. Each dumpus is a zumpus. Fae is a vumpus.",
+   "query": "True or false: Fae is not transparent.",
+   "chain_of_thought": [
+    "Fae is a vumpus.",
+    "Every vumpus is a jompus.",
+    "Fae is a jompus.",
+    "Jompuses are numpuses.",
+    "Fae is a numpus.",
+    "Each numpus is not transparent.",
+    "Fae is not transparent."
+   ],
+   "answer": "True"
+  },
+  "in_context_example1": {
+   "question": "Tumpuses are blue. Tumpuses are zumpuses. Zumpuses are large. Every zumpus is a rompus. Every rompus is cold. Every rompus is an impus. Impuses are not transparent. Impuses are vumpuses. Vumpuses are not shy. Vumpuses are yumpuses. Every yumpus is dull. Every yumpus is a jompus. Jompuses are wooden. Each wumpus is shy. Jompuses are dumpuses. Polly is a rompus.",
+   "query": "True or false: Polly is not shy.",
+   "chain_of_thought": [
+    "Polly is a rompus.",
+    "Every rompus is an impus.",
+    "Polly is an impus.",
+    "Impuses are vumpuses.",
+    "Polly is a vumpus.",
+    "Vumpuses are not shy.",
+    "Polly is not shy."
+   ],
+   "answer": "True"
+  },
+  "in_context_example2": {
+   "question": "Each rompus is cold. Each rompus is a wumpus. Each wumpus is floral. Wumpuses are numpuses. Every numpus is not kind. Every numpus is a zumpus. Tumpuses are not sour. Each zumpus is bright. Zumpuses are vumpuses. Every vumpus is sour. Vumpuses are impuses. Every impus is not metallic. Impuses are dumpuses. Stella is a numpus.",
+   "query": "True or false: Stella is not sour.",
+   "chain_of_thought": [
+    "Stella is a numpus.",
+    "Every numpus is a zumpus.",
+    "Stella is a zumpus.",
+    "Zumpuses are vumpuses.",
+    "Stella is a vumpus.",
+    "Every vumpus is sour.",
+    "Stella is sour."
+   ],
+   "answer": "False"
+  },
+  "in_context_example3": {
+   "question": "Every zumpus is not dull. Zumpuses are tumpuses. Tumpuses are kind. Each tumpus is an impus. Every impus is liquid. Impuses are wumpuses. Each wumpus is feisty. Each wumpus is a numpus. Numpuses are opaque. Jompuses are not opaque. Every numpus is a yumpus. Sally is an impus.",
+   "query": "True or false: Sally is opaque.",
+   "chain_of_thought": [
+    "Sally is an impus.",
+    "Impuses are wumpuses.",
+    "Sally is a wumpus.",
+    "Each wumpus is a numpus.",
+    "Sally is a numpus.",
+    "Numpuses are opaque.",
+    "Sally is opaque."
+   ],
+   "answer": "True"
+  },
+  "test_example": {
+   "question": "Zumpuses are angry. Zumpuses are yumpuses. Every yumpus is floral. Each yumpus is a numpus. Numpuses are brown. Tumpuses are transparent. Each numpus is a wumpus. Every wumpus is dull. Wumpuses are vumpuses. Vumpuses are sweet. Vumpuses are jompuses. Jompuses are shy. Each jompus is an impus. Each impus is not large. Each impus is a dumpus. Dumpuses are not transparent. Every dumpus is a rompus. Polly is a jompus.",
+   "query": "True or false: Polly is not transparent.",
+   "chain_of_thought": [
+    "Polly is a jompus.",
+    "Each jompus is an impus.",
+    "Polly is an impus.",
+    "Each impus is a dumpus.",
+    "Polly is a dumpus.",
+    "Dumpuses are not transparent.",
+    "Polly is not transparent."
+   ],
+   "answer": "True"
+  }
+ },
+ "example24": {
+  "in_context_example0": {
+   "question": "Rompuses are sour. Rompuses are wumpuses. Each yumpus is not large. Wumpuses are hot. Wumpuses are vumpuses. Every vumpus is not orange. Vumpuses are numpuses. Numpuses are not kind. Numpuses are jompuses. Every jompus is opaque. Every jompus is a zumpus. Zumpuses are large. Zumpuses are dumpuses. Dumpuses are luminous. Every dumpus is a tumpus. Each tumpus is not feisty. Each tumpus is an impus. Rex is a numpus.",
+   "query": "True or false: Rex is not large.",
+   "chain_of_thought": [
+    "Rex is a numpus.",
+    "Numpuses are jompuses.",
+    "Rex is a jompus.",
+    "Every jompus is a zumpus.",
+    "Rex is a zumpus.",
+    "Zumpuses are large.",
+    "Rex is large."
+   ],
+   "answer": "False"
+  },
+  "in_context_example1": {
+   "question": "Every dumpus is not wooden. Every numpus is opaque. Dumpuses are impuses. Impuses are hot. Every impus is a yumpus. Yumpuses are floral. Every yumpus is a zumpus. Every zumpus is spicy. Zumpuses are vumpuses. Every vumpus is not opaque. Each vumpus is a tumpus. Every tumpus is happy. Tumpuses are jompuses. Polly is a yumpus.",
+   "query": "True or false: Polly is not opaque.",
+   "chain_of_thought": [
+    "Polly is a yumpus.",
+    "Every yumpus is a zumpus.",
+    "Polly is a zumpus.",
+    "Zumpuses are vumpuses.",
+    "Polly is a vumpus.",
+    "Every vumpus is not opaque.",
+    "Polly is not opaque."
+   ],
+   "answer": "True"
+  },
+  "in_context_example2": {
+   "question": "Every tumpus is sour. Tumpuses are numpuses. Numpuses are angry. Each wumpus is feisty. Numpuses are zumpuses. Each zumpus is not feisty. Zumpuses are rompuses. Rompuses are earthy. Each rompus is a jompus. Fae is a tumpus.",
+   "query": "True or false: Fae is feisty.",
+   "chain_of_thought": [
+    "Fae is a tumpus.",
+    "Tumpuses are numpuses.",
+    "Fae is a numpus.",
+    "Numpuses are zumpuses.",
+    "Fae is a zumpus.",
+    "Each zumpus is not feisty.",
+    "Fae is not feisty."
+   ],
+   "answer": "False"
+  },
+  "in_context_example3": {
+   "question": "Impuses are bright. Impuses are wumpuses. Wumpuses are temperate. Each wumpus is a tumpus. Tumpuses are small. Tumpuses are rompuses. Rompuses are wooden. Every rompus is a dumpus. Dumpuses are sweet. Every dumpus is a numpus. Every vumpus is not small. Each numpus is mean. Every numpus is a jompus. Jompuses are shy. Jompuses are yumpuses. Each yumpus is opaque. Each yumpus is a zumpus. Sam is an impus.",
+   "query": "True or false: Sam is not small.",
+   "chain_of_thought": [
+    "Sam is an impus.",
+    "Impuses are wumpuses.",
+    "Sam is a wumpus.",
+    "Each wumpus is a tumpus.",
+    "Sam is a tumpus.",
+    "Tumpuses are small.",
+    "Sam is small."
+   ],
+   "answer": "False"
+  },
+  "test_example": {
+   "question": "Dumpuses are sweet. Dumpuses are rompuses. Rompuses are opaque. Each rompus is a zumpus. Zumpuses are not happy. Zumpuses are vumpuses. Vumpuses are earthy. Vumpuses are wumpuses. Every wumpus is not orange. Each wumpus is a tumpus. Tumpuses are hot. Tumpuses are numpuses. Numpuses are not small. Yumpuses are not earthy. Every numpus is an impus. Every impus is aggressive. Impuses are jompuses. Alex is a rompus.",
+   "query": "True or false: Alex is earthy.",
+   "chain_of_thought": [
+    "Alex is a rompus.",
+    "Each rompus is a zumpus.",
+    "Alex is a zumpus.",
+    "Zumpuses are vumpuses.",
+    "Alex is a vumpus.",
+    "Vumpuses are earthy.",
+    "Alex is earthy."
+   ],
+   "answer": "True"
+  }
+ },
+ "example25": {
+  "in_context_example0": {
+   "question": "Dumpuses are not red. Dumpuses are yumpuses. Each yumpus is mean. Jompuses are not large. Yumpuses are rompuses. Rompuses are large. Each rompus is a zumpus. Polly is a dumpus.",
+   "query": "True or false: Polly is not large.",
+   "chain_of_thought": [
+    "Polly is a dumpus.",
+    "Dumpuses are yumpuses.",
+    "Polly is a yumpus.",
+    "Yumpuses are rompuses.",
+    "Polly is a rompus.",
+    "Rompuses are large.",
+    "Polly is large."
+   ],
+   "answer": "False"
+  },
+  "in_context_example1": {
+   "question": "Every numpus is not dull. Each numpus is a yumpus. Every tumpus is red. Yumpuses are small. Yumpuses are wumpuses. Every wumpus is not red. Every wumpus is a rompus. Rompuses are opaque. Each rompus is an impus. Each impus is aggressive. Impuses are zumpuses. Every zumpus is floral. Each zumpus is a dumpus. Dumpuses are nervous. Every dumpus is a jompus. Every jompus is luminous. Every jompus is a vumpus. Max is a numpus.",
+   "query": "True or false: Max is not red.",
+   "chain_of_thought": [
+    "Max is a numpus.",
+    "Each numpus is a yumpus.",
+    "Max is a yumpus.",
+    "Yumpuses are wumpuses.",
+    "Max is a wumpus.",
+    "Every wumpus is not red.",
+    "Max is not red."
+   ],
+   "answer": "True"
+  },
+  "in_context_example2": {
+   "question": "Every impus is not floral. Impuses are numpuses. Each numpus is nervous. Every numpus is a dumpus. Dumpuses are not brown. Dumpuses are yumpuses. Every yumpus is large. Yumpuses are jompuses. Jompuses are not luminous. Every jompus is a rompus. Vumpuses are brown. Each rompus is temperate. Every rompus is a zumpus. Each zumpus is angry. Every zumpus is a wumpus. Wumpuses are transparent. Wumpuses are tumpuses. Wren is an impus.",
+   "query": "True or false: Wren is brown.",
+   "chain_of_thought": [
+    "Wren is an impus.",
+    "Impuses are numpuses.",
+    "Wren is a numpus.",
+    "Every numpus is a dumpus.",
+    "Wren is a dumpus.",
+    "Dumpuses are not brown.",
+    "Wren is not brown."
+   ],
+   "answer": "False"
+  },
+  "in_context_example3": {
+   "question": "Impuses are bright. Every impus is a dumpus. Tumpuses are opaque. Dumpuses are happy. Each dumpus is a numpus. Each numpus is not fruity. Numpuses are vumpuses. Vumpuses are not opaque. Vumpuses are yumpuses. Each yumpus is luminous. Every yumpus is a jompus. Jompuses are kind. Each jompus is a zumpus. Rex is a dumpus.",
+   "query": "True or false: Rex is not opaque.",
+   "chain_of_thought": [
+    "Rex is a dumpus.",
+    "Each dumpus is a numpus.",
+    "Rex is a numpus.",
+    "Numpuses are vumpuses.",
+    "Rex is a vumpus.",
+    "Vumpuses are not opaque.",
+    "Rex is not opaque."
+   ],
+   "answer": "True"
+  },
+  "test_example": {
+   "question": "Every dumpus is aggressive. Every dumpus is a rompus. Rompuses are hot. Every rompus is a jompus. Every jompus is fruity. Jompuses are tumpuses. Tumpuses are wooden. Tumpuses are numpuses. Numpuses are small. Numpuses are yumpuses. Yumpuses are not brown. Every wumpus is not wooden. Yumpuses are vumpuses. Polly is a rompus.",
+   "query": "True or false: Polly is wooden.",
+   "chain_of_thought": [
+    "Polly is a rompus.",
+    "Every rompus is a jompus.",
+    "Polly is a jompus.",
+    "Jompuses are tumpuses.",
+    "Polly is a tumpus.",
+    "Tumpuses are wooden.",
+    "Polly is wooden."
+   ],
+   "answer": "True"
+  }
+ },
+ "example26": {
+  "in_context_example0": {
+   "question": "Tumpuses are opaque. Tumpuses are yumpuses. Yumpuses are shy. Every yumpus is a rompus. Rompuses are not fruity. Every rompus is a wumpus. Every wumpus is large. Wumpuses are impuses. Impuses are bright. Impuses are zumpuses. Each zumpus is not red. Zumpuses are dumpuses. Every dumpus is not temperate. Dumpuses are numpuses. Numpuses are kind. Vumpuses are not large. Every numpus is a jompus. Fae is a yumpus.",
+   "query": "True or false: Fae is not large.",
+   "chain_of_thought": [
+    "Fae is a yumpus.",
+    "Every yumpus is a rompus.",
+    "Fae is a rompus.",
+    "Every rompus is a wumpus.",
+    "Fae is a wumpus.",
+    "Every wumpus is large.",
+    "Fae is large."
+   ],
+   "answer": "False"
+  },
+  "in_context_example1": {
+   "question": "Each impus is transparent. Each impus is a zumpus. Each zumpus is amenable. Zumpuses are jompuses. Dumpuses are orange. Jompuses are not luminous. Jompuses are wumpuses. Wumpuses are not bright. Every wumpus is a numpus. Every numpus is not orange. Every numpus is a yumpus. Yumpuses are not happy. Each yumpus is a tumpus. Each tumpus is large. Tumpuses are vumpuses. Each vumpus is hot. Vumpuses are rompuses. Stella is a jompus.",
+   "query": "True or false: Stella is orange.",
+   "chain_of_thought": [
+    "Stella is a jompus.",
+    "Jompuses are wumpuses.",
+    "Stella is a wumpus.",
+    "Every wumpus is a numpus.",
+    "Stella is a numpus.",
+    "Every numpus is not orange.",
+    "Stella is not orange."
+   ],
+   "answer": "False"
+  },
+  "in_context_example2": {
+   "question": "Every numpus is floral. Each numpus is a jompus. Every jompus is not shy. Jompuses are rompuses. Each rompus is bright. Every rompus is an impus. Every impus is bitter. Impuses are dumpuses. Every tumpus is not bitter. Each dumpus is liquid. Dumpuses are wumpuses. Wumpuses are cold. Every wumpus is a vumpus. Vumpuses are brown. Every vumpus is a yumpus. Yumpuses are small. Yumpuses are zumpuses. Alex is a jompus.",
+   "query": "True or false: Alex is not bitter.",
+   "chain_of_thought": [
+    "Alex is a jompus.",
+    "Jompuses are rompuses.",
+    "Alex is a rompus.",
+    "Every rompus is an impus.",
+    "Alex is an impus.",
+    "Every impus is bitter.",
+    "Alex is bitter."
+   ],
+   "answer": "False"
+  },
+  "in_context_example3": {
+   "question": "Impuses are earthy. Impuses are numpuses. Every numpus is small. Numpuses are yumpuses. Zumpuses are sweet. Each yumpus is dull. Yumpuses are jompuses. Jompuses are orange. Jompuses are rompuses. Rompuses are transparent. Rompuses are dumpuses. Dumpuses are liquid. Each dumpus is a tumpus. Every tumpus is not sweet. Tumpuses are vumpuses. Vumpuses are feisty. Each vumpus is a wumpus. Max is a rompus.",
+   "query": "True or false: Max is sweet.",
+   "chain_of_thought": [
+    "Max is a rompus.",
+    "Rompuses are dumpuses.",
+    "Max is a dumpus.",
+    "Each dumpus is a tumpus.",
+    "Max is a tumpus.",
+    "Every tumpus is not sweet.",
+    "Max is not sweet."
+   ],
+   "answer": "False"
+  },
+  "test_example": {
+   "question": "Each impus is blue. Impuses are jompuses. Jompuses are shy. Dumpuses are not bright. Every jompus is a zumpus. Zumpuses are luminous. Every zumpus is a wumpus. Wumpuses are bright. Each wumpus is a yumpus. Sally is a jompus.",
+   "query": "True or false: Sally is not bright.",
+   "chain_of_thought": [
+    "Sally is a jompus.",
+    "Every jompus is a zumpus.",
+    "Sally is a zumpus.",
+    "Every zumpus is a wumpus.",
+    "Sally is a wumpus.",
+    "Wumpuses are bright.",
+    "Sally is bright."
+   ],
+   "answer": "False"
+  }
+ },
+ "example27": {
+  "in_context_example0": {
+   "question": "Wumpuses are bitter. Every wumpus is a rompus. Rompuses are transparent. Every rompus is an impus. Each impus is metallic. Vumpuses are not blue. Impuses are zumpuses. Each zumpus is hot. Zumpuses are dumpuses. Every dumpus is blue. Dumpuses are numpuses. Each numpus is not shy. Every numpus is a jompus. Jompuses are not bright. Jompuses are yumpuses. Yumpuses are aggressive. Every yumpus is a tumpus. Fae is an impus.",
+   "query": "True or false: Fae is blue.",
+   "chain_of_thought": [
+    "Fae is an impus.",
+    "Impuses are zumpuses.",
+    "Fae is a zumpus.",
+    "Zumpuses are dumpuses.",
+    "Fae is a dumpus.",
+    "Every dumpus is blue.",
+    "Fae is blue."
+   ],
+   "answer": "True"
+  },
+  "in_context_example1": {
+   "question": "Every impus is not orange. Vumpuses are not happy. Every impus is a zumpus. Every zumpus is not dull. Each zumpus is a jompus. Jompuses are bitter. Every jompus is a numpus. Numpuses are earthy. Numpuses are rompuses. Rompuses are happy. Rompuses are dumpuses. Dumpuses are kind. Every dumpus is a yumpus. Each yumpus is opaque. Each yumpus is a wumpus. Each wumpus is wooden. Every wumpus is a tumpus. Polly is a jompus.",
+   "query": "True or false: Polly is not happy.",
+   "chain_of_thought": [
+    "Polly is a jompus.",
+    "Every jompus is a numpus.",
+    "Polly is a numpus.",
+    "Numpuses are rompuses.",
+    "Polly is a rompus.",
+    "Rompuses are happy.",
+    "Polly is happy."
+   ],
+   "answer": "False"
+  },
+  "in_context_example2": {
+   "question": "Every wumpus is sweet. Wumpuses are rompuses. Rompuses are earthy. Every impus is aggressive. Every rompus is a vumpus. Every vumpus is not aggressive. Every vumpus is a jompus. Each jompus is not bright. Jompuses are dumpuses. Each dumpus is red. Dumpuses are zumpuses. Wren is a wumpus.",
+   "query": "True or false: Wren is not aggressive.",
+   "chain_of_thought": [
+    "Wren is a wumpus.",
+    "Wumpuses are rompuses.",
+    "Wren is a rompus.",
+    "Every rompus is a vumpus.",
+    "Wren is a vumpus.",
+    "Every vumpus is not aggressive.",
+    "Wren is not aggressive."
+   ],
+   "answer": "True"
+  },
+  "in_context_example3": {
+   "question": "Each jompus is not orange. Every jompus is an impus. Impuses are opaque. Each dumpus is not floral. Impuses are tumpuses. Tumpuses are aggressive. Tumpuses are zumpuses. Zumpuses are luminous. Each zumpus is a numpus. Each numpus is shy. Each numpus is a wumpus. Wumpuses are temperate. Each wumpus is a yumpus. Each yumpus is bright. Each yumpus is a rompus. Every rompus is floral. Each rompus is a vumpus. Rex is a wumpus.",
+   "query": "True or false: Rex is floral.",
+   "chain_of_thought": [
+    "Rex is a wumpus.",
+    "Each wumpus is a yumpus.",
+    "Rex is a yumpus.",
+    "Each yumpus is a rompus.",
+    "Rex is a rompus.",
+    "Every rompus is floral.",
+    "Rex is floral."
+   ],
+   "answer": "True"
+  },
+  "test_example": {
+   "question": "Each zumpus is blue. Every dumpus is not fruity. Zumpuses are tumpuses. Every tumpus is not opaque. Each tumpus is a vumpus. Vumpuses are dull. Vumpuses are yumpuses. Every yumpus is fruity. Yumpuses are jompuses. Fae is a tumpus.",
+   "query": "True or false: Fae is fruity.",
+   "chain_of_thought": [
+    "Fae is a tumpus.",
+    "Each tumpus is a vumpus.",
+    "Fae is a vumpus.",
+    "Vumpuses are yumpuses.",
+    "Fae is a yumpus.",
+    "Every yumpus is fruity.",
+    "Fae is fruity."
+   ],
+   "answer": "True"
+  }
+ },
+ "example28": {
+  "in_context_example0": {
+   "question": "Wumpuses are cold. Each wumpus is a tumpus. Tumpuses are transparent. Each tumpus is a rompus. Rompuses are floral. Each rompus is a dumpus. Dumpuses are mean. Dumpuses are zumpuses. Every zumpus is not dull. Zumpuses are impuses. Each impus is bitter. Impuses are numpuses. Each numpus is nervous. Each jompus is not mean. Every numpus is a yumpus. Yumpuses are small. Each yumpus is a vumpus. Alex is a tumpus.",
+   "query": "True or false: Alex is not mean.",
+   "chain_of_thought": [
+    "Alex is a tumpus.",
+    "Each tumpus is a rompus.",
+    "Alex is a rompus.",
+    "Each rompus is a dumpus.",
+    "Alex is a dumpus.",
+    "Dumpuses are mean.",
+    "Alex is mean."
+   ],
+   "answer": "False"
+  },
+  "in_context_example1": {
+   "question": "Each yumpus is not amenable. Every yumpus is a jompus. Each jompus is spicy. Jompuses are vumpuses. Vumpuses are small. Each vumpus is an impus. Each rompus is not liquid. Impuses are liquid. Each impus is a numpus. Numpuses are cold. Numpuses are dumpuses. Dumpuses are opaque. Every dumpus is a zumpus. Every zumpus is not dull. Zumpuses are wumpuses. Wumpuses are not brown. Every wumpus is a tumpus. Stella is a jompus.",
+   "query": "True or false: Stella is not liquid.",
+   "chain_of_thought": [
+    "Stella is a jompus.",
+    "Jompuses are vumpuses.",
+    "Stella is a vumpus.",
+    "Each vumpus is an impus.",
+    "Stella is an impus.",
+    "Impuses are liquid.",
+    "Stella is liquid."
+   ],
+   "answer": "False"
+  },
+  "in_context_example2": {
+   "question": "Yumpuses are small. Every yumpus is a dumpus. Every dumpus is floral. Each dumpus is a rompus. Rompuses are not nervous. Rompuses are vumpuses. Vumpuses are sweet. Every vumpus is a zumpus. Every zumpus is not wooden. Wumpuses are not sweet. Every zumpus is a jompus. Jompuses are blue. Every jompus is a tumpus. Tumpuses are not opaque. Tumpuses are impuses. Every impus is angry. Every impus is a numpus. Wren is a dumpus.",
+   "query": "True or false: Wren is not sweet.",
+   "chain_of_thought": [
+    "Wren is a dumpus.",
+    "Each dumpus is a rompus.",
+    "Wren is a rompus.",
+    "Rompuses are vumpuses.",
+    "Wren is a vumpus.",
+    "Vumpuses are sweet.",
+    "Wren is sweet."
+   ],
+   "answer": "False"
+  },
+  "in_context_example3": {
+   "question": "Wumpuses are wooden. Wumpuses are impuses. Every impus is shy. Impuses are dumpuses. Every dumpus is not orange. Dumpuses are rompuses. Rompuses are angry. Rompuses are zumpuses. Each zumpus is not opaque. Every zumpus is a tumpus. Tumpuses are sour. Tumpuses are jompuses. Each jompus is bright. Every jompus is a yumpus. Yumpuses are not fruity. Yumpuses are vumpuses. Numpuses are fruity. Wren is a tumpus.",
+   "query": "True or false: Wren is not fruity.",
+   "chain_of_thought": [
+    "Wren is a tumpus.",
+    "Tumpuses are jompuses.",
+    "Wren is a jompus.",
+    "Every jompus is a yumpus.",
+    "Wren is a yumpus.",
+    "Yumpuses are not fruity.",
+    "Wren is not fruity."
+   ],
+   "answer": "True"
+  },
+  "test_example": {
+   "question": "Tumpuses are not floral. Tumpuses are yumpuses. Every yumpus is shy. Every dumpus is transparent. Yumpuses are wumpuses. Every wumpus is not transparent. Wumpuses are jompuses. Sam is a tumpus.",
+   "query": "True or false: Sam is transparent.",
+   "chain_of_thought": [
+    "Sam is a tumpus.",
+    "Tumpuses are yumpuses.",
+    "Sam is a yumpus.",
+    "Yumpuses are wumpuses.",
+    "Sam is a wumpus.",
+    "Every wumpus is not transparent.",
+    "Sam is not transparent."
+   ],
+   "answer": "False"
+  }
+ },
+ "example29": {
+  "in_context_example0": {
+   "question": "Tumpuses are not bright. Each impus is amenable. Tumpuses are numpuses. Numpuses are not happy. Numpuses are dumpuses. Dumpuses are not amenable. Dumpuses are zumpuses. Each zumpus is liquid. Each zumpus is a vumpus. Vumpuses are not fruity. Vumpuses are jompuses. Each jompus is blue. Every jompus is a rompus. Every rompus is large. Rompuses are wumpuses. Every wumpus is not transparent. Wumpuses are yumpuses. Fae is a tumpus.",
+   "query": "True or false: Fae is amenable.",
+   "chain_of_thought": [
+    "Fae is a tumpus.",
+    "Tumpuses are numpuses.",
+    "Fae is a numpus.",
+    "Numpuses are dumpuses.",
+    "Fae is a dumpus.",
+    "Dumpuses are not amenable.",
+    "Fae is not amenable."
+   ],
+   "answer": "False"
+  },
+  "in_context_example1": {
+   "question": "Yumpuses are not cold. Each yumpus is a numpus. Every numpus is earthy. Every numpus is a wumpus. Wumpuses are not liquid. Each wumpus is a jompus. Each jompus is not opaque. Jompuses are zumpuses. Zumpuses are nervous. Each zumpus is an impus. Impuses are mean. Impuses are vumpuses. Each vumpus is large. Vumpuses are tumpuses. Tumpuses are spicy. Tumpuses are rompuses. Each dumpus is not large. Max is a zumpus.",
+   "query": "True or false: Max is not large.",
+   "chain_of_thought": [
+    "Max is a zumpus.",
+    "Each zumpus is an impus.",
+    "Max is an impus.",
+    "Impuses are vumpuses.",
+    "Max is a vumpus.",
+    "Each vumpus is large.",
+    "Max is large."
+   ],
+   "answer": "False"
+  },
+  "in_context_example2": {
+   "question": "Impuses are amenable. Every impus is a dumpus. Dumpuses are not transparent. Every dumpus is a yumpus. Yumpuses are metallic. Yumpuses are wumpuses. Wumpuses are hot. Wumpuses are zumpuses. Zumpuses are bright. Every zumpus is a jompus. Every jompus is happy. Jompuses are rompuses. Each rompus is red. Tumpuses are not hot. Each rompus is a numpus. Every numpus is not sour. Each numpus is a vumpus. Max is a dumpus.",
+   "query": "True or false: Max is not hot.",
+   "chain_of_thought": [
+    "Max is a dumpus.",
+    "Every dumpus is a yumpus.",
+    "Max is a yumpus.",
+    "Yumpuses are wumpuses.",
+    "Max is a wumpus.",
+    "Wumpuses are hot.",
+    "Max is hot."
+   ],
+   "answer": "False"
+  },
+  "in_context_example3": {
+   "question": "Every numpus is not small. Each tumpus is not liquid. Tumpuses are dumpuses. Every dumpus is aggressive. Dumpuses are rompuses. Rompuses are not hot. Rompuses are yumpuses. Each yumpus is small. Yumpuses are zumpuses. Rex is a dumpus.",
+   "query": "True or false: Rex is small.",
+   "chain_of_thought": [
+    "Rex is a dumpus.",
+    "Dumpuses are rompuses.",
+    "Rex is a rompus.",
+    "Rompuses are yumpuses.",
+    "Rex is a yumpus.",
+    "Each yumpus is small.",
+    "Rex is small."
+   ],
+   "answer": "True"
+  },
+  "test_example": {
+   "question": "Each impus is metallic. Impuses are wumpuses. Wumpuses are not bright. Each wumpus is a numpus. Each numpus is not earthy. Every vumpus is not happy. Every numpus is a zumpus. Zumpuses are not red. Zumpuses are tumpuses. Each tumpus is amenable. Tumpuses are yumpuses. Yumpuses are happy. Each yumpus is a jompus. Jompuses are hot. Jompuses are dumpuses. Each dumpus is opaque. Each dumpus is a rompus. Sam is a zumpus.",
+   "query": "True or false: Sam is not happy.",
+   "chain_of_thought": [
+    "Sam is a zumpus.",
+    "Zumpuses are tumpuses.",
+    "Sam is a tumpus.",
+    "Tumpuses are yumpuses.",
+    "Sam is a yumpus.",
+    "Yumpuses are happy.",
+    "Sam is happy."
+   ],
+   "answer": "False"
+  }
+ },
+ "example30": {
+  "in_context_example0": {
+   "question": "Each wumpus is not floral. Each wumpus is a zumpus. Zumpuses are sour. Every zumpus is a rompus. Each rompus is nervous. Every rompus is a dumpus. Jompuses are not nervous. Fae is a wumpus.",
+   "query": "True or false: Fae is not nervous.",
+   "chain_of_thought": [
+    "Fae is a wumpus.",
+    "Each wumpus is a zumpus.",
+    "Fae is a zumpus.",
+    "Every zumpus is a rompus.",
+    "Fae is a rompus.",
+    "Each rompus is nervous.",
+    "Fae is nervous."
+   ],
+   "answer": "False"
+  },
+  "in_context_example1": {
+   "question": "Every jompus is mean. Jompuses are dumpuses. Dumpuses are small. Each dumpus is a wumpus. Wumpuses are dull. Numpuses are hot. Wumpuses are tumpuses. Each tumpus is not hot. Tumpuses are vumpuses. Alex is a dumpus.",
+   "query": "True or false: Alex is not hot.",
+   "chain_of_thought": [
+    "Alex is a dumpus.",
+    "Each dumpus is a wumpus.",
+    "Alex is a wumpus.",
+    "Wumpuses are tumpuses.",
+    "Alex is a tumpus.",
+    "Each tumpus is not hot.",
+    "Alex is not hot."
+   ],
+   "answer": "True"
+  },
+  "in_context_example2": {
+   "question": "Numpuses are transparent. Every numpus is a rompus. Rompuses are angry. Rompuses are dumpuses. Dumpuses are bright. Wumpuses are temperate. Each dumpus is a zumpus. Every zumpus is not metallic. Each zumpus is a vumpus. Each vumpus is not sour. Vumpuses are impuses. Each impus is earthy. Impuses are tumpuses. Each tumpus is not temperate. Each tumpus is a jompus. Max is a vumpus.",
+   "query": "True or false: Max is temperate.",
+   "chain_of_thought": [
+    "Max is a vumpus.",
+    "Vumpuses are impuses.",
+    "Max is an impus.",
+    "Impuses are tumpuses.",
+    "Max is a tumpus.",
+    "Each tumpus is not temperate.",
+    "Max is not temperate."
+   ],
+   "answer": "False"
+  },
+  "in_context_example3": {
+   "question": "Every yumpus is cold. Yumpuses are impuses. Each impus is fruity. Each impus is a numpus. Each numpus is bright. Numpuses are vumpuses. Vumpuses are not large. Each vumpus is a zumpus. Zumpuses are luminous. Zumpuses are rompuses. Rompuses are not brown. Tumpuses are brown. Every rompus is a jompus. Rex is a vumpus.",
+   "query": "True or false: Rex is not brown.",
+   "chain_of_thought": [
+    "Rex is a vumpus.",
+    "Each vumpus is a zumpus.",
+    "Rex is a zumpus.",
+    "Zumpuses are rompuses.",
+    "Rex is a rompus.",
+    "Rompuses are not brown.",
+    "Rex is not brown."
+   ],
+   "answer": "True"
+  },
+  "test_example": {
+   "question": "Every dumpus is not metallic. Each dumpus is an impus. Every impus is not hot. Every impus is a vumpus. Vumpuses are bright. Each vumpus is a rompus. Rompuses are not brown. Rompuses are jompuses. Jompuses are large. Every tumpus is brown. Each jompus is a numpus. Each numpus is sour. Numpuses are zumpuses. Zumpuses are nervous. Zumpuses are wumpuses. Each wumpus is mean. Wumpuses are yumpuses. Fae is an impus.",
+   "query": "True or false: Fae is brown.",
+   "chain_of_thought": [
+    "Fae is an impus.",
+    "Every impus is a vumpus.",
+    "Fae is a vumpus.",
+    "Each vumpus is a rompus.",
+    "Fae is a rompus.",
+    "Rompuses are not brown.",
+    "Fae is not brown."
+   ],
+   "answer": "False"
+  }
+ }
+}

@@ -1,0 +1,1862 @@
+{
+ "example1": {
+  "in_context_example0": {
+   "question": "Every lepidopteran is an insect. Each butterfly is a lepidopteran. Invertebrates are animals. Each nematode is not segmented. Every insect is an arthropod. Each insect is not eight-legged. Animals are not unicellular. Arthropods are segmented. Each arthropod is an invertebrate. Wren is an insect.",
+   "query": "True or false: Wren is not segmented.",
+   "chain_of_thought": [
+    "Wren is an insect.",
+    "Every insect is an arthropod.",
+    "Wren is an arthropod.",
+    "Arthropods are segmented.",
+    "Wren is segmented."
+   ],
+   "answer": "False"
+  },
+  "in_context_example1": {
+   "question": "Lepidopterans are insects. Insects are six-legged. Each butterfly is a lepidopteran. Arthropods are invertebrates. Insects are arthropods. Invertebrates are animals. Each whale is bony. Every arthropod is not bony. Every animal is not unicellular. Sally is an insect.",
+   "query": "True or false: Sally is bony.",
+   "chain_of_thought": [
+    "Sally is an insect.",
+    "Insects are arthropods.",
+    "Sally is an arthropod.",
+    "Every arthropod is not bony.",
+    "Sally is not bony."
+   ],
+   "answer": "False"
+  },
+  "in_context_example2": {
+   "question": "Every prime number is a natural number. Composite numbers are not prime. Each Mersenne prime is prime. Prime numbers are prime. Real numbers are numbers. Each natural number is an integer. Each natural number is not negative. Integers are real numbers. Real numbers are real. Mersenne primes are prime numbers. 8191 is a Mersenne prime.",
+   "query": "True or false: 8191 is not prime.",
+   "chain_of_thought": [
+    "8191 is a Mersenne prime.",
+    "Mersenne primes are prime numbers.",
+    "8191 is a prime number.",
+    "Prime numbers are prime.",
+    "8191 is prime."
+   ],
+   "answer": "False"
+  },
+  "in_context_example3": {
+   "question": "Mersenne primes are prime. Every real number is real. Natural numbers are integers. Every negative number is not positive. Prime numbers are natural numbers. Every real number is a number. Integers are real numbers. Mersenne primes are prime numbers. Prime numbers are not composite. Natural numbers are positive. 131071 is a prime number.",
+   "query": "True or false: 131071 is not positive.",
+   "chain_of_thought": [
+    "131071 is a prime number.",
+    "Prime numbers are natural numbers.",
+    "131071 is a natural number.",
+    "Natural numbers are positive.",
+    "131071 is positive."
+   ],
+   "answer": "False"
+  },
+  "test_example": {
+   "question": "Vertebrates are animals. Mammals are not cold-blooded. Carnivores are mammals. Each feline is a carnivore. Animals are multicellular. Cats are felines. Every carnivore is not herbivorous. Every mammal is a vertebrate. Sheep are herbivorous. Fae is a feline.",
+   "query": "True or false: Fae is herbivorous.",
+   "chain_of_thought": [
+    "Fae is a feline.",
+    "Each feline is a carnivore.",
+    "Fae is a carnivore.",
+    "Every carnivore is not herbivorous.",
+    "Fae is not herbivorous."
+   ],
+   "answer": "False"
+  }
+ },
+ "example2": {
+  "in_context_example0": {
+   "question": "Natural numbers are not negative. Mersenne primes are prime numbers. Prime numbers are not composite. Real numbers are real. Every Mersenne prime is prime. Every prime number is a natural number. Real numbers are numbers. Each integer is a real number. Each negative number is negative. Natural numbers are integers. 3 is a prime number.",
+   "query": "True or false: 3 is negative.",
+   "chain_of_thought": [
+    "3 is a prime number.",
+    "Every prime number is a natural number.",
+    "3 is a natural number.",
+    "Natural numbers are not negative.",
+    "3 is not negative."
+   ],
+   "answer": "False"
+  },
+  "in_context_example1": {
+   "question": "Each cat is a feline. Mammals are vertebrates. Every feline is a carnivore. Each animal is multicellular. Sheep are herbivorous. Vertebrates are animals. Carnivores are mammals. Each carnivore is not herbivorous. Mammals are furry. Sam is a feline.",
+   "query": "True or false: Sam is not herbivorous.",
+   "chain_of_thought": [
+    "Sam is a feline.",
+    "Every feline is a carnivore.",
+    "Sam is a carnivore.",
+    "Each carnivore is not herbivorous.",
+    "Sam is not herbivorous."
+   ],
+   "answer": "True"
+  },
+  "in_context_example2": {
+   "question": "Each vertebrate is an animal. Every carnivore is carnivorous. Each mammal is not cold-blooded. Felines are carnivores. Each animal is not unicellular. Every mammal is a vertebrate. Every sheep is not carnivorous. Carnivores are mammals. Every cat is a feline. Sally is a feline.",
+   "query": "True or false: Sally is carnivorous.",
+   "chain_of_thought": [
+    "Sally is a feline.",
+    "Felines are carnivores.",
+    "Sally is a carnivore.",
+    "Every carnivore is carnivorous.",
+    "Sally is carnivorous."
+   ],
+   "answer": "True"
+  },
+  "in_context_example3": {
+   "question": "Each prime number is a natural number. Integers are real numbers. Prime numbers are prime. Each natural number is an integer. Every real number is a number. Each Mersenne prime is prime. Real numbers are real. Natural numbers are positive. Every imaginary number is not real. Each Mersenne prime is a prime number. 131071 is an integer.",
+   "query": "True or false: 131071 is not real.",
+   "chain_of_thought": [
+    "131071 is an integer.",
+    "Integers are real numbers.",
+    "131071 is a real number.",
+    "Real numbers are real.",
+    "131071 is real."
+   ],
+   "answer": "False"
+  },
+  "test_example": {
+   "question": "Butterflies are lepidopterans. Insects are arthropods. Spiders are not six-legged. Every insect is six-legged. Each animal is multicellular. Lepidopterans are insects. Arthropods are small. Each invertebrate is an animal. Arthropods are invertebrates. Rex is a lepidopteran.",
+   "query": "True or false: Rex is six-legged.",
+   "chain_of_thought": [
+    "Rex is a lepidopteran.",
+    "Lepidopterans are insects.",
+    "Rex is an insect.",
+    "Every insect is six-legged.",
+    "Rex is six-legged."
+   ],
+   "answer": "True"
+  }
+ },
+ "example3": {
+  "in_context_example0": {
+   "question": "Every carnivore is a mammal. Each mammal is warm-blooded. Every vertebrate is an animal. Every feline is a carnivore. Carnivores are not herbivorous. Sheep are herbivorous. Animals are multicellular. Mammals are vertebrates. Cats are felines. Sam is a feline.",
+   "query": "True or false: Sam is not herbivorous.",
+   "chain_of_thought": [
+    "Sam is a feline.",
+    "Every feline is a carnivore.",
+    "Sam is a carnivore.",
+    "Carnivores are not herbivorous.",
+    "Sam is not herbivorous."
+   ],
+   "answer": "True"
+  },
+  "in_context_example1": {
+   "question": "Every lepidopteran is an insect. Arthropods are small. Every invertebrate is an animal. Each animal is multicellular. Each insect is not eight-legged. Each arthropod is an invertebrate. Butterflies are lepidopterans. Each spider is eight-legged. Every insect is an arthropod. Stella is a lepidopteran.",
+   "query": "True or false: Stella is not eight-legged.",
+   "chain_of_thought": [
+    "Stella is a lepidopteran.",
+    "Every lepidopteran is an insect.",
+    "Stella is an insect.",
+    "Each insect is not eight-legged.",
+    "Stella is not eight-legged."
+   ],
+   "answer": "True"
+  },
+  "in_context_example2": {
+   "question": "Animals are multicellular. Every lepidopteran is an insect. Invertebrates are animals. Every spider is not six-legged. Each arthropod is an invertebrate. Butterflies are lepidopterans. Arthropods are not bony. Every insect is an arthropod. Insects are six-legged. Rex is a lepidopteran.",
+   "query": "True or false: Rex is six-legged.",
+   "chain_of_thought": [
+    "Rex is a lepidopteran.",
+    "Every lepidopteran is an insect.",
+    "Rex is an insect.",
+    "Insects are six-legged.",
+    "Rex is six-legged."
+   ],
+   "answer": "True"
+  },
+  "in_context_example3": {
+   "question": "Prime numbers are prime. Integers are real numbers. Prime numbers are natural numbers. Natural numbers are positive. Every Mersenne prime is a prime number. Every real number is a number. Real numbers are not imaginary. Each complex number is imaginary. Natural numbers are integers. Each Mersenne prime is prime. 127 is an integer.",
+   "query": "True or false: 127 is imaginary.",
+   "chain_of_thought": [
+    "127 is an integer.",
+    "Integers are real numbers.",
+    "127 is a real number.",
+    "Real numbers are not imaginary.",
+    "127 is not imaginary."
+   ],
+   "answer": "False"
+  },
+  "test_example": {
+   "question": "Arthropods are segmented. Every nematode is not segmented. Invertebrates are animals. Each insect is an arthropod. Every butterfly is a lepidopteran. Lepidopterans are insects. Every insect is six-legged. Animals are not unicellular. Arthropods are invertebrates. Max is an insect.",
+   "query": "True or false: Max is not segmented.",
+   "chain_of_thought": [
+    "Max is an insect.",
+    "Each insect is an arthropod.",
+    "Max is an arthropod.",
+    "Arthropods are segmented.",
+    "Max is segmented."
+   ],
+   "answer": "False"
+  }
+ },
+ "example4": {
+  "in_context_example0": {
+   "question": "Vertebrates are animals. Mammals are vertebrates. Felines are carnivores. Animals are not unicellular. Cats are felines. Every mammal is not cold-blooded. Each sheep is herbivorous. Carnivores are mammals. Carnivores are not herbivorous. Max is a feline.",
+   "query": "True or false: Max is not herbivorous.",
+   "chain_of_thought": [
+    "Max is a feline.",
+    "Felines are carnivores.",
+    "Max is a carnivore.",
+    "Carnivores are not herbivorous.",
+    "Max is not herbivorous."
+   ],
+   "answer": "True"
+  },
+  "in_context_example1": {
+   "question": "Integers are real numbers. Natural numbers are integers. Natural numbers are not negative. Every negative number is negative. Each prime number is a natural number. Real numbers are not imaginary. Real numbers are numbers. Mersenne primes are not composite. Every prime number is prime. Each Mersenne prime is a prime number. 8191 is a prime number.",
+   "query": "True or false: 8191 is not negative.",
+   "chain_of_thought": [
+    "8191 is a prime number.",
+    "Each prime number is a natural number.",
+    "8191 is a natural number.",
+    "Natural numbers are not negative.",
+    "8191 is not negative."
+   ],
+   "answer": "True"
+  },
+  "in_context_example2": {
+   "question": "Real numbers are numbers. Prime numbers are natural numbers. Each Mersenne prime is not composite. Mersenne primes are prime numbers. Composite numbers are composite. Each natural number is not negative. Natural numbers are integers. Integers are real numbers. Each real number is not imaginary. Every prime number is not composite. 3 is a Mersenne prime.",
+   "query": "True or false: 3 is not composite.",
+   "chain_of_thought": [
+    "3 is a Mersenne prime.",
+    "Mersenne primes are prime numbers.",
+    "3 is a prime number.",
+    "Every prime number is not composite.",
+    "3 is not composite."
+   ],
+   "answer": "True"
+  },
+  "in_context_example3": {
+   "question": "Lepidopterans are insects. Animals are not unicellular. Each arthropod is an invertebrate. Arthropods are segmented. Every insect is not eight-legged. Butterflies are lepidopterans. Insects are arthropods. Invertebrates are animals. Spiders are eight-legged. Sally is a lepidopteran.",
+   "query": "True or false: Sally is eight-legged.",
+   "chain_of_thought": [
+    "Sally is a lepidopteran.",
+    "Lepidopterans are insects.",
+    "Sally is an insect.",
+    "Every insect is not eight-legged.",
+    "Sally is not eight-legged."
+   ],
+   "answer": "False"
+  },
+  "test_example": {
+   "question": "Each Mersenne prime is a prime number. Each integer is a real number. Every complex number is imaginary. Each prime number is prime. Each real number is not imaginary. Real numbers are numbers. Each natural number is positive. Prime numbers are natural numbers. Each Mersenne prime is not composite. Natural numbers are integers. 31 is an integer.",
+   "query": "True or false: 31 is not imaginary.",
+   "chain_of_thought": [
+    "31 is an integer.",
+    "Each integer is a real number.",
+    "31 is a real number.",
+    "Each real number is not imaginary.",
+    "31 is not imaginary."
+   ],
+   "answer": "True"
+  }
+ },
+ "example5": {
+  "in_context_example0": {
+   "question": "Felines are carnivores. Each carnivore is carnivorous. Each mammal is furry. Every carnivore is a mammal. Every vertebrate is an animal. Cats are felines. Each mammal is a vertebrate. Each animal is multicellular. Snakes are not furry. Fae is a carnivore.",
+   "query": "True or false: Fae is furry.",
+   "chain_of_thought": [
+    "Fae is a carnivore.",
+    "Every carnivore is a mammal.",
+    "Fae is a mammal.",
+    "Each mammal is furry.",
+    "Fae is furry."
+   ],
+   "answer": "True"
+  },
+  "in_context_example1": {
+   "question": "Natural numbers are integers. Mersenne primes are not composite. Every prime number is a natural number. Every integer is a real number. Natural numbers are not negative. Negative numbers are negative. Prime numbers are not composite. Each Mersenne prime is a prime number. Every real number is real. Every real number is a number. 8191 is a prime number.",
+   "query": "True or false: 8191 is not negative.",
+   "chain_of_thought": [
+    "8191 is a prime number.",
+    "Every prime number is a natural number.",
+    "8191 is a natural number.",
+    "Natural numbers are not negative.",
+    "8191 is not negative."
+   ],
+   "answer": "True"
+  },
+  "in_context_example2": {
+   "question": "Real numbers are numbers. Mersenne primes are prime numbers. Integers are real numbers. Each prime number is a natural number. Each composite number is composite. Each real number is real. Every Mersenne prime is not composite. Natural numbers are integers. Each natural number is not negative. Every prime number is not composite. 31 is a Mersenne prime.",
+   "query": "True or false: 31 is not composite.",
+   "chain_of_thought": [
+    "31 is a Mersenne prime.",
+    "Mersenne primes are prime numbers.",
+    "31 is a prime number.",
+    "Every prime number is not composite.",
+    "31 is not composite."
+   ],
+   "answer": "True"
+  },
+  "in_context_example3": {
+   "question": "Every natural number is an integer. Each Mersenne prime is prime. Every negative number is negative. Prime numbers are natural numbers. Every natural number is not negative. Every Mersenne prime is a prime number. Each real number is a number. Integers are real numbers. Real numbers are real. Prime numbers are prime. 131071 is a prime number.",
+   "query": "True or false: 131071 is not negative.",
+   "chain_of_thought": [
+    "131071 is a prime number.",
+    "Prime numbers are natural numbers.",
+    "131071 is a natural number.",
+    "Every natural number is not negative.",
+    "131071 is not negative."
+   ],
+   "answer": "True"
+  },
+  "test_example": {
+   "question": "Natural numbers are positive. Mersenne primes are prime numbers. Natural numbers are integers. Prime numbers are not composite. Every imaginary number is not real. Each real number is real. Real numbers are numbers. Each prime number is a natural number. Mersenne primes are prime. Each integer is a real number. 131071 is an integer.",
+   "query": "True or false: 131071 is not real.",
+   "chain_of_thought": [
+    "131071 is an integer.",
+    "Each integer is a real number.",
+    "131071 is a real number.",
+    "Each real number is real.",
+    "131071 is real."
+   ],
+   "answer": "False"
+  }
+ },
+ "example6": {
+  "in_context_example0": {
+   "question": "Each animal is multicellular. Every insect is an arthropod. Each insect is not eight-legged. Invertebrates are animals. Each arthropod is small. Spiders are eight-legged. Butterflies are lepidopterans. Every lepidopteran is an insect. Every arthropod is an invertebrate. Sally is a lepidopteran.",
+   "query": "True or false: Sally is not eight-legged.",
+   "chain_of_thought": [
+    "Sally is a lepidopteran.",
+    "Every lepidopteran is an insect.",
+    "Sally is an insect.",
+    "Each insect is not eight-legged.",
+    "Sally is not eight-legged."
+   ],
+   "answer": "True"
+  },
+  "in_context_example1": {
+   "question": "Each lepidopteran is an insect. Every arthropod is segmented. Insects are not eight-legged. Animals are multicellular. Insects are arthropods. Each spider is eight-legged. Butterflies are lepidopterans. Every invertebrate is an animal. Each arthropod is an invertebrate. Rex is a lepidopteran.",
+   "query": "True or false: Rex is not eight-legged.",
+   "chain_of_thought": [
+    "Rex is a lepidopteran.",
+    "Each lepidopteran is an insect.",
+    "Rex is an insect.",
+    "Insects are not eight-legged.",
+    "Rex is not eight-legged."
+   ],
+   "answer": "True"
+  },
+  "in_context_example2": {
+   "question": "Each mammal is a vertebrate. Each mammal is furry. Each cat is a feline. Vertebrates are animals. Snakes are not furry. Carnivores are carnivorous. Each feline is a carnivore. Carnivores are mammals. Each animal is not unicellular. Sam is a carnivore.",
+   "query": "True or false: Sam is not furry.",
+   "chain_of_thought": [
+    "Sam is a carnivore.",
+    "Carnivores are mammals.",
+    "Sam is a mammal.",
+    "Each mammal is furry.",
+    "Sam is furry."
+   ],
+   "answer": "False"
+  },
+  "in_context_example3": {
+   "question": "Prime numbers are prime. Each natural number is positive. Each natural number is an integer. Prime numbers are natural numbers. Mersenne primes are prime numbers. Mersenne primes are not composite. Every real number is a number. Each integer is a real number. Each imaginary number is not real. Real numbers are real. 8191 is an integer.",
+   "query": "True or false: 8191 is not real.",
+   "chain_of_thought": [
+    "8191 is an integer.",
+    "Each integer is a real number.",
+    "8191 is a real number.",
+    "Real numbers are real.",
+    "8191 is real."
+   ],
+   "answer": "False"
+  },
+  "test_example": {
+   "question": "Each insect is six-legged. Butterflies are lepidopterans. Every invertebrate is an animal. Spiders are not six-legged. Lepidopterans are insects. Arthropods are invertebrates. Insects are arthropods. Animals are not unicellular. Every arthropod is small. Alex is a lepidopteran.",
+   "query": "True or false: Alex is not six-legged.",
+   "chain_of_thought": [
+    "Alex is a lepidopteran.",
+    "Lepidopterans are insects.",
+    "Alex is an insect.",
+    "Each insect is six-legged.",
+    "Alex is six-legged."
+   ],
+   "answer": "False"
+  }
+ },
+ "example7": {
+  "in_context_example0": {
+   "question": "Each insect is not eight-legged. Each insect is an arthropod. Every invertebrate is an animal. Every butterfly is a lepidopteran. Every whale is not small. Animals are multicellular. Every lepidopteran is an insect. Arthropods are small. Arthropods are invertebrates. Sam is an insect.",
+   "query": "True or false: Sam is small.",
+   "chain_of_thought": [
+    "Sam is an insect.",
+    "Each insect is an arthropod.",
+    "Sam is an arthropod.",
+    "Arthropods are small.",
+    "Sam is small."
+   ],
+   "answer": "True"
+  },
+  "in_context_example1": {
+   "question": "Every integer is a real number. Natural numbers are integers. Prime numbers are not composite. Every natural number is not negative. Every Mersenne prime is not composite. Imaginary numbers are not real. Mersenne primes are prime numbers. Each prime number is a natural number. Real numbers are real. Every real number is a number. 31 is an integer.",
+   "query": "True or false: 31 is not real.",
+   "chain_of_thought": [
+    "31 is an integer.",
+    "Every integer is a real number.",
+    "31 is a real number.",
+    "Real numbers are real.",
+    "31 is real."
+   ],
+   "answer": "False"
+  },
+  "in_context_example2": {
+   "question": "Vertebrates are animals. Each sheep is herbivorous. Each cat is a feline. Every mammal is not cold-blooded. Each animal is not unicellular. Every mammal is a vertebrate. Carnivores are not herbivorous. Every feline is a carnivore. Each carnivore is a mammal. Sam is a feline.",
+   "query": "True or false: Sam is not herbivorous.",
+   "chain_of_thought": [
+    "Sam is a feline.",
+    "Every feline is a carnivore.",
+    "Sam is a carnivore.",
+    "Carnivores are not herbivorous.",
+    "Sam is not herbivorous."
+   ],
+   "answer": "True"
+  },
+  "in_context_example3": {
+   "question": "Carnivores are not herbivorous. Each carnivore is a mammal. Every mammal is a vertebrate. Each cat is a feline. Felines are carnivores. Vertebrates are animals. Animals are not unicellular. Each snake is cold-blooded. Every mammal is not cold-blooded. Wren is a carnivore.",
+   "query": "True or false: Wren is not cold-blooded.",
+   "chain_of_thought": [
+    "Wren is a carnivore.",
+    "Each carnivore is a mammal.",
+    "Wren is a mammal.",
+    "Every mammal is not cold-blooded.",
+    "Wren is not cold-blooded."
+   ],
+   "answer": "True"
+  },
+  "test_example": {
+   "question": "Arthropods are invertebrates. Whales are bony. Each arthropod is not bony. Invertebrates are animals. Animals are not unicellular. Every insect is an arthropod. Insects are six-legged. Every lepidopteran is an insect. Every butterfly is a lepidopteran. Sally is an insect.",
+   "query": "True or false: Sally is not bony.",
+   "chain_of_thought": [
+    "Sally is an insect.",
+    "Every insect is an arthropod.",
+    "Sally is an arthropod.",
+    "Each arthropod is not bony.",
+    "Sally is not bony."
+   ],
+   "answer": "True"
+  }
+ },
+ "example8": {
+  "in_context_example0": {
+   "question": "Insects are arthropods. Each lepidopteran is an insect. Each animal is multicellular. Butterflies are lepidopterans. Arthropods are invertebrates. Insects are not eight-legged. Spiders are eight-legged. Every invertebrate is an animal. Arthropods are not bony. Sam is a lepidopteran.",
+   "query": "True or false: Sam is not eight-legged.",
+   "chain_of_thought": [
+    "Sam is a lepidopteran.",
+    "Each lepidopteran is an insect.",
+    "Sam is an insect.",
+    "Insects are not eight-legged.",
+    "Sam is not eight-legged."
+   ],
+   "answer": "True"
+  },
+  "in_context_example1": {
+   "question": "Arthropods are not bony. Arthropods are invertebrates. Every insect is not eight-legged. Insects are arthropods. Spiders are eight-legged. Animals are multicellular. Every lepidopteran is an insect. Every butterfly is a lepidopteran. Invertebrates are animals. Rex is a lepidopteran.",
+   "query": "True or false: Rex is not eight-legged.",
+   "chain_of_thought": [
+    "Rex is a lepidopteran.",
+    "Every lepidopteran is an insect.",
+    "Rex is an insect.",
+    "Every insect is not eight-legged.",
+    "Rex is not eight-legged."
+   ],
+   "answer": "True"
+  },
+  "in_context_example2": {
+   "question": "Mersenne primes are prime numbers. Prime numbers are not composite. Mersenne primes are prime. Every negative number is negative. Real numbers are numbers. Prime numbers are natural numbers. Natural numbers are integers. Each integer is a real number. Natural numbers are not negative. Each real number is not imaginary. 8191 is a prime number.",
+   "query": "True or false: 8191 is negative.",
+   "chain_of_thought": [
+    "8191 is a prime number.",
+    "Prime numbers are natural numbers.",
+    "8191 is a natural number.",
+    "Natural numbers are not negative.",
+    "8191 is not negative."
+   ],
+   "answer": "False"
+  },
+  "in_context_example3": {
+   "question": "Prime numbers are prime. Mersenne primes are prime. Natural numbers are integers. Natural numbers are not negative. Every Mersenne prime is a prime number. Each integer is a real number. Prime numbers are natural numbers. Every negative number is negative. Each real number is a number. Each real number is real. 3 is a prime number.",
+   "query": "True or false: 3 is not negative.",
+   "chain_of_thought": [
+    "3 is a prime number.",
+    "Prime numbers are natural numbers.",
+    "3 is a natural number.",
+    "Natural numbers are not negative.",
+    "3 is not negative."
+   ],
+   "answer": "True"
+  },
+  "test_example": {
+   "question": "Prime numbers are natural numbers. Every natural number is positive. Mersenne primes are prime numbers. Each complex number is imaginary. Every natural number is an integer. Integers are real numbers. Real numbers are not imaginary. Each real number is a number. Mersenne primes are prime. Prime numbers are prime. 8191 is an integer.",
+   "query": "True or false: 8191 is not imaginary.",
+   "chain_of_thought": [
+    "8191 is an integer.",
+    "Integers are real numbers.",
+    "8191 is a real number.",
+    "Real numbers are not imaginary.",
+    "8191 is not imaginary."
+   ],
+   "answer": "True"
+  }
+ },
+ "example9": {
+  "in_context_example0": {
+   "question": "Snakes are not furry. Each carnivore is a mammal. Every feline is a carnivore. Mammals are furry. Vertebrates are animals. Every mammal is a vertebrate. Each cat is a feline. Carnivores are not herbivorous. Every animal is not unicellular. Sally is a carnivore.",
+   "query": "True or false: Sally is furry.",
+   "chain_of_thought": [
+    "Sally is a carnivore.",
+    "Each carnivore is a mammal.",
+    "Sally is a mammal.",
+    "Mammals are furry.",
+    "Sally is furry."
+   ],
+   "answer": "True"
+  },
+  "in_context_example1": {
+   "question": "Every mammal is not cold-blooded. Carnivores are not herbivorous. Every feline is a carnivore. Cats are felines. Mammals are vertebrates. Every carnivore is a mammal. Every sheep is herbivorous. Animals are multicellular. Vertebrates are animals. Sam is a feline.",
+   "query": "True or false: Sam is herbivorous.",
+   "chain_of_thought": [
+    "Sam is a feline.",
+    "Every feline is a carnivore.",
+    "Sam is a carnivore.",
+    "Carnivores are not herbivorous.",
+    "Sam is not herbivorous."
+   ],
+   "answer": "False"
+  },
+  "in_context_example2": {
+   "question": "Each carnivore is a mammal. Every feline is a carnivore. Each carnivore is not herbivorous. Mammals are warm-blooded. Every cat is a feline. Each snake is not warm-blooded. Each animal is multicellular. Each vertebrate is an animal. Every mammal is a vertebrate. Stella is a carnivore.",
+   "query": "True or false: Stella is warm-blooded.",
+   "chain_of_thought": [
+    "Stella is a carnivore.",
+    "Each carnivore is a mammal.",
+    "Stella is a mammal.",
+    "Mammals are warm-blooded.",
+    "Stella is warm-blooded."
+   ],
+   "answer": "True"
+  },
+  "in_context_example3": {
+   "question": "Insects are arthropods. Every butterfly is a lepidopteran. Animals are multicellular. Arthropods are invertebrates. Spiders are eight-legged. Insects are not eight-legged. Every arthropod is small. Invertebrates are animals. Lepidopterans are insects. Sally is a lepidopteran.",
+   "query": "True or false: Sally is not eight-legged.",
+   "chain_of_thought": [
+    "Sally is a lepidopteran.",
+    "Lepidopterans are insects.",
+    "Sally is an insect.",
+    "Insects are not eight-legged.",
+    "Sally is not eight-legged."
+   ],
+   "answer": "True"
+  },
+  "test_example": {
+   "question": "Each animal is not unicellular. Arthropods are invertebrates. Invertebrates are animals. Arthropods are not bony. Insects are arthropods. Lepidopterans are insects. Each butterfly is a lepidopteran. Spiders are eight-legged. Insects are not eight-legged. Stella is a lepidopteran.",
+   "query": "True or false: Stella is eight-legged.",
+   "chain_of_thought": [
+    "Stella is a lepidopteran.",
+    "Lepidopterans are insects.",
+    "Stella is an insect.",
+    "Insects are not eight-legged.",
+    "Stella is not eight-legged."
+   ],
+   "answer": "False"
+  }
+ },
+ "example10": {
+  "in_context_example0": {
+   "question": "Every invertebrate is an animal. Each insect is an arthropod. Every arthropod is an invertebrate. Each spider is eight-legged. Every butterfly is a lepidopteran. Insects are not eight-legged. Lepidopterans are insects. Animals are multicellular. Every arthropod is segmented. Polly is a lepidopteran.",
+   "query": "True or false: Polly is eight-legged.",
+   "chain_of_thought": [
+    "Polly is a lepidopteran.",
+    "Lepidopterans are insects.",
+    "Polly is an insect.",
+    "Insects are not eight-legged.",
+    "Polly is not eight-legged."
+   ],
+   "answer": "False"
+  },
+  "in_context_example1": {
+   "question": "Butterflies are lepidopterans. Every invertebrate is an animal. Spiders are not six-legged. Animals are not unicellular. Insects are arthropods. Each lepidopteran is an insect. Every insect is six-legged. Arthropods are small. Every arthropod is an invertebrate. Polly is a lepidopteran.",
+   "query": "True or false: Polly is six-legged.",
+   "chain_of_thought": [
+    "Polly is a lepidopteran.",
+    "Each lepidopteran is an insect.",
+    "Polly is an insect.",
+    "Every insect is six-legged.",
+    "Polly is six-legged."
+   ],
+   "answer": "True"
+  },
+  "in_context_example2": {
+   "question": "Each arthropod is an invertebrate. Animals are multicellular. Butterflies are lepidopterans. Insects are arthropods. Insects are six-legged. Spiders are not six-legged. Arthropods are not bony. Every invertebrate is an animal. Every lepidopteran is an insect. Rex is a lepidopteran.",
+   "query": "True or false: Rex is not six-legged.",
+   "chain_of_thought": [
+    "Rex is a lepidopteran.",
+    "Every lepidopteran is an insect.",
+    "Rex is an insect.",
+    "Insects are six-legged.",
+    "Rex is six-legged."
+   ],
+   "answer": "False"
+  },
+  "in_context_example3": {
+   "question": "Each natural number is positive. Each prime number is not composite. Negative numbers are not positive. Prime numbers are natural numbers. Every natural number is an integer. Every Mersenne prime is a prime number. Real numbers are not imaginary. Every Mersenne prime is not composite. Every real number is a number. Every integer is a real number. 8191 is a prime number.",
+   "query": "True or false: 8191 is not positive.",
+   "chain_of_thought": [
+    "8191 is a prime number.",
+    "Prime numbers are natural numbers.",
+    "8191 is a natural number.",
+    "Each natural number is positive.",
+    "8191 is positive."
+   ],
+   "answer": "False"
+  },
+  "test_example": {
+   "question": "Arthropods are not bony. Every lepidopteran is an insect. Each whale is bony. Each insect is six-legged. Butterflies are lepidopterans. Each animal is multicellular. Each arthropod is an invertebrate. Invertebrates are animals. Insects are arthropods. Rex is an insect.",
+   "query": "True or false: Rex is not bony.",
+   "chain_of_thought": [
+    "Rex is an insect.",
+    "Insects are arthropods.",
+    "Rex is an arthropod.",
+    "Arthropods are not bony.",
+    "Rex is not bony."
+   ],
+   "answer": "True"
+  }
+ },
+ "example11": {
+  "in_context_example0": {
+   "question": "Every prime number is not composite. Each real number is not imaginary. Each negative number is negative. Natural numbers are not negative. Mersenne primes are prime numbers. Every natural number is an integer. Each Mersenne prime is not composite. Prime numbers are natural numbers. Every integer is a real number. Every real number is a number. 3 is a prime number.",
+   "query": "True or false: 3 is negative.",
+   "chain_of_thought": [
+    "3 is a prime number.",
+    "Prime numbers are natural numbers.",
+    "3 is a natural number.",
+    "Natural numbers are not negative.",
+    "3 is not negative."
+   ],
+   "answer": "False"
+  },
+  "in_context_example1": {
+   "question": "Real numbers are not imaginary. Integers are real numbers. Every real number is a number. Each prime number is prime. Each prime number is a natural number. Negative numbers are negative. Every Mersenne prime is not composite. Each Mersenne prime is a prime number. Every natural number is an integer. Each natural number is not negative. 8191 is a prime number.",
+   "query": "True or false: 8191 is not negative.",
+   "chain_of_thought": [
+    "8191 is a prime number.",
+    "Each prime number is a natural number.",
+    "8191 is a natural number.",
+    "Each natural number is not negative.",
+    "8191 is not negative."
+   ],
+   "answer": "True"
+  },
+  "in_context_example2": {
+   "question": "Each imaginary number is not real. Real numbers are numbers. Mersenne primes are prime. Every integer is a real number. Every prime number is prime. Natural numbers are integers. Natural numbers are not negative. Mersenne primes are prime numbers. Each real number is real. Prime numbers are natural numbers. 3 is an integer.",
+   "query": "True or false: 3 is real.",
+   "chain_of_thought": [
+    "3 is an integer.",
+    "Every integer is a real number.",
+    "3 is a real number.",
+    "Each real number is real.",
+    "3 is real."
+   ],
+   "answer": "True"
+  },
+  "in_context_example3": {
+   "question": "Sheep are not carnivorous. Every feline is a carnivore. Carnivores are mammals. Every vertebrate is an animal. Carnivores are carnivorous. Mammals are vertebrates. Every mammal is not cold-blooded. Each cat is a feline. Animals are multicellular. Fae is a feline.",
+   "query": "True or false: Fae is carnivorous.",
+   "chain_of_thought": [
+    "Fae is a feline.",
+    "Every feline is a carnivore.",
+    "Fae is a carnivore.",
+    "Carnivores are carnivorous.",
+    "Fae is carnivorous."
+   ],
+   "answer": "True"
+  },
+  "test_example": {
+   "question": "Mersenne primes are prime numbers. Every integer is a real number. Every prime number is a natural number. Each Mersenne prime is prime. Prime numbers are not composite. Real numbers are numbers. Composite numbers are composite. Natural numbers are positive. Every real number is not imaginary. Natural numbers are integers. 131071 is a Mersenne prime.",
+   "query": "True or false: 131071 is composite.",
+   "chain_of_thought": [
+    "131071 is a Mersenne prime.",
+    "Mersenne primes are prime numbers.",
+    "131071 is a prime number.",
+    "Prime numbers are not composite.",
+    "131071 is not composite."
+   ],
+   "answer": "False"
+  }
+ },
+ "example12": {
+  "in_context_example0": {
+   "question": "Every Mersenne prime is prime. Integers are real numbers. Real numbers are numbers. Real numbers are real. Each composite number is composite. Prime numbers are not composite. Natural numbers are positive. Each natural number is an integer. Mersenne primes are prime numbers. Prime numbers are natural numbers. 127 is a Mersenne prime.",
+   "query": "True or false: 127 is not composite.",
+   "chain_of_thought": [
+    "127 is a Mersenne prime.",
+    "Mersenne primes are prime numbers.",
+    "127 is a prime number.",
+    "Prime numbers are not composite.",
+    "127 is not composite."
+   ],
+   "answer": "True"
+  },
+  "in_context_example1": {
+   "question": "Every mammal is not cold-blooded. Each mammal is a vertebrate. Each carnivore is a mammal. Animals are multicellular. Each cat is a feline. Vertebrates are animals. Each sheep is not carnivorous. Felines are carnivores. Every carnivore is carnivorous. Max is a feline.",
+   "query": "True or false: Max is not carnivorous.",
+   "chain_of_thought": [
+    "Max is a feline.",
+    "Felines are carnivores.",
+    "Max is a carnivore.",
+    "Every carnivore is carnivorous.",
+    "Max is carnivorous."
+   ],
+   "answer": "False"
+  },
+  "in_context_example2": {
+   "question": "Each butterfly is a lepidopteran. Arthropods are invertebrates. Arthropods are small. Every insect is an arthropod. Each spider is eight-legged. Every insect is not eight-legged. Animals are multicellular. Invertebrates are animals. Every lepidopteran is an insect. Alex is a lepidopteran.",
+   "query": "True or false: Alex is eight-legged.",
+   "chain_of_thought": [
+    "Alex is a lepidopteran.",
+    "Every lepidopteran is an insect.",
+    "Alex is an insect.",
+    "Every insect is not eight-legged.",
+    "Alex is not eight-legged."
+   ],
+   "answer": "False"
+  },
+  "in_context_example3": {
+   "question": "Every sheep is herbivorous. Animals are multicellular. Carnivores are not herbivorous. Felines are carnivores. Vertebrates are animals. Each mammal is a vertebrate. Cats are felines. Mammals are furry. Every carnivore is a mammal. Sam is a feline.",
+   "query": "True or false: Sam is not herbivorous.",
+   "chain_of_thought": [
+    "Sam is a feline.",
+    "Felines are carnivores.",
+    "Sam is a carnivore.",
+    "Carnivores are not herbivorous.",
+    "Sam is not herbivorous."
+   ],
+   "answer": "True"
+  },
+  "test_example": {
+   "question": "Imaginary numbers are not real. Every Mersenne prime is a prime number. Every real number is a number. Every real number is real. Every prime number is a natural number. Mersenne primes are prime. Integers are real numbers. Natural numbers are not negative. Each natural number is an integer. Every prime number is not composite. 3 is an integer.",
+   "query": "True or false: 3 is not real.",
+   "chain_of_thought": [
+    "3 is an integer.",
+    "Integers are real numbers.",
+    "3 is a real number.",
+    "Every real number is real.",
+    "3 is real."
+   ],
+   "answer": "False"
+  }
+ },
+ "example13": {
+  "in_context_example0": {
+   "question": "Natural numbers are not negative. Each natural number is an integer. Each prime number is a natural number. Real numbers are real. Every negative number is negative. Every Mersenne prime is a prime number. Each integer is a real number. Prime numbers are prime. Mersenne primes are not composite. Real numbers are numbers. 31 is a prime number.",
+   "query": "True or false: 31 is not negative.",
+   "chain_of_thought": [
+    "31 is a prime number.",
+    "Each prime number is a natural number.",
+    "31 is a natural number.",
+    "Natural numbers are not negative.",
+    "31 is not negative."
+   ],
+   "answer": "True"
+  },
+  "in_context_example1": {
+   "question": "Every real number is not imaginary. Prime numbers are natural numbers. Integers are real numbers. Each natural number is not negative. Mersenne primes are prime numbers. Mersenne primes are prime. Every prime number is not composite. Each composite number is composite. Every real number is a number. Natural numbers are integers. 31 is a Mersenne prime.",
+   "query": "True or false: 31 is composite.",
+   "chain_of_thought": [
+    "31 is a Mersenne prime.",
+    "Mersenne primes are prime numbers.",
+    "31 is a prime number.",
+    "Every prime number is not composite.",
+    "31 is not composite."
+   ],
+   "answer": "False"
+  },
+  "in_context_example2": {
+   "question": "Insects are arthropods. Spiders are not six-legged. Each invertebrate is an animal. Arthropods are invertebrates. Each lepidopteran is an insect. Butterflies are lepidopterans. Each animal is multicellular. Arthropods are small. Each insect is six-legged. Max is a lepidopteran.",
+   "query": "True or false: Max is not six-legged.",
+   "chain_of_thought": [
+    "Max is a lepidopteran.",
+    "Each lepidopteran is an insect.",
+    "Max is an insect.",
+    "Each insect is six-legged.",
+    "Max is six-legged."
+   ],
+   "answer": "False"
+  },
+  "in_context_example3": {
+   "question": "Animals are multicellular. Butterflies are lepidopterans. Invertebrates are animals. Every lepidopteran is an insect. Each arthropod is segmented. Each arthropod is an invertebrate. Every insect is an arthropod. Spiders are eight-legged. Insects are not eight-legged. Sam is a lepidopteran.",
+   "query": "True or false: Sam is eight-legged.",
+   "chain_of_thought": [
+    "Sam is a lepidopteran.",
+    "Every lepidopteran is an insect.",
+    "Sam is an insect.",
+    "Insects are not eight-legged.",
+    "Sam is not eight-legged."
+   ],
+   "answer": "False"
+  },
+  "test_example": {
+   "question": "Mersenne primes are prime numbers. Prime numbers are natural numbers. Natural numbers are integers. Every prime number is not composite. Every complex number is imaginary. Natural numbers are positive. Every Mersenne prime is not composite. Each integer is a real number. Each real number is not imaginary. Every real number is a number. 8191 is an integer.",
+   "query": "True or false: 8191 is not imaginary.",
+   "chain_of_thought": [
+    "8191 is an integer.",
+    "Each integer is a real number.",
+    "8191 is a real number.",
+    "Each real number is not imaginary.",
+    "8191 is not imaginary."
+   ],
+   "answer": "True"
+  }
+ },
+ "example14": {
+  "in_context_example0": {
+   "question": "Natural numbers are not negative. Each Mersenne prime is a prime number. Every real number is a number. Each prime number is not composite. Each real number is real. Integers are real numbers. Imaginary numbers are not real. Mersenne primes are not composite. Every prime number is a natural number. Natural numbers are integers. 3 is an integer.",
+   "query": "True or false: 3 is not real.",
+   "chain_of_thought": [
+    "3 is an integer.",
+    "Integers are real numbers.",
+    "3 is a real number.",
+    "Each real number is real.",
+    "3 is real."
+   ],
+   "answer": "False"
+  },
+  "in_context_example1": {
+   "question": "Each prime number is prime. Every negative number is negative. Real numbers are numbers. Every real number is real. Integers are real numbers. Each prime number is a natural number. Every Mersenne prime is prime. Each Mersenne prime is a prime number. Natural numbers are not negative. Natural numbers are integers. 127 is a prime number.",
+   "query": "True or false: 127 is not negative.",
+   "chain_of_thought": [
+    "127 is a prime number.",
+    "Each prime number is a natural number.",
+    "127 is a natural number.",
+    "Natural numbers are not negative.",
+    "127 is not negative."
+   ],
+   "answer": "True"
+  },
+  "in_context_example2": {
+   "question": "Every integer is a real number. Real numbers are not imaginary. Real numbers are numbers. Mersenne primes are not composite. Every Mersenne prime is a prime number. Natural numbers are integers. Every prime number is not composite. Every prime number is a natural number. Natural numbers are not negative. Complex numbers are imaginary. 7 is an integer.",
+   "query": "True or false: 7 is not imaginary.",
+   "chain_of_thought": [
+    "7 is an integer.",
+    "Every integer is a real number.",
+    "7 is a real number.",
+    "Real numbers are not imaginary.",
+    "7 is not imaginary."
+   ],
+   "answer": "True"
+  },
+  "in_context_example3": {
+   "question": "Natural numbers are not negative. Mersenne primes are prime numbers. Each real number is a number. Mersenne primes are not composite. Natural numbers are integers. Prime numbers are not composite. Each prime number is a natural number. Real numbers are not imaginary. Every integer is a real number. Each negative number is negative. 31 is a prime number.",
+   "query": "True or false: 31 is not negative.",
+   "chain_of_thought": [
+    "31 is a prime number.",
+    "Each prime number is a natural number.",
+    "31 is a natural number.",
+    "Natural numbers are not negative.",
+    "31 is not negative."
+   ],
+   "answer": "True"
+  },
+  "test_example": {
+   "question": "Integers are real numbers. Real numbers are real. Every natural number is not negative. Every real number is a number. Every imaginary number is not real. Every natural number is an integer. Each Mersenne prime is prime. Mersenne primes are prime numbers. Every prime number is prime. Every prime number is a natural number. 8191 is an integer.",
+   "query": "True or false: 8191 is real.",
+   "chain_of_thought": [
+    "8191 is an integer.",
+    "Integers are real numbers.",
+    "8191 is a real number.",
+    "Real numbers are real.",
+    "8191 is real."
+   ],
+   "answer": "True"
+  }
+ },
+ "example15": {
+  "in_context_example0": {
+   "question": "Mammals are vertebrates. Cats are felines. Every carnivore is a mammal. Every animal is multicellular. Each vertebrate is an animal. Every sheep is herbivorous. Carnivores are not herbivorous. Every feline is a carnivore. Every mammal is not cold-blooded. Sam is a feline.",
+   "query": "True or false: Sam is not herbivorous.",
+   "chain_of_thought": [
+    "Sam is a feline.",
+    "Every feline is a carnivore.",
+    "Sam is a carnivore.",
+    "Carnivores are not herbivorous.",
+    "Sam is not herbivorous."
+   ],
+   "answer": "True"
+  },
+  "in_context_example1": {
+   "question": "Real numbers are real. Each prime number is not composite. Mersenne primes are prime. Integers are real numbers. Each negative number is not positive. Natural numbers are positive. Mersenne primes are prime numbers. Every natural number is an integer. Every prime number is a natural number. Each real number is a number. 8191 is a prime number.",
+   "query": "True or false: 8191 is positive.",
+   "chain_of_thought": [
+    "8191 is a prime number.",
+    "Every prime number is a natural number.",
+    "8191 is a natural number.",
+    "Natural numbers are positive.",
+    "8191 is positive."
+   ],
+   "answer": "True"
+  },
+  "in_context_example2": {
+   "question": "Sheep are herbivorous. Felines are carnivores. Each vertebrate is an animal. Every animal is multicellular. Mammals are not cold-blooded. Every cat is a feline. Every carnivore is a mammal. Every mammal is a vertebrate. Carnivores are not herbivorous. Wren is a feline.",
+   "query": "True or false: Wren is herbivorous.",
+   "chain_of_thought": [
+    "Wren is a feline.",
+    "Felines are carnivores.",
+    "Wren is a carnivore.",
+    "Carnivores are not herbivorous.",
+    "Wren is not herbivorous."
+   ],
+   "answer": "False"
+  },
+  "in_context_example3": {
+   "question": "Carnivores are mammals. Each vertebrate is an animal. Each animal is not unicellular. Each sheep is herbivorous. Every mammal is not cold-blooded. Each carnivore is not herbivorous. Every cat is a feline. Each feline is a carnivore. Mammals are vertebrates. Sally is a feline.",
+   "query": "True or false: Sally is not herbivorous.",
+   "chain_of_thought": [
+    "Sally is a feline.",
+    "Each feline is a carnivore.",
+    "Sally is a carnivore.",
+    "Each carnivore is not herbivorous.",
+    "Sally is not herbivorous."
+   ],
+   "answer": "True"
+  },
+  "test_example": {
+   "question": "Snakes are not warm-blooded. Carnivores are not herbivorous. Each feline is a carnivore. Each animal is not unicellular. Carnivores are mammals. Vertebrates are animals. Mammals are warm-blooded. Every cat is a feline. Each mammal is a vertebrate. Polly is a carnivore.",
+   "query": "True or false: Polly is not warm-blooded.",
+   "chain_of_thought": [
+    "Polly is a carnivore.",
+    "Carnivores are mammals.",
+    "Polly is a mammal.",
+    "Mammals are warm-blooded.",
+    "Polly is warm-blooded."
+   ],
+   "answer": "False"
+  }
+ },
+ "example16": {
+  "in_context_example0": {
+   "question": "Each carnivore is not herbivorous. Felines are carnivores. Vertebrates are animals. Each carnivore is a mammal. Each cat is a feline. Mammals are not cold-blooded. Sheep are herbivorous. Animals are multicellular. Mammals are vertebrates. Sam is a feline.",
+   "query": "True or false: Sam is herbivorous.",
+   "chain_of_thought": [
+    "Sam is a feline.",
+    "Felines are carnivores.",
+    "Sam is a carnivore.",
+    "Each carnivore is not herbivorous.",
+    "Sam is not herbivorous."
+   ],
+   "answer": "False"
+  },
+  "in_context_example1": {
+   "question": "Each carnivore is a mammal. Cats are felines. Every mammal is a vertebrate. Vertebrates are animals. Every animal is multicellular. Carnivores are carnivorous. Mammals are not cold-blooded. Each sheep is not carnivorous. Felines are carnivores. Alex is a feline.",
+   "query": "True or false: Alex is not carnivorous.",
+   "chain_of_thought": [
+    "Alex is a feline.",
+    "Felines are carnivores.",
+    "Alex is a carnivore.",
+    "Carnivores are carnivorous.",
+    "Alex is carnivorous."
+   ],
+   "answer": "False"
+  },
+  "in_context_example2": {
+   "question": "Real numbers are numbers. Natural numbers are integers. Every negative number is not positive. Natural numbers are positive. Mersenne primes are not composite. Integers are real numbers. Every real number is real. Every prime number is a natural number. Each prime number is not composite. Mersenne primes are prime numbers. 127 is a prime number.",
+   "query": "True or false: 127 is positive.",
+   "chain_of_thought": [
+    "127 is a prime number.",
+    "Every prime number is a natural number.",
+    "127 is a natural number.",
+    "Natural numbers are positive.",
+    "127 is positive."
+   ],
+   "answer": "True"
+  },
+  "in_context_example3": {
+   "question": "Lepidopterans are insects. Spiders are eight-legged. Each insect is not eight-legged. Every arthropod is small. Butterflies are lepidopterans. Every invertebrate is an animal. Each animal is multicellular. Insects are arthropods. Every arthropod is an invertebrate. Sally is a lepidopteran.",
+   "query": "True or false: Sally is not eight-legged.",
+   "chain_of_thought": [
+    "Sally is a lepidopteran.",
+    "Lepidopterans are insects.",
+    "Sally is an insect.",
+    "Each insect is not eight-legged.",
+    "Sally is not eight-legged."
+   ],
+   "answer": "True"
+  },
+  "test_example": {
+   "question": "Each real number is a number. Mersenne primes are prime. Natural numbers are positive. Natural numbers are integers. Each prime number is prime. Prime numbers are natural numbers. Every real number is real. Each integer is a real number. Every imaginary number is not real. Mersenne primes are prime numbers. 3 is an integer.",
+   "query": "True or false: 3 is not real.",
+   "chain_of_thought": [
+    "3 is an integer.",
+    "Each integer is a real number.",
+    "3 is a real number.",
+    "Every real number is real.",
+    "3 is real."
+   ],
+   "answer": "False"
+  }
+ },
+ "example17": {
+  "in_context_example0": {
+   "question": "Lepidopterans are insects. Arthropods are invertebrates. Invertebrates are animals. Insects are six-legged. Butterflies are lepidopterans. Each arthropod is not bony. Each animal is multicellular. Insects are arthropods. Whales are bony. Wren is an insect.",
+   "query": "True or false: Wren is not bony.",
+   "chain_of_thought": [
+    "Wren is an insect.",
+    "Insects are arthropods.",
+    "Wren is an arthropod.",
+    "Each arthropod is not bony.",
+    "Wren is not bony."
+   ],
+   "answer": "True"
+  },
+  "in_context_example1": {
+   "question": "Each complex number is imaginary. Every natural number is not negative. Prime numbers are natural numbers. Each Mersenne prime is prime. Integers are real numbers. Natural numbers are integers. Mersenne primes are prime numbers. Real numbers are numbers. Real numbers are not imaginary. Prime numbers are not composite. 7 is an integer.",
+   "query": "True or false: 7 is not imaginary.",
+   "chain_of_thought": [
+    "7 is an integer.",
+    "Integers are real numbers.",
+    "7 is a real number.",
+    "Real numbers are not imaginary.",
+    "7 is not imaginary."
+   ],
+   "answer": "True"
+  },
+  "in_context_example2": {
+   "question": "Every real number is real. Every prime number is not composite. Mersenne primes are prime numbers. Integers are real numbers. Mersenne primes are not composite. Every real number is a number. Natural numbers are integers. Prime numbers are natural numbers. Every natural number is positive. Each composite number is composite. 31 is a Mersenne prime.",
+   "query": "True or false: 31 is not composite.",
+   "chain_of_thought": [
+    "31 is a Mersenne prime.",
+    "Mersenne primes are prime numbers.",
+    "31 is a prime number.",
+    "Every prime number is not composite.",
+    "31 is not composite."
+   ],
+   "answer": "True"
+  },
+  "in_context_example3": {
+   "question": "Every carnivore is carnivorous. Mammals are vertebrates. Each cat is a feline. Vertebrates are animals. Every mammal is not cold-blooded. Animals are multicellular. Each feline is a carnivore. Sheep are not carnivorous. Each carnivore is a mammal. Max is a feline.",
+   "query": "True or false: Max is carnivorous.",
+   "chain_of_thought": [
+    "Max is a feline.",
+    "Each feline is a carnivore.",
+    "Max is a carnivore.",
+    "Every carnivore is carnivorous.",
+    "Max is carnivorous."
+   ],
+   "answer": "True"
+  },
+  "test_example": {
+   "question": "Each natural number is not negative. Mersenne primes are prime numbers. Prime numbers are natural numbers. Each Mersenne prime is not composite. Every natural number is an integer. Each prime number is not composite. Each real number is a number. Negative numbers are negative. Every integer is a real number. Real numbers are real. 3 is a prime number.",
+   "query": "True or false: 3 is not negative.",
+   "chain_of_thought": [
+    "3 is a prime number.",
+    "Prime numbers are natural numbers.",
+    "3 is a natural number.",
+    "Each natural number is not negative.",
+    "3 is not negative."
+   ],
+   "answer": "True"
+  }
+ },
+ "example18": {
+  "in_context_example0": {
+   "question": "Carnivores are mammals. Each mammal is furry. Animals are not unicellular. Vertebrates are animals. Every sheep is herbivorous. Each mammal is a vertebrate. Each cat is a feline. Felines are carnivores. Each carnivore is not herbivorous. Wren is a feline.",
+   "query": "True or false: Wren is herbivorous.",
+   "chain_of_thought": [
+    "Wren is a feline.",
+    "Felines are carnivores.",
+    "Wren is a carnivore.",
+    "Each carnivore is not herbivorous.",
+    "Wren is not herbivorous."
+   ],
+   "answer": "False"
+  },
+  "in_context_example1": {
+   "question": "Real numbers are numbers. Complex numbers are imaginary. Every natural number is positive. Mersenne primes are prime numbers. Real numbers are not imaginary. Integers are real numbers. Every prime number is a natural number. Natural numbers are integers. Every Mersenne prime is not composite. Each prime number is prime. 127 is an integer.",
+   "query": "True or false: 127 is not imaginary.",
+   "chain_of_thought": [
+    "127 is an integer.",
+    "Integers are real numbers.",
+    "127 is a real number.",
+    "Real numbers are not imaginary.",
+    "127 is not imaginary."
+   ],
+   "answer": "True"
+  },
+  "in_context_example2": {
+   "question": "Insects are arthropods. Lepidopterans are insects. Each invertebrate is an animal. Nematodes are not segmented. Every butterfly is a lepidopteran. Insects are six-legged. Arthropods are invertebrates. Animals are not unicellular. Each arthropod is segmented. Rex is an insect.",
+   "query": "True or false: Rex is segmented.",
+   "chain_of_thought": [
+    "Rex is an insect.",
+    "Insects are arthropods.",
+    "Rex is an arthropod.",
+    "Each arthropod is segmented.",
+    "Rex is segmented."
+   ],
+   "answer": "True"
+  },
+  "in_context_example3": {
+   "question": "Mammals are not cold-blooded. Each animal is multicellular. Every carnivore is carnivorous. Each sheep is not carnivorous. Vertebrates are animals. Every carnivore is a mammal. Felines are carnivores. Cats are felines. Mammals are vertebrates. Sam is a feline.",
+   "query": "True or false: Sam is carnivorous.",
+   "chain_of_thought": [
+    "Sam is a feline.",
+    "Felines are carnivores.",
+    "Sam is a carnivore.",
+    "Every carnivore is carnivorous.",
+    "Sam is carnivorous."
+   ],
+   "answer": "True"
+  },
+  "test_example": {
+   "question": "Mammals are vertebrates. Every animal is not unicellular. Mammals are furry. Each sheep is herbivorous. Each vertebrate is an animal. Carnivores are not herbivorous. Felines are carnivores. Each cat is a feline. Every carnivore is a mammal. Rex is a feline.",
+   "query": "True or false: Rex is not herbivorous.",
+   "chain_of_thought": [
+    "Rex is a feline.",
+    "Felines are carnivores.",
+    "Rex is a carnivore.",
+    "Carnivores are not herbivorous.",
+    "Rex is not herbivorous."
+   ],
+   "answer": "True"
+  }
+ },
+ "example19": {
+  "in_context_example0": {
+   "question": "Spiders are eight-legged. Insects are not eight-legged. Each insect is an arthropod. Lepidopterans are insects. Arthropods are invertebrates. Invertebrates are animals. Every animal is not unicellular. Each butterfly is a lepidopteran. Each arthropod is small. Max is a lepidopteran.",
+   "query": "True or false: Max is not eight-legged.",
+   "chain_of_thought": [
+    "Max is a lepidopteran.",
+    "Lepidopterans are insects.",
+    "Max is an insect.",
+    "Insects are not eight-legged.",
+    "Max is not eight-legged."
+   ],
+   "answer": "True"
+  },
+  "in_context_example1": {
+   "question": "Every integer is a real number. Natural numbers are integers. Each real number is a number. Each Mersenne prime is prime. Every negative number is negative. Natural numbers are not negative. Each prime number is a natural number. Each real number is not imaginary. Each prime number is not composite. Each Mersenne prime is a prime number. 131071 is a prime number.",
+   "query": "True or false: 131071 is not negative.",
+   "chain_of_thought": [
+    "131071 is a prime number.",
+    "Each prime number is a natural number.",
+    "131071 is a natural number.",
+    "Natural numbers are not negative.",
+    "131071 is not negative."
+   ],
+   "answer": "True"
+  },
+  "in_context_example2": {
+   "question": "Animals are not unicellular. Each mammal is a vertebrate. Each feline is a carnivore. Snakes are not warm-blooded. Cats are felines. Each carnivore is carnivorous. Every carnivore is a mammal. Vertebrates are animals. Every mammal is warm-blooded. Alex is a carnivore.",
+   "query": "True or false: Alex is warm-blooded.",
+   "chain_of_thought": [
+    "Alex is a carnivore.",
+    "Every carnivore is a mammal.",
+    "Alex is a mammal.",
+    "Every mammal is warm-blooded.",
+    "Alex is warm-blooded."
+   ],
+   "answer": "True"
+  },
+  "in_context_example3": {
+   "question": "Real numbers are numbers. Real numbers are real. Every integer is a real number. Natural numbers are positive. Each prime number is a natural number. Every prime number is prime. Every negative number is not positive. Each Mersenne prime is prime. Every Mersenne prime is a prime number. Natural numbers are integers. 3 is a prime number.",
+   "query": "True or false: 3 is positive.",
+   "chain_of_thought": [
+    "3 is a prime number.",
+    "Each prime number is a natural number.",
+    "3 is a natural number.",
+    "Natural numbers are positive.",
+    "3 is positive."
+   ],
+   "answer": "True"
+  },
+  "test_example": {
+   "question": "Cats are felines. Carnivores are mammals. Each mammal is not cold-blooded. Each animal is multicellular. Snakes are cold-blooded. Felines are carnivores. Carnivores are carnivorous. Mammals are vertebrates. Every vertebrate is an animal. Fae is a carnivore.",
+   "query": "True or false: Fae is not cold-blooded.",
+   "chain_of_thought": [
+    "Fae is a carnivore.",
+    "Carnivores are mammals.",
+    "Fae is a mammal.",
+    "Each mammal is not cold-blooded.",
+    "Fae is not cold-blooded."
+   ],
+   "answer": "True"
+  }
+ },
+ "example20": {
+  "in_context_example0": {
+   "question": "Each imaginary number is not real. Real numbers are numbers. Mersenne primes are prime. Real numbers are real. Natural numbers are integers. Every natural number is not negative. Every Mersenne prime is a prime number. Integers are real numbers. Every prime number is a natural number. Each prime number is prime. 8191 is an integer.",
+   "query": "True or false: 8191 is real.",
+   "chain_of_thought": [
+    "8191 is an integer.",
+    "Integers are real numbers.",
+    "8191 is a real number.",
+    "Real numbers are real.",
+    "8191 is real."
+   ],
+   "answer": "True"
+  },
+  "in_context_example1": {
+   "question": "Natural numbers are positive. Each Mersenne prime is a prime number. Prime numbers are natural numbers. Natural numbers are integers. Real numbers are not imaginary. Integers are real numbers. Each prime number is prime. Mersenne primes are not composite. Composite numbers are not prime. Every real number is a number. 127 is a Mersenne prime.",
+   "query": "True or false: 127 is prime.",
+   "chain_of_thought": [
+    "127 is a Mersenne prime.",
+    "Each Mersenne prime is a prime number.",
+    "127 is a prime number.",
+    "Each prime number is prime.",
+    "127 is prime."
+   ],
+   "answer": "True"
+  },
+  "in_context_example2": {
+   "question": "Every integer is a real number. Real numbers are numbers. Mersenne primes are prime. Natural numbers are integers. Every natural number is not negative. Each prime number is a natural number. Complex numbers are imaginary. Each real number is not imaginary. Each prime number is prime. Each Mersenne prime is a prime number. 131071 is an integer.",
+   "query": "True or false: 131071 is imaginary.",
+   "chain_of_thought": [
+    "131071 is an integer.",
+    "Every integer is a real number.",
+    "131071 is a real number.",
+    "Each real number is not imaginary.",
+    "131071 is not imaginary."
+   ],
+   "answer": "False"
+  },
+  "in_context_example3": {
+   "question": "Every arthropod is an invertebrate. Arthropods are segmented. Each butterfly is a lepidopteran. Every animal is multicellular. Every lepidopteran is an insect. Insects are not eight-legged. Invertebrates are animals. Insects are arthropods. Each spider is eight-legged. Max is a lepidopteran.",
+   "query": "True or false: Max is not eight-legged.",
+   "chain_of_thought": [
+    "Max is a lepidopteran.",
+    "Every lepidopteran is an insect.",
+    "Max is an insect.",
+    "Insects are not eight-legged.",
+    "Max is not eight-legged."
+   ],
+   "answer": "True"
+  },
+  "test_example": {
+   "question": "Mammals are vertebrates. Every vertebrate is an animal. Mammals are warm-blooded. Animals are not unicellular. Sheep are herbivorous. Cats are felines. Carnivores are not herbivorous. Felines are carnivores. Each carnivore is a mammal. Sam is a feline.",
+   "query": "True or false: Sam is herbivorous.",
+   "chain_of_thought": [
+    "Sam is a feline.",
+    "Felines are carnivores.",
+    "Sam is a carnivore.",
+    "Carnivores are not herbivorous.",
+    "Sam is not herbivorous."
+   ],
+   "answer": "False"
+  }
+ },
+ "example21": {
+  "in_context_example0": {
+   "question": "Every complex number is imaginary. Mersenne primes are not composite. Real numbers are not imaginary. Every natural number is an integer. Prime numbers are natural numbers. Integers are real numbers. Mersenne primes are prime numbers. Natural numbers are positive. Real numbers are numbers. Each prime number is not composite. 7 is an integer.",
+   "query": "True or false: 7 is not imaginary.",
+   "chain_of_thought": [
+    "7 is an integer.",
+    "Integers are real numbers.",
+    "7 is a real number.",
+    "Real numbers are not imaginary.",
+    "7 is not imaginary."
+   ],
+   "answer": "True"
+  },
+  "in_context_example1": {
+   "question": "Butterflies are lepidopterans. Arthropods are invertebrates. Every insect is not eight-legged. Lepidopterans are insects. Each insect is an arthropod. Arthropods are not bony. Each invertebrate is an animal. Every animal is multicellular. Every whale is bony. Fae is an insect.",
+   "query": "True or false: Fae is bony.",
+   "chain_of_thought": [
+    "Fae is an insect.",
+    "Each insect is an arthropod.",
+    "Fae is an arthropod.",
+    "Arthropods are not bony.",
+    "Fae is not bony."
+   ],
+   "answer": "False"
+  },
+  "in_context_example2": {
+   "question": "Complex numbers are imaginary. Mersenne primes are prime numbers. Each prime number is a natural number. Natural numbers are not negative. Real numbers are not imaginary. Each prime number is prime. Each real number is a number. Natural numbers are integers. Mersenne primes are not composite. Integers are real numbers. 127 is an integer.",
+   "query": "True or false: 127 is imaginary.",
+   "chain_of_thought": [
+    "127 is an integer.",
+    "Integers are real numbers.",
+    "127 is a real number.",
+    "Real numbers are not imaginary.",
+    "127 is not imaginary."
+   ],
+   "answer": "False"
+  },
+  "in_context_example3": {
+   "question": "Each real number is a number. Prime numbers are prime. Every natural number is an integer. Prime numbers are natural numbers. Each Mersenne prime is prime. Each integer is a real number. Mersenne primes are prime numbers. Natural numbers are not negative. Every negative number is negative. Real numbers are not imaginary. 31 is a prime number.",
+   "query": "True or false: 31 is negative.",
+   "chain_of_thought": [
+    "31 is a prime number.",
+    "Prime numbers are natural numbers.",
+    "31 is a natural number.",
+    "Natural numbers are not negative.",
+    "31 is not negative."
+   ],
+   "answer": "False"
+  },
+  "test_example": {
+   "question": "Each insect is an arthropod. Each butterfly is a lepidopteran. Each lepidopteran is an insect. Arthropods are invertebrates. Animals are not unicellular. Every invertebrate is an animal. Each insect is six-legged. Each spider is not six-legged. Every arthropod is small. Fae is a lepidopteran.",
+   "query": "True or false: Fae is six-legged.",
+   "chain_of_thought": [
+    "Fae is a lepidopteran.",
+    "Each lepidopteran is an insect.",
+    "Fae is an insect.",
+    "Each insect is six-legged.",
+    "Fae is six-legged."
+   ],
+   "answer": "True"
+  }
+ },
+ "example22": {
+  "in_context_example0": {
+   "question": "Each natural number is positive. Mersenne primes are prime numbers. Real numbers are not imaginary. Each natural number is an integer. Every complex number is imaginary. Each prime number is a natural number. Each integer is a real number. Every Mersenne prime is prime. Each real number is a number. Prime numbers are prime. 127 is an integer.",
+   "query": "True or false: 127 is not imaginary.",
+   "chain_of_thought": [
+    "127 is an integer.",
+    "Each integer is a real number.",
+    "127 is a real number.",
+    "Real numbers are not imaginary.",
+    "127 is not imaginary."
+   ],
+   "answer": "True"
+  },
+  "in_context_example1": {
+   "question": "Each cat is a feline. Carnivores are mammals. Mammals are vertebrates. Every sheep is not carnivorous. Vertebrates are animals. Carnivores are carnivorous. Animals are not unicellular. Every mammal is not cold-blooded. Every feline is a carnivore. Max is a feline.",
+   "query": "True or false: Max is not carnivorous.",
+   "chain_of_thought": [
+    "Max is a feline.",
+    "Every feline is a carnivore.",
+    "Max is a carnivore.",
+    "Carnivores are carnivorous.",
+    "Max is carnivorous."
+   ],
+   "answer": "False"
+  },
+  "in_context_example2": {
+   "question": "Every invertebrate is an animal. Every arthropod is an invertebrate. Insects are not eight-legged. Spiders are eight-legged. Butterflies are lepidopterans. Insects are arthropods. Each lepidopteran is an insect. Animals are not unicellular. Every arthropod is segmented. Rex is a lepidopteran.",
+   "query": "True or false: Rex is not eight-legged.",
+   "chain_of_thought": [
+    "Rex is a lepidopteran.",
+    "Each lepidopteran is an insect.",
+    "Rex is an insect.",
+    "Insects are not eight-legged.",
+    "Rex is not eight-legged."
+   ],
+   "answer": "True"
+  },
+  "in_context_example3": {
+   "question": "Mersenne primes are prime numbers. Every real number is a number. Every prime number is prime. Each real number is not imaginary. Every natural number is an integer. Every natural number is positive. Each integer is a real number. Mersenne primes are prime. Each complex number is imaginary. Prime numbers are natural numbers. 131071 is an integer.",
+   "query": "True or false: 131071 is not imaginary.",
+   "chain_of_thought": [
+    "131071 is an integer.",
+    "Each integer is a real number.",
+    "131071 is a real number.",
+    "Each real number is not imaginary.",
+    "131071 is not imaginary."
+   ],
+   "answer": "True"
+  },
+  "test_example": {
+   "question": "Insects are not eight-legged. Animals are multicellular. Arthropods are not bony. Butterflies are lepidopterans. Lepidopterans are insects. Every invertebrate is an animal. Spiders are eight-legged. Arthropods are invertebrates. Every insect is an arthropod. Alex is a lepidopteran.",
+   "query": "True or false: Alex is eight-legged.",
+   "chain_of_thought": [
+    "Alex is a lepidopteran.",
+    "Lepidopterans are insects.",
+    "Alex is an insect.",
+    "Insects are not eight-legged.",
+    "Alex is not eight-legged."
+   ],
+   "answer": "False"
+  }
+ },
+ "example23": {
+  "in_context_example0": {
+   "question": "Every vertebrate is an animal. Each feline is a carnivore. Carnivores are not herbivorous. Cats are felines. Animals are not unicellular. Mammals are vertebrates. Carnivores are mammals. Every mammal is warm-blooded. Each sheep is herbivorous. Polly is a feline.",
+   "query": "True or false: Polly is not herbivorous.",
+   "chain_of_thought": [
+    "Polly is a feline.",
+    "Each feline is a carnivore.",
+    "Polly is a carnivore.",
+    "Carnivores are not herbivorous.",
+    "Polly is not herbivorous."
+   ],
+   "answer": "True"
+  },
+  "in_context_example1": {
+   "question": "Real numbers are not imaginary. Every integer is a real number. Each Mersenne prime is a prime number. Each real number is a number. Each natural number is not negative. Natural numbers are integers. Every prime number is not composite. Each complex number is imaginary. Each prime number is a natural number. Each Mersenne prime is not composite. 7 is an integer.",
+   "query": "True or false: 7 is not imaginary.",
+   "chain_of_thought": [
+    "7 is an integer.",
+    "Every integer is a real number.",
+    "7 is a real number.",
+    "Real numbers are not imaginary.",
+    "7 is not imaginary."
+   ],
+   "answer": "True"
+  },
+  "in_context_example2": {
+   "question": "Every animal is not unicellular. Butterflies are lepidopterans. Every arthropod is not bony. Each arthropod is an invertebrate. Lepidopterans are insects. Every invertebrate is an animal. Every whale is bony. Each insect is not eight-legged. Every insect is an arthropod. Max is an insect.",
+   "query": "True or false: Max is not bony.",
+   "chain_of_thought": [
+    "Max is an insect.",
+    "Every insect is an arthropod.",
+    "Max is an arthropod.",
+    "Every arthropod is not bony.",
+    "Max is not bony."
+   ],
+   "answer": "True"
+  },
+  "in_context_example3": {
+   "question": "Invertebrates are animals. Every butterfly is a lepidopteran. Each lepidopteran is an insect. Insects are six-legged. Each spider is not six-legged. Every insect is an arthropod. Animals are multicellular. Arthropods are not bony. Arthropods are invertebrates. Polly is a lepidopteran.",
+   "query": "True or false: Polly is six-legged.",
+   "chain_of_thought": [
+    "Polly is a lepidopteran.",
+    "Each lepidopteran is an insect.",
+    "Polly is an insect.",
+    "Insects are six-legged.",
+    "Polly is six-legged."
+   ],
+   "answer": "True"
+  },
+  "test_example": {
+   "question": "Every animal is not unicellular. Sheep are herbivorous. Mammals are warm-blooded. Every carnivore is not herbivorous. Every carnivore is a mammal. Each mammal is a vertebrate. Each vertebrate is an animal. Every feline is a carnivore. Each cat is a feline. Sam is a feline.",
+   "query": "True or false: Sam is not herbivorous.",
+   "chain_of_thought": [
+    "Sam is a feline.",
+    "Every feline is a carnivore.",
+    "Sam is a carnivore.",
+    "Every carnivore is not herbivorous.",
+    "Sam is not herbivorous."
+   ],
+   "answer": "True"
+  }
+ },
+ "example24": {
+  "in_context_example0": {
+   "question": "Every insect is not eight-legged. Animals are not unicellular. Every arthropod is not bony. Each spider is eight-legged. Insects are arthropods. Each invertebrate is an animal. Lepidopterans are insects. Each arthropod is an invertebrate. Butterflies are lepidopterans. Sally is a lepidopteran.",
+   "query": "True or false: Sally is eight-legged.",
+   "chain_of_thought": [
+    "Sally is a lepidopteran.",
+    "Lepidopterans are insects.",
+    "Sally is an insect.",
+    "Every insect is not eight-legged.",
+    "Sally is not eight-legged."
+   ],
+   "answer": "False"
+  },
+  "in_context_example1": {
+   "question": "Each integer is a real number. Natural numbers are not negative. Mersenne primes are not composite. Each natural number is an integer. Prime numbers are prime. Each real number is a number. Mersenne primes are prime numbers. Every prime number is a natural number. Each real number is not imaginary. Every complex number is imaginary. 7 is an integer.",
+   "query": "True or false: 7 is imaginary.",
+   "chain_of_thought": [
+    "7 is an integer.",
+    "Each integer is a real number.",
+    "7 is a real number.",
+    "Each real number is not imaginary.",
+    "7 is not imaginary."
+   ],
+   "answer": "False"
+  },
+  "in_context_example2": {
+   "question": "Insects are arthropods. Insects are not eight-legged. Spiders are eight-legged. Every invertebrate is an animal. Each arthropod is not bony. Lepidopterans are insects. Butterflies are lepidopterans. Every animal is not unicellular. Each arthropod is an invertebrate. Alex is a lepidopteran.",
+   "query": "True or false: Alex is not eight-legged.",
+   "chain_of_thought": [
+    "Alex is a lepidopteran.",
+    "Lepidopterans are insects.",
+    "Alex is an insect.",
+    "Insects are not eight-legged.",
+    "Alex is not eight-legged."
+   ],
+   "answer": "True"
+  },
+  "in_context_example3": {
+   "question": "Each animal is not unicellular. Felines are carnivores. Every snake is cold-blooded. Each cat is a feline. Carnivores are mammals. Every vertebrate is an animal. Every mammal is not cold-blooded. Each carnivore is not herbivorous. Mammals are vertebrates. Stella is a carnivore.",
+   "query": "True or false: Stella is cold-blooded.",
+   "chain_of_thought": [
+    "Stella is a carnivore.",
+    "Carnivores are mammals.",
+    "Stella is a mammal.",
+    "Every mammal is not cold-blooded.",
+    "Stella is not cold-blooded."
+   ],
+   "answer": "False"
+  },
+  "test_example": {
+   "question": "Each invertebrate is an animal. Every arthropod is an invertebrate. Insects are arthropods. Spiders are not six-legged. Each arthropod is small. Lepidopterans are insects. Animals are not unicellular. Each butterfly is a lepidopteran. Every insect is six-legged. Sally is a lepidopteran.",
+   "query": "True or false: Sally is not six-legged.",
+   "chain_of_thought": [
+    "Sally is a lepidopteran.",
+    "Lepidopterans are insects.",
+    "Sally is an insect.",
+    "Every insect is six-legged.",
+    "Sally is six-legged."
+   ],
+   "answer": "False"
+  }
+ },
+ "example25": {
+  "in_context_example0": {
+   "question": "Arthropods are not bony. Every animal is not unicellular. Whales are bony. Arthropods are invertebrates. Lepidopterans are insects. Invertebrates are animals. Every butterfly is a lepidopteran. Insects are six-legged. Each insect is an arthropod. Fae is an insect.",
+   "query": "True or false: Fae is bony.",
+   "chain_of_thought": [
+    "Fae is an insect.",
+    "Each insect is an arthropod.",
+    "Fae is an arthropod.",
+    "Arthropods are not bony.",
+    "Fae is not bony."
+   ],
+   "answer": "False"
+  },
+  "in_context_example1": {
+   "question": "Each invertebrate is an animal. Each whale is bony. Arthropods are invertebrates. Arthropods are not bony. Animals are multicellular. Butterflies are lepidopterans. Each insect is an arthropod. Each lepidopteran is an insect. Each insect is not eight-legged. Sam is an insect.",
+   "query": "True or false: Sam is bony.",
+   "chain_of_thought": [
+    "Sam is an insect.",
+    "Each insect is an arthropod.",
+    "Sam is an arthropod.",
+    "Arthropods are not bony.",
+    "Sam is not bony."
+   ],
+   "answer": "False"
+  },
+  "in_context_example2": {
+   "question": "Arthropods are segmented. Each nematode is not segmented. Insects are arthropods. Lepidopterans are insects. Animals are multicellular. Each arthropod is an invertebrate. Butterflies are lepidopterans. Every invertebrate is an animal. Insects are not eight-legged. Fae is an insect.",
+   "query": "True or false: Fae is segmented.",
+   "chain_of_thought": [
+    "Fae is an insect.",
+    "Insects are arthropods.",
+    "Fae is an arthropod.",
+    "Arthropods are segmented.",
+    "Fae is segmented."
+   ],
+   "answer": "True"
+  },
+  "in_context_example3": {
+   "question": "Each arthropod is not bony. Spiders are eight-legged. Animals are multicellular. Every arthropod is an invertebrate. Each insect is an arthropod. Each lepidopteran is an insect. Invertebrates are animals. Every insect is not eight-legged. Butterflies are lepidopterans. Sally is a lepidopteran.",
+   "query": "True or false: Sally is not eight-legged.",
+   "chain_of_thought": [
+    "Sally is a lepidopteran.",
+    "Each lepidopteran is an insect.",
+    "Sally is an insect.",
+    "Every insect is not eight-legged.",
+    "Sally is not eight-legged."
+   ],
+   "answer": "True"
+  },
+  "test_example": {
+   "question": "Every carnivore is carnivorous. Each carnivore is a mammal. Every mammal is not cold-blooded. Every sheep is not carnivorous. Each cat is a feline. Animals are not unicellular. Felines are carnivores. Each mammal is a vertebrate. Vertebrates are animals. Wren is a feline.",
+   "query": "True or false: Wren is not carnivorous.",
+   "chain_of_thought": [
+    "Wren is a feline.",
+    "Felines are carnivores.",
+    "Wren is a carnivore.",
+    "Every carnivore is carnivorous.",
+    "Wren is carnivorous."
+   ],
+   "answer": "False"
+  }
+ },
+ "example26": {
+  "in_context_example0": {
+   "question": "Every cat is a feline. Each animal is not unicellular. Mammals are vertebrates. Every carnivore is a mammal. Mammals are not cold-blooded. Every feline is a carnivore. Carnivores are not herbivorous. Each sheep is herbivorous. Vertebrates are animals. Sam is a feline.",
+   "query": "True or false: Sam is herbivorous.",
+   "chain_of_thought": [
+    "Sam is a feline.",
+    "Every feline is a carnivore.",
+    "Sam is a carnivore.",
+    "Carnivores are not herbivorous.",
+    "Sam is not herbivorous."
+   ],
+   "answer": "False"
+  },
+  "in_context_example1": {
+   "question": "Whales are bony. Each butterfly is a lepidopteran. Each invertebrate is an animal. Every animal is not unicellular. Every lepidopteran is an insect. Every arthropod is not bony. Arthropods are invertebrates. Each insect is not eight-legged. Insects are arthropods. Fae is an insect.",
+   "query": "True or false: Fae is not bony.",
+   "chain_of_thought": [
+    "Fae is an insect.",
+    "Insects are arthropods.",
+    "Fae is an arthropod.",
+    "Every arthropod is not bony.",
+    "Fae is not bony."
+   ],
+   "answer": "True"
+  },
+  "in_context_example2": {
+   "question": "Vertebrates are animals. Carnivores are mammals. Felines are carnivores. Each snake is not warm-blooded. Each mammal is warm-blooded. Each animal is not unicellular. Carnivores are carnivorous. Every cat is a feline. Each mammal is a vertebrate. Sally is a carnivore.",
+   "query": "True or false: Sally is not warm-blooded.",
+   "chain_of_thought": [
+    "Sally is a carnivore.",
+    "Carnivores are mammals.",
+    "Sally is a mammal.",
+    "Each mammal is warm-blooded.",
+    "Sally is warm-blooded."
+   ],
+   "answer": "False"
+  },
+  "in_context_example3": {
+   "question": "Every integer is a real number. Each composite number is composite. Prime numbers are natural numbers. Natural numbers are integers. Every real number is a number. Prime numbers are not composite. Natural numbers are positive. Each Mersenne prime is prime. Each Mersenne prime is a prime number. Real numbers are real. 8191 is a Mersenne prime.",
+   "query": "True or false: 8191 is composite.",
+   "chain_of_thought": [
+    "8191 is a Mersenne prime.",
+    "Each Mersenne prime is a prime number.",
+    "8191 is a prime number.",
+    "Prime numbers are not composite.",
+    "8191 is not composite."
+   ],
+   "answer": "False"
+  },
+  "test_example": {
+   "question": "Carnivores are mammals. Each cat is a feline. Mammals are warm-blooded. Every vertebrate is an animal. Mammals are vertebrates. Each animal is not unicellular. Each sheep is not carnivorous. Every carnivore is carnivorous. Each feline is a carnivore. Wren is a feline.",
+   "query": "True or false: Wren is carnivorous.",
+   "chain_of_thought": [
+    "Wren is a feline.",
+    "Each feline is a carnivore.",
+    "Wren is a carnivore.",
+    "Every carnivore is carnivorous.",
+    "Wren is carnivorous."
+   ],
+   "answer": "True"
+  }
+ },
+ "example27": {
+  "in_context_example0": {
+   "question": "Animals are not unicellular. Lepidopterans are insects. Arthropods are invertebrates. Each insect is an arthropod. Every invertebrate is an animal. Each arthropod is small. Each butterfly is a lepidopteran. Each insect is not eight-legged. Every spider is eight-legged. Fae is a lepidopteran.",
+   "query": "True or false: Fae is eight-legged.",
+   "chain_of_thought": [
+    "Fae is a lepidopteran.",
+    "Lepidopterans are insects.",
+    "Fae is an insect.",
+    "Each insect is not eight-legged.",
+    "Fae is not eight-legged."
+   ],
+   "answer": "False"
+  },
+  "in_context_example1": {
+   "question": "Integers are real numbers. Each natural number is an integer. Each Mersenne prime is prime. Each prime number is a natural number. Every real number is a number. Real numbers are not imaginary. Every prime number is prime. Mersenne primes are prime numbers. Composite numbers are not prime. Every natural number is positive. 7 is a Mersenne prime.",
+   "query": "True or false: 7 is not prime.",
+   "chain_of_thought": [
+    "7 is a Mersenne prime.",
+    "Mersenne primes are prime numbers.",
+    "7 is a prime number.",
+    "Every prime number is prime.",
+    "7 is prime."
+   ],
+   "answer": "False"
+  },
+  "in_context_example2": {
+   "question": "Insects are arthropods. Each invertebrate is an animal. Arthropods are not bony. Butterflies are lepidopterans. Lepidopterans are insects. Arthropods are invertebrates. Whales are bony. Insects are not eight-legged. Animals are not unicellular. Sally is an insect.",
+   "query": "True or false: Sally is bony.",
+   "chain_of_thought": [
+    "Sally is an insect.",
+    "Insects are arthropods.",
+    "Sally is an arthropod.",
+    "Arthropods are not bony.",
+    "Sally is not bony."
+   ],
+   "answer": "False"
+  },
+  "in_context_example3": {
+   "question": "Every insect is six-legged. Every spider is not six-legged. Insects are arthropods. Each butterfly is a lepidopteran. Arthropods are invertebrates. Each arthropod is segmented. Invertebrates are animals. Each animal is multicellular. Lepidopterans are insects. Wren is a lepidopteran.",
+   "query": "True or false: Wren is six-legged.",
+   "chain_of_thought": [
+    "Wren is a lepidopteran.",
+    "Lepidopterans are insects.",
+    "Wren is an insect.",
+    "Every insect is six-legged.",
+    "Wren is six-legged."
+   ],
+   "answer": "True"
+  },
+  "test_example": {
+   "question": "Every natural number is positive. Each prime number is not composite. Natural numbers are integers. Real numbers are not imaginary. Prime numbers are natural numbers. Mersenne primes are prime numbers. Each Mersenne prime is not composite. Every integer is a real number. Real numbers are numbers. Composite numbers are composite. 7 is a Mersenne prime.",
+   "query": "True or false: 7 is composite.",
+   "chain_of_thought": [
+    "7 is a Mersenne prime.",
+    "Mersenne primes are prime numbers.",
+    "7 is a prime number.",
+    "Each prime number is not composite.",
+    "7 is not composite."
+   ],
+   "answer": "False"
+  }
+ },
+ "example28": {
+  "in_context_example0": {
+   "question": "Mammals are furry. Vertebrates are animals. Every cat is a feline. Each carnivore is carnivorous. Animals are multicellular. Mammals are vertebrates. Felines are carnivores. Carnivores are mammals. Snakes are not furry. Polly is a carnivore.",
+   "query": "True or false: Polly is furry.",
+   "chain_of_thought": [
+    "Polly is a carnivore.",
+    "Carnivores are mammals.",
+    "Polly is a mammal.",
+    "Mammals are furry.",
+    "Polly is furry."
+   ],
+   "answer": "True"
+  },
+  "in_context_example1": {
+   "question": "Vertebrates are animals. Cats are felines. Each feline is a carnivore. Each mammal is furry. Carnivores are mammals. Mammals are vertebrates. Carnivores are carnivorous. Every animal is multicellular. Sheep are not carnivorous. Stella is a feline.",
+   "query": "True or false: Stella is not carnivorous.",
+   "chain_of_thought": [
+    "Stella is a feline.",
+    "Each feline is a carnivore.",
+    "Stella is a carnivore.",
+    "Carnivores are carnivorous.",
+    "Stella is carnivorous."
+   ],
+   "answer": "False"
+  },
+  "in_context_example2": {
+   "question": "Each insect is six-legged. Every insect is an arthropod. Arthropods are invertebrates. Each nematode is not segmented. Each arthropod is segmented. Lepidopterans are insects. Butterflies are lepidopterans. Each invertebrate is an animal. Each animal is not unicellular. Polly is an insect.",
+   "query": "True or false: Polly is segmented.",
+   "chain_of_thought": [
+    "Polly is an insect.",
+    "Every insect is an arthropod.",
+    "Polly is an arthropod.",
+    "Each arthropod is segmented.",
+    "Polly is segmented."
+   ],
+   "answer": "True"
+  },
+  "in_context_example3": {
+   "question": "Every real number is real. Every integer is a real number. Negative numbers are negative. Each real number is a number. Prime numbers are prime. Every Mersenne prime is a prime number. Every Mersenne prime is prime. Every prime number is a natural number. Natural numbers are integers. Each natural number is not negative. 8191 is a prime number.",
+   "query": "True or false: 8191 is negative.",
+   "chain_of_thought": [
+    "8191 is a prime number.",
+    "Every prime number is a natural number.",
+    "8191 is a natural number.",
+    "Each natural number is not negative.",
+    "8191 is not negative."
+   ],
+   "answer": "False"
+  },
+  "test_example": {
+   "question": "Each vertebrate is an animal. Each sheep is herbivorous. Cats are felines. Every mammal is not cold-blooded. Mammals are vertebrates. Carnivores are not herbivorous. Every animal is not unicellular. Every feline is a carnivore. Each carnivore is a mammal. Alex is a feline.",
+   "query": "True or false: Alex is herbivorous.",
+   "chain_of_thought": [
+    "Alex is a feline.",
+    "Every feline is a carnivore.",
+    "Alex is a carnivore.",
+    "Carnivores are not herbivorous.",
+    "Alex is not herbivorous."
+   ],
+   "answer": "False"
+  }
+ },
+ "example29": {
+  "in_context_example0": {
+   "question": "Natural numbers are not negative. Each real number is real. Mersenne primes are prime. Each real number is a number. Each natural number is an integer. Every integer is a real number. Every Mersenne prime is a prime number. Prime numbers are prime. Prime numbers are natural numbers. Each negative number is negative. 3 is a prime number.",
+   "query": "True or false: 3 is not negative.",
+   "chain_of_thought": [
+    "3 is a prime number.",
+    "Prime numbers are natural numbers.",
+    "3 is a natural number.",
+    "Natural numbers are not negative.",
+    "3 is not negative."
+   ],
+   "answer": "True"
+  },
+  "in_context_example1": {
+   "question": "Each real number is real. Mersenne primes are prime numbers. Every Mersenne prime is prime. Real numbers are numbers. Prime numbers are natural numbers. Each natural number is an integer. Each prime number is not composite. Composite numbers are composite. Integers are real numbers. Natural numbers are not negative. 131071 is a Mersenne prime.",
+   "query": "True or false: 131071 is not composite.",
+   "chain_of_thought": [
+    "131071 is a Mersenne prime.",
+    "Mersenne primes are prime numbers.",
+    "131071 is a prime number.",
+    "Each prime number is not composite.",
+    "131071 is not composite."
+   ],
+   "answer": "True"
+  },
+  "in_context_example2": {
+   "question": "Every arthropod is an invertebrate. Every invertebrate is an animal. Butterflies are lepidopterans. Insects are arthropods. Every animal is multicellular. Insects are not eight-legged. Lepidopterans are insects. Spiders are eight-legged. Each arthropod is segmented. Alex is a lepidopteran.",
+   "query": "True or false: Alex is eight-legged.",
+   "chain_of_thought": [
+    "Alex is a lepidopteran.",
+    "Lepidopterans are insects.",
+    "Alex is an insect.",
+    "Insects are not eight-legged.",
+    "Alex is not eight-legged."
+   ],
+   "answer": "False"
+  },
+  "in_context_example3": {
+   "question": "Mersenne primes are prime numbers. Each natural number is not negative. Each prime number is a natural number. Each integer is a real number. Mersenne primes are not composite. Complex numbers are imaginary. Real numbers are not imaginary. Every prime number is prime. Each natural number is an integer. Real numbers are numbers. 31 is an integer.",
+   "query": "True or false: 31 is not imaginary.",
+   "chain_of_thought": [
+    "31 is an integer.",
+    "Each integer is a real number.",
+    "31 is a real number.",
+    "Real numbers are not imaginary.",
+    "31 is not imaginary."
+   ],
+   "answer": "True"
+  },
+  "test_example": {
+   "question": "Each lepidopteran is an insect. Every insect is an arthropod. Insects are six-legged. Every animal is multicellular. Every arthropod is not bony. Every butterfly is a lepidopteran. Spiders are not six-legged. Invertebrates are animals. Arthropods are invertebrates. Wren is a lepidopteran.",
+   "query": "True or false: Wren is not six-legged.",
+   "chain_of_thought": [
+    "Wren is a lepidopteran.",
+    "Each lepidopteran is an insect.",
+    "Wren is an insect.",
+    "Insects are six-legged.",
+    "Wren is six-legged."
+   ],
+   "answer": "False"
+  }
+ },
+ "example30": {
+  "in_context_example0": {
+   "question": "Each carnivore is a mammal. Sheep are herbivorous. Carnivores are not herbivorous. Every mammal is a vertebrate. Each vertebrate is an animal. Cats are felines. Every feline is a carnivore. Each mammal is furry. Animals are multicellular. Polly is a feline.",
+   "query": "True or false: Polly is not herbivorous.",
+   "chain_of_thought": [
+    "Polly is a feline.",
+    "Every feline is a carnivore.",
+    "Polly is a carnivore.",
+    "Carnivores are not herbivorous.",
+    "Polly is not herbivorous."
+   ],
+   "answer": "True"
+  },
+  "in_context_example1": {
+   "question": "Every prime number is a natural number. Every Mersenne prime is not composite. Negative numbers are negative. Every real number is not imaginary. Natural numbers are integers. Each natural number is not negative. Prime numbers are not composite. Mersenne primes are prime numbers. Real numbers are numbers. Every integer is a real number. 31 is a prime number.",
+   "query": "True or false: 31 is negative.",
+   "chain_of_thought": [
+    "31 is a prime number.",
+    "Every prime number is a natural number.",
+    "31 is a natural number.",
+    "Each natural number is not negative.",
+    "31 is not negative."
+   ],
+   "answer": "False"
+  },
+  "in_context_example2": {
+   "question": "Each insect is an arthropod. Each arthropod is an invertebrate. Arthropods are small. Every lepidopteran is an insect. Every invertebrate is an animal. Each insect is six-legged. Butterflies are lepidopterans. Whales are not small. Animals are not unicellular. Wren is an insect.",
+   "query": "True or false: Wren is small.",
+   "chain_of_thought": [
+    "Wren is an insect.",
+    "Each insect is an arthropod.",
+    "Wren is an arthropod.",
+    "Arthropods are small.",
+    "Wren is small."
+   ],
+   "answer": "True"
+  },
+  "in_context_example3": {
+   "question": "Each prime number is a natural number. Real numbers are not imaginary. Integers are real numbers. Every natural number is an integer. Every composite number is not prime. Mersenne primes are prime numbers. Mersenne primes are prime. Prime numbers are prime. Every real number is a number. Natural numbers are positive. 31 is a Mersenne prime.",
+   "query": "True or false: 31 is not prime.",
+   "chain_of_thought": [
+    "31 is a Mersenne prime.",
+    "Mersenne primes are prime numbers.",
+    "31 is a prime number.",
+    "Prime numbers are prime.",
+    "31 is prime."
+   ],
+   "answer": "False"
+  },
+  "test_example": {
+   "question": "Carnivores are mammals. Cats are felines. Every mammal is warm-blooded. Snakes are not warm-blooded. Each mammal is a vertebrate. Felines are carnivores. Each vertebrate is an animal. Animals are multicellular. Carnivores are not herbivorous. Max is a carnivore.",
+   "query": "True or false: Max is not warm-blooded.",
+   "chain_of_thought": [
+    "Max is a carnivore.",
+    "Carnivores are mammals.",
+    "Max is a mammal.",
+    "Every mammal is warm-blooded.",
+    "Max is warm-blooded."
+   ],
+   "answer": "False"
+  }
+ }
+}
