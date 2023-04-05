@@ -47,8 +47,23 @@ With Rust installed, you can now compile the Peano environment:
 [environment] $ cargo build --release
 ```
 
-This should eventually terminate without errors and produce a binary library
-in `target/release` (it will be called `libpeano.so` on Linux, or something like `peano.dylib` on Mac).
+This should eventually terminate without errors. It will produce a `peano` executable,
+which you can test on some example proofs:
+
+```sh
+[environment]$ target/release/peano theories/cs103.p 
+Loading theories/cs103.p
+Verifying n_even_implies_n_squared_even... ok
+Verifying two_is_even... ok
+Verifying sum_of_even_is_even... ok
+Verifying sum_of_odds_is_even... ok
+Verifying sum_of_squares_one_is_even... ok
+
+Verified 5 derivation(s), 5 succeeded.
+```
+
+You should also now have a dynamic library in `target/release`:
+it will be called `libpeano.so` on Linux, or something like `peano.dylib` on Mac.
 To use this library as a Python module, we'll use a simple symbolic link:
 
 ```sh
@@ -57,7 +72,6 @@ To use this library as a Python module, we'll use a simple symbolic link:
 ```
 
 Note that this must be slightly adjusted on Mac (i.e., you'll link `peano.dylib` instead). With that, you should be able to do the following:
-
 
 ```sh
 [learning] $ python
