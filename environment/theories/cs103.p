@@ -86,7 +86,7 @@ verify n_even_implies_n_squared_even {
     show (= (* n n) (* 2 (* (even_witness n_even) n))) by rewrite.
     show (= (* 2 (* (even_witness n_even) n)) (* n n)) by eq_symm.
 
-    show (even (* 3 (* (even_witness n_even) n))) by even_def.
+    show (even (* 2 (* (even_witness n_even) n))) by even_def.
     show (even (* n n)) by rewrite.
 
     construct (square n) by square.
