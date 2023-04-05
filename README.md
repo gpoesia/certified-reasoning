@@ -28,7 +28,7 @@ that construction is not yet available from the environment (i.e., an agent woul
 The current system, along with a set of experiments in formalizing and learning to solve
 sections of the [Khan Academy](khanacademy.org/) platform, is explained in the following paper:
 
-[*Peano: Learning Formal Mathematical Reasoning*](https://arxiv.org/abs/2211.15864). Gabriel Poesia and Noah D. Goodman. to appear in the Transactions of the Royal Society A in 2023.
+[*Peano: Learning Formal Mathematical Reasoning*](https://arxiv.org/abs/2211.15864). Gabriel Poesia and Noah D. Goodman. to appear in the [Philosophical Transactions of the Royal Society](https://royalsocietypublishing.org/journal/rsta) A in 2023.
 
 ### Compiling the environment
 
