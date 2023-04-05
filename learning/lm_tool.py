@@ -500,5 +500,5 @@ def run_math_experiments():
 
 
 if __name__ == '__main__':
-    # run_prontoqa_experiments()
-    run_math_experiments()
+    run_prontoqa_experiments()
+    # run_math_experiments()
