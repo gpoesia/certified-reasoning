@@ -1,4 +1,8 @@
-# Peano - Learning Formal Mathematical Reasoning
+# Certified Reasoning with Language Models
+
+Updating this -- the README for Peano follows below. For CRLM, the current implementation is in `learning/nl.py` and `learning/completion.py`. 
+
+### Peano
 
 Peano is a formal theorem proving environment based on a dependent type system and a finitely axiomatized proof system.
 Given any theory (some simple examples are in `theories`) and a problem, Peano provides a finite action space to produce /derivations/
