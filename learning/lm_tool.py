@@ -57,7 +57,7 @@ class RateLimiter:
         self._last_request = datetime.datetime.now()
 
 
-rate_limiter = RateLimiter(20)
+rate_limiter = RateLimiter(1000)
 
 
 def _split_question(question: str):
@@ -365,11 +365,12 @@ class PeanoLMReasoner:
         done, answer = self._completion_engine.is_complete(response)
         assert done
 
-        return answer, response
+        return str(answer), response
 
 def evaluate_reasoner(results_path: str,
                       dataset: PrOntoQADataset,
-                      reasoner: NaturalLanguageReasoner):
+                      reasoner: NaturalLanguageReasoner,
+                      max_problems: int = None):
     success = []
 
     print('Evaluating', reasoner.name(), 'on', dataset.id)
@@ -381,7 +382,10 @@ def evaluate_reasoner(results_path: str,
         print(results_path, 'not found; starting with empty results.')
         results = {}
 
-    for p in dataset.problems:
+    for i, p in enumerate(dataset.problems):
+        if max_problems is not None and i >= max_problems:
+            break
+
         key = f'({dataset.id}, {p.id}, {reasoner.name()})'
 
         if key in {
@@ -430,13 +434,23 @@ def evaluate_reasoner(results_path: str,
     print(f'Accuracy: {100 * sum(success) / len(success):.2f}%')
 
 
-def run_prontoqa_experiments():
+def run_prontoqa_experiments(max_problems=40):
     datasets = [
-        # PrOntoQADataset.load('./prontoqa/1hop_random.json'),
-        # PrOntoQADataset.load('./prontoqa/2hop_random.json'),
-        # PrOntoQADataset.load('./prontoqa/3hop_random.json'),
-        # PrOntoQADataset.load('./prontoqa/4hop_random.json'),
-        PrOntoQADataset.load('./prontoqa/5hop_random.json')
+        PrOntoQADataset.load('./prontoqa/1hop_random_seed19.json'),
+        PrOntoQADataset.load('./prontoqa/2hop_random_seed19.json'),
+        PrOntoQADataset.load('./prontoqa/3hop_random_seed19.json'),
+        PrOntoQADataset.load('./prontoqa/4hop_random_seed19.json'),
+        PrOntoQADataset.load('./prontoqa/5hop_random_seed19.json'),
+        PrOntoQADataset.load('./prontoqa/1hop_random_trueontology_seed19.json'),
+        PrOntoQADataset.load('./prontoqa/2hop_random_trueontology_seed19.json'),
+        PrOntoQADataset.load('./prontoqa/3hop_random_trueontology_seed19.json'),
+        PrOntoQADataset.load('./prontoqa/4hop_random_trueontology_seed19.json'),
+        PrOntoQADataset.load('./prontoqa/5hop_random_trueontology_seed19.json'),
+        PrOntoQADataset.load('./prontoqa/1hop_random_falseontology_seed19.json'),
+        PrOntoQADataset.load('./prontoqa/2hop_random_falseontology_seed19.json'),
+        PrOntoQADataset.load('./prontoqa/3hop_random_falseontology_seed19.json'),
+        PrOntoQADataset.load('./prontoqa/4hop_random_falseontology_seed19.json'),
+        PrOntoQADataset.load('./prontoqa/5hop_random_falseontology_seed19.json'),
     ]
 
     fol_domain = domain.FirstOrderLogicDomain()
@@ -445,22 +459,30 @@ def run_prontoqa_experiments():
         fol_domain.start_derivation())
 
     reasoners = [
-        #OpenAILanguageModelReasoner('text-davinci-003')
+            #OpenAILanguageModelReasoner('text-davinci-003'),
+            #OpenAILanguageModelReasoner('text-curie-001'),
+            #OpenAILanguageModelReasoner('babbage'),
+            #OpenAIChatModelReasoner('gpt-3.5-turbo'),
         #OpenAILanguageModelReasoner('gpt-4'),
         # OpenAILanguageModelReasoner('text-davinci-003'),
-        #PeanoLMReasoner(fol_completion_engine,
-        #                'prompts/peano_prontoqa_long_prompt',
-        #                'text-davinci-003'),
-        OpenAIChatModelReasoner('gpt-3.5-turbo'),
+        PeanoLMReasoner(fol_completion_engine,
+                        'prompts/peano_prontoqa_short_prompt',
+                        'text-davinci-003'),
+        PeanoLMReasoner(fol_completion_engine,
+                        'prompts/peano_prontoqa_short_prompt',
+                        'text-curie-001'),
+        PeanoLMReasoner(fol_completion_engine,
+                        'prompts/peano_prontoqa_short_prompt',
+                        'babbage'),
         # OpenAIChatModelReasoner('gpt-4'),
         # PeanoLMReasoner(fol_completion_engine,
         #                'prompts/peano_prontoqa_long_prompt',
         #                'code-davinci-002'),
     ]
 
-    for ds in datasets:
-        for r in reasoners:
-            evaluate_reasoner('results.json', ds, r)
+    for r in reasoners:
+        for ds in datasets:
+            evaluate_reasoner('results.json', ds, r, max_problems)
 
 
 def run_math_experiments():
