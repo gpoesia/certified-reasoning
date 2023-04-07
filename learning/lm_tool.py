@@ -10,18 +10,127 @@ import time
 from dataclasses import dataclass
 import random
 import re
+import copy
+from typing import List, Dict
 
 import openai
+import transformers
 
 import domain
 import tactics
 import util
 from completion_engine import CompletionEngine
-from language_model import OpenAIModel
+from language_model import OpenAIModel, LanguageModel, download_or_use_cached, filter_maximal_tokens
 from synchromesh import predict_constrained
+
 
 from completion import PeanoCompletionEngine
 
+
+class OpenAIChatModel(LanguageModel):
+    # add this class to the Synchromesh lm module
+    def __init__(self, model: str, prompt_template: List[Dict[str,str]], api_key: str = None,
+                 temperature: float = 0.0, top_p: float = 1.0, best_of: int = 1,
+                 before_prediction_hook=lambda: None) -> None:
+        super().__init__()
+
+        if api_key:
+            openai.api_key = api_key
+
+        self.prompt_template = prompt_template
+        self.model = model
+        self.temperature = temperature
+        self.top_p = top_p
+        self.best_of = best_of
+        self._before_prediction_hook = before_prediction_hook
+
+        # for gpt series of models
+        if model.startswith("text") or model.startswith("gpt"):
+            self.tokenizer = transformers.GPT2Tokenizer.from_pretrained('gpt2')
+        elif model.startswith("code"):
+            self.tokenizer = transformers.GPT2Tokenizer(
+                vocab_file=download_or_use_cached(
+                    "https://huggingface.co/SaulLu/codex-like-tokenizer/raw/main/vocab.json",
+                    '.codex-vocab.json'),
+                merges_file=download_or_use_cached(
+                    "https://huggingface.co/SaulLu/codex-like-tokenizer/raw/main/merges.txt",
+                    '.codex-merges.txt')
+                )
+            
+
+        # self.vocab is a list of readable token strings (e.g., ' hello' and '\n')
+        # sorted by their token IDs (so self.vocab[0] is the first token, etc).
+        self.vocab = [v for k, v in
+                      sorted([(t_id, self.tokenizer.decode([t_id]))
+                              for _, t_id in self.tokenizer.get_vocab().items()])]
+
+    def tokenize(self, s: str) -> list[int]:
+        return self.tokenizer.encode(s)
+
+    def vocabulary(self) -> list[str]:
+        # sort keys by value, then return the keys
+        return self.vocab
+    
+    def predict_token(self, prefix: str, valid_tokens: list[int], top_k: int = 1) -> tuple[list[int], list[float]]:
+        # change bias of valid tokens to make them more likely
+        # bias can only be set for 300 tokens at a time
+        assert top_k == 1, "Chat models do not support logprobs"
+        prompt = copy.deepcopy(self.prompt_template)
+        assert prompt[-1]['role'] == 'assistant', "last message must be from the assistant"
+        prompt[-1]['content'] += prefix
+
+        # Only keep tokens that cannot be extended. This is crucial, because
+        # the model has *never* seen a sequence of non-maximal tokens in its
+        # input, and if we force it to output a sequence of maximal tokens,
+        # a logit bias is often not enough to constrain it (it outputs near
+        # zero probability for the valid tokens even after adding 100 to
+        # the logits).
+        #
+        # Longer explanation:
+        # Suppose we want to force the model to output
+        # the number 20302. This would be BPE-tokenized as 20 | 302.
+        # Suppose we let the model output '2' alone. We succeed at that,
+        # but now we need the model to output the token '0' alone. Here
+        # we hit the problem: the sequence of tokens '2' followed by '0'
+        # was seen exactly 0 times during training, since the tokenizer
+        # will never emit this sequence (it will instead use the '20' token).
+        # Hence, the model puts near 0 probability to predicting '0'
+        # after predicting '2'. The solution is to only let the model
+        # output maximal valid tokens, avoiding this issue.
+        valid_tokens = filter_maximal_tokens(valid_tokens, self.tokenizer)
+
+        if len(valid_tokens) == 1:
+            return valid_tokens, [0.0]
+
+        # select shortest valid tokens if valid tokens are less than 300
+        if len(valid_tokens) >= 299:
+            token_lens = [len(self.get_token(i)) for i in valid_tokens]
+            # sort valid tokens by length
+            valid_tokens = [x for _, x in sorted(zip(token_lens, valid_tokens))]
+            valid_tokens = valid_tokens[:299*4-1]
+
+        valid_bias = {k: 100 for k in valid_tokens[:299]}
+        # add a negative bias for the stop token
+        valid_bias[50256] = -100
+        self._before_prediction_hook()
+        response = openai.ChatCompletion.create(model=self.model, messages=prompt,
+                                            temperature=self.temperature, top_p=self.top_p,
+                                            max_tokens=1, logit_bias=valid_bias)
+        # chat models do not return logprobs
+        predictions, probabilities = [response['choices'][0]['message']['content']], [0.0]
+        return predictions, probabilities
+
+    def predict_unconstrained(self, prefix, max_tokens, stop=None):
+        # here the last message must be from the assistant
+        prompt = copy.deepcopy(self.prompt_template)
+        assert prompt[-1]['role'] == 'assistant', "last message must be from the assistant"
+        prompt[-1]['content'] += prefix
+        self._before_prediction_hook()
+        response = openai.ChatCompletion.create(model=self.model, messages=prompt,
+                                            temperature=self.temperature, top_p=self.top_p,
+                                            logit_bias={50256: -100},
+                                            max_tokens=max_tokens, stop=stop)
+        return response['choices'][0]['message']['content']
 
 
 @dataclass
@@ -367,6 +476,47 @@ class PeanoLMReasoner:
 
         return answer, response
 
+
+class PeanoChatLMReasoner:
+    def __init__(self, completion_engine: CompletionEngine,
+                 prompt_file: str,
+                 model: str,
+                 temperature: float = 0.0):
+        self._completion_engine = completion_engine
+        self._model = model
+        self._temperature = temperature
+        self._separator = '###'
+
+        with open(prompt_file, 'r') as f:
+            self._prompt = json.load(f)
+
+    def name(self) -> str:
+        return f'peano-chat-{self._model}'
+
+    def _format_problem(self, problem) -> List[Dict[str, str]]:
+        context = f' '.join(f'{i+1}- {sentence}'
+                            for i, sentence in enumerate(problem.test_example.theory))
+        query = problem.test_example.query
+        chat_problem = [{"role": "user", "content": f"Context: {context}\nQuery: {query.strip()}"},
+                        {"role": "assistant", "content": ""}]
+        return chat_problem
+    
+    def predict_answer(self, problem: PrOntoQAProblem) -> bool:
+
+        test = self._format_problem(problem)
+        prompt_messages = self._prompt + test
+        lm = OpenAIChatModel(self._model,
+                         prompt_messages,
+                         temperature=self._temperature,
+                         before_prediction_hook=rate_limiter.wait,
+                         )
+        response = predict_constrained(self._completion_engine, lm, batch_size=500,
+                                       stop_tokens=[self._separator])
+        done, answer = self._completion_engine.is_complete(response)
+        assert done
+
+        return answer, response
+
 def evaluate_reasoner(results_path: str,
                       dataset: PrOntoQADataset,
                       reasoner: NaturalLanguageReasoner):
@@ -448,11 +598,14 @@ def run_prontoqa_experiments():
         #OpenAILanguageModelReasoner('text-davinci-003')
         #OpenAILanguageModelReasoner('gpt-4'),
         # OpenAILanguageModelReasoner('text-davinci-003'),
-        #PeanoLMReasoner(fol_completion_engine,
+        # PeanoLMReasoner(fol_completion_engine,
         #                'prompts/peano_prontoqa_long_prompt',
         #                'text-davinci-003'),
-        OpenAIChatModelReasoner('gpt-3.5-turbo'),
-        OpenAIChatModelReasoner('gpt-4'),
+        PeanoChatLMReasoner(fol_completion_engine,
+                       'prompts/peano_chat_prontoqa_long_prompt.json',
+                       'gpt-3.5-turbo')
+        # OpenAIChatModelReasoner('gpt-3.5-turbo'),
+        # OpenAIChatModelReasoner('gpt-4'),
         # PeanoLMReasoner(fol_completion_engine,
         #                'prompts/peano_prontoqa_long_prompt',
         #                'code-davinci-002'),
