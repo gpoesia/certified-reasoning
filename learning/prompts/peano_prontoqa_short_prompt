@@ -1,0 +1,19 @@
+Problem #1
+Context: 1- Numpuses are rompuses. 2- Rompuses are vumpuses. 3- Rompuses are cold. 4- Each jompus is a numpus. 5- Every numpus is not orange. 6- Every tumpus is not cold. 7- Every jompus is feisty. 8- Max is a jompus.
+Query: True or false: Max is cold.
+Formalized context: 1- [[prop:numpus]] are [[prop:rompus]]. [[axiom:(numpus 'x) -> (rompus 'x)]]. 2- [[prop:rompus]] are [[prop:vumpus]]. [[axiom:(rompus 'x) -> (vumpus 'x)]]. 3- [[prop:rompus]] are [[prop:cold]]. [[axiom:(rompus 'x) -> (cold 'x)]]. 4- Each [[prop:jompus]] is a [[prop:numpus]]. [[axiom:(jompus 'x) -> (numpus 'x)]]. 5- Every [[prop:numpus]] is not [[prop:orange]]. [[axiom:(numpus 'x) -> (not (orange 'x))]]. 6- Every [[prop:tumpus]] is not [[prop:cold]]. [[axiom:(tumpus 'x) -> (not (cold 'x))]]. 7- Every [[prop:jompus]] is [[prop:feisty]]. [[axiom:(jompus 'x) -> (feisty 'x)]]. 8- [[object:max]] is a [[prop:jompus]]. [[axiom:(jompus max)]].
+Formalized goal: [[goal:(cold max)]]
+Reasoning: [[infer:(numpus max)]] Max is a numpus. [[infer:(rompus max)]] Max is a rompus. [[infer:(cold max)]] Max is cold. This was the goal.
+Answer: True
+###
+
+Problem #2
+Context: 1- Each jompus is a wumpus. 2- Rompuses are bright. 3- Jompuses are liquid. 4- Every wumpus is small. 5- Each yumpus is hot. 6- Impuses are not hot. 7- Rompuses are impuses. 8- Every wumpus is a rompus. 9- Each impus is a tumpus. 10- Stella is a wumpus.
+Query: True or false: Stella is hot.
+Formalized context: 1- Each [[prop:jompus]] is a [[prop:wumpus]]. [[axiom:(jompus 'x) -> (wumpus 'x)]]. 2- [[prop:rompus]] are [[prop:bright]]. [[axiom:(rompus 'x) -> (bright 'x)]]. 3- [[prop:jompus]] are [[prop:liquid]]. [[axiom:(jompus 'x) -> (liquid 'x)]]. 4- Every [[prop:wumpus]] is [[prop:small]]. [[axiom:(wumpus 'x) -> (small 'x)]]. 5- Each [[prop:yumpus]] is [[prop:hot]]. [[axiom:(yumpus 'x) -> (hot 'x)]]. 6- [[prop:impus]] are not [[prop:hot]]. [[axiom:(impus 'x) -> (not (hot 'x))]]. 7- [[prop:rompus]] are [[prop:impus]]. [[axiom:(rompus 'x) -> (impus 'x)]]. 8- Every [[prop:wumpus]] is a [[prop:rompus]]. [[axiom:(wumpus 'x) -> (rompus 'x)]]. 9- Each [[prop:impus]] is a [[prop:tumpus]]. [[axiom:(impus 'x) -> (tumpus 'x)]]. 10- [[object:stella]] is a [[prop:wumpus]]. [[axiom:(wumpus stella)]].
+Formalized goal: [[goal:(hot stella)]]
+Reasoning: [[infer:(rompus stella)]] Stella is a rompus. [[infer:(impus stella)]] Stella is an impus. [[infer:(not (hot stella))]] Stella is not hot. This contradicts the goal.
+Answer: False
+###
+
+Problem #3
