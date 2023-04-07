@@ -55,9 +55,17 @@ To compile it, you'll first need to install the Rust toolchain. For that, use [r
 
 With Rust installed, you can now compile the Peano environment:
 
+For Linux:
+
 ```sh
 [peano] $ cd environment
 [environment] $ cargo build --release
+```
+For Mac:
+
+```sh
+[peano] $ cd environment
+[environment] $ cargo rustc --release --lib -- -C link-arg=-undefined -C link-arg=dynamic_lookup
 ```
 
 This should eventually terminate without errors. It will produce a `peano` executable,
@@ -76,7 +84,7 @@ Verified 5 derivation(s), 5 succeeded.
 ```
 
 You should also now have a dynamic library in `target/release`:
-it will be called `libpeano.so` on Linux, or something like `peano.dylib` on Mac.
+it will be called `libpeano.so` on Linux, or something like `libpeano.dylib` on Mac.
 To use this library as a Python module, we'll use a simple symbolic link:
 
 ```sh
@@ -84,7 +92,7 @@ To use this library as a Python module, we'll use a simple symbolic link:
 [learning] $ ln -s ../environment/target/release/libpeano.so ./peano.so
 ```
 
-Note that this must be slightly adjusted on Mac (i.e., you'll link `peano.dylib` instead). With that, you should be able to do the following:
+Note that this must be slightly adjusted on Mac (i.e., you'll link `libpeano.dylib` instead). With that, you should be able to do the following:
 
 ```sh
 [learning] $ python
