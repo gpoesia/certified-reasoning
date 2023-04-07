@@ -498,7 +498,7 @@ class PeanoChatLMReasoner:
                             for i, sentence in enumerate(problem.test_example.theory))
         query = problem.test_example.query
         chat_problem = [{"role": "user", "content": f"Context: {context}\nQuery: {query.strip()}"},
-                        {"role": "assistant", "content": ""}]
+                        {"role": "assistant", "content": "Answer:"}]
         return chat_problem
     
     def predict_answer(self, problem: PrOntoQAProblem) -> bool:
