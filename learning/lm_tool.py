@@ -515,7 +515,7 @@ class PeanoChatLMReasoner:
         done, answer = self._completion_engine.is_complete(response)
         assert done
 
-        return answer, response
+        return str(answer), response
 
 def evaluate_reasoner(results_path: str,
                       dataset: PrOntoQADataset,
