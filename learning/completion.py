@@ -72,7 +72,20 @@ class PeanoCompletionEngine:
 
         if not b:
             # The block was just open: return the supported keywords.
-            block_keywords = f'(prop|object|axiom|goal|infer|var|eq):'
+            previous_blocks = {b for b, _ in self.get_verified_blocks(prefix)}
+            allowed_next = ['prop', 'object', 'var']
+
+            if 'prop' in previous_blocks:
+                allowed_next.append('axiom')
+                allowed_next.append('goal')
+
+            if 'prop' in previous_blocks or 'var' in previous_blocks:
+                allowed_next.append('infer')
+
+            if 'var' in previous_blocks:
+                allowed_next.append('eq')
+
+            block_keywords = f'({"|".join(allowed_next)})'
             return regex.compile(block_keywords)
 
         block_keyword, block_contents = _split_block(b)
@@ -88,10 +101,12 @@ class PeanoCompletionEngine:
             return regex.compile('[\\(\\)a-z0-9\\-=+\\*/ ]+' + end_marker)
 
         if block_keyword in ('axiom', 'goal'):
-            # NOTE: We can plug in a grammar for axioms here,
-            # though for now we just trust the model in this one.
-            return regex.compile(regex_not_containing(self.end_marker) +
-                                 end_marker)
+            previous_blocks = self.get_verified_blocks(prefix)
+            return self._make_proposition_regex(previous_blocks,
+                                                block_keyword == 'goal')
+
+        regex.compile(regex_not_containing(self.end_marker) +
+                      end_marker)
 
         if block_keyword == 'infer':
             # Match any of the actions followed by the end marker.
@@ -118,6 +133,46 @@ class PeanoCompletionEngine:
             return regex.compile(f'({out}){end_marker}')
 
         raise ValueError(f'Invalid block type {block_keyword}.')
+
+
+    def _make_proposition_regex(self,
+                                previous_blocks: list[tuple[str, str]],
+                                is_goal: bool) -> regex.Regex:
+        objects = [v for k, v in previous_blocks if k == 'object']
+        props = [v for k, v in previous_blocks if k == 'prop']
+
+        premises, conclusions = [], []
+
+        for p in props:
+            for o in objects + ["'x"]:
+                positive_prop = f'({p} {o})'
+                negative_prop = f'(not ({p} {o}))'
+
+                premises.append(positive_prop)
+                premises.append(negative_prop)
+
+                if not o.startswith("'"):
+                    conclusions.append(positive_prop)
+                    conclusions.append(negative_prop)
+
+        all_premises = '|'.join(map(regex.escape, premises))
+        all_conclusions = '|'.join(map(regex.escape, conclusions))
+
+        if not all_conclusions:
+            # A regex for the empty formal language.
+            all_conclusions = '$.'
+
+        if not all_premises:
+            assert False, 'Empty theory'
+
+        end_marker = regex.escape(self.end_marker)
+
+        if is_goal:
+            return regex.compile(f'({all_conclusions}){end_marker}')
+
+        return regex.compile(f'(({all_conclusions})|' +
+                             f'(({all_premises}) -> )+({all_premises}))' +
+                             end_marker)
 
 
     def fast_forward_derivation(self, verified_blocks: list[tuple[str, str]]):
@@ -258,6 +313,47 @@ Reasoning: [[infer:(wumpus sally)]] Sally is a wumpus. [[infer:(vumpus sally)]] 
         '''
 
         self.assertTrue(ce.is_complete(p3))
+
+
+    def test_axiom_constraints(self):
+        d = domain.FirstOrderLogicDomain()
+        prob = d.start_derivation()
+
+        ce = PeanoCompletionEngine(d, prob)
+
+        p1 = '''
+1- Vumpuses are zumpuses. 2- Each zumpus is a rompus. 3- Every tumpus is small. 4- Each impus is a tumpus. 5- Each rompus is a jompus. 6- Tumpuses are wumpuses. 7- Every yumpus is transparent. 8- Yumpuses are numpuses. 9- Zumpuses are orange. 10- Jompuses are yumpuses. 11- Rompuses are floral. 12- Wumpuses are vumpuses. 13- Every wumpus is nervous. 14- Every impus is temperate. 15- Jompuses are not sweet. 16- Dumpuses are not floral. 17- Every vumpus is angry. 18- Sally is a tumpus.
+Query: True or false: Sally is not floral.
+Formalized context: 1- [[prop:vumpus]] are [[prop:zumpus]]. [[axiom:'''
+
+        r = ce.complete(p1)
+
+        self.assertTrue(r.fullmatch("(vumpus 'x) -> (zumpus 'x)]]"))
+        self.assertTrue(r.fullmatch("(not (vumpus 'x)) -> (zumpus 'x)]]"))
+        self.assertFalse(r.match("(not (vumpus 'x))]]"))
+
+        p2 = '''
+1- Vumpuses are zumpuses. 2- Each zumpus is a rompus. 18- Sally is a vumpus.
+Query: True or false: Sally is not floral.
+Formalized context: 1- [[prop:vumpus]] are [[prop:zumpus]]. [[axiom:(vumpus 'x) -> (zumpus 'x)]]. 2- [[object:sally]] is a [[prop:vumpus]]. [[axiom:'''
+
+        r2 = ce.complete(p2)
+
+        self.assertTrue(r2.fullmatch("(vumpus sally)]]"))
+        self.assertFalse(r2.fullmatch("(vumpus 'x)]]"))
+
+        p3 = '''
+1- Vumpuses are zumpuses. 2- Each zumpus is a rompus. 18- Sally is a vumpus.
+Query: True or false: Sally is not floral.
+Formalized context: 1- [[prop:vumpus]] are [[prop:zumpus]]. [[axiom:(vumpus 'x) -> (zumpus 'x)]]. 2- [[object:sally]] is a [[prop:vumpus]]. [[axiom:(vumpus sally)]]. Goal: [[goal:'''
+
+        r3 = ce.complete(p3)
+
+        print(r3)
+
+        self.assertTrue(r3.fullmatch("(vumpus sally)]]"))
+        self.assertTrue(r3.fullmatch("(zumpus sally)]]"))
+        self.assertFalse(r3.fullmatch("(nompus sally)]]"))
 
     def test_avoid_duplicates(self):
         d = domain.FirstOrderLogicDomain()
