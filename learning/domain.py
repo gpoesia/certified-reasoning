@@ -463,7 +463,7 @@ class AlgebraDomain(DomainFromTheory):
 class FirstOrderLogicDomain(DomainFromTheory):
     def __init__(self, theory='fol.p', with_equality=False):
         super().__init__(theory, [])
-        self._ignored_actions = {'not', 'eval'}.union(
+        self._ignored_actions = {'not', 'eval', '='}.union(
             {'eq_refl', 'eq_symm', 'rewrite'}
             if not with_equality
             else set()
@@ -491,9 +491,9 @@ class FirstOrderLogicDomain(DomainFromTheory):
     def derivation_done(self, problem: Problem) -> Optional[str]:
         'Find a proof of either the goal type or its negation.'
 
-        # If no goal was set yet, should not stop.
+        # If no goal was set yet, not done.
         if problem.goal is None:
-            return None
+            return False, None
 
         negated_goal = FirstOrderLogicDomain._negate(problem.goal)
 
@@ -504,7 +504,7 @@ class FirstOrderLogicDomain(DomainFromTheory):
             if dtype in (problem.goal, negated_goal):
                 return name, dtype == problem.goal
 
-        return None
+        return False, None
 
 
 class EquationsCtDomain(EquationsDomain):

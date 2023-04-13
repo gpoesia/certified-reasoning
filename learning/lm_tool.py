@@ -481,10 +481,12 @@ class PeanoLMReasoner(NaturalLanguageReasoner):
                          before_prediction_hook=rate_limiter.wait,
                          )
 
-        response = predict_constrained(self._completion_engine, lm, batch_size=500,
+        response = predict_constrained(self._completion_engine, lm, batch_size=800,
                                        stop_tokens=[self._separator])
         done, answer = self._completion_engine.is_complete(response)
-        assert done
+
+        if not done:
+            return 'Unknown', response
 
         return str(answer), response
 

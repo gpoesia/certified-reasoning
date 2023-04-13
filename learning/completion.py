@@ -37,6 +37,10 @@ def _split_block(b: str) -> (str, str):
     return (b[:colon], b[colon+1:])
 
 
+# Error when nothing to infer
+INFER_ERROR = 'nothing'
+
+
 class PeanoCompletionEngine:
     '''CSD completion engine backed by a Peano domain.'''
     def __init__(self, domain, start_derivation,
@@ -128,6 +132,9 @@ class PeanoCompletionEngine:
                 if is_new:
                     new_choices.append(inference)
 
+            if not new_choices:
+                new_choices = [INFER_ERROR]
+
             out = '|'.join(map(regex.escape, new_choices))
 
             return regex.compile(f'({out}){end_marker}')
@@ -203,6 +210,10 @@ class PeanoCompletionEngine:
 
                 found = False
                 for c in choices:
+
+                    if c == INFER_ERROR:
+                        continue
+
                     if self.format_fn(self.domain.value_of(u, c)) == block_content:
                         # Found the choice made at this step.
                         found = True
@@ -228,7 +239,7 @@ class PeanoCompletionEngine:
         choices = []
 
         for a in arrows:
-            if a in initial_actions or a.startswith('axiom'):
+            if a in initial_actions or regex.fullmatch('axiom\\d+', a):
                 choices.extend(self.domain.apply(a, universe))
 
         return choices
@@ -261,6 +272,11 @@ class PeanoCompletionEngine:
 
     def is_complete(self, prefix: str) -> bool:
         blocks = self.get_verified_blocks(prefix)
+
+        # If exhausted inferences, it is done.
+        if INFER_ERROR in [v for k, v in blocks]:
+            return True
+
         ff = self.fast_forward_derivation(blocks)
         return self.domain.derivation_done(ff)
 
@@ -283,7 +299,7 @@ Reasoning: [[infer:'''
 
         completions = ce.complete(p1)
 
-        self.assertTrue(completions.match('(tumpus sally)]]'))
+        self.assertTrue(completions.match('(wumpus sally)]]'))
         self.assertFalse(completions.match('(rompus sally)]]'))
 
         p2 = '''
@@ -291,7 +307,7 @@ Reasoning: [[infer:'''
 Query: True or false: Sally is not floral.
 Formalized context: 1- [[prop:vumpus]] are [[prop:zumpus]]. [[axiom:(vumpus 'x) -> (zumpus 'x)]]. 2- Each [[prop:zumpus]] is a [[prop:rompus]]. [[axiom:(zumpus 'x) -> (rompus 'x)]]. 3- Every [[prop:tumpus]] is [[prop:small]]. [[axiom:(tumpus 'x) -> (small 'x)]]. 4- Each [[prop:impus]] is a [[prop:tumpus]]. [[axiom:(impus 'x) -> (tumpus 'x)]]. 5- Each [[prop:rompus]] is a [[prop:jompus]]. [[axiom:(rompus 'x) -> (jompus 'x)]]. 6- [[prop:tumpus]] are [[prop:wumpus]]. [[axiom:(tumpus 'x) -> (wumpus 'x)]]. 7- Every [[prop:yumpus]] is [[prop:transparent]]. [[axiom:(yumpus 'x) -> (transparent 'x)]]. 8- [[prop:yumpus]] are [[prop:numpus]]. [[axiom:(yumpus 'x) -> (numpus 'x)]]. 9- [[prop:zumpus]] are [[prop:orange]]. [[axiom:(zumpus 'x) -> (orange 'x)]]. 10- [[prop:jompus]] are [[prop:yumpus]]. [[axiom:(jompus 'x) -> (yumpus 'x)]]. 11- [[prop:rompus]] are [[prop:floral]]. [[axiom:(rompus 'x) -> (floral 'x)]]. 12- [[prop:wumpus]] are [[prop:vumpus]]. [[axiom:(wumpus 'x) -> (vumpus 'x)]]. 13- Every [[prop:wumpus]] is [[prop:nervous]]. [[axiom:(wumpus 'x) -> (nervous 'x)]]. 14- Every [[prop:impus]] is [[prop:temperate]]. [[axiom:(impus 'x) -> (temperate 'x)]]. 15- [[prop:jompus]] are not [[prop:sweet]]. [[axiom:(jompus 'x) -> (not (sweet 'x))]]. 16- [[prop:dumpus]] are not [[prop:floral]]. [[axiom:(dumpus 'x) -> (not (floral 'x))]]. 17- Every [[prop:vumpus]] is [[prop:angry]]. [[axiom:(vumpus 'x) -> (angry 'x)]]. 18- [[object:sally]] is a [[prop:tumpus]]. [[axiom:(tumpus sally)]].
 Formalized goal: [[goal:(not (floral sally))]]
-Reasoning: [[infer:(tumpus sally)]] Sally is a tumpus. [[infer:(wumpus sally)]] Sally is a wumpus.
+Reasoning: [[infer:(wumpus sally)]] Sally is a wumpus.
             [[infer:(vumpus sally)]] Sally is a vumpus. [[infer:(zumpus sally)]] Sally is a zumpus.
             [[infer:(rompus sally)]] Sally is a rompus. [[infer:'''
 
@@ -349,11 +365,23 @@ Formalized context: 1- [[prop:vumpus]] are [[prop:zumpus]]. [[axiom:(vumpus 'x) 
 
         r3 = ce.complete(p3)
 
-        print(r3)
-
         self.assertTrue(r3.fullmatch("(vumpus sally)]]"))
         self.assertTrue(r3.fullmatch("(zumpus sally)]]"))
         self.assertFalse(r3.fullmatch("(nompus sally)]]"))
+
+
+    def test_emtpy_infer_options(self):
+        prefix = """1- Every [[prop:feline]] is a [[prop:carnivore]]. [[axiom:(feline 'x) -> (carnivore 'x)]]. 2- [[object:sheep]] are not [[prop:carnivorous]]. [[axiom:(not (carnivorous sheep))]]. 3- Each [[prop:carnivore]] is a [[prop:mammal]]. [[axiom:(carnivore 'x) -> (mammal 'x)]]. 4- [[object:cats]] are [[prop:feline]]. [[axiom:(feline cats)]]. 5- Each [[prop:mammal]] is [[prop:furry]]. [[axiom:(mammal 'x) -> (furry 'x)]]. 6- Every [[prop:carnivore]] is [[prop:carnivorous]]. [[axiom:(carnivore 'x) -> (carnivorous 'x)]]. 7- Every [[prop:mammal]] is a [[prop:vertebrate]]. [[axiom:(mammal 'x) -> (vertebrate 'x)]]. 8- [[prop:animal]] are not [[prop:unicellular]]. [[axiom:(animal 'x) -> (not (unicellular 'x))]]. 9- [[prop:vertebrate]] are [[prop:animal]]. [[axiom:(vertebrate 'x) -> (animal 'x)]]. 10- [[object:stella]] is a [[object:cat]]. [[axiom:(not (animal stella))]].
+Formalized goal: [[goal:(carnivorous stella)]]
+Reasoning: [[infer:(carnivore cats)]] Cats are carnivores. [[infer:(carnivorous cats)]] Cats are carnivorous. [[infer:(mammal cats)]] Cats are mammals. [[infer:(vertebrate cats)]] Cats are vertebrates. [[infer:(animal cats)]] Cats are animals. [[infer:(not (unicellular cats))]] Cats are not unicellular. [[infer:(furry cats)]] Cats are furry. [[infer:"""
+
+        d = domain.FirstOrderLogicDomain()
+        prob = d.start_derivation()
+        ce = PeanoCompletionEngine(d, prob)
+
+        a = ce.complete(prefix)
+        print(a)
+
 
     def test_avoid_duplicates(self):
         d = domain.FirstOrderLogicDomain()
