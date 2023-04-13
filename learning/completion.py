@@ -85,20 +85,20 @@ class PeanoCompletionEngine:
             if 'var' in previous_blocks:
                 allowed_next.append('eq')
 
-            block_keywords = f'({"|".join(allowed_next)})'
+            block_keywords = f'({"|".join(allowed_next)}):'
             return regex.compile(block_keywords)
 
         block_keyword, block_contents = _split_block(b)
         assert not block_contents
 
         if block_keyword in ('prop', 'object'):
-            return regex.compile('[a-z_]+' + end_marker)
+            return regex.compile('[a-zA-Z0-9-_]+' + end_marker)
 
         if block_keyword == 'var':
-            return regex.compile('[a-z_]+' + end_marker)
+            return regex.compile('[a-zA-Z0-9-_]+' + end_marker)
 
         if block_keyword == 'eq':
-            return regex.compile('[\\(\\)a-z0-9\\-=+\\*/ ]+' + end_marker)
+            return regex.compile('[\\(\\)a-zA-Z0-9\\-=+\\*/ ]+' + end_marker)
 
         if block_keyword in ('axiom', 'goal'):
             previous_blocks = self.get_verified_blocks(prefix)
