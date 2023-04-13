@@ -1,9 +1,9 @@
 Problem #1
-Context: 1- Each butterfly is a lepidopteran. 2- Lepidopterans are insects. 3- Insects are six-legged. 4- Insects are arthropods. 5- Each arthropod is small. 6- Every arthropod is an invertebrate. 7- Invertebrates are animals. 8- Each spider is not six-legged. 9- Animals are multicellular. 10- Alex is a lepidopteran.
-Query: True or false: Alex is six-legged.
-Formalized context: 1- Each [[prop:butterfly]] is a [[prop:lepidopteran]]. [[axiom:(butterfly 'x) -> (lepidopteran 'x)]]. 2- [[prop:lepidopteran]] are [[prop:insect]]. [[axiom:(lepidopteran 'x) -> (insect 'x)]]. 3- [[prop:insect]] are [[prop:six-legged]]. [[axiom:(insect 'x) -> (six-legged 'x)]]. 4- [[prop:insect]] are [[prop:arthropod]]. [[axiom:(insect 'x) -> (arthropod 'x)]]. 5- Each [[prop:arthropod]] is [[prop:small]]. [[axiom:(arthropod 'x) -> (small 'x)]]. 6- Every [[prop:arthropod]] is an [[prop:invertebrate]]. [[axiom:(arthropod 'x) -> (invertebrate 'x)]]. 7- [[prop:invertebrate]] are [[prop:animal]]. [[axiom:(invertebrate 'x) -> (animal 'x)]]. 8- Each [[prop:spider]] is not [[prop:six-legged]]. [[axiom:(spider 'x) -> (not (six-legged 'x))]]. 9- [[prop:animal]] are [[prop:multicellular]]. [[axiom:(animal 'x) -> (multicellular 'x)]]. 10- [[object:alex]] is a [[prop:lepidopteran]]. [[axiom:(lepidopteran alex)]].
-Formalized goal: [[goal:(six-legged alex)]]
-Reasoning: [[infer:(insect alex)]] Alex is an insect. [[infer:(six-legged alex)]] Alex is six-legged. This was the goal.
+Context: 1- Cats are felines. 2- Sheep are herbivorous. 3- Each feline is a carnivore. 4- Carnivores are not herbivorous. 5- Carnivores are mammals. 6- Mammals are warm-blooded. 7- Each mammal is a vertebrate. 8- Every vertebrate is an animal. 9- Every animal is multicellular. 10- Sally is a feline.
+Query: True or false: Sally is not herbivorous.
+Formalized context: 1- [[prop:cat]] are [[prop:feline]]. [[axiom:(cat 'x) -> (feline 'x)]]. 2- [[prop:sheep]] are [[prop:herbivorous]]. [[axiom:(sheep 'x) -> (herbivorous 'x)]]. 3- Each [[prop:feline]] is a [[prop:carnivore]]. [[axiom:(feline 'x) -> (carnivore 'x)]]. 4- [[prop:carnivore]] are not [[prop:herbivorous]]. [[axiom:(carnivore 'x) -> (not (herbivorous 'x))]]. 5- [[prop:carnivore]] are [[prop:mammal]]. [[axiom:(carnivore 'x) -> (mammal 'x)]]. 6- [[prop:mammal]] are [[prop:warm-blooded]]. [[axiom:(mammal 'x) -> (warm-blooded 'x)]]. 7- Each [[prop:mammal]] is a [[prop:vertebrate]]. [[axiom:(mammal 'x) -> (vertebrate 'x)]]. 8- Every [[prop:vertebrate]] is an [[prop:animal]]. [[axiom:(vertebrate 'x) -> (animal 'x)]]. 9- Every [[prop:animal]] is [[prop:multicellular]]. [[axiom:(animal 'x) -> (multicellular 'x)]]. 10- [[object:sally]] is a [[prop:feline]]. [[axiom:(feline sally)]].
+Formalized goal: [[goal:(not (herbivorous sally))]]
+Reasoning: [[infer:(carnivore sally)]] Sally is a carnivore. [[infer:(not (herbivorous sally))]] Sally is not herbivorous. This was the goal.
 Answer: True
 ###
 
