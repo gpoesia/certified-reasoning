@@ -1,0 +1,19 @@
+Problem #1
+Context: 1- Each butterfly is a lepidopteran. 2- Lepidopterans are insects. 3- Insects are six-legged. 4- Insects are arthropods. 5- Each arthropod is small. 6- Every arthropod is an invertebrate. 7- Invertebrates are animals. 8- Each spider is not six-legged. 9- Animals are multicellular. 10- Alex is a lepidopteran.
+Query: True or false: Alex is six-legged.
+Formalized context: 1- Each [[prop:butterfly]] is a [[prop:lepidopteran]]. [[axiom:(butterfly 'x) -> (lepidopteran 'x)]]. 2- [[prop:lepidopteran]] are [[prop:insect]]. [[axiom:(lepidopteran 'x) -> (insect 'x)]]. 3- [[prop:insect]] are [[prop:six-legged]]. [[axiom:(insect 'x) -> (six-legged 'x)]]. 4- [[prop:insect]] are [[prop:arthropod]]. [[axiom:(insect 'x) -> (arthropod 'x)]]. 5- Each [[prop:arthropod]] is [[prop:small]]. [[axiom:(arthropod 'x) -> (small 'x)]]. 6- Every [[prop:arthropod]] is an [[prop:invertebrate]]. [[axiom:(arthropod 'x) -> (invertebrate 'x)]]. 7- [[prop:invertebrate]] are [[prop:animal]]. [[axiom:(invertebrate 'x) -> (animal 'x)]]. 8- Each [[prop:spider]] is not [[prop:six-legged]]. [[axiom:(spider 'x) -> (not (six-legged 'x))]]. 9- [[prop:animal]] are [[prop:multicellular]]. [[axiom:(animal 'x) -> (multicellular 'x)]]. 10- [[object:alex]] is a [[prop:lepidopteran]]. [[axiom:(lepidopteran alex)]].
+Formalized goal: [[goal:(six-legged alex)]]
+Reasoning: [[infer:(insect alex)]] Alex is an insect. [[infer:(six-legged alex)]] Alex is six-legged. This was the goal.
+Answer: True
+###
+
+Problem #2
+Context: 1- Mersenne primes are prime. 2- Mersenne primes are prime numbers. 3- Prime numbers are prime. 4- Prime numbers are natural numbers. 5- Each natural number is not negative. 6- Natural numbers are integers. 7- Integers are real numbers. 8- Real numbers are real. 9- Real numbers are numbers. 10- Every imaginary number is not real. 11- 7 is an integer.
+Query: True or false: 7 is not real.
+Formalized context: 1- [[prop:mersenne-prime]] are [[prop:prime]]. [[axiom:(mersenne-prime 'x) -> (prime 'x)]]. 2- [[prop:mersenne-prime]] are [[prop:prime-number]]. [[axiom:(mersenne-prime 'x) -> (prime-number 'x)]]. 3- [[prop:prime-number]] are [[prop:prime]]. [[axiom:(prime-number 'x) -> (prime 'x)]]. 4- [[prop:prime-number]] are [[prop:natural-number]]. [[axiom:(prime-number 'x) -> (natural-number 'x)]]. 5- Each [[prop:natural-number]] is not [[prop:negative]]. [[axiom:(natural-number 'x) -> (not (negative 'x))]]. 6- [[prop:natural-number]] are [[prop:integer]]. [[axiom:(natural-number 'x) -> (integer 'x)]]. 7- [[prop:integer]] are [[prop:real-number]]. [[axiom:(integer 'x) -> (real-number 'x)]]. 8- [[prop:real-number]] are [[prop:real]]. [[axiom:(real-number 'x) -> (real 'x)]]. 9- [[prop:real-number]] are [[prop:number]]. [[axiom:(real-number 'x) -> (number 'x)]]. 10- Every [[prop:imaginary-number]] is not [[prop:real]]. [[axiom:(imaginary-number 'x) -> (not (real 'x))]]. 11- [[object:7]] is an [[prop:integer]]. [[axiom:(integer 7)]].
+Formalized goal: [[goal:(not (real 7))]]
+Reasoning: [[infer:(real-number 7)]] 7 is a real number. [[infer:(real 7)]] 7 is real. This contradicts the goal.
+Answer: False
+###
+
+Problem #3

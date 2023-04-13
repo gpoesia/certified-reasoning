@@ -342,8 +342,12 @@ class NaturalLanguageReasoner:
     def predict_answer(self, problem: PrOntoQAProblem) -> bool:
         raise NotImplementedError
 
+    def prepare_for(self, dataset: str):
+        'Set up the reasoner to run on this dataset, if anything might need to be done.'
+        pass
 
-class OpenAILanguageModelReasoner:
+
+class OpenAILanguageModelReasoner(NaturalLanguageReasoner):
     def __init__(self, model: str, temperature: float = 0.0):
         self._model = model
         self._temperature = temperature
@@ -387,7 +391,7 @@ class OpenAILanguageModelReasoner:
         return answer and answer.groups()[-1].strip(), response_str
 
 
-class OpenAIChatModelReasoner:
+class OpenAIChatModelReasoner(NaturalLanguageReasoner):
     def __init__(self, model: str, temperature: float = 0.0):
         self._model = model
         self._temperature = temperature
@@ -438,9 +442,8 @@ class OpenAIChatModelReasoner:
         return answer and answer.groups()[-1].strip(), response_str
 
 
-class PeanoLMReasoner:
+class PeanoLMReasoner(NaturalLanguageReasoner):
     def __init__(self, completion_engine: CompletionEngine,
-                 prompt_file: str,
                  model: str,
                  temperature: float = 0.0):
         self._completion_engine = completion_engine
@@ -448,11 +451,20 @@ class PeanoLMReasoner:
         self._temperature = temperature
         self._separator = '###'
 
-        with open(prompt_file, 'r') as f:
-            self._prompt = f.read().strip()
-
     def name(self) -> str:
         return f'peano-{self._model}'
+
+    def prepare_for(self, dataset: str):
+        if 'trueontology' in dataset:
+            prompt_file = 'prompts/peano_prontoqa_trueontology_short_prompt'
+        elif 'falseontology' in dataset:
+            prompt_file = 'prompts/peano_prontoqa_falseontology_short_prompt'
+        else:
+            prompt_file = 'prompts/peano_prontoqa_short_prompt'
+
+        with open(prompt_file, 'r') as f:
+            self._prompt = f.read().strip()
+            print('Loaded prompt from', prompt_file)
 
     def _format_problem(self, problem) -> str:
         context = f' '.join(f'{i+1}- {sentence}'
@@ -477,7 +489,7 @@ class PeanoLMReasoner:
         return str(answer), response
 
 
-class PeanoChatLMReasoner:
+class PeanoChatLMReasoner(NaturalLanguageReasoner):
     def __init__(self, completion_engine: CompletionEngine,
                  prompt_file: str,
                  model: str,
@@ -524,6 +536,7 @@ def evaluate_reasoner(results_path: str,
     success = []
 
     print('Evaluating', reasoner.name(), 'on', dataset.id)
+    reasoner.prepare_for(dataset.id)
 
     try:
         with open(results_path, 'r') as f:
@@ -537,16 +550,6 @@ def evaluate_reasoner(results_path: str,
             break
 
         key = f'({dataset.id}, {p.id}, {reasoner.name()})'
-
-        if key in {
-                '(subst-eval-30St, problem2, peano-text-davinci-003)',
-                '(subst-eval-30St, problem3, peano-text-davinci-003)',
-                '(subst-eval-30St, problem7, peano-text-davinci-003)',
-                '(subst-eval-30St, problem9, peano-text-davinci-003)',
-                '(subst-eval-30St, problem10, peano-text-davinci-003)',
-                '(subst-eval-30St, problem11, peano-text-davinci-003)',
-        }:
-            continue
 
         if key in results and not results[key]['error']:
             # print('Skipping', key)
