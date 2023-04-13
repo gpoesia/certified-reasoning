@@ -487,7 +487,10 @@ impl Derivation {
         let is_real_atom = match t.as_ref() {
             Term::Atom { name } => {
                 let real_type = Rc::new(Term::Atom { name: String::from(REAL_TYPE_CONST) });
-                if is_real_const(name) && !self.is_redundant(&real_type, &Some(t.clone())) {
+                if !self.context_.lookup(&name).is_some() &&
+                    is_real_const(name) &&
+                    self.context_.lookup(&String::from(REAL_TYPE_CONST)).is_some() &&
+                    !self.is_redundant(&real_type, &Some(t.clone())) {
                     self.existing_values.entry(t.clone()).or_insert_with(|| name.clone());
                     self.inhabited_types.entry(real_type.clone()).or_insert_with(Vec::new).push(name.clone());
                     self.context_.define(name.clone(),
