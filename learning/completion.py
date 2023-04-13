@@ -210,17 +210,14 @@ class PeanoCompletionEngine:
 
                 found = False
                 for c in choices:
-
-                    if c == INFER_ERROR:
-                        continue
-
                     if self.format_fn(self.domain.value_of(u, c)) == block_content:
                         # Found the choice made at this step.
                         found = True
                         self.domain.define(u, f'!step{i}', c)
                         break
 
-                assert found, f'Could not replay inference in verified block {block_content}.'
+                if block_content != INFER_ERROR:
+                    assert found, f'Could not replay inference in verified block {block_content}.'
             else:
                 raise ValueError(f'Invalid block type {block_type}')
 
@@ -370,7 +367,7 @@ Formalized context: 1- [[prop:vumpus]] are [[prop:zumpus]]. [[axiom:(vumpus 'x) 
         self.assertFalse(r3.fullmatch("(nompus sally)]]"))
 
 
-    def test_emtpy_infer_options(self):
+    def test_empty_infer_options(self):
         prefix = """1- Every [[prop:feline]] is a [[prop:carnivore]]. [[axiom:(feline 'x) -> (carnivore 'x)]]. 2- [[object:sheep]] are not [[prop:carnivorous]]. [[axiom:(not (carnivorous sheep))]]. 3- Each [[prop:carnivore]] is a [[prop:mammal]]. [[axiom:(carnivore 'x) -> (mammal 'x)]]. 4- [[object:cats]] are [[prop:feline]]. [[axiom:(feline cats)]]. 5- Each [[prop:mammal]] is [[prop:furry]]. [[axiom:(mammal 'x) -> (furry 'x)]]. 6- Every [[prop:carnivore]] is [[prop:carnivorous]]. [[axiom:(carnivore 'x) -> (carnivorous 'x)]]. 7- Every [[prop:mammal]] is a [[prop:vertebrate]]. [[axiom:(mammal 'x) -> (vertebrate 'x)]]. 8- [[prop:animal]] are not [[prop:unicellular]]. [[axiom:(animal 'x) -> (not (unicellular 'x))]]. 9- [[prop:vertebrate]] are [[prop:animal]]. [[axiom:(vertebrate 'x) -> (animal 'x)]]. 10- [[object:stella]] is a [[object:cat]]. [[axiom:(not (animal stella))]].
 Formalized goal: [[goal:(carnivorous stella)]]
 Reasoning: [[infer:(carnivore cats)]] Cats are carnivores. [[infer:(carnivorous cats)]] Cats are carnivorous. [[infer:(mammal cats)]] Cats are mammals. [[infer:(vertebrate cats)]] Cats are vertebrates. [[infer:(animal cats)]] Cats are animals. [[infer:(not (unicellular cats))]] Cats are not unicellular. [[infer:(furry cats)]] Cats are furry. [[infer:"""
