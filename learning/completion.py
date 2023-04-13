@@ -117,7 +117,7 @@ class PeanoCompletionEngine:
             # Filter duplicate inferences.
             new_choices = []
             for c in choices:
-                inference = self.format_fn(c.clean_dtype(ff_derivation.universe, c))
+                inference = self.format_fn(c.clean_dtype(ff_derivation.universe))
                 is_new = True
 
                 for keyword, content in verified_blocks:
