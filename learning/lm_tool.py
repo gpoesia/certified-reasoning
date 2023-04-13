@@ -483,7 +483,9 @@ class PeanoLMReasoner(NaturalLanguageReasoner):
 
         response = predict_constrained(self._completion_engine, lm, batch_size=800,
                                        stop_tokens=[self._separator])
-        done, answer = self._completion_engine.is_complete(response)
+        result = self._completion_engine.is_complete(response)
+
+        done, answer = result if result is not None else (False, None)
 
         if not done:
             return 'Unknown', response
