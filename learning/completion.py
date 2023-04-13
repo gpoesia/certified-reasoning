@@ -275,7 +275,7 @@ class PeanoCompletionEngine:
 
         # If exhausted inferences, it is done.
         if INFER_ERROR in [v for k, v in blocks]:
-            return True
+            return False, None
 
         ff = self.fast_forward_derivation(blocks)
         return self.domain.derivation_done(ff)

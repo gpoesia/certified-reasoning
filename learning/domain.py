@@ -493,7 +493,7 @@ class FirstOrderLogicDomain(DomainFromTheory):
 
         # If no goal was set yet, not done.
         if problem.goal is None:
-            return False, None
+            return None
 
         negated_goal = FirstOrderLogicDomain._negate(problem.goal)
 
@@ -504,7 +504,7 @@ class FirstOrderLogicDomain(DomainFromTheory):
             if dtype in (problem.goal, negated_goal):
                 return name, dtype == problem.goal
 
-        return False, None
+        return None
 
 
 class EquationsCtDomain(EquationsDomain):
