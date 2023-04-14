@@ -82,12 +82,12 @@ def make_table(records: list) -> str:
     datasets = list(set(datasets))
     datasets.sort()
 
-    lines.append(fr'\begin{{tabular}}{{l {" c" * len(datasets)}}}')
+    lines.append(fr'\begin{{tabular}}{{l{" c" * len(datasets)}}}')
     lines.append(r'\toprule')
 
     lines.append('& '.join(fr'\textbf{{{m}}}'
                            for m in ['Model'] + list(map(format_dataset_name,
-                                                         datasets))))
+                                                         datasets))) + '\\\\')
 
     lines.append(r'\midrule')
 
@@ -101,7 +101,7 @@ def make_table(records: list) -> str:
             else:
                 l.append(f'{sr:.3f}')
 
-        lines.append(' & '.join(l))
+        lines.append(' & '.join(l) + '\\\\')
 
     lines.append(r'\bottomrule')
 
