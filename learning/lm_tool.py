@@ -76,8 +76,6 @@ class OpenAIChatModel(LanguageModel):
         # bias can only be set for 300 tokens at a time
         assert top_k == 1, "Chat models do not support logprobs"
         prompt = copy.deepcopy(self.prompt_template)
-        assert prompt[-1]['role'] == 'assistant', "last message must be from the assistant"
-        prompt[-1]['content'] += prefix
 
         # Only keep tokens that cannot be extended. This is crucial, because
         # the model has *never* seen a sequence of non-maximal tokens in its
@@ -113,23 +111,40 @@ class OpenAIChatModel(LanguageModel):
         # add a negative bias for the stop token
         valid_bias[50256] = -100
         self._before_prediction_hook()
+
+        if prefix:
+            prompt.append({"role": "assistant", "content": prefix})
+            prompt.append({"role": "system", "content": "Please continue from where you stopped."})
+
         response = openai.ChatCompletion.create(model=self.model, messages=prompt,
-                                            temperature=self.temperature, top_p=self.top_p,
-                                            max_tokens=1, logit_bias=valid_bias)
-        # chat models do not return logprobs
-        predictions, probabilities = [response['choices'][0]['message']['content']], [0.0]
-        return predictions, probabilities
+                                                temperature=self.temperature, top_p=self.top_p,
+                                                max_tokens=1, logit_bias=valid_bias)
+        prediction = [response['choices'][0]['message']['content']]
+
+        tokens = self.tokenizer.encode(prediction)
+
+        if not tokens:
+            return [50256], [0.0]
+
+        if len(tokens) > 1 or tokens[0] not in valid_tokens:
+            print('WARNING: sampled token not in valid_tokens. Picking random valid token.')
+            return [random.choice(valid_tokens)], [0.0]
+
+        return tokens, [0.0]
 
     def predict_unconstrained(self, prefix, max_tokens, stop=None):
         # here the last message must be from the assistant
         prompt = copy.deepcopy(self.prompt_template)
-        assert prompt[-1]['role'] == 'assistant', "last message must be from the assistant"
-        prompt[-1]['content'] += prefix
         self._before_prediction_hook()
+
+        if prefix:
+            prompt.append({"role": "assistant", "content": prefix})
+            prompt.append({"role": "system", "content": "Please continue from where you stopped."})
+
         response = openai.ChatCompletion.create(model=self.model, messages=prompt,
-                                            temperature=self.temperature, top_p=self.top_p,
-                                            logit_bias={50256: -100},
-                                            max_tokens=max_tokens, stop=stop)
+                                                temperature=self.temperature, top_p=self.top_p,
+                                                logit_bias={50256: -100},
+                                                max_tokens=max_tokens, stop=stop)
         return response['choices'][0]['message']['content']
 
 
@@ -495,39 +510,46 @@ class PeanoLMReasoner(NaturalLanguageReasoner):
 
 class PeanoChatLMReasoner(NaturalLanguageReasoner):
     def __init__(self, completion_engine: CompletionEngine,
-                 prompt_file: str,
                  model: str,
                  temperature: float = 0.0):
         self._completion_engine = completion_engine
         self._model = model
         self._temperature = temperature
-        self._separator = '###'
-
-        with open(prompt_file, 'r') as f:
-            self._prompt = json.load(f)
 
     def name(self) -> str:
         return f'peano-chat-{self._model}'
+
+    def prepare_for(self, dataset: str):
+        if 'trueontology' in dataset:
+            prompt_file = 'prompts/peano_chat_prontoqa_trueontology_short_prompt'
+        elif 'falseontology' in dataset:
+            prompt_file = 'prompts/peano_chat_prontoqa_falseontology_short_prompt'
+        else:
+            prompt_file = 'prompts/peano_chat_prontoqa_short_prompt'
+
+        with open(prompt_file, 'r') as f:
+            self._prompt = json.load(f)
+            print('Loaded chat prompt from', prompt_file)
 
     def _format_problem(self, problem) -> List[Dict[str, str]]:
         context = f' '.join(f'{i+1}- {sentence}'
                             for i, sentence in enumerate(problem.test_example.theory))
         query = problem.test_example.query
-        chat_problem = [{"role": "user", "content": f"Context: {context}\nQuery: {query.strip()}"},
-                        {"role": "assistant", "content": "Answer:"}]
+        chat_problem = [{"role": "user", "content": f"Problem #3\nContext: {context}\nQuery: {query.strip()}"}]
         return chat_problem
     
     def predict_answer(self, problem: PrOntoQAProblem) -> bool:
 
         test = self._format_problem(problem)
         prompt_messages = self._prompt + test
+
         lm = OpenAIChatModel(self._model,
-                         prompt_messages,
-                         temperature=self._temperature,
-                         before_prediction_hook=rate_limiter.wait,
-                         )
-        response = predict_constrained(self._completion_engine, lm, batch_size=500,
-                                       stop_tokens=[self._separator])
+                             prompt_messages,
+                             temperature=self._temperature,
+                             before_prediction_hook=rate_limiter.wait)
+
+        response = predict_constrained(self._completion_engine, lm, batch_size=800)
+
         done, answer = self._completion_engine.is_complete(response)
         assert done
 
@@ -567,6 +589,7 @@ def evaluate_reasoner(results_path: str,
             print(key, 'success?', correct)
         except (Exception, RuntimeError) as e:
             print('Error:', e)
+            raise
             correct = False
             error = str(e)
             prediction, reasoning = None, None
@@ -594,19 +617,19 @@ def evaluate_reasoner(results_path: str,
 def run_prontoqa_experiments(max_problems=40):
     datasets = [
         PrOntoQADataset.load('./prontoqa/1hop_random_seed19.json'),
-        PrOntoQADataset.load('./prontoqa/2hop_random_seed19.json'),
+        # PrOntoQADataset.load('./prontoqa/2hop_random_seed19.json'),
         PrOntoQADataset.load('./prontoqa/3hop_random_seed19.json'),
-        PrOntoQADataset.load('./prontoqa/4hop_random_seed19.json'),
+        # PrOntoQADataset.load('./prontoqa/4hop_random_seed19.json'),
         PrOntoQADataset.load('./prontoqa/5hop_random_seed19.json'),
         PrOntoQADataset.load('./prontoqa/1hop_random_trueontology_seed19.json'),
-        PrOntoQADataset.load('./prontoqa/2hop_random_trueontology_seed19.json'),
+        # PrOntoQADataset.load('./prontoqa/2hop_random_trueontology_seed19.json'),
         PrOntoQADataset.load('./prontoqa/3hop_random_trueontology_seed19.json'),
-        PrOntoQADataset.load('./prontoqa/4hop_random_trueontology_seed19.json'),
+        # PrOntoQADataset.load('./prontoqa/4hop_random_trueontology_seed19.json'),
         PrOntoQADataset.load('./prontoqa/5hop_random_trueontology_seed19.json'),
         PrOntoQADataset.load('./prontoqa/1hop_random_falseontology_seed19.json'),
-        PrOntoQADataset.load('./prontoqa/2hop_random_falseontology_seed19.json'),
+        # PrOntoQADataset.load('./prontoqa/2hop_random_falseontology_seed19.json'),
         PrOntoQADataset.load('./prontoqa/3hop_random_falseontology_seed19.json'),
-        PrOntoQADataset.load('./prontoqa/4hop_random_falseontology_seed19.json'),
+        # PrOntoQADataset.load('./prontoqa/4hop_random_falseontology_seed19.json'),
         PrOntoQADataset.load('./prontoqa/5hop_random_falseontology_seed19.json'),
     ]
 
@@ -626,8 +649,7 @@ def run_prontoqa_experiments(max_problems=40):
         #                'prompts/peano_prontoqa_long_prompt',
         #                'text-davinci-003'),
         PeanoChatLMReasoner(fol_completion_engine,
-                       'prompts/peano_chat_prontoqa_long_prompt.json',
-                       'gpt-3.5-turbo')
+                            'gpt-3.5-turbo')
         # OpenAIChatModelReasoner('gpt-3.5-turbo'),
         # PeanoLMReasoner(fol_completion_engine,
         #                 'prompts/peano_prontoqa_short_prompt',
