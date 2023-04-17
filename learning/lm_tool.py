@@ -124,6 +124,7 @@ class OpenAIChatModel(LanguageModel):
             print('WARNING: sampled token not in valid_tokens. Picking random valid token.')
             print(f'Predicted token: {prediction}, {tokens}')
             print(f'Valid Tokens {[(self.get_token(i), i) for i in valid_tokens]}')
+            return [random.choice(valid_tokens)], [0.0]
         return tokens, [0.0]
 
     def predict_unconstrained(self, prefix, max_tokens, stop=None):
@@ -546,14 +547,15 @@ class PeanoChatLMReasoner(NaturalLanguageReasoner):
         prompt_messages = self._prompt + test
 
         lm = OpenAIChatModel(self._model,
-                             prompt_messages,
-                             temperature=self._temperature,
-                             before_prediction_hook=rate_limiter.wait)
+                            prompt_messages,
+                            temperature=self._temperature,
+                            before_prediction_hook=rate_limiter.wait)
 
         response = predict_constrained(self._completion_engine, lm, batch_size=800)
-
         done, answer = self._completion_engine.is_complete(response)
-        assert done
+
+        if not done:
+            return 'Unknown', response
 
         return str(answer), response
 
@@ -620,9 +622,9 @@ def run_prontoqa_experiments(max_problems=40):
     datasets = [
         # PrOntoQADataset.load('./prontoqa/1hop_random_seed19.json'),
         # PrOntoQADataset.load('./prontoqa/2hop_random_seed19.json'),
-        # PrOntoQADataset.load('./prontoqa/3hop_random_seed19.json'),
+        PrOntoQADataset.load('./prontoqa/3hop_random_seed19.json'),
         # PrOntoQADataset.load('./prontoqa/4hop_random_seed19.json'),
-        PrOntoQADataset.load('./prontoqa/5hop_random_seed19.json'),
+        # PrOntoQADataset.load('./prontoqa/5hop_random_seed19.json'),
         # PrOntoQADataset.load('./prontoqa/1hop_random_trueontology_seed19.json'),
         # PrOntoQADataset.load('./prontoqa/2hop_random_trueontology_seed19.json'),
         # PrOntoQADataset.load('./prontoqa/3hop_random_trueontology_seed19.json'),
