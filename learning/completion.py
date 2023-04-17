@@ -467,4 +467,39 @@ Answer: 53'''
             assert csd.can_token_follow(t)
             csd.feed_prediction(t)
 
+        # Only inference possible at this point is '(rompus fae)'
+        # We remove the first token because encode with the OPT tokenizer
+        # always prepends a 'start of sentence' token.
         assert csd.get_valid_tokens() == tokenizer.encode('rom')[1:]
+
+    def test_closing_token_bug(self):
+        d = domain.FirstOrderLogicDomain()
+        prob = d.start_derivation()
+
+        ce = PeanoCompletionEngine(d, prob)
+
+        prefix = """Formalized context: 1- [[prop:vumpus]] are [[prop:luminous]].
+        [[axiom:(vumpus 'x) -> (luminous 'x)]].
+        2- Each [[prop:rompus]] is a [[prop:jompus]]. [[axiom:(rompus 'x) -> (jompus 'x)]].
+        3- Every [[prop:jompus]] is not [[prop:luminous]].
+           [[axiom:(jompus 'x) -> (not (luminous 'x))"""
+
+        from transformers import AutoTokenizer
+        tokenizer = AutoTokenizer.from_pretrained("facebook/opt-13b", use_fast=False)
+
+        vocab = [tokenizer.decode([i]) for i in range(tokenizer.vocab_size)]
+
+        csd = StreamingCSD(ce, vocab)
+
+        tokens = tokenizer.encode(prefix)
+
+        for t in tokens:
+            assert csd.can_token_follow(t)
+            csd.feed_prediction(t)
+
+        valid_tokens = csd.get_valid_tokens()
+        # Here, the only valid possibilities are: ' ->' (continuing with an implication)
+        # or ]] (finishing the axiom right away).
+        assert len(valid_tokens) == 2
+        assert tokenizer.encode(' ->')[1] in valid_tokens
+        assert tokenizer.encode(']]')[1] in valid_tokens
