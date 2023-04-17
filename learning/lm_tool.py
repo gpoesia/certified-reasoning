@@ -105,31 +105,44 @@ class OpenAIChatModel(LanguageModel):
             token_lens = [len(self.get_token(i)) for i in valid_tokens]
             # sort valid tokens by length
             valid_tokens = [x for _, x in sorted(zip(token_lens, valid_tokens))]
-            valid_tokens = valid_tokens[:299*4-1]
+            valid_tokens = valid_tokens[:300]
 
-        valid_bias = {k: 100 for k in valid_tokens[:299]}
-        # add a negative bias for the stop token
-        valid_bias[50256] = -100
-        self._before_prediction_hook()
+        max_retries = 2
+        blocked_tokens = [50256]
 
-        if prefix:
-            prompt.append({"role": "assistant", "content": prefix})
-            prompt.append({"role": "system", "content": "Please continue from where you stopped."})
+        for i in range(max_retries):
+            valid_bias = {k: 100 for k in valid_tokens[:300-len(blocked_tokens)]}
+            # add a negative bias for the blocked tokens
+            for token in blocked_tokens:
+                valid_bias[token] = -100
 
-        response = openai.ChatCompletion.create(model=self.model, messages=prompt,
-                                                temperature=self.temperature, top_p=self.top_p,
-                                                max_tokens=1, logit_bias=valid_bias)
-        prediction = [response['choices'][0]['message']['content']]
+            self._before_prediction_hook()
+            if prefix and i == 0:
+                prompt.append({"role": "assistant", "content": prefix})
+            if i > 0:
+                prompt.append({"role": "user", "content": f"Continue writing with one of the following tokens: {[self.get_token(token) for token in valid_tokens]}, don't use any other tokens like {[self.get_token(b) for b in blocked_tokens]}"})
+                prompt.append({"role": "assistant", "content": prefix})
 
-        tokens = self.tokenizer.encode(prediction)
+            response = openai.ChatCompletion.create(model=self.model, messages=prompt,
+                                                    temperature=self.temperature, top_p=self.top_p,
+                                                    max_tokens=1, logit_bias=valid_bias)
+            prediction = [response['choices'][0]['message']['content']]
 
-        if not tokens:
-            return [50256], [0.0]
 
-        if len(tokens) > 1 or tokens[0] not in valid_tokens:
-            print('WARNING: sampled token not in valid_tokens. Picking random valid token.')
-            return [random.choice(valid_tokens)], [0.0]
+            tokens = self.tokenizer.encode(prediction)
 
+            if not tokens:
+                return [50256], [0.0]
+
+            if len(tokens) > 1 or tokens[0] not in valid_tokens:
+
+                print('WARNING: sampled token not in valid_tokens. Picking random valid token.')
+                # print('prefix', prefix)
+                # print('prediction', prediction)
+                # print([self.get_token(i) for i in valid_tokens])
+                if i == max_retries - 1:
+                    return [random.choice(valid_tokens)], [0.0]
+                blocked_tokens.append(tokens[0])
         return tokens, [0.0]
 
     def predict_unconstrained(self, prefix, max_tokens, stop=None):
@@ -139,13 +152,22 @@ class OpenAIChatModel(LanguageModel):
 
         if prefix:
             prompt.append({"role": "assistant", "content": prefix})
-            prompt.append({"role": "system", "content": "Please continue from where you stopped."})
 
         response = openai.ChatCompletion.create(model=self.model, messages=prompt,
                                                 temperature=self.temperature, top_p=self.top_p,
                                                 logit_bias={50256: -100},
                                                 max_tokens=max_tokens, stop=stop)
-        return response['choices'][0]['message']['content']
+
+        prediction = response['choices'][0]['message']['content']
+        if prefix:
+            if 'sorry' in [prediction.lower()] or 'apologize' in [prediction.lower()]:
+                print('prefix', prefix)
+                print('prediction1', prediction)
+                prediction = prediction.split(': ')[1]
+                print('prediction2', prediction)
+
+
+        return prediction
 
 
 @dataclass
@@ -616,7 +638,7 @@ def evaluate_reasoner(results_path: str,
 
 def run_prontoqa_experiments(max_problems=40):
     datasets = [
-        PrOntoQADataset.load('./prontoqa/1hop_random_seed19.json'),
+        # PrOntoQADataset.load('./prontoqa/1hop_random_seed19.json'),
         # PrOntoQADataset.load('./prontoqa/2hop_random_seed19.json'),
         PrOntoQADataset.load('./prontoqa/3hop_random_seed19.json'),
         # PrOntoQADataset.load('./prontoqa/4hop_random_seed19.json'),
