@@ -15,10 +15,12 @@ from typing import List, Dict
 
 import openai
 import transformers
+import tiktoken
 
 import domain
 import tactics
 import util
+
 from completion_engine import CompletionEngine
 from language_model import OpenAIModel, LanguageModel, download_or_use_cached, filter_maximal_tokens
 from synchromesh import predict_constrained
@@ -44,25 +46,8 @@ class OpenAIChatModel(LanguageModel):
         self.best_of = best_of
         self._before_prediction_hook = before_prediction_hook
 
-        # for gpt series of models
-        if model.startswith("text") or model.startswith("gpt"):
-            self.tokenizer = transformers.GPT2Tokenizer.from_pretrained('gpt2')
-        elif model.startswith("code"):
-            self.tokenizer = transformers.GPT2Tokenizer(
-                vocab_file=download_or_use_cached(
-                    "https://huggingface.co/SaulLu/codex-like-tokenizer/raw/main/vocab.json",
-                    '.codex-vocab.json'),
-                merges_file=download_or_use_cached(
-                    "https://huggingface.co/SaulLu/codex-like-tokenizer/raw/main/merges.txt",
-                    '.codex-merges.txt')
-                )
-            
-
-        # self.vocab is a list of readable token strings (e.g., ' hello' and '\n')
-        # sorted by their token IDs (so self.vocab[0] is the first token, etc).
-        self.vocab = [v for k, v in
-                      sorted([(t_id, self.tokenizer.decode([t_id]))
-                              for _, t_id in self.tokenizer.get_vocab().items()])]
+        self.tokenizer = tiktoken.encoding_for_model(model)
+        self.vocab = [self.tokenizer.decode([t_id]) for t_id in range(100255)]
 
     def tokenize(self, s: str) -> list[int]:
         return self.tokenizer.encode(s)
@@ -70,6 +55,9 @@ class OpenAIChatModel(LanguageModel):
     def vocabulary(self) -> list[str]:
         # sort keys by value, then return the keys
         return self.vocab
+    
+    def get_token(self, i: int) -> str:
+        return self.tokenizer.decode([i])
     
     def predict_token(self, prefix: str, valid_tokens: list[int], top_k: int = 1) -> tuple[list[int], list[float]]:
         # change bias of valid tokens to make them more likely
@@ -95,7 +83,10 @@ class OpenAIChatModel(LanguageModel):
         # Hence, the model puts near 0 probability to predicting '0'
         # after predicting '2'. The solution is to only let the model
         # output maximal valid tokens, avoiding this issue.
+        # TODO: this is a hack, make synchromesh compatible with tiktoken
+        valid_tokens = [[t] for t in valid_tokens]
         valid_tokens = filter_maximal_tokens(valid_tokens, self.tokenizer)
+        valid_tokens = [t[0] for t in valid_tokens]
 
         if len(valid_tokens) == 1:
             return valid_tokens, [0.0]
@@ -107,42 +98,32 @@ class OpenAIChatModel(LanguageModel):
             valid_tokens = [x for _, x in sorted(zip(token_lens, valid_tokens))]
             valid_tokens = valid_tokens[:300]
 
-        max_retries = 2
-        blocked_tokens = [50256]
+        blocked_tokens = [100257]
+        n = 1
+        temperature = self.temperature
 
-        for i in range(max_retries):
-            valid_bias = {k: 100 for k in valid_tokens[:300-len(blocked_tokens)]}
-            # add a negative bias for the blocked tokens
-            for token in blocked_tokens:
-                valid_bias[token] = -100
+        valid_bias = {k: 100 for k in valid_tokens[:300-len(blocked_tokens)]}
+        # add a negative bias for the blocked tokens
+        for token in blocked_tokens:
+            valid_bias[token] = -100
 
-            self._before_prediction_hook()
-            if prefix and i == 0:
-                prompt.append({"role": "assistant", "content": prefix})
-            if i > 0:
-                prompt.append({"role": "user", "content": f"Continue writing with one of the following tokens: {[self.get_token(token) for token in valid_tokens]}, don't use any other tokens like {[self.get_token(b) for b in blocked_tokens]}"})
-                prompt.append({"role": "assistant", "content": prefix})
+        self._before_prediction_hook()
+        if prefix:
+            prompt.append({"role": "assistant", "content": prefix})
 
-            response = openai.ChatCompletion.create(model=self.model, messages=prompt,
-                                                    temperature=self.temperature, top_p=self.top_p,
-                                                    max_tokens=1, logit_bias=valid_bias)
-            prediction = [response['choices'][0]['message']['content']]
+        response = openai.ChatCompletion.create(model=self.model, messages=prompt, n=n,
+                                                temperature=temperature, top_p=self.top_p,
+                                                max_tokens=1, logit_bias=valid_bias)
+        prediction = [r['message']['content']for r in response['choices']]
+        tokens = [self.tokenizer.encode(p)[0] for p in prediction]
 
+        if not tokens:
+            return [100257], [0.0]
 
-            tokens = self.tokenizer.encode(prediction)
-
-            if not tokens:
-                return [50256], [0.0]
-
-            if len(tokens) > 1 or tokens[0] not in valid_tokens:
-
-                print('WARNING: sampled token not in valid_tokens. Picking random valid token.')
-                # print('prefix', prefix)
-                # print('prediction', prediction)
-                # print([self.get_token(i) for i in valid_tokens])
-                if i == max_retries - 1:
-                    return [random.choice(valid_tokens)], [0.0]
-                blocked_tokens.append(tokens[0])
+        if len(tokens) > 1 or tokens[0] not in valid_tokens:
+            print('WARNING: sampled token not in valid_tokens. Picking random valid token.')
+            print(f'Predicted token: {prediction}, {tokens}')
+            print(f'Valid Tokens {[(self.get_token(i), i) for i in valid_tokens]}')
         return tokens, [0.0]
 
     def predict_unconstrained(self, prefix, max_tokens, stop=None):
@@ -155,17 +136,16 @@ class OpenAIChatModel(LanguageModel):
 
         response = openai.ChatCompletion.create(model=self.model, messages=prompt,
                                                 temperature=self.temperature, top_p=self.top_p,
-                                                logit_bias={50256: -100},
                                                 max_tokens=max_tokens, stop=stop)
 
         prediction = response['choices'][0]['message']['content']
         if prefix:
-            if 'sorry' in [prediction.lower()] or 'apologize' in [prediction.lower()]:
-                print('prefix', prefix)
-                print('prediction1', prediction)
-                prediction = prediction.split(': ')[1]
-                print('prediction2', prediction)
-
+            # match the prefix string to see if there is a match in the prediction 
+            if prefix in prediction:
+                # Find the index where the prefix ends
+                index_after_prefix = prediction.index(prefix) + len(prefix)
+                # Return the string after the prefix
+                prediction = prediction[index_after_prefix:]
 
         return prediction
 
@@ -640,19 +620,19 @@ def run_prontoqa_experiments(max_problems=40):
     datasets = [
         # PrOntoQADataset.load('./prontoqa/1hop_random_seed19.json'),
         # PrOntoQADataset.load('./prontoqa/2hop_random_seed19.json'),
-        PrOntoQADataset.load('./prontoqa/3hop_random_seed19.json'),
+        # PrOntoQADataset.load('./prontoqa/3hop_random_seed19.json'),
         # PrOntoQADataset.load('./prontoqa/4hop_random_seed19.json'),
         PrOntoQADataset.load('./prontoqa/5hop_random_seed19.json'),
-        PrOntoQADataset.load('./prontoqa/1hop_random_trueontology_seed19.json'),
+        # PrOntoQADataset.load('./prontoqa/1hop_random_trueontology_seed19.json'),
         # PrOntoQADataset.load('./prontoqa/2hop_random_trueontology_seed19.json'),
-        PrOntoQADataset.load('./prontoqa/3hop_random_trueontology_seed19.json'),
+        # PrOntoQADataset.load('./prontoqa/3hop_random_trueontology_seed19.json'),
         # PrOntoQADataset.load('./prontoqa/4hop_random_trueontology_seed19.json'),
-        PrOntoQADataset.load('./prontoqa/5hop_random_trueontology_seed19.json'),
-        PrOntoQADataset.load('./prontoqa/1hop_random_falseontology_seed19.json'),
+        # PrOntoQADataset.load('./prontoqa/5hop_random_trueontology_seed19.json'),
+        # PrOntoQADataset.load('./prontoqa/1hop_random_falseontology_seed19.json'),
         # PrOntoQADataset.load('./prontoqa/2hop_random_falseontology_seed19.json'),
-        PrOntoQADataset.load('./prontoqa/3hop_random_falseontology_seed19.json'),
+        # PrOntoQADataset.load('./prontoqa/3hop_random_falseontology_seed19.json'),
         # PrOntoQADataset.load('./prontoqa/4hop_random_falseontology_seed19.json'),
-        PrOntoQADataset.load('./prontoqa/5hop_random_falseontology_seed19.json'),
+        # PrOntoQADataset.load('./prontoqa/5hop_random_falseontology_seed19.json'),
     ]
 
     fol_domain = domain.FirstOrderLogicDomain()
