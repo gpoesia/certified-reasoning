@@ -8,6 +8,7 @@ from typing import Optional
 
 import domain
 import util
+from synchromesh import StreamingCSD
 
 
 class CountingDomain:
@@ -443,3 +444,27 @@ Formalized goal: We want to find [[goal:x]].
 Formal solution: Let's substitute until we have no more variables on the right-hand side. First we get [[infer:(x = ((8 - (8 / n)) + (p * p)))]]. Then, we get [[infer:(x = ((8 - (8 / 2)) + (p * p)))]]. Substituting for p once, we get [[infer:(x = ((8 - (8 / 2)) + (7 * p)))]]. Finally we have [[infer:(x = ((8 - (8 / 2)) + (7 * 7)))]]. We can now evaluate. First we get [[infer:(x = ((8 - 4) + (7 * 7)))]]. Then we get [[infer:(x = (4 + (7 * 7)))]]. Finalizing, we get [[infer:(x = 53)]]. That is the answer.
 Answer: 53'''
         self.assertTrue(ce.is_complete(prefix))
+
+
+    def test_no_valid_tokens_bug(self):
+        d = domain.FirstOrderLogicDomain()
+        prob = d.start_derivation()
+
+        ce = PeanoCompletionEngine(d, prob)
+
+        prefix = """Formalized context: 1- [[prop:vumpus]] are [[prop:zumpus]]. [[axiom:(vumpus 'x) -> (zumpus 'x)]]. 2- Each [[prop:zumpus]] is a [[prop:rompus]]. [[axiom:(zumpus 'x) -> (rompus 'x)]]. 3- Every [[prop:tumpus]] is [[prop:small]]. [[axiom:(tumpus 'x) -> (small 'x)]]. 4- Each [[prop:impus]] is a [[prop:tumpus]]. [[axiom:(impus 'x) -> (tumpus 'x)]]. 5- Each [[prop:rompus]] is a [[prop:jompus]]. [[axiom:(rompus 'x) -> (jompus 'x)]]. 6- [[prop:tumpus]] are [[prop:wumpus]]. [[axiom:(tumpus 'x) -> (wumpus 'x)]]. 7- Every [[prop:yumpus]] is [[prop:transparent]]. [[axiom:(yumpus 'x) -> (transparent 'x)]]. 8- [[prop:yumpus]] are [[prop:numpus]]. [[axiom:(yumpus 'x) -> (numpus 'x)]]. 9- [[prop:zumpus]] are [[prop:orange]]. [[axiom:(zumpus 'x) -> (orange 'x)]]. 10- [[prop:jompus]] are [[prop:yumpus]]. [[axiom:(jompus 'x) -> (yumpus 'x)]]. 11- [[prop:rompus]] are [[prop:floral]]. [[axiom:(rompus 'x) -> (floral 'x)]]. 12- [[prop:wumpus]] are [[prop:vumpus]]. [[axiom:(wumpus 'x) -> (vumpus 'x)]]. 13- Every [[prop:wumpus]] is [[prop:nervous]]. [[axiom:(wumpus 'x) -> (nervous 'x)]]. 14- Every [[prop:impus]] is [[prop:temperate]]. [[axiom:(impus 'x) -> (temperate 'x)]]. 15- [[prop:jompus]] are not [[prop:sweet]]. [[axiom:(jompus 'x) -> (not (sweet 'x))]]. 16- [[prop:dumpus]] are not [[prop:floral]]. [[axiom:(dumpus 'x) -> (not (floral 'x))]]. 17- Every [[prop:vumpus]] is [[prop:angry]]. [[axiom:(vumpus 'x) -> (angry 'x)]]. 18- [[object:fae]] is a [[prop:vumpus]]. [[axiom:(vumpus fae)]].\nFormalized goal: [[goal:(not (floral fae))]]\nReasoning: [[infer:(angry fae)]] Fae is angry. [[infer:(zumpus fae)]] Fae is a zumpus. [[infer:(orange fae)]] Fae is orange. [[infer:("""
+
+        from transformers import AutoTokenizer
+        tokenizer = AutoTokenizer.from_pretrained("facebook/opt-13b", use_fast=False)
+
+        vocab = [tokenizer.decode([i]) for i in range(tokenizer.vocab_size)]
+
+        csd = StreamingCSD(ce, vocab)
+
+        tokens = tokenizer.encode(prefix)
+
+        for t in tokens:
+            assert csd.can_token_follow(t)
+            csd.feed_prediction(t)
+
+        assert csd.get_valid_tokens() == tokenizer.encode('rom')[1:]
