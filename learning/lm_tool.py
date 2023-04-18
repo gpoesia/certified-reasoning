@@ -150,6 +150,19 @@ class OpenAIChatModel(LanguageModel):
 
         return prediction
 
+@dataclass
+class SyllogismExample:
+    theory: list[str]
+    query: list[str]
+    answer: bool
+
+
+@dataclass
+class SyllogismProblem:
+    id: str
+    train_examples: list[SyllogismExample]
+    test_example: SyllogismExample
+
 
 @dataclass
 class PrOntoQAExample:
@@ -226,6 +239,44 @@ class PrOntoQADataset:
 
         return PrOntoQADataset(id=path, problems=problems)
 
+@dataclass
+class SyllogismDataset:
+    id: str
+    problems: list[SyllogismProblem]
+
+    @staticmethod
+    def load(path: str, problem_type: str) -> 'SyllogismDataset':
+        with open(path, 'rb') as f:
+            data = json.load(f)
+        problems = []
+        for d in data:
+            if problem_type == 'realistic-consistent':
+                if not d['is_realistic'] or not d['is_consistent']: #144
+                    continue 
+            elif problem_type == 'realistic-inconsistent':
+                if not d['is_realistic'] or d['is_consistent']: #132
+                    continue 
+            elif problem_type == 'nonsense':
+                if d['is_nonsense'] != True: #144+132
+                    continue
+            else:
+                raise ValueError(f'Unknown problem type {d["problem_type"]}')
+            # format similar to prontoqa
+            argument_id = d['input'].index('Arguments:')
+            conclusion_id = d['input'].index('\nConclusion:')
+            theory = d['input'][argument_id+len('Arguments:\n'):conclusion_id].split('\n')
+
+            answer_id = d['input'].index('\nAnswer:')
+            conclusion = d['input'][conclusion_id+len('\nConclusion: '):answer_id]
+            query = f"True or false: {conclusion}"
+            answer = 'is valid' in d['correct_answer']
+            problem = SyllogismProblem(
+                theory=theory,
+                query=query,
+                answer=answer)
+            problems.append(problem)
+        print(f'Loaded {len(problems)} problems from {path} ({d["problem_type"]}')
+        return SyllogismDataset(id=f'syllogism-{problem_type}', problems=problems)
 
 @dataclass
 class MathDataset:
@@ -374,6 +425,21 @@ class OpenAILanguageModelReasoner(NaturalLanguageReasoner):
     def name(self) -> str:
         return self._model
 
+    
+    def prepare_for(self, dataset: str):
+        if 'realistic-consistent' in dataset:
+            prompt_file = 'prompts/syllogism_realistic_consistent_prompt'
+        elif 'realistic-inconsistent' in dataset:
+            prompt_file = 'prompts/syllogism_realistic_inconsistent_prompt'
+        elif 'nonsesnse' in dataset:
+            prompt_file = 'prompts/syllogism_nonsense_prompt'
+        else:
+            return
+
+        with open(prompt_file, 'r') as f:
+            self._prompt = f.read().strip()
+            print('Loaded prompt from', prompt_file)
+    
     def _format_example(self, example: PrOntoQAExample,
                         index: int, is_test: bool):
         lines = []
@@ -418,6 +484,20 @@ class OpenAIChatModelReasoner(NaturalLanguageReasoner):
     def name(self) -> str:
         return self._model
 
+    def prepare_for(self, dataset: str):
+        if 'realistic-consistent' in dataset:
+            prompt_file = 'prompts/chat_syllogism_realistic_consistent_prompt'
+        elif 'realistic-inconsistent' in dataset:
+            prompt_file = 'prompts/chat_syllogism_realistic_inconsistent_prompt'
+        elif 'nonsesnse' in dataset:
+            prompt_file = 'prompts/chat_syllogism_nonsense_prompt'
+        else:
+            return
+
+        with open(prompt_file, 'r') as f:
+            self._prompt = f.read().strip()
+            print('Loaded prompt from', prompt_file)
+    
     def _format_example(self, example: PrOntoQAExample,
                         index: int, is_test: bool):
         lines = []
@@ -474,11 +554,18 @@ class PeanoLMReasoner(NaturalLanguageReasoner):
 
     def prepare_for(self, dataset: str):
         if 'trueontology' in dataset:
-            prompt_file = 'prompts/peano_prontoqa_trueontology_short_prompt'
+            prompt_file = 'prompts/peano_chat_prontoqa_trueontology_short_prompt'
         elif 'falseontology' in dataset:
-            prompt_file = 'prompts/peano_prontoqa_falseontology_short_prompt'
+            prompt_file = 'prompts/peano_chat_prontoqa_falseontology_short_prompt'
+        elif 'realistic-consistent' in dataset:
+            prompt_file = 'prompts/peano_syllogism_realistic_consistent_prompt'
+        elif 'realistic-inconsistent' in dataset:
+            prompt_file = 'prompts/peano_syllogism_realistic_inconsistent_prompt'
+        elif 'nonsesnse' in dataset:
+            prompt_file = 'prompts/peano_syllogism_nonsense_prompt'
         else:
             prompt_file = 'prompts/peano_prontoqa_short_prompt'
+
 
         with open(prompt_file, 'r') as f:
             self._prompt = f.read().strip()
@@ -527,6 +614,12 @@ class PeanoChatLMReasoner(NaturalLanguageReasoner):
             prompt_file = 'prompts/peano_chat_prontoqa_trueontology_short_prompt'
         elif 'falseontology' in dataset:
             prompt_file = 'prompts/peano_chat_prontoqa_falseontology_short_prompt'
+        elif 'realistic-consistent' in dataset:
+            prompt_file = 'prompts/peano_chat_syllogism_realistic_consistent_prompt'
+        elif 'realistic-inconsistent' in dataset:
+            prompt_file = 'prompts/peano_chat_syllogism_realistic_inconsistent_prompt'
+        elif 'nonsesnse' in dataset:
+            prompt_file = 'prompts/peano_chat_syllogism_nonsense_prompt'
         else:
             prompt_file = 'prompts/peano_chat_prontoqa_short_prompt'
 
@@ -558,6 +651,7 @@ class PeanoChatLMReasoner(NaturalLanguageReasoner):
             return 'Unknown', response
 
         return str(answer), response
+
 
 def evaluate_reasoner(results_path: str,
                       dataset: PrOntoQADataset,
@@ -616,6 +710,107 @@ def evaluate_reasoner(results_path: str,
             json.dump(results, f, indent=4)
 
     print(f'Accuracy: {100 * sum(success) / len(success):.2f}%')
+
+
+def evaluate_syllogism_reasoner(results_path: str,
+                      dataset: SyllogismDataset,
+                      reasoner: NaturalLanguageReasoner,
+                      max_problems: int = None):
+    success = []
+
+    print('Evaluating', reasoner.name(), 'on', dataset.id)
+    reasoner.prepare_for(dataset.id)
+
+    try:
+        with open(results_path, 'r') as f:
+            results = json.load(f)
+    except FileNotFoundError:
+        print(results_path, 'not found; starting with empty results.')
+        results = {}
+
+    for i, p in enumerate(dataset.problems):
+        if max_problems is not None and i >= max_problems:
+            break
+
+        key = f'({dataset.id}, {p.id}, {reasoner.name()})'
+
+        if key in results and not results[key]['error']:
+            # print('Skipping', key)
+            success.append(results[key]['correct'])
+            continue
+
+        try:
+            prediction, reasoning = reasoner.predict_answer(p)
+            error = None
+            correct = (prediction == p.test_example.answer)
+            print(key, 'success?', correct)
+        except (Exception, RuntimeError) as e:
+            print('Error:', e)
+            raise
+            correct = False
+            error = str(e)
+            prediction, reasoning = None, None
+
+        success.append(correct)
+
+        results_obj = {
+            'dataset': dataset.id,
+            'problem': p.id,
+            'reasoner': reasoner.name(),
+            'prediction': prediction,
+            'answer': p.test_example.answer,
+            'error': error,
+            'reasoning': reasoning,
+            'correct': correct
+        }
+
+        results[key] = results_obj
+        with open(results_path, 'w') as f:
+            json.dump(results, f, indent=4)
+
+    print(f'Accuracy: {100 * sum(success) / len(success):.2f}%')
+
+
+def run_syllogism_experiments(max_problems=40):
+    dataset_path = './content_effects/syllogisms.json'
+    dataset_types = ['realistic-consistent', 'realistic-inconsistent',
+                     'nonsense']
+    datasets = [SyllogismDataset.load(dataset_path, dataset_type) for dataset_type in dataset_types]
+    fol_domain = domain.FirstOrderLogicDomain()
+    fol_completion_engine = PeanoCompletionEngine(
+        fol_domain,
+        fol_domain.start_derivation())
+
+    reasoners = [
+            #OpenAILanguageModelReasoner('text-davinci-003'),
+            #OpenAILanguageModelReasoner('text-curie-001'),
+            #OpenAILanguageModelReasoner('babbage'),
+            #OpenAIChatModelReasoner('gpt-3.5-turbo'),
+        #OpenAILanguageModelReasoner('gpt-4'),
+        # OpenAILanguageModelReasoner('text-davinci-003'),
+        # PeanoLMReasoner(fol_completion_engine,
+        #                'prompts/',
+        #                'text-davinci-003'),
+        PeanoChatLMReasoner(fol_completion_engine,
+                            'gpt-3.5-turbo')
+        # OpenAIChatModelReasoner('gpt-3.5-turbo'),
+        # PeanoLMReasoner(fol_completion_engine,
+        #                 'prompts/',
+        #                 'text-davinci-003'),
+        # PeanoLMReasoner(fol_completion_engine,
+        #                 'prompts/',
+        #                 'text-curie-001'),
+        # PeanoLMReasoner(fol_completion_engine,
+        #                 'prompts/',
+        #                 'babbage'),
+        # OpenAIChatModelReasoner('gpt-4'),
+        # PeanoLMReasoner(fol_completion_engine,
+        #                'prompts/',
+        #                'code-davinci-002'),
+    ]
+    for r in reasoners:
+        for ds, dn in zip(datasets, dataset_types):
+            evaluate_reasoner(f'syllogisms-results-{r.name}-{dn}.json', ds, r, max_problems)
 
 
 def run_prontoqa_experiments(max_problems=40):
@@ -713,4 +908,5 @@ def run_math_experiments():
 
 if __name__ == '__main__':
     run_prontoqa_experiments()
+    # run_syllogism_experiments()
     # run_math_experiments()
