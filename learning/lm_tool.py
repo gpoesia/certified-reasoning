@@ -440,7 +440,7 @@ class OpenAILanguageModelReasoner(NaturalLanguageReasoner):
             self._prompt = f.read().strip()
             print('Loaded prompt from', prompt_file)
     
-    def _format_example(self, example: PrOntoQAExample,
+    def _format_example(self, example: object,
                         index: int, is_test: bool):
         lines = []
 
@@ -456,12 +456,16 @@ class OpenAILanguageModelReasoner(NaturalLanguageReasoner):
 
         return '\n'.join(lines)
 
-    def predict_answer(self, problem: PrOntoQAProblem) -> bool:
-        in_context = [self._format_example(e, i, False)
+    def predict_answer(self, problem: object) -> bool:
+        if not hasattr(self, '_prompt'):
+            in_context = [self._format_example(e, i, False)
                       for i, e in enumerate(problem.train_examples[:3])]
-        test = self._format_example(problem.test_example, len(in_context), True)
-
-        prompt = f'\n{self._separator}\n'.join(in_context + [test])
+            test = self._format_example(problem.test_example, len(in_context), True)
+            prompt = f'\n{self._separator}\n'.join(in_context + [test])
+        else:
+            test = self._format_example(problem.test_example, 2, True)
+            prompt = copy.deepcopy(self._prompt)
+            prompt += f'\n{self._separator}\n' + test
 
         rate_limiter.wait()
         response = openai.Completion.create(model=self._model,
@@ -498,7 +502,7 @@ class OpenAIChatModelReasoner(NaturalLanguageReasoner):
             self._prompt = f.read().strip()
             print('Loaded prompt from', prompt_file)
     
-    def _format_example(self, example: PrOntoQAExample,
+    def _format_example(self, example: object,
                         index: int, is_test: bool):
         lines = []
 
@@ -518,16 +522,22 @@ class OpenAIChatModelReasoner(NaturalLanguageReasoner):
 
         return messages
 
-    def predict_answer(self, problem: PrOntoQAProblem) -> bool:
-        in_context = [m
-                      for i, e in enumerate(problem.train_examples[:3])
-                      for m in self._format_example(e, i, False)]
+    def predict_answer(self, problem: object) -> bool:
+        if not hasattr(self, '_prompt'):
+            in_context = [m
+                        for i, e in enumerate(problem.train_examples[:3])
+                        for m in self._format_example(e, i, False)]
 
-        test = self._format_example(problem.test_example, len(in_context), True)
+            test = self._format_example(problem.test_example, len(in_context), True)
+            prompt = ([{"role": "system",
+                        "content": "You are an AI reasoner that always follows the specified format."}]
+                    + in_context)
+        else:
+            prompt = copy.deepcopy(self._prompt)
+            test = self._format_example(problem.test_example, 2, True)
+        prompt += test
 
-        prompt = ([{"role": "system",
-                    "content": "You are an AI reasoner that always follows the specified format."}]
-                  + in_context + test)
+        
 
         rate_limiter.wait()
         response = openai.ChatCompletion.create(model=self._model,
@@ -571,7 +581,7 @@ class PeanoLMReasoner(NaturalLanguageReasoner):
             self._prompt = f.read().strip()
             print('Loaded prompt from', prompt_file)
 
-    def _format_problem(self, problem) -> str:
+    def _format_problem(self, problem: object) -> str:
         context = f' '.join(f'{i+1}- {sentence}'
                             for i, sentence in enumerate(problem.test_example.theory))
         query = problem.test_example.query
@@ -627,14 +637,14 @@ class PeanoChatLMReasoner(NaturalLanguageReasoner):
             self._prompt = json.load(f)
             print('Loaded chat prompt from', prompt_file)
 
-    def _format_problem(self, problem) -> List[Dict[str, str]]:
+    def _format_problem(self, problem: object) -> List[Dict[str, str]]:
         context = f' '.join(f'{i+1}- {sentence}'
                             for i, sentence in enumerate(problem.test_example.theory))
         query = problem.test_example.query
         chat_problem = [{"role": "user", "content": f"Problem #3\nContext: {context}\nQuery: {query.strip()}"}]
         return chat_problem
     
-    def predict_answer(self, problem: PrOntoQAProblem) -> bool:
+    def predict_answer(self, problem: object) -> bool:
 
         test = self._format_problem(problem)
         prompt_messages = self._prompt + test
