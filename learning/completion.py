@@ -45,12 +45,14 @@ INFER_ERROR = 'nothing'
 class PeanoCompletionEngine:
     '''CSD completion engine backed by a Peano domain.'''
     def __init__(self, domain, start_derivation,
-                 format_fn=lambda s: s, start_marker='[[', end_marker=']]'):
+                 format_fn=lambda s: s, start_marker='[[', end_marker=']]',
+                 infer_atoms=True):
         self.domain = domain
         self.start_derivation = start_derivation
         self.start_marker = start_marker
         self.end_marker = end_marker
         self.format_fn = format_fn
+        self.infer_atoms = infer_atoms
 
     def _get_open_block(self, prefix: str) -> Optional[str]:
         # Find last occurrence of start and end markers.
@@ -106,6 +108,9 @@ class PeanoCompletionEngine:
             return regex.compile('[\\(\\)a-zA-Z0-9\\-=+\\*/ ]+' + end_marker)
 
         if block_keyword in ('axiom', 'goal'):
+            if self.infer_atoms:
+                return self._make_freeform_proposition_regex(block_keyword == 'goal')
+
             previous_blocks = self.get_verified_blocks(prefix)
             return self._make_proposition_regex(previous_blocks,
                                                 block_keyword == 'goal')
@@ -142,6 +147,22 @@ class PeanoCompletionEngine:
 
         raise ValueError(f'Invalid block type {block_keyword}.')
 
+    def _make_freeform_proposition_regex(self, is_goal: bool) -> regex.Regex:
+        atom_regex = '([a-zA-Z0-9-_]+)'
+        param_regex = '(\'[a-z])'
+
+        if is_goal:
+            argument_regex = atom_regex
+        else:
+            argument_regex = f'({param_regex}|{atom_regex})'
+
+        positive_property = rf'(\({atom_regex}( {argument_regex})+\))'
+        proposition = rf'({positive_property}|(\(not {positive_property}\)))'
+
+        if is_goal:
+            return regex.compile(proposition + regex.escape(self.end_marker))
+
+        return regex.compile(f'{proposition}( -> ({proposition}))*{regex.escape(self.end_marker)}')
 
     def _make_proposition_regex(self,
                                 previous_blocks: list[tuple[str, str]],
@@ -187,19 +208,40 @@ class PeanoCompletionEngine:
         u = self.start_derivation.universe.clone()
 
         u.incorporate('object : type. not : [prop -> prop].')
+        arities = {}
+
         goal = None
 
         for i, (block_type, block_content) in enumerate(verified_blocks):
             if block_type == 'prop':
-                u.incorporate(f'{block_content} : [object -> prop].')
+                if not self.infer_atoms:
+                    u.incorporate(f'{block_content} : [object -> prop].')
             elif block_type == 'axiom':
+                if self.infer_atoms:
+                    # Infer arities and declare new things.
+                    for prop in block_content.split(' -> '):
+                        new_arities = infer_arities(prop)
+
+                        for k, v in new_arities.items():
+                            if k not in arities:
+                                # found new atom; declare it with the inferred arity.
+                                arities[k] = v
+
+                                if v == 0:
+                                    u.incorporate(f'let {k} : object.')
+                                else:
+                                    u.incorporate(f'{k} : [{" -> ".join(["object"] * v)} -> prop].')
+                            elif v != arities[k]:
+                                raise ValueError(f'Atom {k} used with conflicting arities ({v} and {arities[k]}).')
+
                 # Wrap arrow types.
                 if block_content.find('->') != -1:
                     block_content = f'[{block_content}]'
 
                 u.incorporate(f'axiom{i} : {block_content}.')
             elif block_type == 'object':
-                u.incorporate(f'let {block_content} : object.')
+                if not self.infer_atoms:
+                    u.incorporate(f'let {block_content} : object.')
             elif block_type == 'goal':
                 goal = block_content
             elif block_type == 'var':
@@ -278,6 +320,28 @@ class PeanoCompletionEngine:
         ff = self.fast_forward_derivation(blocks)
         return self.domain.derivation_done(ff)
 
+def infer_sexp_arities(sexp: list, result: dict[str, int]):
+    if isinstance(sexp, str):
+        if result.setdefault(sexp, 0) != 0:
+            raise ValueError(f'Conflicting arities for {sexp}.')
+    else:
+        fn = sexp[0]
+        arity = len(sexp) - 1
+
+        if fn != 'not':
+            if result.setdefault(fn, arity) != arity:
+                raise ValueError(f'Conflicting arities for {fn}.')
+
+        for subexpr in sexp[1:]:
+            infer_sexp_arities(subexpr, result)
+
+
+def infer_arities(rule: str) -> dict[str, int]:
+    result = {}
+    sexp, _ = util.parse_sexp(rule)
+    infer_sexp_arities(sexp, result)
+    return result
+
 
 class PeanoCompletionEngineTest(unittest.TestCase):
     def test_fol_completions(self):
@@ -333,7 +397,7 @@ Reasoning: [[infer:(wumpus sally)]] Sally is a wumpus. [[infer:(vumpus sally)]] 
         d = domain.FirstOrderLogicDomain()
         prob = d.start_derivation()
 
-        ce = PeanoCompletionEngine(d, prob)
+        ce = PeanoCompletionEngine(d, prob, infer_atoms=False)
 
         p1 = '''
 1- Vumpuses are zumpuses. 2- Each zumpus is a rompus. 3- Every tumpus is small. 4- Each impus is a tumpus. 5- Each rompus is a jompus. 6- Tumpuses are wumpuses. 7- Every yumpus is transparent. 8- Yumpuses are numpuses. 9- Zumpuses are orange. 10- Jompuses are yumpuses. 11- Rompuses are floral. 12- Wumpuses are vumpuses. 13- Every wumpus is nervous. 14- Every impus is temperate. 15- Jompuses are not sweet. 16- Dumpuses are not floral. 17- Every vumpus is angry. 18- Sally is a tumpus.
@@ -378,7 +442,7 @@ Reasoning: [[infer:(carnivore cats)]] Cats are carnivores. [[infer:(carnivorous 
         ce = PeanoCompletionEngine(d, prob)
 
         a = ce.complete(prefix)
-        print(a)
+        self.assertTrue(a.match(INFER_ERROR, partial=True))
 
 
     def test_avoid_duplicates(self):
