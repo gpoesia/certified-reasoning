@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 
+import argparse
 import collections
 import math
 import random
 import os
 import logging
 import json
+import itertools
 
 import altair
 import torch
@@ -278,3 +280,93 @@ def bootstrap_mean_ci(trials, confidence):
 
     bounds = ((1 - confidence) / 2, 1 - (1 - confidence) / 2)
     return np.mean(estimates), tuple(np.quantile(estimates, bounds, method='nearest'))
+
+
+# Simple script to convert the ProofWriter dataset into the PrOntoQA format.
+def proofwriter_to_prontoqa(root):
+    random.seed(19)
+
+    for depth in [1, 2, 3, 5]:
+        problems = []
+
+        with open(os.path.join(root, f'depth-{depth}', 'meta-train.jsonl')) as f:
+            records = list(map(json.loads, f.readlines()))
+
+        for r in records:
+            context = []
+
+            for _, v in itertools.chain(r['triples'].items(), r['rules'].items()):
+                context.append(v['text'])
+
+            for _, v in r['questions'].items():
+                # Ignore 'Unknown' cases (no formal proof for those).
+                if v['strategy'] not in ('proof', 'inv-proof'):
+                    continue
+
+                if v['QDep'] != depth:
+                    continue
+
+                # Same format for questions as PrOntoQA.
+                question = f'True or false: {v["question"]}'
+                answer = str(v['answer'])
+                chain_of_thought = []
+
+                for key, step in v['proofsWithIntermediates'][-1]['intermediates'].items():
+                    # Format of keys is 'intX' where X is an index; ignore the 'int'.
+                    chain_of_thought.append((int(key[3:]), step['text']))
+
+                chain_of_thought.sort(key=lambda kv: kv[0], reverse=True)
+                chain_of_thought = [v for i, v in chain_of_thought]
+
+                problems.append({
+                    'question': ' '.join(context),
+                    'query': question,
+                    'chain_of_thought': chain_of_thought,
+                    'answer': answer,
+                })
+
+                # Just take one problem from each theory.
+                break
+
+        random.shuffle(problems)
+
+        N = len(problems)
+        train, test = problems[:N//2], problems[N//2:]
+
+        dataset = collections.OrderedDict()
+
+        for i, p in enumerate(test):
+            # PrOntoQA always has 4 in-context examples.
+            incontext_examples = random.sample(train, k=4)
+
+            p_obj = collections.OrderedDict()
+
+            for j, e in enumerate(incontext_examples):
+                p_obj[f'in_context_example{j}'] = e
+
+            p_obj['test_example'] = p
+            dataset[f'example{i+1}'] = p_obj
+
+        output_path = f'proofwriter/proofwriter_{depth}hop.json'
+
+        with open(output_path, 'w') as out:
+            json.dump(dataset, out, indent=2)
+
+        print('Wrote', output_path)
+
+
+def main():
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument('--proofwriter-to-prontoqa', action='store_true',
+                        help='Convert ProofWriter dataset to the PrOntoQA format.')
+    parser.add_argument('--proofwriter-root', type=str,
+                        help='Root of the ProofWriter dataset.')
+
+    args = parser.parse_args()
+
+    if args.proofwriter_to_prontoqa:
+        proofwriter_to_prontoqa(args.proofwriter_root)
+
+if __name__ == '__main__':
+    main()
