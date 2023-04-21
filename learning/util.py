@@ -298,12 +298,15 @@ def proofwriter_to_prontoqa(root):
             for _, v in itertools.chain(r['triples'].items(), r['rules'].items()):
                 context.append(v['text'])
 
-            for _, v in r['questions'].items():
+            items = list(r['questions'].items())
+            random.shuffle(items)
+
+            for _, v in items:
                 # Ignore 'Unknown' cases (no formal proof for those).
                 if v['strategy'] not in ('proof', 'inv-proof'):
                     continue
 
-                if v['QDep'] != depth:
+                if v['QDep'] < max(1, depth - 1):
                     continue
 
                 # Same format for questions as PrOntoQA.
