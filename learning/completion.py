@@ -80,13 +80,15 @@ class PeanoCompletionEngine:
         if not b:
             # The block was just open: return the supported keywords.
             previous_blocks = {b for b, _ in self.get_verified_blocks(prefix)}
-            allowed_next = ['prop', 'object', 'var']
+            allowed_next = ['prop', 'object', 'var', 'relation']
 
-            if 'prop' in previous_blocks:
+            if self.infer_atoms  or 'prop' in previous_blocks or 'relation' in previous_blocks:
                 allowed_next.append('axiom')
                 allowed_next.append('goal')
 
-            if 'prop' in previous_blocks or 'var' in previous_blocks:
+            if self.infer_atoms or \
+               'prop' in previous_blocks or 'relation' in previous_blocks or \
+               'var' in previous_blocks:
                 allowed_next.append('infer')
 
             if 'var' in previous_blocks:
@@ -98,7 +100,7 @@ class PeanoCompletionEngine:
         block_keyword, block_contents = _split_block(b)
         assert not block_contents
 
-        if block_keyword in ('prop', 'object'):
+        if block_keyword in ('prop', 'object', 'relation'):
             return regex.compile('[a-zA-Z0-9-_]+' + end_marker)
 
         if block_keyword == 'var':
@@ -216,6 +218,9 @@ class PeanoCompletionEngine:
             if block_type == 'prop':
                 if not self.infer_atoms:
                     u.incorporate(f'{block_content} : [object -> prop].')
+            elif block_type == 'relation':
+                if not self.infer_atoms:
+                    u.incorporate(f'{block_content} : [object -> object -> prop].')
             elif block_type == 'axiom':
                 if self.infer_atoms:
                     # Infer arities and declare new things.
@@ -567,3 +572,39 @@ Answer: 53'''
         assert len(valid_tokens) == 2
         assert tokenizer.encode(' ->')[1] in valid_tokens
         assert tokenizer.encode(']]')[1] in valid_tokens
+
+    def test_proofwriter_prompt_example1(self):
+        examples = [("""Formalized context: 1- [[object:anne]] is [[prop:furry]]. [[axiom:(furry anne)]]. 2- [[object:anne]] is not [[prop:young]]. [[axiom:(not (young anne))]]. 3- [[object:gary]] is [[prop:round]]. [[axiom:(round gary)]]. 4- All [[prop:furry]] people are [[prop:round]]. [[axiom:(furry 'x) -> (round 'x)]] 5- [[prop:quiet]] people are not [[prop:furry]]. [[axiom:(quiet 'x) -> (not (furry 'x))]]. 6- [[prop:blue]], [[prop:big]] people are not [[prop:young]]. [[axiom:(blue 'x) -> (big 'x) -> (not (young 'x))]]. 7- If [[object:anne]] is [[prop:round]] then [[object:anne]] is [[prop:blue]]. [[axiom:(round anne) -> (blue anne)]]. 8- If something is [[prop:blue]] and [[prop:round]] then it is not [[prop:big]]. [[axiom:(blue 'x) -> (round 'x) -> (not (big 'x))]]
+Formalized goal: [[goal:(big anne)]]
+Reasoning: [[infer:(round anne)]] Anne is round. [[infer:(blue anne)]] Anne is blue. [[infer:(not (big anne))]] Anne is not big. This contradicts the goal.""", False),
+                    ("""
+Context: 1- The lion does not like the mouse. 2- The mouse eats the lion. 3- If someone likes the lion and the lion is rough then they see the mouse. 4- If someone eats the lion then they see the mouse. 5- If someone is rough and they eat the mouse then they are not blue. 6- If someone sees the mouse then they like the lion. 7- If someone is blue and they do not eat the lion then they are rough. 8- If someone likes the lion then the lion is red.
+Query: True or false: The lion is red.
+Formalized context: 1- The [[object:lion]] does not [[relation:likes]] the [[object:mouse]]. [[axiom:(not (likes lion mouse))]]. 2- The [[object:mouse]] [[relation:eats]] the [[object:lion]]. [[axiom:(eats mouse lion)]]. 3- If someone [[relation:likes]] the [[object:lion]] and the [[object:lion]] is [[prop:rough]] then they [[relation:sees]] the [[object:mouse]]. [[axiom:(likes 'x lion) -> (rough lion) -> (sees 'x mouse)]]. 4- If someone [[relation:eats]] the [[object:lion]] then they [[relation:sees]] the [[object:mouse]]. [[axiom:(eats 'x lion) -> (sees 'x mouse)]]. 5- If someone is [[prop:rough]] and they [[relation:eats]] the [[object:mouse]] then they are not [[prop:blue]]. [[axiom:(rough 'x) -> (eats 'x mouse) -> (not (blue 'x))]]. 6- If someone [[relation:sees]] the [[object:mouse]] then they [[relation:likes]] the [[object:lion]]. [[axiom:(sees 'x mouse) -> (likes 'x lion)]]. 7- If someone is [[prop:blue]] and they do not [[relation:eats]] the [[object:lion]] then they are [[prop:rough]]. [[axiom:(blue 'x) -> (not (eats 'x lion)) -> (rough 'x)]]. 8- If someone [[relation:likes]] the [[object:lion]] then the [[object:lion]] is [[prop:red]]. [[axiom:(likes 'x lion) -> (red lion)]].
+Formalized goal: [[goal:(red lion)]]
+Reasoning: [[infer:(sees mouse mouse)]] The mouse sees the mouse. [[infer:(likes mouse lion)]] The mouse likes the lion. [[infer:(red lion)]] The lion is red. This was the goal.
+Answer: True""", True)]
+
+        for solution, answer in examples:
+            d = domain.FirstOrderLogicDomain()
+            prob = d.start_derivation()
+
+            ce = PeanoCompletionEngine(d, prob)
+            from transformers import AutoTokenizer
+            tokenizer = AutoTokenizer.from_pretrained("facebook/opt-13b", use_fast=False)
+
+            vocab = [tokenizer.decode([i]) for i in range(tokenizer.vocab_size)]
+
+            csd = StreamingCSD(ce, vocab)
+
+            tokens = tokenizer.encode(solution)
+
+            for i, t in enumerate(tokens):
+                if not csd.can_token_follow(t):
+                    breakpoint()
+                csd.feed_prediction(t)
+
+            done, prediction = ce.is_complete(solution)
+
+            self.assertTrue(done)
+            self.assertEqual(prediction, answer)
