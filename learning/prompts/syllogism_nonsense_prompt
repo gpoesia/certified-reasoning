@@ -1,0 +1,13 @@
+Problem #1:
+Context: 1- Some pand are phrite. 2- All phrite are ing.
+Query: True or false: Some pand are ing.
+Answer: True
+###
+
+Problem #2:
+Context: 1- All grosp are threck. 2- No crand are grosp.
+Query: True or false: No crand are threck.
+Answer: False
+###
+
+Problem #3:

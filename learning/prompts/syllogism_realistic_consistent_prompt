@@ -1,0 +1,13 @@
+Problem #1:
+Context: 1- Some librarians are happy people. 2- All happy people are healthy people.
+Query: True or false: Some librarians are healthy people.
+Answer: True
+###
+
+Problem #2:
+Context: 1- No buildings are things that move. 2- All things that move are vehicles.
+Query: True or false: No buildings are vehicles.
+Answer: False
+###
+
+Problem #3:

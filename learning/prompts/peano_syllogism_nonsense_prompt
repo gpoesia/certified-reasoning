@@ -1,0 +1,19 @@
+Problem #1:
+Context: 1- Some pand are phrite. 2- All phrite are ing.
+Query: True or false: Some pand are ing.
+Formalized context: 1- Some [[prop:pand]] are [[prop:phrite]]. [[axiom:(exist 'x) (and (pand 'x) (phrite 'x))]]. 2- All [[prop:phrite]] are [[prop:ing]]. [[axiom:(phrite 'x) -> (ing 'x)]].
+Formalized goal: [[goal:(exist 'x) (and (pand 'x) (ing 'x))]]
+Reasoning: [[infer:(exist 'x) (and (pand 'x) (ing 'x))]] Some pand are ing. This was the goal.
+Answer: True
+###
+
+Problem #2:
+Context: 1- All grosp are threck. 2- No crand are grosp.
+Query: True or false: No crand are threck.
+Formalized context: 1- All [[prop:grosp]] are [[prop:threck]]. [[axiom:(grosp 'x) -> (threck 'x)]]. 2- No [[prop:crand]] are [[prop:grosp]]. [[axiom:(crand 'x) -> ~(grosp 'x)]].
+Formalized goal: [[goal:(crand 'x) -> ~(threck 'x)]]
+Reasoning: [[infer:(crand 'x) -> ~(threck 'x)]] There is no information that directly connects crand to threck. So, the goal is not necessarily true.
+Answer: False
+###
+
+Problem #3:

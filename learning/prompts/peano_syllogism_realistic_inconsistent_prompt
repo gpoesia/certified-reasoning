@@ -1,0 +1,19 @@
+Problem #1:
+Context: 1- All healthy people are happy people. 2- All happy people are librarians.
+Query: True or false: All healthy people are librarians.
+Formalized context: 1- All [[prop:healthy]] people are [[prop:happy]] people. [[axiom:(healthy 'x) -> (happy 'x)]]. 2- All [[prop:happy]] people are [[prop:librarians]]. [[axiom:(happy 'x) -> (librarian 'x)]].
+Formalized goal: [[goal:(healthy 'x) -> (librarian 'x)]]
+Reasoning: [[infer:(healthy 'x) -> (librarian 'x)]] Healthy people are librarians. This was the goal.
+Answer: True
+###
+
+Problem #2:
+Context: 1- All buildings are things that move. 2- No vehicles are buildings.
+Query: True or false: No vehicles are things that move.
+Formalized context: 1- All [[prop:buildings]] are [[prop:things_that_move]]. [[axiom:(building 'x) -> (thing_that_moves 'x)]]. 2- No [[prop:vehicles]] are [[prop:buildings]]. [[axiom:(vehicle 'x) -> ~(building 'x)]].
+Formalized goal: [[goal:(vehicle 'x) -> ~(thing_that_moves 'x)]]
+Reasoning: [[infer:(vehicle 'x) -> ~(thing_that_moves 'x)]] There is no information that directly connects vehicles to things that move. So, the goal is not necessarily true.
+Answer: False
+###
+
+Problem #3:

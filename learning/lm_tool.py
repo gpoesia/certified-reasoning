@@ -142,6 +142,8 @@ class OpenAIChatModel(LanguageModel):
         prediction = response['choices'][0]['message']['content']
         if prefix:
             # match the prefix string to see if there is a match in the prediction 
+            # this is to account for the cases where the model apologizezs
+            # TODO: do a better substring match as the model might just repeat a part of the prefix
             if prefix in prediction:
                 # Find the index where the prefix ends
                 index_after_prefix = prediction.index(prefix) + len(prefix)
@@ -251,32 +253,38 @@ class SyllogismDataset:
         problems = []
         for d in data:
             if problem_type == 'realistic-consistent':
-                if not d['is_realistic'] or not d['is_consistent']: #144
+                if not d['is_realistic'] or not d['is_consistent']:
                     continue 
             elif problem_type == 'realistic-inconsistent':
-                if not d['is_realistic'] or d['is_consistent']: #132
+                if not d['is_realistic'] or d['is_consistent']:
                     continue 
             elif problem_type == 'nonsense':
-                if d['is_nonsense'] != True: #144+132
+                if d['is_nonsense'] != True: 
                     continue
             else:
-                raise ValueError(f'Unknown problem type {d["problem_type"]}')
+                raise ValueError(f'Unknown problem type {problem_type}')
             # format similar to prontoqa
-            argument_id = d['input'].index('Arguments:')
+            argument_id = d['input'].index('Argument:')
             conclusion_id = d['input'].index('\nConclusion:')
-            theory = d['input'][argument_id+len('Arguments:\n'):conclusion_id].split('\n')
+            theory = d['input'][argument_id+len('Arguments:\n')-1:conclusion_id].split('\n')
 
             answer_id = d['input'].index('\nAnswer:')
             conclusion = d['input'][conclusion_id+len('\nConclusion: '):answer_id]
             query = f"True or false: {conclusion}"
             answer = 'is valid' in d['correct_answer']
-            problem = SyllogismProblem(
+            example = SyllogismExample(
                 theory=theory,
                 query=query,
                 answer=answer)
+            problem = SyllogismProblem(
+                id=problem_type,
+                train_examples=None,
+                test_example=example
+            )
             problems.append(problem)
-        print(f'Loaded {len(problems)} problems from {path} ({d["problem_type"]}')
-        return SyllogismDataset(id=f'syllogism-{problem_type}', problems=problems)
+        print(f"Loaded {len(problems)} problems from {path} {problem_type}")
+        print(f"Skipping 2 train examples to have {len(problems)-2} test examples")
+        return SyllogismDataset(id=f'syllogism-{problem_type}', problems=problems[1:-1])
 
 @dataclass
 class MathDataset:
@@ -784,9 +792,8 @@ def evaluate_syllogism_reasoner(results_path: str,
 
 
 def run_syllogism_experiments(max_problems=40):
-    dataset_path = './content_effects/syllogisms.json'
-    dataset_types = ['realistic-consistent', 'realistic-inconsistent',
-                     'nonsense']
+    dataset_path = './content_effects/syllogism_problems.json'
+    dataset_types = ['realistic-consistent', 'realistic-inconsistent', 'nonsense']
     datasets = [SyllogismDataset.load(dataset_path, dataset_type) for dataset_type in dataset_types]
     fol_domain = domain.FirstOrderLogicDomain()
     fol_completion_engine = PeanoCompletionEngine(
