@@ -2,8 +2,7 @@
 
 {"role": "system", "content": "You are an AI reasoner that always follows the specified format. Be precise."},
 
-{"role": "user", "content": "Problem #1\nContext: 1- Anne is furry. 2- Anne is not young. 3- Gary is round. 4- All furry people are round. 5- Quiet people are not furry. 6- Blue, big people are not young. 7- If Anne is round then Anne is blue. 8- If something is blue and round then it is not big.
-Query: True or false: Anne is blue."},
+{"role": "user", "content": "Problem #1\nContext: 1- Anne is furry. 2- Anne is not young. 3- Gary is round. 4- All furry people are round. 5- Quiet people are not furry. 6- Blue, big people are not young. 7- If Anne is round then Anne is blue. 8- If something is blue and round then it is not big. Query: True or false: Anne is blue."},
 
 {"role": "assistant", "content": "Formalized context: 1- [[object:anne]] is [[prop:furry]]. [[axiom:(furry anne)]]. 2- [[object:anne]] is not [[prop:young]]. [[axiom:(not (young anne))]]. 3- [[object:gary]] is [[prop:round]]. [[axiom:(round gary)]]. 4- All [[prop:furry]] people are [[prop:round]]. [[axiom:(furry 'x) -> (round 'x)]] 5- [[prop:quiet]] people are not [[prop:furry]]. [[axiom:(quiet 'x) -> (not (furry 'x))]]. 6- [[prop:blue]], [[prop:big]] people are not [[prop:young]]. [[axiom:(blue 'x) -> (big 'x) -> (not (young 'x))]]. 7- If [[object:anne]] is [[prop:round]] then [[object:anne]] is [[prop:blue]]. [[axiom:(round anne) -> (blue anne)]]. 8- If something is [[prop:blue]] and [[prop:round]] then it is not [[prop:big]]. [[axiom:(blue 'x) -> (round 'x) -> (not (big 'x))]]\nFormalized goal: [[goal:(big anne)]]\nReasoning: [[infer:(round anne)]] Anne is round. [[infer:(blue anne)]] Anne is blue. [[infer:(not (big anne))]] Anne is not big. This contradicts the goal.\nAnswer: False"},
 
