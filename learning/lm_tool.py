@@ -634,6 +634,8 @@ class PeanoChatLMReasoner(NaturalLanguageReasoner):
             prompt_file = 'prompts/peano_chat_prontoqa_trueontology_short_prompt'
         elif 'falseontology' in dataset:
             prompt_file = 'prompts/peano_chat_prontoqa_falseontology_short_prompt'
+        elif 'proofwriter' in dataset:
+            prompt_file = 'prompts/peano_chat_proofwriter'
         elif 'realistic-consistent' in dataset:
             prompt_file = 'prompts/peano_chat_syllogism_realistic_consistent_prompt'
         elif 'realistic-inconsistent' in dataset:
