@@ -33,6 +33,13 @@ def get_dataset_name(raw_name: str) -> (str, str, str):
                     else 'False' if 'falseontology' in raw_name else
                     'Fictitional')
         return ('PrOntoQA', ontology, hops)
+    if 'proofwriter' in raw_name:
+        for i in itertools.count():
+            if f'{i}hop' in raw_name:
+                hops = i
+                break
+
+        return ('ProofWriter', '', hops)
 
     assert False, 'Unknown dataset ' + raw_name
 
