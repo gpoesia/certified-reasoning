@@ -30,12 +30,6 @@ decline : [invite -> action].
 individual_invite : [person -> event -> invite].
 group_invite : [group -> event -> invite].
 
-deadline : type.
-
-
-individual_invite : [person -> event -> deadline -> invite].
-group_invite : [group -> event -> deadline -> invite].
-
 
 recurrence : type.
 daily : recurrence.
@@ -90,6 +84,7 @@ check_availability : [person -> event -> availability -> action].
 
 
 /*  */
+
 verify basic_invite {
        let a : person.
        let b : person.
@@ -113,3 +108,4 @@ verify basic_invite {
        show (permissible (decline i2)) by axiom2.
 
 }
+
