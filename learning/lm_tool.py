@@ -11,7 +11,8 @@ from dataclasses import dataclass
 import random
 import re
 import copy
-from typing import List, Dict
+from typing import List, Dict, Optional
+import shelve
 
 import openai
 import transformers
@@ -29,11 +30,25 @@ from synchromesh import predict_constrained
 from completion import PeanoCompletionEngine
 
 
+def make_chat_request_key(model, prompt, best_of,
+                          max_tokens, temperature, valid_tokens):
+    valid_tokens = sorted(valid_tokens)
+
+    kvs = [('model', model), ('prompt', json.dumps(prompt, sort_keys=True)),
+           ('best_of', best_of), ('valid_tokens', valid_tokens),
+           ('max_tokens', max_tokens), ('temperature', temperature)]
+
+    kvs.sort()
+    return ';'.join([f'{repr(k)}={repr(v)}' for k, v in kvs])
+
+
 class OpenAIChatModel(LanguageModel):
     # add this class to the Synchromesh lm module
     def __init__(self, model: str, prompt_template: List[Dict[str,str]], api_key: str = None,
                  temperature: float = 0.0, top_p: float = 1.0, best_of: int = 1,
-                 before_prediction_hook=lambda: None) -> None:
+                 before_prediction_hook=lambda: None,
+                 cache_path: Optional[str] = None,
+                 ) -> None:
         super().__init__()
 
         if api_key:
@@ -45,6 +60,11 @@ class OpenAIChatModel(LanguageModel):
         self.top_p = top_p
         self.best_of = best_of
         self._before_prediction_hook = before_prediction_hook
+
+        if cache_path:
+            self._cache = shelve.open(cache_path)
+        else:
+            self._cache = {}
 
         self.tokenizer = tiktoken.encoding_for_model(model)
         self.vocab = [self.tokenizer.decode([t_id]) for t_id in range(100255)]
@@ -111,6 +131,12 @@ class OpenAIChatModel(LanguageModel):
         if prefix:
             prompt.append({"role": "assistant", "content": prefix})
 
+        request_key = make_chat_request_key(self.model, prompt, self.best_of, 1,
+                                            temperature, valid_tokens)
+
+        if request_key in self._cache:
+            return self._cache[request_key]
+
         response = openai.ChatCompletion.create(model=self.model, messages=prompt, n=n,
                                                 temperature=temperature, top_p=self.top_p,
                                                 max_tokens=1, logit_bias=valid_bias)
@@ -118,6 +144,7 @@ class OpenAIChatModel(LanguageModel):
         tokens = [self.tokenizer.encode(p)[0] for p in prediction]
 
         if not tokens:
+            self._cache[request_key] = [100257], [0.0]
             return [100257], [0.0]
 
         if len(tokens) > 1 or tokens[0] not in valid_tokens:
@@ -125,6 +152,8 @@ class OpenAIChatModel(LanguageModel):
             print(f'Predicted token: {prediction}, {tokens}')
             print(f'Valid Tokens {[(self.get_token(i), i) for i in valid_tokens]}')
             return [random.choice(valid_tokens)], [0.0]
+
+        self._cache[request_key] = tokens, [0.0]
         return tokens, [0.0]
 
     def predict_unconstrained(self, prefix, max_tokens, stop=None):
@@ -135,6 +164,12 @@ class OpenAIChatModel(LanguageModel):
         if prefix:
             prompt.append({"role": "assistant", "content": prefix})
 
+        request_key = make_chat_request_key(self.model, prompt, self.best_of, max_tokens,
+                                            self.temperature, None)
+
+        if request_key in self._cache:
+            return self._cache[request_key]
+
         response = openai.ChatCompletion.create(model=self.model, messages=prompt,
                                                 temperature=self.temperature, top_p=self.top_p,
                                                 max_tokens=max_tokens, stop=stop)
@@ -142,7 +177,7 @@ class OpenAIChatModel(LanguageModel):
         prediction = response['choices'][0]['message']['content']
         if prefix:
             # match the prefix string to see if there is a match in the prediction 
-            # this is to account for the cases where the model apologizezs
+            # this is to account for the cases where the model apologizes
             # TODO: do a better substring match as the model might just repeat a part of the prefix
             if prefix in prediction:
                 # Find the index where the prefix ends
@@ -150,6 +185,7 @@ class OpenAIChatModel(LanguageModel):
                 # Return the string after the prefix
                 prediction = prediction[index_after_prefix:]
 
+        self._cache[request_key] = prediction
         return prediction
 
 @dataclass
@@ -604,6 +640,7 @@ class PeanoLMReasoner(NaturalLanguageReasoner):
                          prompt,
                          temperature=self._temperature,
                          before_prediction_hook=rate_limiter.wait,
+                         cache_path='.openai_cache'
                          )
 
         response = predict_constrained(self._completion_engine, lm, batch_size=800,
@@ -662,9 +699,10 @@ class PeanoChatLMReasoner(NaturalLanguageReasoner):
         prompt_messages = self._prompt + test
 
         lm = OpenAIChatModel(self._model,
-                            prompt_messages,
-                            temperature=self._temperature,
-                            before_prediction_hook=rate_limiter.wait)
+                             prompt_messages,
+                             temperature=self._temperature,
+                             before_prediction_hook=rate_limiter.wait,
+                             cache_path='.openai_cache')
 
         response = predict_constrained(self._completion_engine, lm, batch_size=800)
         done, answer = self._completion_engine.is_complete(response)
