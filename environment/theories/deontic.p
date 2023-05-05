@@ -1,95 +1,87 @@
 action : type.
 event : type.
-person : type.
-group : type.
+entity : type.
+person : entity.
+group : entity.
 message : type.
-invite : type.
 
+
+/* base deontic types */
 obligatory : [action -> prop].
 permissible : [action -> prop].
-optional: [action -> prop].
-omissible : [action -> prop].
 impermissible : [action -> prop].
-notoptional: [action -> prop].
+/* base axioms */
+ob_perm : [(obligatory 'a) -> (permissible 'a)].
+im_perm : [(impermissible 'a) -> (not (permissible 'a))].
 
-duration : type.
-short : duration.
-long : duration.
 
-location : type.
 
-priority : type.
-high : priority.
-low : priority.
-
-send_notification : [invite -> action].
-
-accept : [invite -> action].
-decline : [invite -> action].
-
+invite : type.
 individual_invite : [person -> event -> invite].
 group_invite : [group -> event -> invite].
-
+send_notification : [invite -> action].
+accept : [invite -> action].
+decline : [invite -> action].
+cancel_event : [event -> action].
 
 reminder : type.
-none : reminder.
-minutes_before : [int -> reminder].
-hours_before : [int -> reminder].
-days_before : [int -> reminder].
+none : [person -> event -> reminder].
+minutes_before : [person -> event -> reminder].
+hours_before : [person -> event -> reminder].
+days_before : [person -> event -> reminder].
+set_reminder : [reminder -> action].
+
+
+duration : type.
+short : [event -> prop].
+long : [event -> prop].
+
+priority: type.
+high : [person -> event -> prop].
+low : [person -> event -> prop].
+/* event_has_priority : [person -> event -> priority -> prop].*/
+
 
 recurrence : type.
-daily : recurrence.
-weekly : recurrence.
-monthly : recurrence.
-yearly : recurrence.
+daily : [event -> prop].
+weekly : [event -> prop].
+monthly : [event -> prop].
+yearly : [event -> prop].
 
 availability :type.
-busy : [person -> event -> availability].
-free : [person -> event -> availability].
-tentative : [person -> event -> availability].
-
+busy : [person -> event -> prop].
+free : [person -> event -> prop].
+tentative : [person -> event -> prop].
+check_availability : [person -> event -> action].
+/*event_has_avail : [person -> event -> availability -> prop].*/
 
 category : type.
-meeting : category.
-conference : category.
-social : category.
-personal : category.
+meeting : [event -> prop].
+conference : [event -> prop].
+social : [event -> prop].
+personal : [event -> prop].
 
 visibility : type.
-public : visibility.
-private : visibility.
-confidential : visibility.
-
-preferred_location : type.
-preferred_time : type.
-preferred_category : type.
+public : [event -> prop].
+private : [event -> prop].
+confidential : [event -> prop].
+change_visibility : [event -> [event -> prop] -> action].
 
 
-user_preferences : type.
+organizer : [event -> person -> prop].
+participant : [event -> person -> prop].
+group_participant : [event -> group -> prop].
 
-organizer : type.
-participants : type.
-attachments : type.
-
-add_participant : [event -> person -> event -> action].
-remove_participant : [event -> person -> event -> action].
-add_attachment : [event -> attachments -> event -> action].
-remove_attachment : [event -> attachments -> event -> action].
-
-update_event : [event -> event -> event -> action].
-change_visibility : [event -> visibility -> event -> action].
-set_reminder : [event -> reminder -> event -> action].
-mark_response : [person -> event -> availability -> action].
-send_reminder_notification : [event -> action].
-reschedule_event : [event -> duration -> event -> action].
-cancel_event : [event -> action].
-request_event_update : [person -> event -> action].
+add_participant : [event -> entity -> action].
+remove_participant : [event -> entity -> action].
 delegate_event : [event -> person -> action].
-suggest_alternative_time : [person -> event -> duration -> action].
-check_availability : [person -> event -> availability -> action].
 
+update_event : [event -> [event -> prop] -> action].
+reschedule_event : [event -> [event -> prop] -> action].
+request_event_update : [person -> event -> action].
+suggest_alternative_time : [person -> event -> action].
 
-
+/*
 verify calendar_management {
 let a1 : person.
 let a2 : person.
@@ -190,3 +182,4 @@ verify basic_invite {
 }
 
 
+*/
