@@ -1,134 +1,123 @@
 import os
-import peano
 import regex
 import random
-from domain import DomainFromTheory, Problem
-from typing import Optional
-from completion import PeanoCompletionEngine
+import argparse
 
-def get_domain(theory_file):
-    with open(theory_file) as f:
-        theory = f.read()
-    derivation = peano.PyDerivation()
-    derivation.incorporate(theory)
-    return derivation
+import openai
 
-class CalendarDomain(DomainFromTheory):
-    def __init__(self, theory, with_equality=False):
-        super().__init__(theory, [])
-        self._ignored_actions = {'eval', '='}.union(
-            {'eq_refl', 'eq_symm', 'rewrite'}
-            if not with_equality
-            else set()
-        )
+import peano
+from deontic_domains.axiom_templates import *
+from deontic_domains.prompts import *
+from deontic_domains.calendar import CalendarDomain, contexts, deontic_axioms, theory_axioms
 
-    def generate_derivation(self, _seed: int):
-        return self.start_derivation(None, None)
+def get_chat_response(prompt_messages, args):
+    response = openai.ChatCompletion.create(model=args.model, messages=prompt_messages,
+                                                temperature=args.temperature,
+                                                max_tokens=args.max_tokens)
+    prediction = response['choices'][0]['message']['content']
+    return prediction
 
-    def start_derivation(self, problem=None, goal=None):
-        u = self.base_derivation.clone()
-        if problem:
-            u.incorporate(problem)
-        domain_problem = Problem(u, problem, goal, self)
-        return domain_problem
+def get_axioms(text):
+    deontic_start = text.find("Deoontic Axioms:") + len("Deoontic Axioms:")
+    deontic_end = text.find("Theory Axioms:")
 
-    def derivation_actions(self, d) -> list[str]:
-        return list(set(d.actions()) - self._ignored_actions)
+    theory_start = text.find("Theory Axioms:") + len("Theory Axioms:")
+    theory_end = len(text)
 
-    @staticmethod
-    def _negate(goal: str) -> str:
-        if goal.startswith('(not '):
-            return goal[len('(not '):-1]
-        else:
-            return f'(not {goal})'
+    deontic_axioms = text[deontic_start:deontic_end]
+    theory_axioms = text[theory_start:theory_end]
+    return deontic_axioms, theory_axioms
 
-    def derivation_done(self, problem: Problem) -> Optional[str]:
-        'Find a proof of either the goal type or its negation.'
-
-        # If no goal was set yet, not done.
-        if problem.goal is None:
-            return None
-        for name, dtype, _, is_prop, _deps in problem.universe.state():
-            if not is_prop:
-                continue
-
-            if dtype in (problem.goal):
-                return name, dtype == problem.goal
-        return None
-
+def get_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--model', type=str, default="gpt-4",
+                        help='Model to use')
+    parser.add_argument('--temperature', type=float, default=0.7)
+    parser.add_argument('--max_tokens', type=int, default=400)
+    parser.add_argument('--n_hops', type=int, default=1)
+    parser.add_argument('--n_problems', type=int, default=1)
+    parser.add_argument('--domain', type=str, default="calendar")
+    parser.add_argument('--verbose', action='store_true')
+    args = parser.parse_args()
+    return args
 
 if __name__ == "__main__":
-    theory_file = "../environment/theories/deontic.p" 
-    n_hops = 2
-    n_problems = 1
+    args = get_args()
+    theory_file = f"../environment/theories/{args.domain}.p" 
+    with open(theory_file, 'r') as f:
+        theory = f.read()
+    n_hops = args.n_hops
+    n_problems = args.n_problems
 
-    derivation = get_domain(theory_file)
+    # sample context using gpt-4
+    system_context_dom = system_context.format(theory=theory)
+    example_context_dom = example_context.format(context=contexts)
+    system_axioms_dom = system_axioms.format(theory=theory)
+    axiom_templates_dom = axiom_templates.format(deontic_axioms=deontic_templates, theory_axioms=theory_templates)
+    example_axioms = deontic_axioms.format(deontic_axiom=deontic_axioms, theory_axioms=theory_axioms)
 
-    # sample using gpt-4
-    context = """let a1 : person.
-let a2 : person.
-let a3 : person.
+    context_prompt = get_context_prompt(system_context_dom, example_context_dom)
+    context = get_chat_response(context_prompt, args)
+    if args.verbose:
+        print(f"Context: {context}")
 
-let g1 : group.
-let g2 : group.
+    axiom_prompt = get_axiom_prompt(system_axioms_dom, axiom_templates_dom, example_axioms, example_context_dom, context)
 
-let e1 : event.
-let e2 : event.
-let e3 : event.
-let e4 : event.
-let e5 : event.
+    axiom_response = get_chat_response(axiom_prompt, args)
+    gen_deontic_axioms, gen_theory_axioms = get_axioms(axiom_response) 
+    if args.verbose:
+        print(f"Deontic Axioms: {gen_deontic_axioms}")
+        print(f"Theory Axioms: {gen_theory_axioms}")
 
-let inv1 : invite = (individual_invite a1 e1).
-
-"""
-    # fill templates with values
-    deontic_axiom = """let axiom1 : [('e : event) -> (permissible (accept (individual_invite a1 'e)))].  
-let axiom2 : [('e : event) -> ('g : group) -> (permissible (decline (group_invite 'g 'e)))].  
-let axiom3 : [('e : event) -> (permissible (add_participant 'e a2 'e))].  
-let axiom4 : [('e : event) -> ('a : person) -> (impermissible (remove_participant 'e 'a 'e))].  
-let axiom5 : [('ea : event) -> ('eb : event) -> (obligatory (update_event 'ea 'eb 'ea))].  
-let axiom6 : [('e : event) -> (optional (change_visibility 'e private 'e))].  
-let axiom7 : [('e : event) -> ('r : reminder) -> (notoptional (set_reminder 'e 'r 'e))].  
-let axiom8 : [('e : event) -> (obligatory (cancel_event 'e)) -> (impermissible (reschedule_event 'e short 'e))].  
-let axiom9 : [('e : event) -> (permissible (request_event_update a3 e4))].  
-let axiom10 : [('e : event) -> (tentative a1 'e) -> (optional (delegate_event 'e a2))].  
-let axiom11 : [('a: person) -> ('e : event) -> (short 'e) -> (permissible (accept (individual_invite 'a 'e)))].
-"""
-    theory_axiom = "let axiom0 : [('e : event) -> ((individual_invite a1 'e): invite) -> (short 'e)]."
     # define the context
-    problem = f"{context}\n{deontic_axiom}\n{theory_axiom}"
+    problem = f"{context}\n{gen_deontic_axioms}{gen_theory_axioms}"
 
     # define the theory
-    calendar = CalendarDomain('deontic.p')
+    calendar = CalendarDomain('calendar.p')
 
     # sample an outcome
     sampled_outcomes = []
 
     cal_problem = calendar.start_derivation(problem=problem, goal=None)
-    while len(sampled_outcomes) < n_hops:
+    failures = 0
+    while len(sampled_outcomes) < n_hops and failures < 3:
         actions = calendar.derivation_actions(cal_problem.universe)
-        action = random.choice(actions)
+        if len(sampled_outcomes) == n_hops:
+            # final outcome has to be an axiom related outcome
+            action = random.choice([a for a in actions if 'axiom' in a])
+        else:
+            action = random.choice(actions)
+        if args.verbose:
+            print("action", action)
         if len(sampled_outcomes) == 0:
-            outcomes = cal_problem.universe.apply_with('axiom0', 'inv1')
+            outcomes = cal_problem.universe.apply(action)
         else:
             # action, definition
-            outcomes =  cal_problem.universe.apply_with('axiom11', f'r{len(sampled_outcomes)}')
-            print(outcomes)
-
+            outcomes =  cal_problem.universe.apply_with(action, f'r{len(sampled_outcomes)}')
+        print("outcomes", outcomes)
+        if len(outcomes) == 0:
+            sampled_outcomes = []
+            cal_problem = calendar.start_derivation(problem=problem, goal=None)
+            failures += 1
+            if failures == 10:
+                break
+            if args.verbose:
+                print("Restarting derivation")
+            continue 
         outcome = random.choice(outcomes)
         sampled_outcomes.append(outcome)
         parent_args = outcome.generating_arguments()
         calendar.define(cal_problem.universe, f'r{len(sampled_outcomes)}', outcome)
-    print(sampled_outcomes)
+    if args.verbose:
+        print(sampled_outcomes)
     
-    # final outcome has to be an axiom related outcome
-    actions = calendar.derivation_actions(cal_problem.universe)
-    action = random.choice([a for a in actions if regex.fullmatch('axiom\\d+', a)])
-    outcomes = cal_problem.universe.apply(action)
-    outcome = random.choice(outcomes)
-    sampled_outcomes.append(outcome)
-    calendar.define(cal_problem.universe, f'r{len(sampled_outcomes)}', outcome)
-    print(sampled_outcomes)
+    # actions = calendar.derivation_actions(cal_problem.universe)
+    # action = random.choice([a for a in actions if regex.fullmatch('axiom\\d+', a)])
+    # outcomes = cal_problem.universe.apply(action)
+    # outcome = random.choice(outcomes)
+    # sampled_outcomes.append(outcome)
+    # calendar.define(cal_problem.universe, f'r{len(sampled_outcomes)}', outcome)
+    # print(sampled_outcomes)
 
 
     # convert context to a scenario - gpt-4
@@ -138,47 +127,3 @@ let axiom11 : [('a: person) -> ('e : event) -> (short 'e) -> (permissible (accep
     # convert context + theory to a situation - gpt-4
 
     # convert outcome to a question - gpt-4
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-    # universe = calendar.start_derivation().universe.clone()
-    # universe.incorporate(problem)
-    # arrows = set(calendar.derivation_actions(universe)).union(initial_actions)
-    # choices = []
-
-    # for a in arrows:
-    #     if a in initial_actions or regex.fullmatch('axiom\\d+', a):
-    #         choices.extend(calendar.apply(a, universe))
-
-    
-    # print(choices)
-    # choice = random.choice(choices)
-    # universe.apply(choice)
-
-    
-    
-
-    # derivation.incorporate(problem)
-    # we want to generate a random problem by sampling a radom
-    # path of actions/ steps from the theory
-    # for i in range(1):
-    #     base = random.choice(derivation.actions())
-    #     print(base)
-    #     actions = derivation.apply(base)
-    #     # update the theory with the new action
-    #     if len(actions) > 0:
-    #         action = random.choice(actions)
-    #         action_str = str(action)
-    #         action_str = action_str.split(':')[0][1:-1]
-    #         print(action)
-    #         print(action_str)
-    
-    #         derivation.incorporate(action_str)
