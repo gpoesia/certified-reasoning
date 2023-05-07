@@ -2,28 +2,28 @@
 import random
 
 deontic_templates = [
-"let axiom{i} : [('{dtype1[0]} : {dtype1}) -> ({entity1}) -> ({deontic} ({action} ({prop} {entity1} '{dtype1[0]})))].",
-"let axiom{i} : [('{dtype1[0]} : {dtype1}) -> ('{dtype2[0]} : {dtype2}) -> ({deontic} ({action} ({prop} '{dtype2[0]} '{dtype1[0]})))].",
-"let axiom{i} : [('{dtype1[0]} : {dtype1}) -> ('{dtype2[0]} : {dtype2}) -> ({deontic} ({action} '{dtype2[0]} '{dtype1[0]}))].",
-"let axiom{i} : [('{dtype1[0]} : {dtype1}) -> ({deontic} ({action} '{dtype1[0]}))].",
-"let axiom{i} : [('{dtype1[0]} : {dtype1}) -> ({deontic} ({action} ({prop} '{dtype1[0]})))].",
-"let axiom{i} : [({entity1}) -> ({entity2}) ({deontic} ({action} ({prop} ({entity1} {entity2})))].",
-"let axiom{i} : [('{dtype1[0]} : {dtype1}) -> ('{dtype2[0]} : {dtype2}) -> ({deontic} ({action} '{dtype1[0]})) -> ({deontic} ({action} '{dtype2[0]}))]."
-"let axiom{i} : [({entity1}) -> ('{dtype1[0]} : {dtype1}) -> ({deontic} ({action} {entity1} '{dtype1[0]}))].",
-"let axiom{i} : [({entity1}) -> ({entity2}) -> ({deontic} ({action} {entity1})) -> ({deontic} ({action2} {entity2}))].",
-"let axiom{i} : [({entity1}) -> ('{dtype1[0]} : {dtype1}) -> ({deontic} ({action} {entity1})) -> ({deontic} ({action2} '{dtype1[0]}))].",
-"let axiom{i} : [('{dtype1[0]} : {dtype1}) -> ({entity1}) -> ({deontic} ({action} ({prop1} {entity1} '{dtype1[0]})))].",
-"let axiom{i} : [('{dtype1[0]} : {dtype1}) -> ('{dtype2[0]} : {dtype2}) -> ({deontic} ({action} ({prop1} '{dtype2[0]} '{dtype1[0]})))].",
+"let daxiom{i} : [('{dtype1[0]} : {dtype1}) -> ({deontic} ({action} ({prop} {entity1} '{dtype1[0]})))].",
+"let daxiom{i} : [('{dtype1[0]} : {dtype1}) -> ('{dtype2[0]} : {dtype2}) -> ({deontic} ({action} ({prop} '{dtype2[0]} '{dtype1[0]})))].",
+"let daxiom{i} : [('{dtype1[0]} : {dtype1}) -> ('{dtype2[0]} : {dtype2}) -> ({deontic} ({action} '{dtype2[0]} '{dtype1[0]}))].",
+"let daxiom{i} : [('{dtype1[0]} : {dtype1}) -> ({deontic} ({action} '{dtype1[0]}))].",
+"let daxiom{i} : [('{dtype1[0]} : {dtype1}) -> ({deontic} ({action} ({prop} '{dtype1[0]})))].",
+"let daxiom{i} : [({deontic} ({action} ({prop} ({entity1} {entity2})))].",
+"let daxiom{i} : [('{dtype1[0]} : {dtype1}) -> ('{dtype2[0]} : {dtype2}) -> ({deontic} ({action} '{dtype1[0]})) -> ({deontic} ({action} '{dtype2[0]}))]."
+"let daxiom{i} : [('{dtype1[0]} : {dtype1}) -> ({deontic} ({action} {entity1} '{dtype1[0]}))].",
+"let daxiom{i} : [({deontic} ({action} {entity1})) -> ({deontic} ({action2} {entity2}))].",
+"let daxiom{i} : [('{dtype1[0]} : {dtype1}) -> ({deontic} ({action} {entity1})) -> ({deontic} ({action2} '{dtype1[0]}))].",
+"let daxiom{i} : [('{dtype1[0]} : {dtype1}) -> ({deontic} ({action} ({prop1} {entity1} '{dtype1[0]})))].",
+"let daxiom{i} : [('{dtype1[0]} : {dtype1}) -> ('{dtype2[0]} : {dtype2}) -> ({deontic} ({action} ({prop1} '{dtype2[0]} '{dtype1[0]})))].",
 ]
 
 # axioms for extending the theory
 theory_templates = [
-    "let axiom{i} : [({entity1}) -> ('{dtype1[0]} : {dtype1})) -> ({prop1} {entity1} '{dtype1[0]})]",
-    "let axiom{i} : [({entity1}) -> ('{dtype1[0]} : {dtype1})) -> ({prop1} {entity1} '{dtype1[0]}) -> ({prop2} {entity1} '{dtype1[0]})]",
-    "let axiom{i} : [({entity1}) -> ('{dtype1[0]} : {dtype1}) -> ('{dtype2[0]} : {dtype2})) -> ({prop1} {entity1} '{dtype1[0]}) -> ({prop2} {entity1} '{dtype2[0]})]",
-    "let axiom{i} : [({entity1}) -> ({prop1} {entity1} '{dtype1[0]}) -> (not ({prop2} {entity1} '{dtype1[0]}))]",
-    "let axiom{i} : [({entity1}) -> ({prop1} {entity1}) -> (not ({prop2} {entity1}))]",
-    "let axiom{i} : [({entity1}) -> ('{dtype1[0]} : {dtype1})) -> (not ({prop1} {entity1} '{dtype1[0]}))]",
+    "let taxiom{i} : [('{dtype1[0]} : {dtype1})) -> ({prop1} {entity1} '{dtype1[0]})]",
+    "let taxiom{i} : [('{dtype1[0]} : {dtype1})) -> ({prop1} {entity1} '{dtype1[0]}) -> ({prop2} {entity1} '{dtype1[0]})]",
+    "let taxiom{i} : [('{dtype1[0]} : {dtype1}) -> ('{dtype2[0]} : {dtype2})) -> ({prop1} {entity1} '{dtype1[0]}) -> ({prop2} {entity1} '{dtype2[0]})]",
+    "let taxiom{i} : [({prop1} {entity1} '{dtype1[0]}) -> ({prop2} {entity1} '{dtype1[0]})]",
+    "let taxiom{i} : [({prop1} {entity1}) -> ({prop2} {entity1})]",
+    "let taxiom{i} : [('{dtype1[0]} : {dtype1})) -> ({prop1} {entity1} '{dtype1[0]})]",
 ]
 # theory_axiom_template_1 = "let axiom{i} : [('{a[0]} : {a}) -> ('{b[0]} : {b})]."
 # theory_axiom_template_2 = "let axiom{i} : [({a}) -> ('{b[0]} : {b})]."

@@ -22,14 +22,18 @@ def get_chat_response(prompt_messages, args):
     return prediction
 
 def get_axioms(text):
-    deontic_start = text.find("Deoontic Axioms:") + len("Deoontic Axioms:")
-    deontic_end = text.find("Theory Axioms:")
 
-    theory_start = text.find("Theory Axioms:") + len("Theory Axioms:")
-    theory_end = len(text)
-
-    deontic_axioms = text[deontic_start:deontic_end]
-    theory_axioms = text[theory_start:theory_end]
+    lines = text.split("\n")
+    deontic_axioms = []
+    theory_axioms = []
+    for line in lines:
+        if 'daxiom' in line:
+            deontic_axioms.append(line)
+        elif 'taxiom' in line:
+            deontic_axioms.append(line)
+            
+    deontic_axioms = "\n".join(deontic_axioms)
+    theory_axioms = "\n".join(theory_axioms)
     return deontic_axioms, theory_axioms
 
 def copy_problem(problem, calendar):
@@ -45,24 +49,24 @@ def dfs_search(cal_problem, calendar, max_depth):
 
     while stack:
         cur_problem, depth, path = stack.pop()
-        print(f' Depth: {depth} len stack: {len(stack)}')
-        if (depth, cur_problem.universe) in visited:
-            continue
-        visited.add((depth, cur_problem.universe))
-
+        if args.verbose:
+            print(f' Depth: {depth} len stack: {len(stack)}')
+        # if (depth, cur_problem.universe) in visited:
+        #     continue
+        # visited.add((depth, cur_problem.universe))
 
         # Check if the last action is an axiom related action
-
         if depth == max_depth:
-            print('Found axiom')
+            if args.verbose:
+                print('Found axiom')
             return path
 
-        # do not keep searching if we have reached the max depth
-        if depth == max_depth:
-            continue
 
         actions = calendar.derivation_actions(cur_problem.universe)
-        actions = [action for action in actions if 'axiom' in action]
+        if depth < max_depth - 1:
+            actions = [action for action in actions if 'taxiom' in action]
+        elif depth == max_depth - 1:
+            actions = [action for action in actions if 'daxiom' in action]
 
         for action in actions:
             temp_problem = copy_problem(cur_problem, calendar)
@@ -76,16 +80,19 @@ def dfs_search(cal_problem, calendar, max_depth):
                 continue
 
             for outcome in outcomes:
-                calendar.define(temp_problem.universe, f'r{depth + 1}', outcome)
-                stack.append((temp_problem, depth + 1, path + [outcome, action]))
-
+                temp_problem_o = copy_problem(temp_problem, calendar)
+                if args.verbose:
+                    print(f'outcome: {outcome}')
+                try: 
+                    calendar.define(temp_problem_o.universe, f'r{depth + 1}', outcome)
+                except:
+                    continue
+                stack.append((temp_problem_o, depth + 1, path + [outcome, action]))
     return None
 
 def exhaustive_search(problem, n_hops, calendar):
     cal_problem = calendar.start_derivation(problem=problem, goal=None)
-    print("starting dfs search")
     result = dfs_search(cal_problem, calendar, n_hops)
-    print("finished dfs search", result)
     # result = dfs_search(cal_problem, calendar, 0, n_hops, [])
     return result
 
@@ -94,12 +101,14 @@ def get_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--model', type=str, default="gpt-4",
                         help='Model to use')
-    parser.add_argument('--temperature', type=float, default=0.7)
+    parser.add_argument('--temperature', type=float, default=0.3)
     parser.add_argument('--max_tokens', type=int, default=400)
     parser.add_argument('--n_hops', type=int, default=2)
     parser.add_argument('--n_problems', type=int, default=1)
     parser.add_argument('--domain', type=str, default="calendar")
     parser.add_argument('--verbose', action='store_true')
+    parser.add_argument('--use_context', action='store_true')
+    parser.add_argument('--use_axioms', action='store_true')
     args = parser.parse_args()
     return args
 
@@ -118,67 +127,42 @@ if __name__ == "__main__":
     axiom_templates_dom = axiom_templates.format(deontic_axioms=deontic_templates, theory_axioms=theory_templates)
     example_axioms = deontic_axioms.format(deontic_axiom=deontic_axioms, theory_axioms=theory_axioms)
 
-    context_prompt = get_context_prompt(system_context_dom, example_context_dom)
-    # context = get_chat_response(context_prompt, args)
-    context = """let a1 : person.
-let a2 : person.
-let a3 : person.
 
-let g1 : group.
 
-let e1 : event.
-let e2 : event.
-let e3 : event.
-
-let r1 : (hours_before a1 e1).
-let r2 : (days_before a2 e2).
-
-let dur1 : (short e1).
-let dur2 : (long e2).
-
-let p1 : (high a1 e1).
-let p2 : (low a2 e2).
-
-let rec1 : (daily e1).
-let rec2 : (weekly e2).
-let rec3 : (yearly e3).
-
-let cat1 : (meeting e1).
-let cat2 : (conference e2).
-let cat3 : (social e3).
-
-let vis1 : (public e1).
-let vis2 : (private e2).
-let vis3 : (confidential e3).
-
-let inv1 : invite = (individual_invite a1 e1).
-let inv2 : invite = (group_invite g1 e2).
-"""
+    if args.use_context:
+        context = contexts
+    else:
+        context_prompt = get_context_prompt(system_context_dom, example_context_dom)
+        context = get_chat_response(context_prompt, args)
     if args.verbose:
         print(f"Context: {context}")
 
     axiom_prompt = get_axiom_prompt(system_axioms_dom, axiom_templates_dom, example_axioms, example_context_dom, context)
 
-    args.max_tokens = 600
-    # axiom_response = get_chat_response(axiom_prompt, args)
-    # gen_deontic_axioms, gen_theory_axioms = get_axioms(axiom_response) 
-    gen_deontic_axioms = """let axiom1 : [('e : event) -> ('a : person) -> (free 'e 'a) -> (permissible (send_notification 'b 'f))].
-let axiom2 : [('e : event) -> ('g : group) -> (group_participant 'g 'e) -> (permissible (accept (group_invite 'g 'e)))].
-let axiom3 : [('e : event) -> ('a : person) -> (busy 'a 'e) -> (impermissible (reschedule_event 'e daily))].
-let axiom4 : [('e : event) -> ('a : person) -> (high 'a 'e) -> (obligatory (set_reminder (hours_before 'a 'e)))].
-let axiom5 : [('e : event) -> ('a : person) -> (participant 'e 'a) -> (permissible (delegate_event 'e 'a))].
-let axiom6 : [('e : event) -> ('a : person) -> (long 'e) -> (permissible (update_event 'e conference))].
-let axiom7 : [('e : event) -> ('g : group) -> (group_participant 'e 'g) -> (impermissible (remove_participant 'e 'g))].
-let axiom8 : [('e : event) -> ('a : person) -> (free 'a 'e) -> (obligatory (accept (individual_invite 'a 'e)))].
-let axiom9 : [('e : event) -> ('a : person) -> (tentative 'a 'e) -> (permissible (suggest_alternative_time 'a 'e))]."""
+    if args.use_axioms:
+        gen_deontic_axioms = deontic_axioms 
+        gen_theory_axioms = theory_axioms
+    else:
+        axiom_response = get_chat_response(axiom_prompt, args)
+        gen_deontic_axioms, gen_theory_axioms = get_axioms(axiom_response) 
 
-    gen_theory_axioms = """
-let taxiom0 : [('e : event) -> ((individual_invite a1 'e): invite) -> (short 'e)].
-let taxiom1 : [('e : event) -> (daily 'e) -> (long 'e)].
-let taxiom2 : [('p : person) -> ('e : event) -> (low 'e 'p) -> (busy'e 'p)].
-let taxiom3 : [('p : person) -> ('e : event) -> (high 'e 'p) -> (free'e 'p)].
-let taxiom4: [('e : event) -> (weekly 'e) -> (high a2 'e)].
-let taxiom5: [('e : event) -> ('p : person) -> (high 'p 'e) -> (participant 'e 'p)]."""
+#     gen_deontic_axioms = """let axiom1 : [('e : event) -> ('a : person) -> (free 'e 'a) -> (permissible (send_notification 'b 'f))].
+# let axiom2 : [('e : event) -> ('g : group) -> (group_participant 'g 'e) -> (permissible (accept (group_invite 'g 'e)))].
+# let axiom3 : [('e : event) -> ('a : person) -> (busy 'a 'e) -> (impermissible (reschedule_event 'e daily))].
+# let axiom4 : [('e : event) -> ('a : person) -> (high 'a 'e) -> (obligatory (set_reminder (hours_before 'a 'e)))].
+# let axiom5 : [('e : event) -> ('a : person) -> (participant 'e 'a) -> (permissible (delegate_event 'e 'a))].
+# let axiom6 : [('e : event) -> ('a : person) -> (long 'e) -> (permissible (update_event 'e conference))].
+# let axiom7 : [('e : event) -> ('g : group) -> (group_participant 'e 'g) -> (impermissible (remove_participant 'e 'g))].
+# let axiom8 : [('e : event) -> ('a : person) -> (free 'a 'e) -> (obligatory (accept (individual_invite 'a 'e)))].
+# let axiom9 : [('e : event) -> ('a : person) -> (tentative 'a 'e) -> (permissible (suggest_alternative_time 'a 'e))]."""
+
+#     gen_theory_axioms = """
+# let taxiom0 : [('e : event) -> ((individual_invite a1 'e): invite) -> (short 'e)].
+# let taxiom1 : [('e : event) -> (daily 'e) -> (long 'e)].
+# let taxiom2 : [('p : person) -> ('e : event) -> (low 'e 'p) -> (busy'e 'p)].
+# let taxiom3 : [('p : person) -> ('e : event) -> (high 'e 'p) -> (free'e 'p)].
+# let taxiom4: [('e : event) -> (weekly 'e) -> (high a2 'e)].
+# let taxiom5: [('e : event) -> ('p : person) -> (high 'p 'e) -> (participant 'e 'p)]."""
 
     if args.verbose:
         print(f"Deontic Axioms: {gen_deontic_axioms}")
@@ -200,7 +184,6 @@ let taxiom5: [('e : event) -> ('p : person) -> (high 'p 'e) -> (participant 'e '
 
 
     ### debug
-    cal_problem = calendar.start_derivation(problem=problem, goal=None)
 
     # convert context to a scenario - gpt-4
 

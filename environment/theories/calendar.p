@@ -1,5 +1,5 @@
 action : type.
-
+not : [prop -> prop].
 /* base deontic types */
 obligatory : [action -> prop].
 permissible : [action -> prop].
