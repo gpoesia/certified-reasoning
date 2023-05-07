@@ -9,7 +9,7 @@ def get_context_prompt(system_context, example_context):
         {"role": "system", "content": system_context},
         {"role": "user", "content": "Generate a context."},
         {"role": "assistant", "content": example_context},
-        {"role": "user", "content": "Generate another context. Different from the previous one."},
+        {"role": "user", "content": "Generate another context. Different from the previous one. Make it slightly longer. Remeber to use let in statements always."},
     ]
     return messages_context
 
@@ -25,6 +25,6 @@ def get_axiom_prompt(system_axioms, axiom_templates, example_axioms, example_con
         {"role": "system", "content": system_axioms},
         {"role": "user", "content": f"Generate axioms from these templates: {axiom_templates} \nUsing the following context: {example_context}\n Generate 5 deontic based axioms and 5 theory axioms."},
         {"role": "assistant", "content": example_axioms},
-        {"role": "user", "content": f"Generate axioms from these templates: {axiom_templates} \nUsing the following context: {context}\n Generate 5 deontic based axioms and 5 theory axioms."},
+        {"role": "user", "content": f"Generate axioms from these templates: {axiom_templates} \nUsing the following context: {context}\n Generate 10 deontic based axioms and 5 theory axioms."},
     ]
     return messages_axioms
