@@ -6,7 +6,6 @@ let f1 : event.
 let f2 : event.
 let f3 : event.
 
-let org2 : (organizer f2 b2).
 let part2 : (participant f3 b3).
 let rec3 : (monthly f1).
 let rec4 : (yearly f2).
