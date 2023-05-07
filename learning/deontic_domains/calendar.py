@@ -48,9 +48,7 @@ class CalendarDomain(DomainFromTheory):
 contexts = """let a1 : person.
 let a2 : person.
 let a3 : person.
-
 let g1 : group.
-
 let e1 : event.
 let e2 : event.
 let e3 : event.
@@ -61,7 +59,6 @@ let rec1 : (daily e3).
 let rec2 : (weekly e2).
 let prio1 : (low a1 e2).
 let cat1 : (meeting e3).
-
 let inv1 : invite = (individual_invite a1 e1).
 let inv2 : invite = (group_invite g1 e2)."""
 
@@ -79,12 +76,12 @@ let daxiom10 : [('e : event) -> (private 'e) -> (obligatory (check_availability 
 
 theory_axioms = """let taxiom1 : [('e : event) -> ((individual_invite a1 'e): invite) -> (short 'e)].
 let taxiom2 : [('e : event) -> (daily 'e) -> (long 'e)].
-let taxiom3 : [('e: event) -> (long 'e) -> (private 'e)].
+let taxiom3 : [('e : event) -> (long 'e) -> (private 'e)].
 let taxiom4 : [('e : event) -> (private 'e) -> (group_participant 'e g1)].
-let taxiom5 : [('p : person) -> ('e : event) -> (high 'e 'p) -> (free 'e 'p)].
-let taxiom6: [('e : event) -> (weekly 'e) -> (high a2 'e)].
+let taxiom5 : [('g : group) -> ('e : event) -> (group_participant 'e 'g) -> (meeting 'e)].
+let taxiom6: [('e : event) -> (meeting 'e) -> (high a2 'e)].
 let taxiom7 : [('e : event) -> (meeting 'e) -> (organizer 'e a3)].
 let taxiom8 : [('p : person) -> (organizer e1 'p) -> (high 'p e1)].
-let taxiom9 : [('e : event) -> (organizer 'e a1) -> (confidential 'e)].
-let taxiom10 : [('e : event) -> (participant 'e a2) -> (days_before a2 'e)].
+let taxiom9 : [('e : event) -> (high 'e a1) -> (daily 'e)].
+let taxiom10 : [('e : event) -> (daily 'e) -> (days_before a2 'e)].
 """
