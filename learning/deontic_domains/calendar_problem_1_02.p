@@ -30,15 +30,5 @@ let daxiom17 : [('f : event) -> ('b : person) -> (busy 'b 'f) -> (impermissible 
 let daxiom18 : [('f : event) -> ('b : person) -> (free 'b 'f) -> (obligatory (check_availability 'b 'f))].
 let daxiom19 : [('f : event) -> ('b : person) -> (short 'f) -> (permissible (change_visibility 'f private))].
 let daxiom20 : [('f : event) -> ('b : person) -> (long 'f) -> (obligatory (set_reminder (minutes_before 'b 'f)))].
-let taxiom1 : [('f : event) -> (short 'f) -> (meeting 'f)].
-let taxiom2 : [('f : event) -> (daily 'f) -> (busy b1 'f)].
-let taxiom3 : [('f : event) -> (yearly 'f) -> (long 'f)].
-let taxiom4 : [('f : event) -> (conference 'f) -> (private 'f)].
-let taxiom5 : [('b : person) -> ('f : event) -> (organizer 'f 'b) -> (high 'f 'b)].
-let taxiom6 : [('b : person) -> ('f : event) -> (participant 'f 'b) -> (low 'f 'b)].
-let taxiom7 : [('f : event) -> (public 'f) -> (social 'f)].
-let taxiom8 : [('b : person) -> ('f : event) -> (free 'b 'f) -> (daily 'f)].
-let taxiom9 : [('b : person) -> ('f : event) -> (busy 'b 'f) -> (yearly 'f)].
-let taxiom10 : [('b : person) -> ('f : event) -> (tentative 'b 'f) -> (monthly 'f)].
 Result:
 (daxiom18 f3 b2 avail2) : (obligatory (check_availability b2 f3))

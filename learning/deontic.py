@@ -250,8 +250,8 @@ let taxiom10 : [('b : person) -> ('f : event) -> (busy 'b 'f) -> (yearly 'f)].
                 result_str = '\n'.join([str(r) for r in result[::2]])
                 f.write(result_str)
     else:
-        peano_files = [f for f in os.listdir("deontic_domains/") if f.endswith(".p") and f"calendar_problem_{args.n_hops}" in f]
-        text_files = [f for f in os.listdir("deontic_domains/") if f.endswith(".txt") and f"calendar_problem_{args.n_hops}"]
+        peano_files = sorted([f for f in os.listdir("deontic_domains/") if f.endswith(".p") and f"calendar_problem_{args.n_hops}" in f])
+        text_files = sorted([f for f in os.listdir("deontic_domains/") if f.endswith(".txt") and f"calendar_problem_{args.n_hops}"])
         # check which peano files have a corresponding text file
         problem_file = None
         example_file = []
@@ -263,7 +263,7 @@ let taxiom10 : [('b : person) -> ('f : event) -> (busy 'b 'f) -> (yearly 'f)].
                 example_file.append(f.split(".")[0])
         assert problem_file is not None, "No problem file found"        
         if len(example_file) == 0:
-            example_file = ['calendar_problem_4_00']
+            example_file = ['calendar_problem_4_04']
         # sample current problem
         with open(f"deontic_domains/{problem_file}.p", 'r') as f:
             problem = f.read()

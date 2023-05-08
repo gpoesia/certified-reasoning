@@ -1,0 +1,19 @@
+Scenario:
+In a marketing agency, there are three team members: Alice, Bob, and Charlie. The company also has a creative team called "Designers". They have three upcoming events: a brainstorming session, a team lunch, and a client presentation. Alice is the organizer of the brainstorming session, and Charlie is a participant in the team lunch. The creative team "Designers" is a group participant in the client presentation. The brainstorming session is a short event, while the team lunch is a long event. Bob is busy during the client presentation. The brainstorming session is categorized as a meeting, and the team lunch is a social event. Alice sets a reminder for a few hours before the brainstorming session.
+For this agency, the following rules apply:
+If a person is the organizer of an event, it is obligatory for them to add themselves as a participant.
+If a group is a participant in an event, it is permissible to delegate the event to the group.
+If a person is busy during an event, it is impermissible for them to set a reminder for minutes before the event.
+If a person is a participant in an event, it is permissible to remove them as a participant.
+For short events, it is permissible to update the event to be a social event.
+If a person's availability is tentative for an event, it is obligatory to check their availability before scheduling the event.
+If a person has a high priority for an event, it is obligatory to set a reminder for days before the event.
+If a person is a participant in an event, it is permissible for them to suggest an alternative time for the event.
+If an event is public, it is obligatory to add Alice as a participant.
+Question:
+Given the situation and the rules of the world, is it permissible to update the brainstorming session to be a social event?
+Solution:
+To determine whether it is permissible to update the brainstorming session (e4) to be a social event, we need to follow the reasoning trace:
+(daxiom16 e4 b1 dur1) : (permissible (update_event e4 social)) – This states that it is permissible to update the brainstorming session (e4) to be a social event since it is a short event.
+Answer:
+Yes, it is permissible to update the brainstorming session to be a social event.

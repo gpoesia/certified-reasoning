@@ -1,0 +1,19 @@
+Scenario:
+In a company, there are three employees: Alice, Bob, and Charlie. They also have a team called "Marketing". They have three upcoming events: a product launch, a team event, and a training session. Bob is the organizer of the team event, and Charlie is a participant in the training session. The product launch occurs monthly, while the team event occurs yearly. The product launch is categorized as a conference event. The product launch is a short event, while the training session is a long event. Alice sets a reminder for a few hours before the product launch, and Bob sets a reminder for a few days before the team event. Alice is busy during the product launch, while Bob is free during the training session. The training session is a public event, and the product launch is a private event.
+For this company, the following rules apply:
+If a person is busy during an event, it is impermissible to add them as a participant.
+If a person is free during an event, it is permissible to add them as a participant.
+If a person has a high priority for an event, it is obligatory for them to set a reminder for days before the event.
+If an event is a conference, it is permissible to update the event to be public.
+If a person has a low priority for an event, it is permissible to cancel the event.
+If an event is short, it is impermissible to reschedule the event to occur yearly.
+If an event is private, it is obligatory to remove Charlie as a participant.
+If a person is a participant in an event, it is permissible to request an event update from them.
+If Alice is the organizer of an event, it is obligatory to change the event's visibility to confidential.
+Question:
+Given the situation and the rules of the world, is it impermissible to reschedule the product launch to occur yearly?
+Solution:
+To determine whether it is impermissible to reschedule the product launch (f1) to occur yearly, we need to follow the reasoning trace:
+(daxiom17 f1 b3 dur1) : (impermissible (reschedule_event f1 yearly)) – This states that it is impermissible to reschedule the product launch (f1) to occur yearly since it is a short event.
+Answer:
+Yes, it is impermissible to reschedule the product launch to occur yearly.

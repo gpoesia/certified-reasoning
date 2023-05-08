@@ -1,0 +1,19 @@
+Scenario:
+In a software development company, there are three team members: Anna, Brian, and Carol. The company also has a human resources team called "HR". They have three upcoming events: a project kickoff, a review event, and a team-building activity. Brian is the organizer of the  review event, and Carol is a participant in the team-building activity. The project kickoff is a monthly event, while the review event is a yearly. The project kickoff is categorized as a conference, and it is a short event. The team-building activity is a long event. Anna sets a reminder for a few hours before the project kickoff, while Brian sets a reminder for a few days before the review event. Anna is busy during the project kickoff, and Brian is free during the team-building activity. The team-building activity is a public event, while the project kickoff is a private event.
+For this software development company, the following rules apply:
+If a person is busy during an event, it is permissible for them to add themselves as a participant.
+If a person is free during an event, it is impermissible for them to add themselves as a participant.
+If a person has a low priority for an event, it is obligatory for them to set a reminder for days before the event.
+If an event is a conference, it is impermissible to update the event to be public.
+If a person has a low priority for an event, it is obligatory to cancel the event.
+For short events, it is impermissible to reschedule the event as a daily event.
+If an event is private, it is obligatory to reschedule the event as a daily event.
+If a person is a participant in an event, it is permissible to request an update for the event from them.
+If a person is the organizer of an event, it is obligatory for them to change the event's visibility to private.
+Question:
+Given the situation and the rules of the world, is it obligatory to reschedule the project kickoff as a daily event?
+Solution:
+To determine whether it is obligatory to reschedule the project kickoff (f1) as a daily event, we need to follow the reasoning trace:
+(daxiom18 f1 vis2) : (obligatory (reschedule_event f1 daily)) – This states that it is obligatory to reschedule the project kickoff (f1) as a daily event since it is a private event.
+Answer:
+Yes, it is obligatory to reschedule the project kickoff as a daily event.
