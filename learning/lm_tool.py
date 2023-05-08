@@ -13,6 +13,7 @@ import re
 import copy
 from typing import List, Dict, Optional
 import shelve
+import itertools
 
 import openai
 import transformers
@@ -287,40 +288,65 @@ class SyllogismDataset:
         with open(path, 'rb') as f:
             data = json.load(f)
         problems = []
-        for d in data:
+
+        valid_exs = []
+        invalid_exs = []
+
+        for pid, d in enumerate(data):
             if problem_type == 'realistic-consistent':
                 if not d['is_realistic'] or not d['is_consistent']:
-                    continue 
+                    continue
             elif problem_type == 'realistic-inconsistent':
                 if not d['is_realistic'] or d['is_consistent']:
-                    continue 
+                    continue
             elif problem_type == 'nonsense':
-                if d['is_nonsense'] != True: 
+                if not d['is_nonsense']:
                     continue
             else:
                 raise ValueError(f'Unknown problem type {problem_type}')
-            # format similar to prontoqa
+
             argument_id = d['input'].index('Argument:')
             conclusion_id = d['input'].index('\nConclusion:')
             theory = d['input'][argument_id+len('Arguments:\n')-1:conclusion_id].split('\n')
 
             answer_id = d['input'].index('\nAnswer:')
             conclusion = d['input'][conclusion_id+len('\nConclusion: '):answer_id]
-            query = f"True or false: {conclusion}"
+            query = f"Can we logically conclude \"{conclusion.strip('.')}\"?"
+
             answer = 'is valid' in d['correct_answer']
-            example = SyllogismExample(
+            chain_of_thought = list(map(lambda s: s.strip(), eval(d['correct_answer'])))
+
+            example = PrOntoQAExample(
                 theory=theory,
                 query=query,
-                answer=answer)
-            problem = SyllogismProblem(
-                id=problem_type,
+                chain_of_thought=chain_of_thought,
+                answer=str(answer)
+                )
+
+            problem = PrOntoQAProblem(
+                id=f'{problem_type}-{pid}',
                 train_examples=None,
                 test_example=example
             )
+
             problems.append(problem)
+            [invalid_exs, valid_exs][int(answer)].append(problem)
+
+        for p in problems:
+            p.train_examples = [valid_exs[0].test_example,
+                                invalid_exs[0].test_example,
+                                invalid_exs[1].test_example,
+                                valid_exs[1].test_example,
+                                ]
+
         print(f"Loaded {len(problems)} problems from {path} {problem_type}")
-        print(f"Skipping 2 train examples to have {len(problems)-2} test examples")
-        return SyllogismDataset(id=f'syllogism-{problem_type}', problems=problems[1:-1])
+        print(f"Skipping 4 train examples to have {len(problems)-4} test examples")
+
+        return PrOntoQADataset(id=f'syllogism-{problem_type}', problems=[
+            p for p in itertools.chain(*itertools.zip_longest(valid_exs[2:],
+                                                              invalid_exs[2:]))
+            if p is not None])
+
 
 @dataclass
 class MathDataset:
@@ -469,33 +495,32 @@ class OpenAILanguageModelReasoner(NaturalLanguageReasoner):
     def name(self) -> str:
         return self._model
 
-    
-    def prepare_for(self, dataset: str):
-        if 'realistic-consistent' in dataset:
-            prompt_file = 'prompts/syllogism_realistic_consistent_prompt'
-        elif 'realistic-inconsistent' in dataset:
-            prompt_file = 'prompts/syllogism_realistic_inconsistent_prompt'
-        elif 'nonsesnse' in dataset:
-            prompt_file = 'prompts/syllogism_nonsense_prompt'
+    def prepare_for(self, dataset):
+        if 'syllogism' in dataset:
+            prompt_file = 'prompts/syllogism_prompt'
+            self._context_word = 'Assumptions'
+            self._query_word = 'Question'
         else:
+            self._context_word = 'Context'
+            self._query_word = 'Query'
             return
 
         with open(prompt_file, 'r') as f:
             self._prompt = f.read().strip()
             print('Loaded prompt from', prompt_file)
-    
+
     def _format_example(self, example: object,
                         index: int, is_test: bool):
         lines = []
 
         lines.append(f'Problem #{index + 1}')
-        lines.append(f'Context: {" ".join(example.theory)}')
-        lines.append(f'Query: {example.query}')
+        lines.append(f'{self._context_word}: {" ".join(example.theory)}')
+        lines.append(f'{self._query_word}: {example.query}')
 
         if is_test:
             lines.append('Reasoning:')
         else:
-            lines.append(f'Reasoning: {" ".join(example.chain_of_thought)}')
+            lines.append(f'Reasoning: {" ".join(map(lambda s: s.strip(), example.chain_of_thought))}')
             lines.append(f'Answer: {str(example.answer)}')
 
         return '\n'.join(lines)
@@ -503,24 +528,28 @@ class OpenAILanguageModelReasoner(NaturalLanguageReasoner):
     def predict_answer(self, problem: object) -> bool:
         if not hasattr(self, '_prompt'):
             in_context = [self._format_example(e, i, False)
-                      for i, e in enumerate(problem.train_examples[:3])]
+                          for i, e in enumerate(problem.train_examples[:4])]
             test = self._format_example(problem.test_example, len(in_context), True)
             prompt = f'\n{self._separator}\n'.join(in_context + [test])
         else:
-            test = self._format_example(problem.test_example, 2, True)
+            test = self._format_example(problem.test_example, 3, True)
             prompt = copy.deepcopy(self._prompt)
-            prompt += f'\n{self._separator}\n' + test
+            prompt += f'\n\n' + test
 
         rate_limiter.wait()
+
         response = openai.Completion.create(model=self._model,
                                             prompt=prompt,
                                             temperature=self._temperature,
-                                            max_tokens=500,
+                                            max_tokens=20,
                                             stop=self._separator)
 
         response_str = response.choices[0].text
+        print(response_str)
         answer = re.search('Answer: (.+)$', response_str)
-        return answer and answer.groups()[-1].strip(), response_str
+        answer = answer and answer.groups()[-1].strip()
+        print('Answer:', answer, '(correct?', answer == str(problem.test_example.answer), ')')
+        return answer, response_str
 
 
 class OpenAIChatModelReasoner(NaturalLanguageReasoner):
@@ -617,7 +646,7 @@ class PeanoLMReasoner(NaturalLanguageReasoner):
             prompt_file = 'prompts/peano_syllogism_realistic_consistent_prompt'
         elif 'realistic-inconsistent' in dataset:
             prompt_file = 'prompts/peano_syllogism_realistic_inconsistent_prompt'
-        elif 'nonsesnse' in dataset:
+        elif 'syllogism-nonsense' in dataset:
             prompt_file = 'prompts/peano_syllogism_nonsense_prompt'
         else:
             prompt_file = 'prompts/peano_prontoqa_short_prompt'
@@ -747,7 +776,6 @@ def evaluate_reasoner(results_path: str,
             print(key, 'success?', correct)
         except (Exception, RuntimeError) as e:
             print('Error:', e)
-            raise
             correct = False
             error = str(e)
             prediction, reasoning = None, None
@@ -772,68 +800,10 @@ def evaluate_reasoner(results_path: str,
     print(f'Accuracy: {100 * sum(success) / len(success):.2f}%')
 
 
-def evaluate_syllogism_reasoner(results_path: str,
-                      dataset: SyllogismDataset,
-                      reasoner: NaturalLanguageReasoner,
-                      max_problems: int = None):
-    success = []
-
-    print('Evaluating', reasoner.name(), 'on', dataset.id)
-    reasoner.prepare_for(dataset.id)
-
-    try:
-        with open(results_path, 'r') as f:
-            results = json.load(f)
-    except FileNotFoundError:
-        print(results_path, 'not found; starting with empty results.')
-        results = {}
-
-    for i, p in enumerate(dataset.problems):
-        if max_problems is not None and i >= max_problems:
-            break
-
-        key = f'({dataset.id}, {p.id}, {reasoner.name()})'
-
-        if key in results and not results[key]['error']:
-            # print('Skipping', key)
-            success.append(results[key]['correct'])
-            continue
-
-        try:
-            prediction, reasoning = reasoner.predict_answer(p)
-            error = None
-            correct = (prediction == p.test_example.answer)
-            print(key, 'success?', correct)
-        except (Exception, RuntimeError) as e:
-            print('Error:', e)
-            raise
-            correct = False
-            error = str(e)
-            prediction, reasoning = None, None
-
-        success.append(correct)
-
-        results_obj = {
-            'dataset': dataset.id,
-            'problem': p.id,
-            'reasoner': reasoner.name(),
-            'prediction': prediction,
-            'answer': p.test_example.answer,
-            'error': error,
-            'reasoning': reasoning,
-            'correct': correct
-        }
-
-        results[key] = results_obj
-        with open(results_path, 'w') as f:
-            json.dump(results, f, indent=4)
-
-    print(f'Accuracy: {100 * sum(success) / len(success):.2f}%')
-
-
-def run_syllogism_experiments(max_problems=40):
+def run_syllogism_experiments(max_problems=120):
     dataset_path = './content_effects/syllogism_problems.json'
     dataset_types = ['realistic-consistent', 'realistic-inconsistent', 'nonsense']
+
     datasets = [SyllogismDataset.load(dataset_path, dataset_type) for dataset_type in dataset_types]
     fol_domain = domain.FirstOrderLogicDomain()
     fol_completion_engine = PeanoCompletionEngine(
@@ -850,8 +820,8 @@ def run_syllogism_experiments(max_problems=40):
         # PeanoLMReasoner(fol_completion_engine,
         #                'prompts/',
         #                'text-davinci-003'),
-        PeanoChatLMReasoner(fol_completion_engine,
-                            'gpt-3.5-turbo')
+        # OpenAILanguageModelReasoner('text-davinci-003'),
+        PeanoLMReasoner(fol_completion_engine, 'text-davinci-003'),
         # OpenAIChatModelReasoner('gpt-3.5-turbo'),
         # PeanoLMReasoner(fol_completion_engine,
         #                 'prompts/',
@@ -867,9 +837,11 @@ def run_syllogism_experiments(max_problems=40):
         #                'prompts/',
         #                'code-davinci-002'),
     ]
+
     for r in reasoners:
         for ds, dn in zip(datasets, dataset_types):
-            evaluate_reasoner(f'syllogisms-results-{r.name}-{dn}.json', ds, r, max_problems)
+            print('### Running', r.name(), 'on', dn)
+            evaluate_reasoner(f'syllogisms-results.json', ds, r, max_problems)
 
 
 def run_prontoqa_experiments(max_problems=40):
@@ -966,6 +938,6 @@ def run_math_experiments():
 
 
 if __name__ == '__main__':
-    run_prontoqa_experiments()
-    # run_syllogism_experiments()
+    # run_prontoqa_experiments()
+    run_syllogism_experiments()
     # run_math_experiments()

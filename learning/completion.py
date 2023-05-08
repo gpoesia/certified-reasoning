@@ -323,7 +323,9 @@ class PeanoCompletionEngine:
 
         # If exhausted inferences, it is done.
         if INFER_ERROR in [v for k, v in blocks]:
-            return False, None
+            # TODO: Make return value depend on dataset.
+            # (should be None, False for ProofWriter/PrOntoQA and True, False for Syllogistic Validity)
+            return True, False
 
         ff = self.fast_forward_derivation(blocks)
         return self.domain.derivation_done(ff)
