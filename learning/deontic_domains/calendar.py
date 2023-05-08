@@ -85,3 +85,5 @@ let taxiom8 : [('p : person) -> (organizer e1 'p) -> (high 'p e1)].
 let taxiom9 : [('e : event) -> (high 'e a1) -> (daily 'e)].
 let taxiom10 : [('e : event) -> (daily 'e) -> (days_before a2 'e)].
 """
+
+domain_text = "Create a task for an AI assistant managing the calendar."

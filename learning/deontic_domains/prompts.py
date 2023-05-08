@@ -1,3 +1,4 @@
+# Prompts for generating the context
 system_context = """You are an AI assistant, help the user with different tasks for deontic logic.
 Here is the theory for the domain.
 {theory}
@@ -15,6 +16,7 @@ def get_context_prompt(system_context, example_context):
     return messages_context
 
 
+# Prompts for generating the axioms
 calendar_bad_taxioms = """
 let taxiom3 : [('f : event) -> (recurrence 'f) -> (daily 'f) -> (weekly 'f)].
 let taxiom4 : [('f : event) -> (priority 'f) -> (high b2 'f) -> (low b1 'f)].
@@ -47,3 +49,19 @@ def get_axiom_prompt(system_axioms, axiom_templates, example_axioms, example_con
         {"role": "user", "content": f"Generate axioms using these templates: {axiom_templates} \nUsing the following context: {context}\n Generate 10 deontic based axioms and 10 good theory axioms."},
     ]
     return messages_axioms
+
+# prompts for generating the text
+system_text = """Generate different tasks for deontic logic. Make the tasks realistic. Be sure to stick to the templates. {domain_text}
+Here is the theory for the domain.
+{theory}."""
+
+
+
+def get_text_prompt(domain_text, theory, example_context, example_axioms, example_answer, example_story, context, axioms, answer):
+    messages = [
+        {"role": "system", "content": system_text.format(domain_text=domain_text, theory=theory)},
+        {"role": "user", "content": f"For a problem, this is the context:\n{example_context}\nHere are the rules of the world in this scenario:\n{example_axioms}\nHere is the reasoning trace for the problem:{example_answer}"},
+        {"role": "assistant", "content": example_story},
+        {"role": "user", "content": f"For the next problem, this is the context:\n{context}\nHere are the rules of the world in this scenario:\n{axioms}\nHere is the reasoning trace for the problem:{answer}\n Make this one different from the previous one."},
+    ]
+    return messages

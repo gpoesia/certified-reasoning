@@ -26,7 +26,6 @@ let daxiom13 : [('f : event) -> ('b : person) -> (free 'b 'f) -> (obligatory (ch
 let daxiom14 : [('f : event) -> ('b : person) -> (participant 'f 'b) -> (permissible (delegate_event 'f 'b))].
 let daxiom15 : [('f : event) -> ('b : person) -> (organizer 'f 'b) -> (obligatory (update_event 'f social))].
 let daxiom16 : [('f : event) -> ('b : person) -> (long 'f) -> (permissible (set_reminder (days_before 'b 'f)))].
-let daxiom17 : [('f : event) -> ('g : group) -> (group_participant 'f 'g) -> (permissible (add_participant 'f 'b))].
 let daxiom18 : [('f : event) -> ('b : person) -> (busy 'b 'f) -> (impermissible (reschedule_event 'f daily))].
 let daxiom19 : [('f : event) -> ('b : person) -> (free 'b 'f) -> (obligatory (suggest_alternative_time 'b 'f))].
 let daxiom20 : [('f : event) -> (long 'f) -> (permissible (change_visibility 'f confidential))].
