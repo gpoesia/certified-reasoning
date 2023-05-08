@@ -1,6 +1,6 @@
 Scenario:
-In a software development company, there are three employees: John, Sarah, and Mark. John is the project manager, Sarah is a developer, and Mark is the team leader. The company has a remote team called "GlobalTeam". They have three upcoming events: a project kick-off meeting, a team building event, and a daily stand-up meeting.
-John is the organizer of the project kick-off meeting, and Sarah is a participant. The daily stand-up occurs daily, while the project kick-off meeting is a short event. The stand-up is an event of type meeting. John gets an individual invite to the project kick-off meeting and the remote team gets a group invite to the team building event.
+In a software development company, there are three employees: John, Sarah, and Mark. John is the project manager, Sarah is a developer, and Mark is the team leader. The company has a remote team called "GlobalTeam". They have three upcoming events: a project kick-off event, a team building event, and a stand-up event.
+John is the organizer of the project kick-off meeting, and Sarah is a participant. The stand-up occurs daily, while the project kick-off meeting is a short event. The stand-up is an event of type meeting. John gets an individual invite to the project kick-off event and the remote team gets a group invite to the team building event.
 For this company, the following rules apply:
 If a person is free during an event, it is permissible to send them a notification.
 If a group is a participant in an event, it is permissible to accept a group invite.

@@ -16,12 +16,9 @@ let cat2 : (conference f1).
 let cat3 : (social f3).
 let rec3 : (monthly f2).
 
-let reminder1 : reminder = (hours_before b1 f1).
-let reminder2 : reminder = (days_before b2 f2).
 let inv3 : invite = (individual_invite b1 f1).
 
 let daxiom11 : [('f : event) -> ('b : person) -> (busy 'b 'f) -> (impermissible (accept (individual_invite 'b 'f)))].
-let daxiom12 : [('f : event) -> ('g : group) -> (group_participant 'g 'f) -> (permissible (send_notification (group_invite 'g 'f)))].
 let daxiom13 : [('f : event) -> ('b : person) -> (free 'b 'f) -> (obligatory (check_availability 'b 'f))].
 let daxiom14 : [('f : event) -> ('b : person) -> (participant 'f 'b) -> (permissible (delegate_event 'f 'b))].
 let daxiom15 : [('f : event) -> ('b : person) -> (organizer 'f 'b) -> (obligatory (update_event 'f social))].
@@ -34,11 +31,8 @@ let taxiom1 : [('f : event) -> (social 'f) -> (public 'f)].
 let taxiom2 : [('b : person) -> ('f : event) -> (busy 'b 'f) -> (low 'b 'f)].
 let taxiom3 : [('f : event) -> (public 'f) -> (long 'f)].
 let taxiom4 : [('f : event) -> (long 'f) -> (free b3 'f)].
-let taxiom5 : [('b : person) -> ('f : event) -> (organizer 'b 'f) -> (confidential 'f)].
 let taxiom6 : [('b : person) -> ('f : event) -> (free 'b 'f) -> (low 'b 'f)].
 let taxiom7 : [('f : event) -> (short 'f) -> (conference 'f)].
-let taxiom8 : [('b : person) -> ('f : event) -> (participant 'b 'f) -> (daily 'f)].
-let taxiom10 : [('b : person) -> ('f : event) -> (busy 'b 'f) -> (yearly 'f)].
 
 Result:
 (taxiom1 f3 cat3) : (public f3)

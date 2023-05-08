@@ -1,31 +1,27 @@
 Scenario:
-In a company, there are three employees: Alice, Bob, and Carol. There is a separate group working for them called "MarketingTeam". They have three upcoming events: a conference, a monthly team event, and a social event. Alice is the organizer of the conference, and Carol is a participant in the conference. The conference is a public event, while the social event is confidential. The team event is a short event. Alice sets a reminder for a few hours before the conference, and Bob sets a reminder for a few days before the team event. Carol gets an individual invite for the conference.
-For this company, the following rules apply:
-If a person is busy during an event, it is impermissible for them to accept an individual invite.
-If a group is a participant in an event, it is permissible to send a group invite notification.
-If a person is free during an event, it is obligatory for them to check their availability.
+In a non-profit organization, there are three volunteers: Alice, Bob, and Carol. The organization also has a local team called "CommunityHelpers". They have three upcoming events: a fundraising event, a training event, and a charity gala. Alice is the organizer of the fundraising event, and Carol is a participant. The fundraising event is public, while the charity gala is confidential. The training event is a short event. The fundraising event is a conference, and the charity gala is a social event. The training event occurs monthly. Alice gets an individual invite to the fundraising event.
+For this organization, the following rules apply:
+If a person is busy during an event, it is impermissible for them to accept an individual invite to that event.
+If a person is free during an event, it is obligatory for them to check their availability for that event.
 If a person is a participant in an event, it is permissible to delegate the event to them.
 If a person is the organizer of an event, it is obligatory to update the event to be a social event.
-If an event is long, it is permissible to set a reminder for a few days before the event.
+For long events, it is permissible to set a reminder for a few days before the event for them.
 If a person is busy during an event, it is impermissible to reschedule the event daily.
-If a person is free during an event, it is obligatory for them to suggest an alternative time.
+If a person is free during an event, it is obligatory for them to suggest an alternative time for that event.
 If an event is long, it is permissible to change its visibility to confidential.
-If an event is a social event, it is a public event.
-If a person is busy during an event, they have low priority for that event.
-If an event is public, it is a long event.
-If an event is long, Carol is free during that event.
-If a person is the organizer of an event, the event is confidential.
-If a person is free during an event, they have low priority for that event.
-If an event is short, it is a conference.
-If a person is a participant in an event, the event occurs daily.
-If a person is busy during an event, the event occurs yearly.
+If an event is social, it must be public.
+If a person is busy during an event, their priority for that event is low.
+Public events are long events.
+If an event is long, Carol is free for that event.
+If a person is free during an event, their priority for that event is low.
+Short events are conferences.
 Question:
-Given the situation and the rules of the world, is it obligatory for Carol to suggest an alternative time for the social event?
+Given the situation and the rules of the world, is it obligatory for Carol to suggest an alternative time for the charity gala?
 Solution:
-To determine whether it is obligatory for Carol (b3) to suggest an alternative time for the social event (f3), we need to follow the reasoning trace:
-(taxiom1 f3 cat3) : (public f3) – This states that the social event (f3) is a public event since it is a social event.
-(taxiom3 f3 r1) : (long f3) – This states that the social event (f3) is a long event since it is a public event.
-(taxiom4 f3 r2) : (free b3 f3) – This states that Carol (b3) is free during the social event (f3) since it is a long event.
-(daxiom19 f3 b3 r3) : (obligatory (suggest_alternative_time b3 f3)) – This states that it is obligatory for Carol (b3) to suggest an alternative time for the social event (f3) since she is free during the event.
+To determine whether it is obligatory for Carol (b3) to suggest an alternative time for the charity gala (f3), we need to follow the reasoning trace:
+(taxiom1 f3 cat3) : (public f3) – This states that the charity gala (f3) is a public event since it is a social event.
+(taxiom3 f3 r1) : (long f3) – This states that the charity gala (f3) is a long event since it is public.
+(taxiom4 f3 r2) : (free b3 f3) – This states that Carol (b3) is free during the charity gala (f3) since it is a long event.
+(daxiom19 f3 b3 r3) : (obligatory (suggest_alternative_time b3 f3)) – This states that it is obligatory for Carol (b3) to suggest an alternative time for the charity gala (f3) since she is free during the event.
 Answer:
-Yes, it is obligatory for Carol (b3) to suggest an alternative time for the social event (f3).
+Yes, it is obligatory for Carol (b3) to suggest an alternative time for the charity gala (f3).

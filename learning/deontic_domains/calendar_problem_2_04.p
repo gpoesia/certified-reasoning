@@ -17,7 +17,6 @@ let cat2 : (conference f2).
 
 let inv3 : invite = (individual_invite b3 f3).
 let inv4 : invite = (group_invite h1 f1).
-let daxiom11 : [('f : event) -> ('b : person) -> (organizer 'f 'b) -> (obligatory (send_notification (individual_invite 'b 'f)))].
 let daxiom12 : [('f : event) -> ('h : group) -> (group_participant 'h 'f) -> (permissible (accept (group_invite 'h 'f)))].
 let daxiom13 : [('f : event) -> ('b : person) -> (busy 'b 'f) -> (impermissible (reschedule_event 'f monthly))].
 let daxiom14 : [('f : event) -> ('b : person) -> (high 'b 'f) -> (obligatory (set_reminder (days_before 'b 'f)))].

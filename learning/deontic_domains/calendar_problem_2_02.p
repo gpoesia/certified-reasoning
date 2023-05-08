@@ -29,7 +29,6 @@ let daxiom19 : [('f : event) -> ('b : person) -> (low 'b 'f) -> (permissible (ch
 let daxiom20 : [('f : event) -> ('g : group) -> (group_participant 'f 'g) -> (impermissible (remove_participant 'f 'g))].
 let taxiom1 : [('f : event) -> (organizer 'f b2) -> (participant 'f b1)].
 let taxiom2 : [('f : event) -> ('b : person) -> (busy 'b 'f) -> (long 'f)].
-let taxiom3 : [('f : event) -> ('g : group) -> (group_participant 'g 'f) -> (meeting 'f)].
 let taxiom4 : [('f : event) -> ('b : person) -> (free 'b 'f) -> (social 'f)].
 let taxiom5 : [('f : event) -> ('b : person) -> (tentative 'b 'f) -> (personal 'f)].
 Result:

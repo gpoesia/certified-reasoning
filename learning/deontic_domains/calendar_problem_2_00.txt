@@ -1,0 +1,24 @@
+Scenario:
+In a software development company, there are three project managers: Alice, Bob, and Carol. They also have a team called "Developers". They have three upcoming events: a project status event, a team retreat, and an event on new technology trends. Bob is the organizer of the team retreat. Carol is a participant in the technology trends event. The project status event occurs every month, whereas the technology trends event occurs every year. Alice considers the project status event as high priority. Bob revieves an individual invite to the technology trends event, and the "Developers" team receives group invitations to the project status event. The team retreat is a conference event.
+For this software development company, the following rules apply:
+If an event has high priority for a person, it is obligatory to send a notification of an individual invite to that event for the person.
+If a group is a participant in an event, it is permissible for the group to accept group invitations to that event.
+If a person is busy during an event, it is impermissible to reschedule the event yearly.
+If a person is a participant in an event, it is obligatory to set a reminder for a few days before the event.
+If a person is the organizer of an event, it is permissible to delegate the event  to the person.
+If an event has low priority for a person, it is permissible to update the event as a meeting.
+If a group is a participant in an event, it is impermissible to remove the group from the event.
+If a person is free during an event, it is obligatory for them to accept individual invitations to that event.
+If a person's availability is tentative for an event, it is permissible for them to suggest an alternative time for the event.
+If an event is public, it is obligatory to check Alice's availability for that event.
+If an event is monthly, Alice is free for that event.
+If an event is yearly and Carol is a participant, then Bob is the organizer of that event.
+If an event is a conference, the "Developers" team is a participant in that event.
+Question:
+Given the situation and the rules of the world, is it obligatory for Alice to accept an individual invite to the project status event?
+Solution:
+To determine this, we need to follow the reasoning trace:
+(taxiom1 f1 rec3) : (free b1 f1) – This states that Alice (b1) is free during the  project status event (f1).
+(daxiom18 f1 b1 r1) : (obligatory (accept(individual_invite b1 f1 ))) – This states that it is obligatory for Alice (b1) to accept an individual invite to the project status event (f1) if she is free for the event.
+Answer:
+Yes, it is obligatory for Alice to accept an individual invite to the project status event.

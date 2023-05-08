@@ -1,33 +1,36 @@
 Scenario:
-In a company, there are three employees: Alice, Bob, and Charlie. The company has a group called "ProjectTeam". They have two upcoming events: a public social event and another short event. Alice is the organizer of the social event, and Bob is a participant in the social event. The ProjectTeam is also a participant in the social event. Alice has set a reminder for a few hours before the social event. The social event is public.
-For this company, the following rules apply:
+In a software company, there are three employees: Alice, Bob, and Charlie. The company has a group of employees called the "DevTeam". They have two upcoming events: a team-building activity and a project meeting. Alice is the organizer of the team-building activity, and Bob is a participant. The DevTeam is also participating in the team-building activity. The project meeting is a short event. The team-building activity is a social event, and its visibility is public. Alice sets a reminder a few hours before the team-building activity.
+
+For this software company, the following rules apply:
 If a person is the organizer of an event, it is obligatory to add them as a participant.
-If a person is a participant in an event, it is permissible for them to accept an individual invitation to the event.
+If a person is a participant in an event, it is permissible for them to accept an individual invite to the event.
 If an event is short, it is impermissible to cancel the event.
-If a group is a participant in an event, it is obligatory to add the group as a participant.
 If a person is free during an event, it is permissible to set a reminder for a few hours before the event.
 If a person is busy during an event, it is impermissible to reschedule the event daily.
-If an event is public, it is obligatory to check Alice's availability for that event.
-If a person is a participant in an event, it is permissible for to delegate the event to them.
-If a person has a tentative status for an event, it is permissible for them to suggest an alternative time.
-If an event has high priority for a person, it is obligatory to set a reminder for the person a few days before the event.
+If an event is public, it is obligatory to check the availability of Alice for that event.
+If a person is a participant in an event, it is permissible to delegate the event to them.
+If a person has a tentative status for an event, it is permissible for them to suggest an alternative time for the event.
+If an event has high priority for a person, it is obligatory to set a reminder for a few days before the event.
+
 If an event is short, it is a meeting.
-If an event is a meeting, then a person has a tentative status for that event.
-If Alice has a tentative status for an event, then she is a participant in that event. 
+If an event is a meeting, then a person has a tentative status for it.
+If Alice has a tentative status for an event, she is a participant in that event.
 If a person is free during an event, they have low priority for that event.
 If an event is public, it is a social event.
 If an event is private, it is a personal event.
-If a person is a participant in an event and is also the organizer, they are not a group participant.
 If an event is daily, it is not a weekly event.
 If an event is weekly, it is not a monthly event.
 If a person sets a reminder for a few hours before an event, they do not set a reminder for a few days before the event.
+
 Question:
-Given the situation and the rules of the world, is it permissible to delegate the short event to Alice?
+Given the situation and the rules of the world, is it permissible to delegate the project meeting to Alice?
+
 Solution:
-To determine whether it is permissible to delegate the short meeting (f2) to Alice, we need to follow the reasoning trace:
-(taxiom11 f2 short1) : (meeting f2) – This states that the short event (f2) is a meeting because it is a short event.
-(taxiom12 f2 b1 r1) : (tentative b1 f2) – This states that Alice (b1) has a tentative status for the short event (f2) because it is a meeting.
-(taxiom13 f2 r2) : (participant f2 b1) – This states that Alice (b1) is a participant in the short event (f2) due to her tentative status.
-(daxiom18 f2 b1 r3) : (permissible (delegate_event f2 b1)) – This states that it is permissible (b1) to delegate the short event (f2) to Alice since she is a participant.
+To determine whether it is permissible to delegate the project meeting (f2) to Alice, we need to follow the reasoning trace:
+(taxiom11 f2 short1) : (meeting f2) – This states that the project meeting (f2) is a meeting since it is a short event.
+(taxiom12 f2 b1 r1) : (tentative b1 f2) – This states that Alice (b1) has a tentative status for the project meeting (f2) since it is a meeting.
+(taxiom13 f2 r2) : (participant f2 b1) – This states that Alice (b1) is a participant in the project meeting (f2) since she has a tentative status for that event.
+(daxiom18 f2 b1 r3) : (permissible (delegate_event f2 b1)) – This states that it is permissible to delegate the project meeting (f2) to Alice since she is a participant.
+
 Answer:
-Yes, it is permissible for Alice (b1) to delegate the short meeting (f2).
+Yes, it is permissible to delegate the project meeting to Alice.

@@ -19,7 +19,6 @@ let inv3 : invite = (individual_invite b2 f2).
 let inv4 : invite = (group_invite h1 f3).
 let daxiom11 : [('f : event) -> ('b : person) -> (organizer 'f 'b) -> (permissible (add_participant 'f b1))].
 let daxiom12 : [('f : event) -> ('b : person) -> (participant 'f 'b) -> (obligatory (set_reminder (days_before 'b 'f)))].
-let daxiom13 : [('f : event) -> ('h : group) -> (group_participant 'f 'h) -> (permissible (send_notification (group_invite 'h 'f)))]. 
 let daxiom14 : [('f : event) -> ('b : person) -> (high 'b 'f) -> (obligatory (check_availability 'b 'f))].
 let daxiom15 : [('f : event) -> ('b : person) -> (busy 'b 'f) -> (impermissible (accept (individual_invite 'b 'f)))].
 let daxiom16 : [('f : event) -> ('b : person) -> (free 'b 'f) -> (permissible (suggest_alternative_time 'b 'f))].
