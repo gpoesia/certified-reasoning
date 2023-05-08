@@ -1,19 +1,28 @@
 Problem #1:
-Context: 1- Some librarians are happy people. 2- All happy people are healthy people.
-Query: True or false: Some librarians are healthy people.
-Formalized context: 1- Some [[prop:librarians]] are [[prop:happy]] people. [[axiom:(exist 'x) (and (librarian 'x) (happy 'x))]]. 2- All [[prop:happy]] people are [[prop:healthy]] people. [[axiom:(happy 'x) -> (healthy 'x)]].
-Formalized goal: [[goal:(exist 'x) (and (librarian 'x) (healthy 'x))]]
-Reasoning: [[infer:(exist 'x) (and (librarian 'x) (healthy 'x))]] Some librarians are healthy people. This was the goal.
-Answer: True
-###
-
-Problem #2:
-Context: 1- No buildings are things that move. 2- All things that move are vehicles.
-Query: True or false: No buildings are vehicles.
-Formalized context: 1- No [[prop:buildings]] are [[prop:things_that_move]]. [[axiom:(building 'x) -> ~(thing_that_moves 'x)]]. 2- All [[prop:things_that_move]] are [[prop:vehicles]]. [[axiom:(thing_that_moves 'x) -> (vehicle 'x)]].
-Formalized goal: [[goal:(building 'x) -> ~(vehicle 'x)]]
-Reasoning: [[infer:(building 'x) -> ~(vehicle 'x)]] There is no information that directly connects buildings vehicles. So, the goal is not necessarily true
+Context: 1- All grosp are threck. 2- No crand are grosp.
+Query: Can we logically conclude "No crand are threck"?
+Formalized context: 1- All [[prop:grosp]] are [[prop:threck]]. [[axiom:(implies grosp threck)]] 2- No [[prop:crand]] are [[prop:grosp]]. [[axiom:(not (ex_some crand grosp))]]
+Formalized goal: [[goal:(not (ex_some crand threck))]]
+Reasoning: [[infer:nothing]] We cannot infer anything. So, the goal is not necessarily true.
 Answer: False
 ###
 
+Problem #2:
+Context: 1- Some librarians are happy people. 2- All happy people are healthy people.
+Query: Can we logically conclude "Some librarians are healthy people"?
+Formalized context: 1- Some [[prop:librarian]] are [[prop:happy]] people. [[axiom:(ex_some librarian happy)]] 2- All [[prop:happy]] people are [[prop:healthy]] people. [[axiom:(implies happy healthy)]]
+Formalized goal: [[goal:(ex_some librarian happy)]]
+Reasoning: [[infer:(ex_some librarian healthy)]] Some librarians are healthy people. This was the goal.
+Answer: True
+###
+
 Problem #3:
+Context: 1- No buildings are things that move. 2- All things that move are vehicles.
+Query: Can we logically conclude "No buildings are vehicles"?
+Formalized context: 1- No [[prop:building]] are things that [[prop:move]]. [[axiom:(not (ex_some building move))]] 2- All things that [[prop:move]] are [[prop:vehicle]]. [[axiom:(implies move vehicle)]]
+Formalized goal: [[goal:(not (ex_some building vehicle))]]
+Reasoning: [[infer:nothing]] We cannot infer anything. So, the goal is not necessarily true.
+Answer: False
+###
+
+Problem #4:

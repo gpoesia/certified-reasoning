@@ -1,13 +1,22 @@
 Problem #1:
-Context: 1- Some pand are phrite. 2- All phrite are ing.
-Query: True or false: Some pand are ing.
-Answer: True
-###
-
-Problem #2:
-Context: 1- All grosp are threck. 2- No crand are grosp.
-Query: True or false: No crand are threck.
+Assumptions: 1- All grosp are threck. 2- No crand are grosp.
+Question: Can we logically conclude "No crand are threck"?
+Reasoning: The argument is invalid.
 Answer: False
 ###
 
+Problem #2:
+Assumptions: 1- Some librarians are happy people. 2- All happy people are healthy people.
+Question: Can we logically conclude "Some librarians are healthy people"?
+Reasoning: The argument is valid.
+Answer: True
+###
+
 Problem #3:
+Assumptions: 1- No buildings are things that move. 2- All things that move are vehicles.
+Question: Can we logically conclude "No buildings are vehicles"?
+Reasoning: The argument is invalid.
+Answer: False
+###
+
+Problem #4:

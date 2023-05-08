@@ -463,7 +463,7 @@ class AlgebraDomain(DomainFromTheory):
 class FirstOrderLogicDomain(DomainFromTheory):
     def __init__(self, theory='fol.p', with_equality=False):
         super().__init__(theory, [])
-        self._ignored_actions = {'not', 'eval', '='}.union(
+        self._ignored_actions = {'not', 'eval', '=', 'ex', 'ex_some', 'ex_intro'}.union(
             {'eq_refl', 'eq_symm', 'rewrite'}
             if not with_equality
             else set()
