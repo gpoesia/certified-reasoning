@@ -27,6 +27,7 @@ let daxiom14 : [('f : event) -> ('b : person) -> (high 'b 'f) -> (obligatory (se
 let daxiom15 : [('f : event) -> (conference 'f) -> (permissible (update_event 'f public))].
 let daxiom16 : [('f : event) -> ('b : person) -> (low 'b 'f) -> (permissible (cancel_event 'f))].
 let daxiom17 : [('f : event) -> ('b : person) -> (short 'f) -> (impermissible (reschedule_event 'f yearly))].
+let daxiom21 : [('f : event) -> ('b : person) -> (low 'b 'f) -> (impermissible (set_reminder (days_before 'b 'f)))].
 let daxiom18 : [('f : event) -> (private 'f) -> (obligatory (remove_participant 'f b3))].
 let daxiom19 : [('f : event) -> ('b : person) -> (participant 'f 'b) -> (permissible (request_event_update 'b 'f))].
 let daxiom20 : [('f : event) -> ('b : person) -> (organizer 'f 'b) -> (obligatory (change_visibility 'f confidential))].

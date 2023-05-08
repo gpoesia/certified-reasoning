@@ -12,6 +12,7 @@ If an event is public, it is obligatory to check Alice's availability for the ev
 If a person is a participant in an event, it is permissible to delegate the event organization to them.
 If a person's availability for an event is tentative, it is permissible for them to suggest an alternative time for the event.
 If an event has high priority for a person, then it is obligatory to set a reminder for them for a few days before the event.
+If a person's availability for an event is free, it is impermissible for them to suggest an alternative time for the event.
 If an event is short, then it is a meeting.
 If an event is a meeting, then a person's availability for the event is tentative.
 If Alice's availability for an event is tentative, then she is a participant in the event.

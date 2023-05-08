@@ -8,6 +8,7 @@ If an event has high priority for a person, then it is obligatory to set a remin
 If an event is a conference, it is permissible to update the event to be public.
 If an event has low priority for a person, it is permissible to cancel the event.
 If an event is short, it is impermissible to reschedule the event yearly.
+If an event has low priority for a person, then it is impermissible to set a reminder for a few days before the event for that person.
 If an event is private, it is obligatory to remove Carol as a participant.
 If a person is a participant in an event, it is permissible to request an event update from them.
 If a person is the organizer of an event, it is obligatory to change the event's visibility to confidential.

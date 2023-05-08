@@ -22,6 +22,7 @@ let reminder1 : reminder = (hours_before b1 f1).
 let reminder2 : reminder = (days_before b2 f2).
 let inv3 : invite = (individual_invite b1 f1).
 
+let daxiom16 : [('f : event) -> ('b : person) -> (short 'f) -> (impermissible (set_reminder (days_before 'b 'f)))].
 let daxiom11 : [('f : event) -> ('b : person) -> (busy 'b 'f) -> (impermissible (accept (individual_invite 'b 'f)))].
 let daxiom12 : [('f : event) -> ('g : group) -> (group_participant 'g 'f) -> (permissible (send_notification (group_invite 'g 'f)))].
 let daxiom13 : [('f : event) -> ('b : person) -> (free 'b 'f) -> (obligatory (check_availability 'b 'f))].

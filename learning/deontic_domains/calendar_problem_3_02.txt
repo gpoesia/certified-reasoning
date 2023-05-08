@@ -3,6 +3,7 @@ In a university, there are three professors: Prof. Adams, Prof. Brown, and Prof.
 For this university, the following rules apply:
 If a person is the organizer of an event, it is obligatory to add them as a participant.
 If a person is free during an event, it is permissible for them to accept an individual invite to the event invitation.
+If an event is long, it is impermissible to update the event to be a social event.
 If a group is participating in an event, it is permissible to delegate the event organization to the group.
 If a person is busy during an event, it is impermissible to set a reminder for a few minutes before the event.
 If a person is a participant in an event, it is permissible to remove them as a participant.

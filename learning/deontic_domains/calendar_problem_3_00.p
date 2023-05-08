@@ -26,6 +26,7 @@ let daxiom6 : [('e : event) -> ('a : person) -> (long 'e) -> (permissible (updat
 let daxiom7 : [('e : event) -> ('g : group) -> (group_participant 'e 'g) -> (impermissible (remove_participant 'e 'g))].
 let daxiom8 : [('e : event) -> ('a : person) -> (free 'a 'e) -> (obligatory (accept (individual_invite 'a 'e)))].
 let daxiom9 : [('e : event) -> ('a : person) -> (tentative 'a 'e) -> (permissible (suggest_alternative_time 'a 'e))].
+let daxiom11 : [('e : event) -> (short 'e) -> (impermissible (check_availability a1 'e))]
 let daxiom10 : [('e : event) -> (private 'e) -> (obligatory (check_availability a1 'e))].
 let taxiom1 : [('e : event) -> ((individual_invite a1 'e): invite) -> (short 'e)].
 let taxiom2 : [('e : event) -> (daily 'e) -> (long 'e)].

@@ -11,6 +11,7 @@ If an event is long, it is permissible to update the event to be a conference.
 If a group is participating in an event, it is impermissible to remove the group as a participant.
 If a person is free during an event, it is obligatory for them to accept the individual invitation.
 If a person is tentatively available during an event, it is permissible for them to suggest an alternative time for the event.
+If an event is short, it is impermissible to check Manager Alice's availability for that event.
 If an event is private, it is obligatory to check Manager Alice's availability for that event.
 If Manager Alice egets an individual invite to an event, it is a short event.
 If an event is a daily event, then it is long.

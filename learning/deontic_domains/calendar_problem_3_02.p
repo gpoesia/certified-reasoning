@@ -18,6 +18,7 @@ let rem1 : reminder = (hours_before b1 e4).
 
 let daxiom11 : [('e : event) -> ('a : person) -> (organizer 'e 'a) -> (obligatory (add_participant 'e 'a))].
 let daxiom12 : [('e : event) -> ('a : person) -> (free 'a 'e) -> (permissible (accept(individual_invite 'a 'e)))].
+let daxiom10 : [('e : event) -> ('a : person) -> (long 'e) -> (impermissible (update_event 'e social))].
 let daxiom13 : [('e : event) -> ('g : group) -> (group_participant 'e 'g) -> (permissible (delegate_event 'e 'g))].
 let daxiom14 : [('e : event) -> ('a : person) -> (busy 'a 'e) -> (impermissible (set_reminder (minutes_before 'a 'e)))].
 let daxiom15 : [('e : event) -> ('a : person) -> (participant 'e 'a) -> (permissible (remove_participant 'e 'a))].
