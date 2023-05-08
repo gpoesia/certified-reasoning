@@ -16,6 +16,7 @@ let cat2 : (meeting e4).
 let cat3 : (social e5).
 let rem1 : reminder = (hours_before b1 e4).
 
+let daxiom19 : [('e : event) -> ('a : person) -> (high 'a 'e) -> (impermissible (suggest_alternative_time 'a 'e))].
 let daxiom11 : [('e : event) -> ('a : person) -> (organizer 'e 'a) -> (obligatory (add_participant 'e 'a))].
 let daxiom12 : [('e : event) -> ('a : person) -> (free 'a 'e) -> (permissible (accept(individual_invite 'a 'e)))].
 let daxiom13 : [('e : event) -> ('g : group) -> (group_participant 'e 'g) -> (permissible (delegate_event 'e 'g))].

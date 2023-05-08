@@ -6,6 +6,7 @@ If a person is free during an event, it is permissible to add them as a particip
 If an event is a long event, it is obligatory to add all groups as a participant.
 If an event has high priority for a person, then it is obligatory to set a reminder for a few days before the event.
 If an event is a conference, it is permissible to update the event to be public.
+If an event has low priority for a person, it is impermissible to request an event update from them.
 If an event has low priority for a person, it is permissible to cancel the event.
 If an event is short, it is impermissible to reschedule the event yearly.
 If an event is private, it is obligatory to remove Carol as a participant.

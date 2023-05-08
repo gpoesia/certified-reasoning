@@ -13,13 +13,13 @@ let cat1 : (social f1).
 let reminder1 : reminder = (hours_before b1 f1).
 let visibility1 : (public f1).
 
-let daxiom11 : [('f : event) -> ('b : person) -> (organizer 'f 'b) -> (obligatory (add_participant 'f 'b))].
 let daxiom12 : [('f : event) -> ('b : person) -> (participant 'f 'b) -> (permissible (accept (individual_invite 'b 'f)))]. 
 let daxiom13 : [('f : event) -> (short 'f) -> (impermissible (cancel_event 'f))].
 let daxiom15 : [('f : event) -> ('b : person) -> (free 'b 'f) -> (permissible (set_reminder (hours_before 'b 'f)))]. 
 let daxiom16 : [('f : event) -> ('b : person) -> (busy 'b 'f) -> (impermissible (reschedule_event 'f daily))].
 let daxiom17 : [('f : event) -> (public 'f) -> (obligatory (check_availability b1 'f))].
 let daxiom18 : [('f : event) -> ('b : person) -> (participant 'f 'b) -> (permissible (delegate_event 'f 'b))].
+let daxiom21 : [('f : event) -> ('b : person) -> (busy 'b 'f) -> (impermissible (delegate_event 'f 'b))].
 let daxiom19 : [('f : event) -> ('b : person) -> (tentative 'b 'f) -> (permissible (suggest_alternative_time 'b 'f))].
 let daxiom20 : [('f : event) -> ('b : person) -> (high 'b 'f) -> (obligatory (set_reminder (days_before 'b 'f)))].
 

@@ -8,6 +8,7 @@ If a person is the organizer of an event, it is obligatory to update the event t
 For long events, it is permissible to set a reminder for a few days before the event for them.
 If a person is busy during an event, it is impermissible to reschedule the event daily.
 If a person is free during an event, it is obligatory for them to suggest an alternative time for that event.
+If a person is the organizer of an event, it is impermissible for them to suggest an alternative time for that event.
 If an event is long, it is permissible to change its visibility to confidential.
 If an event is social, it must be public.
 If a person is busy during an event, their priority for that event is low.

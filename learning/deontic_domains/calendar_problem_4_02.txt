@@ -11,6 +11,7 @@ For long events, it is permissible to update the event to be a conference.
 If a group is a participant in an event, it is impermissible to remove the group as a participant.
 If a person is free during an event, it is obligatory for them to accept an individual invite to that event.
 If a person is tentative during an event, it is permissible for them to suggest an alternative time.
+If an event is high priority for a person, it is impermissible to delegate the event to them.
 If an event is private, it is obligatory to check John's availability.
 If John gets an individual invite for an event, it must be short.
 Daily events are long events.
