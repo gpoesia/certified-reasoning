@@ -9,6 +9,7 @@ If a person is a participant in an event, it is permissible to remove them as a 
 For short events, it is permissible to update the event to be a social event.
 If a person has a high priority for an event, it is obligatory to set a reminder for days before the event.
 If a person is a participant in an event, it is permissible for them to suggest an alternative time for the event.
+If an event is a meeting, it is impermissible for a person to suggest an alternative time for the event.
 If an event is public, it is obligatory to add John as a participant.
 Question:
 Given the situation and the rules of the world, is it permissible for Emily to suggest an alternative time for the team building event?

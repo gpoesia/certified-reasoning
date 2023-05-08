@@ -25,6 +25,8 @@ let daxiom17 : [('e : event) -> ('a : person) -> (tentative 'a 'e) -> (obligator
 let daxiom18 : [('e : event) -> ('a : person) -> (high 'a 'e) -> (obligatory (set_reminder (days_before 'a 'e)))].
 let daxiom19 : [('e : event) -> ('a : person) -> (participant 'e 'a) -> (permissible (suggest_alternative_time 'a 'e))].
 let daxiom20 : [('e : event) -> (public 'e) -> (obligatory (add_participant b1 'e))].
+let daxiom21 : [('e : event) -> ('a : person) -> (long 'e) -> (impermissible (update_event 'e social))]
+
 
 Result:
 (daxiom16 e4 b1 dur1) : (permissible (update_event e4 social))

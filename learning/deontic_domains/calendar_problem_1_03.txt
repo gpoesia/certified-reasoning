@@ -10,6 +10,8 @@ If a person's availability is tentative for an event, it is obligatory to check 
 If a person has a high priority for an event, it is obligatory to set a reminder for days before the event.
 If a person is a participant in an event, it is permissible for them to suggest an alternative time for the event.
 If an event is public, it is obligatory to add Alice as a participant.
+For long events, it is impermissible to update the event to be a social event.
+
 Question:
 Given the situation and the rules of the world, is it permissible to update the brainstorming session to be a social event?
 Solution:

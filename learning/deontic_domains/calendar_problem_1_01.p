@@ -22,6 +22,7 @@ let vis2 : (private f1).
 
 let daxiom11 : [('f : event) -> ('b : person) -> (busy 'b 'f) -> (impermissible (add_participant 'f 'b))].
 let daxiom12 : [('f : event) -> ('b : person) -> (free 'b 'f) -> (permissible (add_participant 'f 'b))].
+let daxiom13 : [('f : event) -> ('b : person) -> (long 'f) -> (permissible (reschedule_event 'f yearly))].
 let daxiom14 : [('f : event) -> ('b : person) -> (high 'b 'f) -> (obligatory (set_reminder (days_before 'b 'f)))].
 let daxiom15 : [('f : event) -> (conference 'f) -> (permissible (update_event 'f public))].
 let daxiom16 : [('f : event) -> ('b : person) -> (low 'b 'f) -> (permissible (cancel_event 'f))].

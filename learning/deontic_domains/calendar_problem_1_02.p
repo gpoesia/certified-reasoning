@@ -25,10 +25,12 @@ let daxiom12 : [('f : event) -> ('b : person) -> (busy 'b 'f) -> (impermissible 
 let daxiom13 : [('f : event) -> ('b : person) -> (organizer 'f 'b) -> (obligatory (set_reminder (days_before 'b 'f)))].
 let daxiom14 : [('f : event) -> ('b : person) -> (participant 'f 'b) -> (permissible (delegate_event 'f 'b))].
 let daxiom15 : [('f : event) -> ('h : group) -> (group_participant 'f 'h) -> (obligatory (update_event 'f social))].
+let daxiom21 : [('f : event) -> ('b : person) -> (tentative 'b 'f) -> (permissible (check_availability 'b 'f))].
 let daxiom16 : [('f : event) -> ('b : person) -> (free 'b 'f) -> (permissible (reschedule_event 'f yearly))].
 let daxiom17 : [('f : event) -> ('b : person) -> (busy 'b 'f) -> (impermissible (suggest_alternative_time 'b 'f))].
 let daxiom18 : [('f : event) -> ('b : person) -> (free 'b 'f) -> (obligatory (check_availability 'b 'f))].
 let daxiom19 : [('f : event) -> ('b : person) -> (short 'f) -> (permissible (change_visibility 'f private))].
 let daxiom20 : [('f : event) -> ('b : person) -> (long 'f) -> (obligatory (set_reminder (minutes_before 'b 'f)))].
+let daxiom22 : [('f : event) -> ('b : person) -> (busy 'b 'f) -> (impermissible (check_availability 'b 'f))].
 Result:
 (daxiom18 f3 b2 avail2) : (obligatory (check_availability b2 f3))

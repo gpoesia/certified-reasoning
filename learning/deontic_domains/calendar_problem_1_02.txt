@@ -6,13 +6,15 @@ If a person is busy during an event, it is impermissible for them to accept an i
 If a person is the organizer of an event, it is obligatory for them to set a reminder for days before the event.
 If a person is a participant in an event, it is permissible to delegate the event to that person.
 If a group is a participant in an event, it is obligatory to update the event to be a social event.
+If a person is tentatively available for an event, it is permissible to check their availability before scheduling the event.
 If a person is free during an event, it is permissible to reschedule the event to occur yearly.
 If a person is busy during an event, it is impermissible for them to suggest an alternative time for the event.
 If a person is free during an event, it is obligatory to check their availability before scheduling the event.
 If an event is short, it is permissible to change the event's visibility to private.
 If an event is long, it is obligatory to set a reminder for minutes before the event.
+If a person is busy for an event, it is impermissible to check their availability before scheduling the event.
 Question:
-Given the situation and the rules of the world, is it obligatory to check the availability of Professor Brown for the guest lecture (f3)?
+Given the situation and the rules of the world, is it obligatory to check the availability of Professor Brown for the guest lecture?
 Solution:
 To determine whether it is obligatory to check Professor Brown's availability for the guest lecture (f3), we need to follow the reasoning trace:
 (daxiom18 f3 b2 avail2) : (obligatory (check_availability b2 f3)) – This states that it is obligatory to check the availability of Prof Brown for the guest lecture (f3) since he is free during the event.

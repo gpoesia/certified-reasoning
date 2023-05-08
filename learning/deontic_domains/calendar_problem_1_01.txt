@@ -3,6 +3,7 @@ In a company, there are three employees: Alice, Bob, and Charlie. They also have
 For this company, the following rules apply:
 If a person is busy during an event, it is impermissible to add them as a participant.
 If a person is free during an event, it is permissible to add them as a participant.
+If an event is long, it is permissible to reschedule the event to occur yearly
 If a person has a high priority for an event, it is obligatory for them to set a reminder for days before the event.
 If an event is a conference, it is permissible to update the event to be public.
 If a person has a low priority for an event, it is permissible to cancel the event.
