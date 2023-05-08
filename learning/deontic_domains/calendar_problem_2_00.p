@@ -27,6 +27,8 @@ let daxiom17 : [('f : event) -> ('h : group) -> (group_participant 'f 'h) -> (im
 let daxiom18 : [('f : event) -> ('b : person) -> (free 'b 'f) -> (obligatory (accept (individual_invite 'b 'f)))].
 let daxiom19 : [('f : event) -> ('b : person) -> (tentative 'b 'f) -> (permissible (suggest_alternative_time 'b 'f))].
 let daxiom20 : [('f : event) -> (public 'f) -> (obligatory (check_availability b1 'f))].
+let daxiom21 : [('f : event) -> ('b : person) -> (busy 'b 'f) -> (impermissible (accept (individual_invite 'b 'f)))].
+
 let taxiom1 : [('f : event) -> (monthly 'f) -> (free b1 'f)].
 let taxiom2 : [('f : event) -> (yearly 'f) -> (participant 'f b3) -> (organizer 'f b2)].
 let taxiom3 : [('f : event) -> (conference 'f) -> (group_participant 'f h1)].

@@ -11,6 +11,7 @@ If a group is a participant in an event, it is impermissible to remove the group
 If a person is free during an event, it is obligatory for them to accept individual invitations to that event.
 If a person's availability is tentative for an event, it is permissible for them to suggest an alternative time for the event.
 If an event is public, it is obligatory to check Alice's availability for that event.
+If a person is busy during an event, it is impermissible for them to accept individual invitations to that event.
 If an event is monthly, Alice is free for that event.
 If an event is yearly and Carol is a participant, then Bob is the organizer of that event.
 If an event is a conference, the "Developers" team is a participant in that event.

@@ -10,6 +10,7 @@ If a person is busy during an event, it is impermissible to reschedule the event
 If a person is tentative during an event, it is permissible to delegate the event to that person.
 If an event has high priority for a person, it is obligatory to update the event to be a conference.
 If an event has low priority for a person, it is permissible to change the event's visibility to public.
+If a person is free for an event, it is impermissible to set a reminder for a few days before the event.
 If a group is a participant in an event, it is impermissible to remove the group as a participant.
 If Bob is the organizer of an event, Alice is a participant in that event.
 If a person is busy during an event, the event is long.

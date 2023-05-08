@@ -5,6 +5,7 @@ For this software company, the following rules apply:
 If a group is a participant in an event, it is permissible for the group to accept group invitations to that event.
 If a person is busy during an event, it is impermissible to reschedule the event to be monthly.
 If an event has high priority for a person, it is obligatory to set a reminder for a few days before the event for them.
+If a person has low priority for an event, it is impermissible to delegate the event to that person.
 If a person is a participant in an event, it is permissible to delegate the event to that person.
 If an event is a conference, it is permissible to update the event to be a public event.
 If a group is a participant in an event, it is impermissible to remove the group as a participant from that event.

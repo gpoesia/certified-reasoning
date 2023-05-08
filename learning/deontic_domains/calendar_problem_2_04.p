@@ -20,6 +20,7 @@ let inv4 : invite = (group_invite h1 f1).
 let daxiom12 : [('f : event) -> ('h : group) -> (group_participant 'h 'f) -> (permissible (accept (group_invite 'h 'f)))].
 let daxiom13 : [('f : event) -> ('b : person) -> (busy 'b 'f) -> (impermissible (reschedule_event 'f monthly))].
 let daxiom14 : [('f : event) -> ('b : person) -> (high 'b 'f) -> (obligatory (set_reminder (days_before 'b 'f)))].
+let daxiom21 : [('f : event) -> ('b : person) -> (low 'b 'f) -> (impermissible (delegate_event 'f 'b))].
 let daxiom15 : [('f : event) -> ('b : person) -> (participant 'f 'b) -> (permissible (delegate_event 'f 'b))].
 let daxiom16 : [('f : event) -> (conference 'f) -> (permissible (update_event 'f public))].
 let daxiom17 : [('f : event) -> ('h : group) -> (group_participant 'f 'h) -> (impermissible (remove_participant 'f 'h))].

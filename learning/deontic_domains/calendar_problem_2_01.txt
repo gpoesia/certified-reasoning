@@ -7,6 +7,7 @@ If an event has high priority for a person, it is impermissible to cancel the ev
 If a person is a participant in an event, it is permissible to set a reminder for a few days before the event for that person.
 If an event is public, it is permissible to change the event's visibility to private.
 If a person is free during an event, it is permissible for them to suggest an alternative time for the event.
+If an event is yearly, it is impermissible to change the event's visibility to private.
 If a person is busy during an event, it is obligatory for them to decline individual invitations to that event.
 If an event is short, it is permissible to update the event to be a social event.
 If a group is a participant in an event, it is obligatory to check Dr. Adams' availability for that event.

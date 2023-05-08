@@ -1,6 +1,7 @@
 Scenario:
 In a university, there are three professors: Prof. Adams, Prof. Brown, and Prof. Clark. They also have a research group called "Humanities". They have three upcoming events: a department event, a research event, and a workshop on a new research method. Prof. Brown is the organizer of the research event. Prof. Clark is a participant in the workshop. The department event occurs every month, whereas the research event occurs every year. Prof. Adams considers the workshop as high priority. The research event is a conference. Prof. Adams recieves an individual invite to the research event, and the research group "Humanities" receives group invitations to the workshop.
 For this university, the following rules apply:
+If a person is the organizer of an event, it is permissible for them to accept individual invitations to that event.
 If a person is the organizer of an event, it is permissible to add Prof. Adams as a participant in that event.
 If a person is a participant in an event, it is obligatory to set a reminder for a few days before the event.
 If an event has high priority for a person, it is obligatory to check that person's availability for that event.
