@@ -80,16 +80,12 @@ class PeanoCompletionEngine:
         if not b:
             # The block was just open: return the supported keywords.
             previous_blocks = {b for b, _ in self.get_verified_blocks(prefix)}
-            allowed_next = ['prop', 'object', 'var', 'relation']
-
-            if self.infer_atoms  or 'prop' in previous_blocks or 'relation' in previous_blocks:
-                allowed_next.append('axiom')
-                allowed_next.append('goal')
+            allowed_next = ['prop', 'object', 'var', 'relation', 'axiom']
 
             if self.infer_atoms or \
-               'prop' in previous_blocks or 'relation' in previous_blocks or \
-               'var' in previous_blocks:
+               'axiom' in previous_blocks:
                 allowed_next.append('infer')
+                allowed_next.append('goal')
 
             if 'var' in previous_blocks:
                 allowed_next.append('eq')
@@ -224,6 +220,7 @@ class PeanoCompletionEngine:
             elif block_type == 'axiom':
                 if self.infer_atoms:
                     # Infer arities and declare new things.
+                    ignore = False
                     for prop in block_content.split(' -> '):
                         new_arities = infer_arities(prop)
 
@@ -237,7 +234,13 @@ class PeanoCompletionEngine:
                                 else:
                                     u.incorporate(f'{k} : [{" -> ".join(["object"] * v)} -> prop].')
                             elif v != arities[k]:
-                                raise ValueError(f'Atom {k} used with conflicting arities ({v} and {arities[k]}).')
+                                ignore = True
+                                break
+                        if ignore:
+                            break
+
+                    if ignore:
+                        continue
 
                 # Wrap arrow types.
                 if block_content.find('->') != -1:
