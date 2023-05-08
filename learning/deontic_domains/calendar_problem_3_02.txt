@@ -1,0 +1,34 @@
+Scenario:
+In a university, there are three professors: Prof. Adams, Prof. Brown, and Prof. Clark. Their students belong to a research group called "AcademicTeam". They have three upcoming events: a department event, a social gathering, and a lecture. Prof. Adams is the organizer of the department meeting. Prof. Clark is a participant in the social gathering. The lecture is an event in which the entire AcademicTeam research group is participating. The department event is a short event, while the social gathering is a long event. Prof. Brown is busy during the lecture. The department event is a meeting, and the social gathering is a social event. Prof. Adams sets a reminder for a few hours before the department meeting.
+For this university, the following rules apply:
+If a person is the organizer of an event, it is obligatory to add them as a participant.
+If a person is free during an event, it is permissible for them to accept an individual invite to the event invitation.
+If a group is participating in an event, it is permissible to delegate the event organization to the group.
+If a person is busy during an event, it is impermissible to set a reminder for a few minutes before the event.
+If a person is a participant in an event, it is permissible to remove them as a participant.
+If an event is short, it is permissible to update the event to be a social event.
+If a person's availability for an event is tentative, it is obligatory to check their availability.
+If an event has high priority for a person, then it is obligatory to set a reminder for a few days before the event.
+If a person is a participant in an event, it is permissible for them to suggest an alternative time for the event.
+If an event is public, it is obligatory to add Prof. Adams as a participant.
+If an event is a meeting, it is a public event.
+If an event is a public event, it is a short event.
+If a person is the organizer of an eventm then the event is high priority for them.
+If a person is a participant in an event, then they are free for the event.
+If an event is short, then Prof. Brown is a participant in the event.
+If an event is daily, then it is short.
+If an event has high priority for a person, then the person is busy for the event.
+If an event has low priority for a person, then the person is free for the event.
+If a group is a participant in an event, then the event is a public event.
+
+Question:
+Given the situation and the rules of the world, is it permissible to update the  lecture to be a social event?
+
+Solution:
+To determine whether it is permissible to update the lecture (e6) to be a social event, we need to follow the reasoning trace:
+(taxiom9 e6 g2 group_part1) : (public e6) – This states that the lecture (e6) is a public event since the AcademicTeam research group is participating in it.
+(taxiom2 e6 r1) : (short e6) – This states that the lecture (e6) is a short event since it is a public event.
+(daxiom16 e6 b2 r2) : (permissible (update_event e6 social)) – This states that it is permissible to update the lecture (e6) to be a social event since it is a short event.
+
+Answer:
+Yes, it is permissible to update the lecture to be a social event.

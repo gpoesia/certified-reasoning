@@ -1,5 +1,5 @@
 Scenario:
-In a company, there are three employees: Alice, Bob, and Charlie. They have a group called "ProjectTeam". They have two upcoming events: a public social event and another short event. Alice is the organizer of the social event, and Bob is a participant in the social event. The ProjectTeam is also a participant in the social event. Alice has set a reminder for a few hours before the social event. The social event is public.
+In a company, there are three employees: Alice, Bob, and Charlie. The company has a group called "ProjectTeam". They have two upcoming events: a public social event and another short event. Alice is the organizer of the social event, and Bob is a participant in the social event. The ProjectTeam is also a participant in the social event. Alice has set a reminder for a few hours before the social event. The social event is public.
 For this company, the following rules apply:
 If a person is the organizer of an event, it is obligatory to add them as a participant.
 If a person is a participant in an event, it is permissible for them to accept an individual invitation to the event.

@@ -1,0 +1,35 @@
+Scenario:
+In a software company, there are three project managers: Alice, Bob, and Carol. They have a team called "DevTeam". They have two upcoming events: a team-building activity and a project review event. Alice is the organizer of the team-building activity, Bob is a participant in the team-building activity, and the entire DevTeam is participating in the team-building activity. The project review is a short event. The team-building activity is a social event, and a reminder is set for Alice a few hours before the event. The team-building activity is a public event.
+
+For this software company, the following rules apply:
+If a person is the organizer of an event, it is obligatory to add them as a participant.
+If a person is a participant in an event, it is permissible for them to accept an individual invite to the event.
+If an event is short, it is impermissible to cancel the event.
+If a group is participating in an event, it is obligatory to add the group as a participant.
+If a person is free during an event, it is permissible to set a reminder for a few hours before the event.
+If a person is busy during an event, it is impermissible to reschedule the event to be a daily event.
+If an event is public, it is obligatory to check Alice's availability for the event.
+If a person is a participant in an event, it is permissible to delegate the event organization to them.
+If a person's availability for an event is tentative, it is permissible for them to suggest an alternative time for the event.
+If an event has high priority for a person, then it is obligatory to set a reminder for them for a few days before the event.
+If an event is short, then it is a meeting.
+If an event is a meeting, then a person's availability for the event is tentative.
+If Alice's availability for an event is tentative, then she is a participant in the event.
+If a person is free for an event, then the event has low priority for them.
+If an event is public, then it is a social event.
+If an event is private, then it is a personal event.
+If an event is daily, then it is not a weekly event.
+If an event is weekly, then it is not a monthly event.
+If a person sets a reminder for a few hours before an event, then they do not set a reminder for a few days before the event.
+
+Question:
+Given the situation and the rules of the world, is it permissible for Bob to suggest an alternative time for the project review?
+
+Solution:
+To determine whether it is permissible for Bob to suggest an alternative time for the project review, we need to follow the reasoning trace:
+(taxiom11 f2 short1) : (meeting f2) – This states that the project review meeting (f2) is a meeting since it is a short event.
+(taxiom12 f2 b2 r1) : (tentative b2 f2) – This states that Bob's availability for the project review  (f2) is tentative since it is a meeting.
+(daxiom19 f2 b2 r2) : (permissible (suggest_alternative_time b2 f2)) – This states that it is permissible for Bob to suggest an alternative time for the project review (f2) since his availability is tentative.
+
+Answer:
+Yes, it is permissible for Bob to suggest an alternative time for the project review.

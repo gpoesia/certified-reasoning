@@ -1,0 +1,36 @@
+Scenario:
+In a corporate office, there are three managers: Manager Alice, Manager Bob, and Manager Carol. There is a group of employees called "Exec Team". They have three upcoming events: a team event, a project review, and a status update. Manager Alice is the organizer of the team event. Manager Bob is a participant in the team event. The status update occurs daily, and the project review occurs weekly. The priority of the project review is low for Manager Alice. The team event is a meeting. Manager Alice gets an individual invite to the team event, and the entire ExecTeam receives a group invitation to the project review.
+
+For this corporate office, the following rules apply:
+If a person is free during an event, it is permissible to send them a notification.
+If a group is participating in an event, it is permissible for them to accept the group invitation.
+If a person is busy during an event, it is impermissible to reschedule the event to occur daily.
+If an event has high priority for a person, it is obligatory to set a reminder for a few hours before the event.
+If a person is a participant in an event, it is permissible to delegate the event organization to them.
+If an event is long, it is permissible to update the event to be a conference.
+If a group is participating in an event, it is impermissible to remove the group as a participant.
+If a person is free during an event, it is obligatory for them to accept the individual invitation.
+If a person is tentatively available during an event, it is permissible for them to suggest an alternative time for the event.
+If an event is private, it is obligatory to check Manager Alice's availability for that event.
+If Manager Alice egets an individual invite to an event, it is a short event.
+If an event is a daily event, then it is long.
+If an event is long, it is private.
+If an event is private, then the ExecTeam is a participant in the event.
+If an event is high priority got a person, then the person is free for that event.
+If an event is weekly, then it is high priority for Manager Bob.
+If an event is a meeting, then it is organized by Manager Carol.
+If a person is organizing the team event, the the team event is high priority for them.
+If an event is being organized by Manager Alice, then it is a confidential event.
+If an event has Manager Bob as a participant, then a reminder is set for a few days before the event for him.
+
+Question:
+Given the situation and the rules of the world, is it obligatory to check Manager Alice's availability for the status update?
+
+Solution:
+To determine whether it is obligatory to check Manager Alice's availability for the  status update (e3), we need to follow the reasoning trace:
+(taxiom2 e3 rec1) : (long e3) – This states that the status update (e3) is a long event since it occurs daily.
+(taxiom3 e3 r1) : (private e3) – This states that the status update (e3) is a private event since it is a long event.
+(daxiom10 e3 r2) : (obligatory (check_availability a1 e3)) – This states that it is obligatory to check Manager Alice's availability for the status update (e3) since it is a private event.
+
+Answer:
+Yes, it is obligatory to check Manager Alice's availability for the daily status update (e3).

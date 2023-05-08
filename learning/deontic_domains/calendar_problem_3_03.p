@@ -30,7 +30,6 @@ let taxiom13 : [('f : event) -> (tentative b1 'f) -> (participant 'f b1)].
 let taxiom14 : [('b : person) -> ('f : event) -> (free 'b 'f) -> (low 'f 'b)].
 let taxiom15 : [('f : event) -> (public 'f) -> (social 'f)].
 let taxiom16 : [('f : event) -> (private 'f) -> (personal 'f)].
-let taxiom17 : [('b : person) -> ('f : event) -> (participant 'f 'b) -> (organizer 'f 'b) -> (not (group_participant 'f 'b))].
 let taxiom18 : [('f : event) -> (daily 'f) -> (not (weekly 'f))].
 let taxiom19 : [('f : event) -> (weekly 'f) -> (not (monthly 'f))].
 let taxiom20 : [('b : person) -> ('f : event) -> (set_reminder (hours_before 'b 'f)) -> (not (set_reminder (days_before 'b 'f)))].

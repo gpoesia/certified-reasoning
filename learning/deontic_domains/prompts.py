@@ -62,6 +62,6 @@ def get_text_prompt(domain_text, theory, example_context, example_axioms, exampl
         {"role": "system", "content": system_text.format(domain_text=domain_text, theory=theory)},
         {"role": "user", "content": f"For a problem, this is the context:\n{example_context}\nHere are the rules of the world in this scenario:\n{example_axioms}\nHere is the reasoning trace for the problem:{example_answer}"},
         {"role": "assistant", "content": example_story},
-        {"role": "user", "content": f"For the next problem, this is the context:\n{context}\nHere are the rules of the world in this scenario:\n{axioms}\nHere is the reasoning trace for the problem:{answer}\n Make this one different from the previous one."},
+        {"role": "user", "content": f"For the next problem, this is the context:\n{context}\nHere are the rules of the world in this scenario:\n{axioms}\nHere is the reasoning trace for the problem:{answer}\n Make the context (the characters and story) different from the previous one. Be sure to include all the axioms in the rules."},
     ]
     return messages

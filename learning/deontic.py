@@ -262,6 +262,8 @@ let taxiom10 : [('b : person) -> ('f : event) -> (busy 'b 'f) -> (yearly 'f)].
             else:
                 example_file.append(f.split(".")[0])
         assert problem_file is not None, "No problem file found"        
+        if len(example_file) == 0:
+            example_file = ['calendar_problem_4_00']
         # sample current problem
         with open(f"deontic_domains/{problem_file}.p", 'r') as f:
             problem = f.read()

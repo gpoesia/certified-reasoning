@@ -1,0 +1,24 @@
+Scenario:
+In a research institute, there are three scientists: Dr. Adams, Dr. Brown, and Dr. Clark. They also have a research group called "Innovators". They have three upcoming events: a monthly project review meeting, a yearly symposium, and a conference on a new research topic. Dr. Brown is the organizer of the conference. Dr. Clark is a participant in the yearly symposium. The monthly project review meeting occurs every month, whereas the yearly symposium occurs every year. Dr. Adams considers the monthly project review meeting as high priority. The conference is a public event. Dr. Brown sends individual invitations to the conference, and the research group "Innovators" receives group invitations to the yearly symposium.
+For this research institute, the following rules apply:
+If a person is the organizer of an event, it is permissible to send individual invitations to that event.
+If a group is a participant in an event, it is obligatory for the group to accept group invitations to that event.
+If an event has high priority for a person, it is impermissible to cancel the event.
+If a person is a participant in an event, it is permissible to set a reminder for a few days before the event.
+If a person is the organizer of an event, it is obligatory to add Dr. Clark as a participant.
+If an event is public, it is permissible to change the event's visibility to private.
+If a person is free during an event, it is permissible for them to suggest an alternative time for the event.
+If a person is busy during an event, it is obligatory for them to decline individual invitations to that event.
+If an event is short, it is permissible to update the event to be a social event.
+If a group is a participant in an event, it is obligatory to check Dr. Adams' availability for that event.
+If Dr. Adams is the organizer of an event, Dr. Brown is a participant in that event.
+If an event is a conference, it is a public event.
+If an event is short, it is a social event.
+Question:
+Given the situation and the rules of the world, is it permissible to change the visibility of the conference to private?
+Solution:
+To determine whether it is permissible to change the visibility of the conference (f2) to private, we need to follow the reasoning trace:
+(taxiom2 f2 cat2) : (public f2) – This states that the conference (f2) is a public event since it is a conference.
+(daxiom16 f2 r1) : (permissible (change_visibility f2 private)) – This states that it is permissible to change the visibility of the conference (f2) to private since it is a public event.
+Answer:
+Yes, it is permissible to change the visibility of the conference (f2) to private.
