@@ -1,11 +1,7 @@
 import os
-import regex
 import random
 import argparse
-import copy
-import sys
 
-sys.setrecursionlimit(10000)
 
 import openai
 
@@ -13,6 +9,22 @@ import peano
 from deontic_domains.axiom_templates import *
 from deontic_domains.prompts import *
 from deontic_domains.calendar import CalendarDomain, contexts, deontic_axioms, theory_axioms, domain_text 
+
+def get_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--model', type=str, default="gpt-4",
+                        help='Model to use')
+    parser.add_argument('--temperature', type=float, default=0.6)
+    parser.add_argument('--max_tokens', type=int, default=400)
+    parser.add_argument('--n_hops', type=int, default=2)
+    parser.add_argument('--n_problems', type=int, default=1)
+    parser.add_argument('--domain', type=str, default="calendar")
+    parser.add_argument('--verbose', action='store_true')
+    parser.add_argument('--use_context', action='store_true')
+    parser.add_argument('--use_axioms', action='store_true')
+    parser.add_argument('--load_problem', action='store_true')
+    args = parser.parse_args()
+    return args
 
 def get_chat_response(prompt_messages, args):
     response = openai.ChatCompletion.create(model=args.model, messages=prompt_messages,
@@ -67,7 +79,6 @@ def copy_problem(problem, calendar):
     copied_problem = calendar.start_derivation(problem=problem.description, goal=None)
     copied_problem.universe = problem.universe.clone()
     return copied_problem
-
 
 def dfs_search(cal_problem, calendar, max_depth):
     stack = [(cal_problem, 0, [])]
@@ -126,21 +137,7 @@ def exhaustive_search(problem, n_hops, calendar):
     return result
 
 
-def get_args():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--model', type=str, default="gpt-4",
-                        help='Model to use')
-    parser.add_argument('--temperature', type=float, default=0.6)
-    parser.add_argument('--max_tokens', type=int, default=400)
-    parser.add_argument('--n_hops', type=int, default=2)
-    parser.add_argument('--n_problems', type=int, default=1)
-    parser.add_argument('--domain', type=str, default="calendar")
-    parser.add_argument('--verbose', action='store_true')
-    parser.add_argument('--use_context', action='store_true')
-    parser.add_argument('--use_axioms', action='store_true')
-    parser.add_argument('--load_problem', action='store_true')
-    args = parser.parse_args()
-    return args
+
 
 if __name__ == "__main__":
     args = get_args()
