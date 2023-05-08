@@ -44,14 +44,22 @@ def get_dataset_name(raw_name: str) -> (str, str, str):
     assert False, 'Unknown dataset ' + raw_name
 
 
+def base_dataset_name(raw_name: str) -> str:
+    ds, ontology, _ = get_dataset_name(raw_name)
+    return f'{ds} {ontology}'
+
+def dataset_hops(raw_name: str) -> str:
+    _, _, hops = get_dataset_name(raw_name)
+    return f'{hops}H'
+
 def format_dataset_name(raw_name: str) -> str:
     ds, ontology, hops = get_dataset_name(raw_name)
     return f'{ds} {ontology} {hops}H'
 
-
 def load_results(path: str, dataset_filter: str) -> list:
     with open(path) as f:
         results_obj = json.load(f)
+    print('Loaded', path)
 
     records = results_obj.values()
 
@@ -73,14 +81,19 @@ def compute_success_rates(records: list) -> dict:
     return result
 
 
+def report_model(name):
+    return 'davinci' in name or 'gpt-3.5' in name
+
+
 def make_table(records: list) -> str:
     models, datasets = [], []
 
     success_rates = compute_success_rates(records)
 
     for k in success_rates:
-        datasets.append(k[0])
-        models.append(k[1])
+        if report_model(k[1]):
+            datasets.append(k[0])
+            models.append(k[1])
 
     lines = []
 
@@ -89,11 +102,14 @@ def make_table(records: list) -> str:
     datasets = list(set(datasets))
     datasets.sort()
 
+    base_name = base_dataset_name(datasets[0])
+
     lines.append(fr'\begin{{tabular}}{{l{" c" * len(datasets)}}}')
     lines.append(r'\toprule')
+    lines.append(f'& \\multicolumn{{{len(datasets)}}}{{c}}{{{base_name}}} \\\\')
 
     lines.append('& '.join(fr'\textbf{{{m}}}'
-                           for m in ['Model'] + list(map(format_dataset_name,
+                           for m in ['Model'] + list(map(dataset_hops,
                                                          datasets))) + '\\\\')
 
     lines.append(r'\midrule')
