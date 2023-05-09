@@ -33,7 +33,7 @@ from completion import PeanoCompletionEngine
 
 def make_chat_request_key(model, prompt, best_of,
                           max_tokens, temperature, valid_tokens):
-    valid_tokens = sorted(valid_tokens)
+    valid_tokens = valid_tokens and sorted(valid_tokens)
 
     kvs = [('model', model), ('prompt', json.dumps(prompt, sort_keys=True)),
            ('best_of', best_of), ('valid_tokens', valid_tokens),
@@ -561,20 +561,6 @@ class OpenAIChatModelReasoner(NaturalLanguageReasoner):
     def name(self) -> str:
         return self._model
 
-    def prepare_for(self, dataset: str):
-        if 'realistic-consistent' in dataset:
-            prompt_file = 'prompts/chat_syllogism_realistic_consistent_prompt'
-        elif 'realistic-inconsistent' in dataset:
-            prompt_file = 'prompts/chat_syllogism_realistic_inconsistent_prompt'
-        elif 'nonsesnse' in dataset:
-            prompt_file = 'prompts/chat_syllogism_nonsense_prompt'
-        else:
-            return
-
-        with open(prompt_file, 'r') as f:
-            self._prompt = f.read().strip()
-            print('Loaded prompt from', prompt_file)
-    
     def _format_example(self, example: object,
                         index: int, is_test: bool):
         lines = []
@@ -596,21 +582,16 @@ class OpenAIChatModelReasoner(NaturalLanguageReasoner):
         return messages
 
     def predict_answer(self, problem: object) -> bool:
-        if not hasattr(self, '_prompt'):
-            in_context = [m
-                        for i, e in enumerate(problem.train_examples[:3])
-                        for m in self._format_example(e, i, False)]
+        in_context = [m
+                    for i, e in enumerate(problem.train_examples[:3])
+                    for m in self._format_example(e, i, False)]
 
-            test = self._format_example(problem.test_example, len(in_context), True)
-            prompt = ([{"role": "system",
-                        "content": "You are an AI reasoner that always follows the specified format."}]
-                    + in_context)
-        else:
-            prompt = copy.deepcopy(self._prompt)
-            test = self._format_example(problem.test_example, 2, True)
+        test = self._format_example(problem.test_example, 3, True)
+        prompt = ([{"role": "system",
+                    "content": "You are an AI reasoner that always follows the specified format."}]
+                + in_context)
+
         prompt += test
-
-        
 
         rate_limiter.wait()
         response = openai.ChatCompletion.create(model=self._model,
@@ -691,6 +672,7 @@ class PeanoChatLMReasoner(NaturalLanguageReasoner):
         self._completion_engine = completion_engine
         self._model = model
         self._temperature = temperature
+        self._index = 2
 
     def name(self) -> str:
         return f'peano-chat-{self._model}'
@@ -702,12 +684,9 @@ class PeanoChatLMReasoner(NaturalLanguageReasoner):
             prompt_file = 'prompts/peano_chat_prontoqa_falseontology_short_prompt'
         elif 'proofwriter' in dataset:
             prompt_file = 'prompts/peano_chat_proofwriter'
-        elif 'realistic-consistent' in dataset:
-            prompt_file = 'prompts/peano_chat_syllogism_realistic_consistent_prompt'
-        elif 'realistic-inconsistent' in dataset:
-            prompt_file = 'prompts/peano_chat_syllogism_realistic_inconsistent_prompt'
-        elif 'nonsesnse' in dataset:
+        elif 'syllogism' in dataset:
             prompt_file = 'prompts/peano_chat_syllogism_nonsense_prompt'
+            self._index = 3
         else:
             prompt_file = 'prompts/peano_chat_prontoqa_short_prompt'
 
@@ -719,7 +698,7 @@ class PeanoChatLMReasoner(NaturalLanguageReasoner):
         context = f' '.join(f'{i+1}- {sentence}'
                             for i, sentence in enumerate(problem.test_example.theory))
         query = problem.test_example.query
-        chat_problem = [{"role": "user", "content": f"Problem #3\nContext: {context}\nQuery: {query.strip()}"}]
+        chat_problem = [{"role": "user", "content": f"Problem #{self._index}\nContext: {context}\nQuery: {query.strip()}"}]
         return chat_problem
     
     def predict_answer(self, problem: object) -> bool:
@@ -777,6 +756,7 @@ def evaluate_reasoner(results_path: str,
         except (Exception, RuntimeError) as e:
             print('Error:', e)
             correct = False
+            raise
             error = str(e)
             prediction, reasoning = None, None
 
@@ -800,7 +780,7 @@ def evaluate_reasoner(results_path: str,
     print(f'Accuracy: {100 * sum(success) / len(success):.2f}%')
 
 
-def run_syllogism_experiments(max_problems=120):
+def run_syllogism_experiments(max_problems=20):
     dataset_path = './content_effects/syllogism_problems.json'
     dataset_types = ['realistic-consistent', 'realistic-inconsistent', 'nonsense']
 
@@ -808,7 +788,9 @@ def run_syllogism_experiments(max_problems=120):
     fol_domain = domain.FirstOrderLogicDomain()
     fol_completion_engine = PeanoCompletionEngine(
         fol_domain,
-        fol_domain.start_derivation())
+        fol_domain.start_derivation(),
+        done_when_exhausted=True
+    )
 
     reasoners = [
             #OpenAILanguageModelReasoner('text-davinci-003'),
@@ -821,8 +803,9 @@ def run_syllogism_experiments(max_problems=120):
         #                'prompts/',
         #                'text-davinci-003'),
         # OpenAILanguageModelReasoner('text-davinci-003'),
-        PeanoLMReasoner(fol_completion_engine, 'text-davinci-003'),
+        # PeanoLMReasoner(fol_completion_engine, 'text-davinci-003'),
         # OpenAIChatModelReasoner('gpt-3.5-turbo'),
+        PeanoChatLMReasoner(fol_completion_engine, 'gpt-3.5-turbo'),
         # PeanoLMReasoner(fol_completion_engine,
         #                 'prompts/',
         #                 'text-davinci-003'),

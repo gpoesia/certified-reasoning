@@ -46,13 +46,14 @@ class PeanoCompletionEngine:
     '''CSD completion engine backed by a Peano domain.'''
     def __init__(self, domain, start_derivation,
                  format_fn=lambda s: s, start_marker='[[', end_marker=']]',
-                 infer_atoms=True):
+                 infer_atoms=True, done_when_exhausted=False):
         self.domain = domain
         self.start_derivation = start_derivation
         self.start_marker = start_marker
         self.end_marker = end_marker
         self.format_fn = format_fn
         self.infer_atoms = infer_atoms
+        self.done_when_exhausted = done_when_exhausted
 
     def _get_open_block(self, prefix: str) -> Optional[str]:
         # Find last occurrence of start and end markers.
@@ -323,12 +324,14 @@ class PeanoCompletionEngine:
 
         # If exhausted inferences, it is done.
         if INFER_ERROR in [v for k, v in blocks]:
-            # TODO: Make return value depend on dataset.
-            # (should be None, False for ProofWriter/PrOntoQA and True, False for Syllogistic Validity)
-            return True, False
+            if self.done_when_exhausted:
+                return True, False
+
+            return None, False
 
         ff = self.fast_forward_derivation(blocks)
         return self.domain.derivation_done(ff)
+
 
 def infer_sexp_arities(sexp: list, result: dict[str, int]):
     if isinstance(sexp, str):
