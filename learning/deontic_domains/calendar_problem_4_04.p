@@ -10,7 +10,6 @@ let org2 : (organizer f1 b1).
 let part2 : (participant f1 b3).
 
 let vis1 : (public f1).
-let vis2 : (confidential f3).
 let dur1 : (short f2).
 let cat2 : (conference f1).
 let cat3 : (social f3).
