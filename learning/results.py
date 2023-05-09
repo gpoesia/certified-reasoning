@@ -5,8 +5,11 @@ import collections
 import json
 import argparse
 import itertools
+from typing import Optional
 
 import numpy as np
+
+import util
 
 
 PEANO_MODEL_PREFIX = 'peano-'
@@ -18,6 +21,35 @@ def format_reasoner_name(raw_name: str) -> str:
         return name
 
     return raw_name
+
+
+def syllogism_dataset_name(raw_name: str):
+    if 'nonsense' in raw_name:
+        return 'Nonsense'
+    elif 'inconsistent' in raw_name:
+        return 'Inconsistent'
+
+    assert 'consistent' in raw_name
+    return 'Consistent'
+
+
+def format_base_reasoner_name(raw_name: str) -> str:
+    if raw_name.endswith('text-davinci-003'):
+        return 'GPT-3 Davinci'
+    if raw_name.endswith('gpt-3.5-turbo'):
+        return 'GPT-3.5 Turbo'
+    if raw_name.endswith('llama-13b-hf'):
+        return 'LLaMA 13B'
+
+    raise ValueError(f'Unknown reasoner {raw_name}')
+
+
+def has_guide(raw_name: str) -> bool:
+    if raw_name.startswith('peano'):
+        return True
+    if 'llama' in raw_name:
+        return 'direct' not in raw_name
+    return False
 
 
 def get_dataset_name(raw_name: str) -> (str, str, str):
@@ -48,24 +80,35 @@ def base_dataset_name(raw_name: str) -> str:
     ds, ontology, _ = get_dataset_name(raw_name)
     return f'{ds} {ontology}'
 
+
 def dataset_hops(raw_name: str) -> str:
     _, _, hops = get_dataset_name(raw_name)
     return f'{hops}H'
+
 
 def format_dataset_name(raw_name: str) -> str:
     ds, ontology, hops = get_dataset_name(raw_name)
     return f'{ds} {ontology} {hops}H'
 
-def load_results(path: str, dataset_filter: str) -> list:
-    with open(path) as f:
-        results_obj = json.load(f)
-    print('Loaded', path)
 
-    records = results_obj.values()
+def load_results(paths: list[str], dataset_filter: Optional[str]) -> list:
+    records = []
+
+    for path in paths:
+        with open(path) as f:
+            results_obj = json.load(f)
+
+        print('Loaded', path)
+        records.extend(results_obj.values())
+
+    for r in records:
+        if r['prediction'] not in ('True', 'False'):
+            r['correct'] = 0.5
 
     return [r
             for r in records
-            if r['error'] is None and dataset_filter in r['dataset']]
+            if r['error'] is None and
+            (dataset_filter or '') in r['dataset']]
 
 
 def compute_success_rates(records: list) -> dict:
@@ -82,7 +125,7 @@ def compute_success_rates(records: list) -> dict:
 
 
 def report_model(name):
-    return 'davinci' in name or 'gpt-3.5' in name
+    return 'davinci' in name or 'gpt-3.5' in name or 'llama-13b' in name
 
 
 def make_table(records: list) -> str:
@@ -140,22 +183,68 @@ def generate_results_table(results_path: str, dataset_filter: str, output_path: 
         f.write(make_table(results))
 
 
+def generate_multihop_reasoning_plot(results_path: str, output_path: str):
+    results = load_results(results_path, None)
+    data = []
+
+    for r in results:
+        if not report_model(r['reasoner']):
+            continue
+
+        r['model'] = format_reasoner_name(r['reasoner'])
+        r['base_model'] = format_base_reasoner_name(r['reasoner'])
+        r['hops'] = get_dataset_name(r['dataset'])[2]
+        r['dataset'] = base_dataset_name(r['dataset'])
+        r['guide'] = has_guide(r['reasoner'])
+        data.append(r)
+
+    util.plot_vegalite('multihop-reasoning', data, output_path)
+
+
+def generate_syllogism_plot(results_path: str, output_path: str):
+    results = load_results(results_path, None)
+    data = []
+
+    for r in results:
+        if not report_model(r['reasoner']):
+            continue
+
+        r['model'] = format_reasoner_name(r['reasoner'])
+        r['base_model'] = format_base_reasoner_name(r['reasoner'])
+        r['dataset'] = syllogism_dataset_name(r['dataset'])
+        r['guide'] = has_guide(r['reasoner'])
+        data.append(r)
+
+    util.plot_vegalite('syllogism-validity', data, output_path)
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--table', action='store_true',
                         help='Generate main table of results.')
-
-    parser.add_argument('--results', help='Path to results file.')
+    parser.add_argument('--merge', action='store_true',
+                        help='Merge a list of results files into a single one')
+    parser.add_argument('--plot-multihop-reasoning', action='store_true',
+                        help='Generate line plot of multihop reasoning results.')
+    parser.add_argument('--plot-syllogism', action='store_true',
+                        help='Generate bar plot of syllogistic reasoning results.')
+    parser.add_argument('--results', help='Path to results file.', nargs='*')
     parser.add_argument('--dataset-filter', default='',
                         help='Only consider datasets with this substring.')
-    parser.add_argument('--output-latex', default='results_table.tex',
+    parser.add_argument('--output', default='/dev/null',
                         help='Path to output file.')
 
     opt = parser.parse_args()
 
+    print(opt.results)
+
     if opt.table:
         generate_results_table(opt.results, opt.dataset_filter,
-                               opt.output_latex)
+                               opt.output)
+    elif opt.plot_multihop_reasoning:
+        generate_multihop_reasoning_plot(opt.results, opt.output)
+    elif opt.plot_syllogism:
+        generate_syllogism_plot(opt.results, opt.output)
 
 
 if __name__ == '__main__':
