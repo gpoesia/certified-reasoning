@@ -7,14 +7,14 @@ If a person has a low priority for an event, it is obligatory for them to set a 
 If an event is a conference, it is impermissible to update the event to be public.
 If a person has a low priority for an event, it is obligatory to cancel the event.
 For short events, it is impermissible to reschedule the event as a daily event.
-If an event is private, it is obligatory to reschedule the event as a daily event.
+If an event is private, it is not obligatory to reschedule the event as a daily event.
 If a person is a participant in an event, it is permissible to request an update for the event from them.
 If a person is the organizer of an event, it is obligatory for them to change the event's visibility to private.
-If an event is long, it is permissible to reschedule the event as a daily event.
+If an event is long, it is obligatory to reschedule the event as a daily event.
 Question:
-Given the situation and the rules of the world, is it obligatory to reschedule the project kickoff as a daily event?
+Given the situation and the rules of the world, is it not obligatory to reschedule the project kickoff as a daily event?
 Solution:
 To determine whether it is obligatory to reschedule the project kickoff (f1) as a daily event, we need to follow the reasoning trace:
-(daxiom18 f1 vis2) : (obligatory (reschedule_event f1 daily)) – This states that it is obligatory to reschedule the project kickoff (f1) as a daily event since it is a private event.
+(daxiom18 f1 vis2) : (not (obligatory (reschedule_event f1 daily))) – This states that it is not obligatory to reschedule the project kickoff (f1) as a daily event since it is a private event.
 Answer:
-Yes, it is obligatory to reschedule the project kickoff as a daily event.
+Yes, it is not obligatory to reschedule the project kickoff as a daily event.

@@ -5,9 +5,9 @@ If a person is the organizer of an event, it is permissible to send individual i
 If a group is a participant in an event, it is obligatory for the group to accept group invitations to that event.
 If an event has high priority for a person, it is impermissible to cancel the event.
 If a person is a participant in an event, it is permissible to set a reminder for a few days before the event for that person.
-If an event is public, it is permissible to change the event's visibility to private.
+If an event is public, it is impermissible to change the event's visibility to private.
 If a person is free during an event, it is permissible for them to suggest an alternative time for the event.
-If an event is yearly, it is impermissible to change the event's visibility to private.
+If an event is yearly, it is permissible to change the event's visibility to private.
 If a person is busy during an event, it is obligatory for them to decline individual invitations to that event.
 If an event is short, it is permissible to update the event to be a social event.
 If a group is a participant in an event, it is obligatory to check Dr. Adams' availability for that event.
@@ -15,10 +15,10 @@ If Dr. Adams is the organizer of an event, Dr. Brown is a participant in that ev
 If an event is a conference, it is a public event.
 If an event is short, it is a social event.
 Question:
-Given the situation and the rules of the world, is it permissible to change the visibility of the conference to private?
+Given the situation and the rules of the world, is it impermissible to change the visibility of the conference to private?
 Solution:
 To determine whether it is permissible to change the visibility of the conference (f2) to private, we need to follow the reasoning trace:
 (taxiom2 f2 cat2) : (public f2) – This states that the conference (f2) is a public event since it is a conference.
-(daxiom16 f2 r1) : (permissible (change_visibility f2 private)) – This states that it is permissible to change the visibility of the conference (f2) to private since it is a public event.
+(daxiom16 f2 r1) : (impermissible (change_visibility f2 private)) – This states that it is impermissible to change the visibility of the conference (f2) to private since it is a public event.
 Answer:
-Yes, it is permissible to change the visibility of the conference (f2) to private.
+Yes, it is impermissible to change the visibility of the conference (f2) to private.

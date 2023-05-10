@@ -5,8 +5,8 @@ For this software company, the following rules apply:
 If a group is a participant in an event, it is permissible for the group to accept group invitations to that event.
 If a person is busy during an event, it is impermissible to reschedule the event to be monthly.
 If an event has high priority for a person, it is obligatory to set a reminder for a few days before the event for them.
-If a person has low priority for an event, it is impermissible to delegate the event to that person.
-If a person is a participant in an event, it is permissible to delegate the event to that person.
+If a person has low priority for an event, it is obligatory to delegate the event to that person.
+If a person is a participant in an event, it is not obligatory to delegate the event to that person.
 If an event is a conference, it is permissible to update the event to be a public event.
 If a group is a participant in an event, it is impermissible to remove the group as a participant from that event.
 If a person is free during an event, it is obligatory for them to accept individual invitations to that event.
@@ -19,11 +19,11 @@ If Carol is a participant in an event and she is free during that event, the eve
 If a group is a participant in an event and Bob is the organizer of that event, the event is public.
 
 Question:
-Given the situation and the rules of the world, is it permissible to delegate the project presentation to Carol?
+Given the situation and the rules of the world, is it not obligatory to delegate the project presentation to Carol?
 Solution:
 To determine whether it is permissible to delegate the project presentation (f2) to Carol, we need to follow the reasoning trace:
 (taxiom1 f2 org2) : (participant f2 b3) – This states that Carol (b3) is a participant in the project presentation (f2) since Bob (b2) is the organizer.
-(daxiom15 f2 b3 r1) : (permissible (delegate_event f2 b3)) – This states that it is permissible to delegate the project presentation (f2) to Carol (b3) since she is a participant in the event.
+(daxiom15 f2 b3 r1) : (not (obligatory (delegate_event f2 b3))) – This states that it is not obligatory to delegate the project presentation (f2) to Carol (b3) since she is a participant in the event.
 
 Answer:
-Yes, it is permissible to delegate the project presentation (f2) to Carol.
+Yes, it is not obligatory to delegate the project presentation (f2) to Carol.

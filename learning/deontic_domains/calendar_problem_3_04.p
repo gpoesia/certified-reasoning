@@ -22,12 +22,12 @@ let reminder1 : reminder = (hours_before b1 f1).
 let reminder2 : reminder = (days_before b2 f2).
 let inv3 : invite = (individual_invite b1 f1).
 
-let daxiom16 : [('f : event) -> ('b : person) -> (short 'f) -> (impermissible (set_reminder (days_before 'b 'f)))].
+let daxiom10 : [('f : event) -> ('b : person) -> (short 'f) -> (not (obligatory (set_reminder (days_before 'b 'f))))].
 let daxiom11 : [('f : event) -> ('b : person) -> (busy 'b 'f) -> (impermissible (accept (individual_invite 'b 'f)))].
 let daxiom12 : [('f : event) -> ('g : group) -> (group_participant 'g 'f) -> (permissible (send_notification (group_invite 'g 'f)))].
 let daxiom13 : [('f : event) -> ('b : person) -> (free 'b 'f) -> (obligatory (check_availability 'b 'f))].
 let daxiom14 : [('f : event) -> ('b : person) -> (participant 'f 'b) -> (permissible (delegate_event 'f 'b))].
-let daxiom16 : [('f : event) -> ('b : person) -> (long 'f) -> (permissible (set_reminder (days_before 'b 'f)))].
+let daxiom16 : [('f : event) -> ('b : person) -> (long 'f) -> (obligatory (set_reminder (days_before 'b 'f)))].
 let daxiom18 : [('f : event) -> ('b : person) -> (busy 'b 'f) -> (impermissible (reschedule_event 'f daily))].
 let daxiom19 : [('f : event) -> ('b : person) -> (free 'b 'f) -> (obligatory (suggest_alternative_time 'b 'f))].
 let daxiom20 : [('f : event) -> (long 'f) -> (permissible (change_visibility 'f confidential))].
@@ -42,4 +42,4 @@ let taxiom7 : [('f : event) -> (short 'f) -> (conference 'f)].
 Result:
 (taxiom1 f3 cat3) : (public f3)
 (taxiom3 f3 r1) : (long f3)
-(daxiom16 f3 b2 r2) : (permissible (set_reminder (days_before b2 f3)))
+(daxiom16 f3 b2 r2) : (obligatory (set_reminder (days_before b2 f3)))

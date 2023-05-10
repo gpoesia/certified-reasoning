@@ -2,12 +2,12 @@ Scenario:
 In a university, there are three professors: Professor Brown, Professor Green, and Professor White. There is a group of students called "Research Team". They have three upcoming events: a research presentation, a project discussion, and a networking event. Professor Brown is the organizer of the research presentation. Professor Green is a participant in the research presentation, and Professor White is a participant in the networking event. The research presentation is a public event, while the networking event is confidential. The project discussion is a short event, and the networking event is a long event. The research presentation is a conference, and the networking event is a social event. The project discussion occurs monthly. Professor Brown is busy during the research presentation, and Professor Green is free during the project discussion. Professor Brown has a reminder set for a few hours before the research presentation, while Professor Green has a reminder set for a few days before the project discussion. Professor Brown receives an individual invitation to the research presentation.
 
 For this university, the following rules apply:
-If an event is short, it is impermissible to set a reminder for a few days before the event.
+If an event is short, it is not obligatory to set a reminder for a few days before the event.
 If a person is busy during an event, it is impermissible for them to accept the individual invitation.
 If a group is participating in an event, it is permissible to send them a notification for a group invitation.
 If a person is free during an event, it is obligatory to check their availability for the event.
 If a person is a participant in an event, it is permissible to delegate the event organization to them.
-If an event is long, it is permissible to set a reminder for a few days before the event.
+If an event is long, it is obligatory to set a reminder for a few days before the event.
 If a person is busy during an event, it is impermissible to reschedule the event to occur daily.
 If a person is free during an event, it is obligatory for them to suggest an alternative time for the event.
 If an event is long, it is permissible to change its visibility to confidential.
@@ -19,13 +19,13 @@ If a person is free during an event, then the event is low priority for them.
 If an event is short, then it is a conference.
 
 Question:
-Given the situation and the rules of the world, is it permissible for Professor Green to set a reminder for a few days before the networking event?
+Given the situation and the rules of the world, is it obligatory for Professor Green to set a reminder for a few days before the networking event?
 
 Solution:
 To determine whether it is permissible for Professor Green to set a reminder for a few days before the networking event (f3), we need to follow the reasoning trace:
 (taxiom1 f3 cat3) : (public f3) – This states that the networking event (f3) is a public event since it is a social event.
 (taxiom3 f3 r1) : (long f3) – This states that the networking event (f3) is a long event since it is a public event.
-(daxiom16 f3 b2 r2) : (permissible (set_reminder (days_before b2 f3))) – This states that it is permissible for Professor Green to set a reminder for a few days before the networking event (f3) since the event is long.
+(daxiom16 f3 b2 r2) : (obligatory (set_reminder (days_before b2 f3))) – This states that it is obligatory for Professor Green to set a reminder for a few days before the networking event (f3) since the event is long.
 
 Answer:
-Yes, it is permissible for Professor Green to set a reminder for a few days before the networking event (f3).
+Yes, it is obligatory for Professor Green to set a reminder for a few days before the networking event (f3).

@@ -3,11 +3,11 @@ In a university, there are three professors: Prof. Adams, Prof. Brown, and Prof.
 For this university, the following rules apply:
 If a person is the organizer of an event, it is obligatory to add them as a participant.
 If a person is free during an event, it is permissible for them to accept an individual invite to the event invitation.
-If an event is long, it is impermissible to update the event to be a social event.
+If an event is long, it is permissible to update the event to be a social event.
 If a group is participating in an event, it is permissible to delegate the event organization to the group.
 If a person is busy during an event, it is impermissible to set a reminder for a few minutes before the event.
 If a person is a participant in an event, it is permissible to remove them as a participant.
-If an event is short, it is permissible to update the event to be a social event.
+If an event is short, it is impermissible to update the event to be a social event.
 If a person's availability for an event is tentative, it is obligatory to check their availability.
 If an event has high priority for a person, then it is obligatory to set a reminder for a few days before the event.
 If a person is a participant in an event, it is permissible for them to suggest an alternative time for the event.
@@ -23,13 +23,13 @@ If an event has low priority for a person, then the person is free for the event
 If a group is a participant in an event, then the event is a public event.
 
 Question:
-Given the situation and the rules of the world, is it permissible to update the  lecture to be a social event?
+Given the situation and the rules of the world, is it impermissible to update the  lecture to be a social event?
 
 Solution:
 To determine whether it is permissible to update the lecture (e6) to be a social event, we need to follow the reasoning trace:
 (taxiom9 e6 g2 group_part1) : (public e6) – This states that the lecture (e6) is a public event since the AcademicTeam research group is participating in it.
 (taxiom2 e6 r1) : (short e6) – This states that the lecture (e6) is a short event since it is a public event.
-(daxiom16 e6 b2 r2) : (permissible (update_event e6 social)) – This states that it is permissible to update the lecture (e6) to be a social event since it is a short event.
+(daxiom16 e6 b2 r2) : (impermissible (update_event e6 social)) – This states that it is impermissible to update the lecture (e6) to be a social event since it is a short event.
 
 Answer:
-Yes, it is permissible to update the lecture to be a social event.
+Yes, it is impermissible to update the lecture to be a social event.

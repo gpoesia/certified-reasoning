@@ -2,7 +2,7 @@ Scenario:
 In a marketing agency, there are three employees: Alice, Bob, and Carol. Alice is the marketing manager, Bob is a graphic designer, and Carol is a content writer. The company has a remote team called "CreativeTeam". They have three upcoming events: a brainstorming session, a company party, and a progress event.
 Alice is the organizer of the brainstorming session, Carol is a participant in the company party, and the CreativeTeam is a group participant in the progress event. The brainstorming session is short, while the company party is a long event. The brainstorming session is a meeting, and the company party is a social event. Alice has a reminder set a few hours before the brainstorming session.
 For this agency, the following rules apply:
-If an event has high priority for a person, it is impermissible for them to suggest an alternative time.
+If an event has high priority for a person, it is permissible for them to suggest an alternative time.
 If a person is the organizer of an event, it is obligatory to add them as a participant.
 If a person is free during an event, it is permissible for them to accept an individual invite to the event.
 If a group is a participant in an event, it is permissible to delegate the event to the group.
@@ -11,7 +11,7 @@ If a person is a participant in an event, it is permissible to remove them as a 
 For short events, it is permissible to update the event to a social event.
 If a person's status is tentative for an event, it is obligatory to check the availability of the person for that event.
 If an event has high priority for a person, it is obligatory to set a reminder for a few days before the event.
-If a person is a participant in an event, it is permissible for them to suggest an alternative time.
+If a person is a participant in an event, it is impermissible for them to suggest an alternative time.
 If an event is public, it is obligatory to add Alice as a participant.
 Meetings are public events.
 Public events are short events.
@@ -23,12 +23,12 @@ If a person has a high priority for an event, they are busy during that event.
 If a person has a low priority for an event, they are free during that event.
 If a group is a participant in an event, the event is public.
 Question:
-Given the situation and the rules of the world, is it permissible for Bob to suggest an alternative time for the progress event?
+Given the situation and the rules of the world, is it impermissible for Bob to suggest an alternative time for the progress event?
 Solution:
 To determine whether it is permissible for Bob to suggest an alternative time for the progress event (e6), we need to follow the reasoning trace:
 (taxiom9 e6 g2 group_part1) : (public e6) – This states that the progress event (e6) is a public event since the CreativeTeam (g2) is a group participant.
 (taxiom2 e6 r1) : (short e6) – This states that the progress event (e6) is a short event since it is a public event.
 (taxiom5 e6 r2) : (participant e6 b2) – This states that Bob (b2) is a participant in the progress event (e6) since it is a short event.
-(daxiom19 e6 b2 r3) : (permissible (suggest_alternative_time b2 e6)) – This states that it is permissible for Bob (b2) to suggest an alternative time for the progress event (e6) since he is a participant.
+(daxiom19 e6 b2 r3) : (impermissible (suggest_alternative_time b2 e6)) – This states that it is impermissible for Bob (b2) to suggest an alternative time for the progress event (e6) since he is a participant.
 Answer:
-Yes, it is permissible for Bob.
+Yes, it is impermissible for Bob.

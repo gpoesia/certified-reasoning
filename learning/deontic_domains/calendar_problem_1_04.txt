@@ -8,13 +8,13 @@ If a person is busy during an event, it is impermissible for them to set a remin
 If a person is a participant in an event, it is permissible to remove them as a participant.
 For short events, it is permissible to update the event to be a social event.
 If a person has a high priority for an event, it is obligatory to set a reminder for days before the event.
-If a person is a participant in an event, it is permissible for them to suggest an alternative time for the event.
-If an event is a meeting, it is impermissible for a person to suggest an alternative time for the event.
+If a person is a participant in an event, it is not obligatory for them to suggest an alternative time for the event.
+If an event is a meeting, it is obligatory for a person to suggest an alternative time for the event.
 If an event is public, it is obligatory to add John as a participant.
 Question:
-Given the situation and the rules of the world, is it permissible for Emily to suggest an alternative time for the team building event?
+Given the situation and the rules of the world, is it not obligatory for Emily to suggest an alternative time for the team building event?
 Solution:
 To determine whether it is permissible for Emily (b3) to suggest an alternative time for the team building event (e5), we need to follow the reasoning trace:
-(daxiom19 e5 b3 part2) : (permissible (suggest_alternative_time b3 e5)) – This states that it is permissible for Emily (b3) to suggest an alternative time for the team building event (e5) since she is a participant in the event.
+(daxiom19 e5 b3 part2) : (not(obligatory (suggest_alternative_time b3 e5))) – This states that it is not obligatory for Emily (b3) to suggest an alternative time for the team building event (e5) since she is a participant in the event.
 Answer:
-Yes, it is permissible for Emily to suggest an alternative time for the team building event.
+Yes, it is not obligatory for Emily to suggest an alternative time for the team building event.

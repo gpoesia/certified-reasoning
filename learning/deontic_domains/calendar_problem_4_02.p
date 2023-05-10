@@ -20,12 +20,12 @@ let daxiom1 : [('e : event) -> ('a : person) -> (free 'e 'a) -> (permissible (se
 let daxiom2 : [('e : event) -> ('g : group) -> (group_participant 'g 'e) -> (permissible (accept (group_invite 'g 'e)))].
 let daxiom3 : [('e : event) -> ('a : person) -> (busy 'a 'e) -> (impermissible (reschedule_event 'e daily))].
 let daxiom4 : [('e : event) -> ('a : person) -> (high 'a 'e) -> (obligatory (set_reminder (hours_before 'a 'e)))].
-let daxiom5 : [('e : event) -> ('a : person) -> (participant 'e 'a) -> (permissible (delegate_event 'e 'a))].
+let daxiom5 : [('e : event) -> ('a : person) -> (participant 'e 'a) -> (not (obligatory (delegate_event 'e 'a)))].
 let daxiom6 : [('e : event) -> ('a : person) -> (long 'e) -> (permissible (update_event 'e conference))].
 let daxiom7 : [('e : event) -> ('g : group) -> (group_participant 'e 'g) -> (impermissible (remove_participant 'e 'g))].
 let daxiom8 : [('e : event) -> ('a : person) -> (free 'a 'e) -> (obligatory (accept (individual_invite 'a 'e)))].
 let daxiom9 : [('e : event) -> ('a : person) -> (tentative 'a 'e) -> (permissible (suggest_alternative_time 'a 'e))].
-let daxiom11 : [('e : event) -> ('a : person) -> (high 'a 'e) -> (impermissible (delegate_event 'e 'a))].
+let daxiom11 : [('e : event) -> ('a : person) -> (high 'a 'e) -> (obligatory (delegate_event 'e 'a))].
 let daxiom10 : [('e : event) -> (private 'e) -> (obligatory (check_availability a1 'e))].
 
 let taxiom1 : [('e : event) -> ((individual_invite a1 'e): invite) -> (short 'e)].
@@ -43,4 +43,4 @@ Result:
 (taxiom2 e3 rec1) : (long e3)
 (taxiom3 e3 r1) : (private e3)
 (taxiom4 e3 r2) : (participant e3 a1)
-(daxiom5 e3 a1 r3) : (permissible (delegate_event e3 a1))
+(daxiom5 e3 a1 r3) : (not (obligatory(delegate_event e3 a1)))

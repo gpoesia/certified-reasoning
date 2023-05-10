@@ -5,13 +5,13 @@ For this company, the following rules apply:
 If a person is free during an event, it is permissible to send them a notification.
 If a group is a participant in an event, it is permissible to accept a group invite.
 If a person is busy during an event, it is impermissible to reschedule the event daily.
-If an event has high priority for a person, then it is obligatiory to set a reminder for a few hours before the event.
-If a person is a participant in an event, it is permissible to delegate the event to them.
+If an event has high priority for a person, then it is obligatory to set a reminder for a few hours before the event.
+If a person is a participant in an event, it is not obligatory to delegate the event to them.
 For long events, it is permissible to update the event to be a conference.
 If a group is a participant in an event, it is impermissible to remove the group as a participant.
 If a person is free during an event, it is obligatory for them to accept an individual invite to that event.
 If a person is tentative during an event, it is permissible for them to suggest an alternative time.
-If an event is high priority for a person, it is impermissible to delegate the event to them.
+If an event is high priority for a person, it is obligatory to delegate the event to them.
 If an event is private, it is obligatory to check John's availability.
 If John gets an individual invite for an event, it must be short.
 Daily events are long events.
@@ -24,12 +24,12 @@ If a person is the organizer of the project kick-off meeting, their priority for
 If an event is organized by John, it is confidential.
 If Sarah is a participant in an event, they should set a reminder for a few days before the event.
 Question:
-Given the situation and the rules of the world, is it permissible to delegate the daily stand-up to John?
+Given the situation and the rules of the world, is it not obligatory to delegate the daily stand-up to John?
 Solution:
 To determine whether it is permissible to delegate the daily stand-up (e3) to John, we need to follow the reasoning trace:
 (taxiom2 e3 rec1) : (long e3) – This states that the daily stand-up (e3) is a long event since it occurs daily.
 (taxiom3 e3 r1) : (private e3) – This states that the daily stand-up (e3) is a private event due to it being a long event.
 (taxiom4 e3 r2) : (participant e3 a1) – This states that John (a1) is a participant in the daily stand-up  (e3) since it is a private event.
-(daxiom5 e3 a1 r3) : (permissible (delegate_event e3 a1)) – This states that it is permissible for John (a1) to delegate the daily stand-up (e3) since he is a participant.
+(daxiom5 e3 a1 r3) : (not (obligatory(delegate_event e3 a1))) – This states that it is not obligatory for John (a1) to delegate the daily stand-up (e3) since he is a participant.
 Answer:
-Yes, it is permissible for John (a1) to delegate the daily stand-up (e3).
+Yes, it is not obligatory for John (a1) to delegate the daily stand-up (e3).

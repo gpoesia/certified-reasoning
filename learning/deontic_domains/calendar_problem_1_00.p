@@ -26,10 +26,10 @@ let daxiom14 : [('f : event) -> ('b : person) -> (low 'b 'f) -> (obligatory (set
 let daxiom15 : [('f : event) -> (conference 'f) -> (impermissible (update_event 'f public))].
 let daxiom16 : [('f : event) -> ('b : person) -> (low 'b 'f) -> (obligatory (cancel_event 'f))].
 let daxiom17 : [('f : event) -> ('b : person) -> (short 'f) -> (impermissible (reschedule_event 'f daily))].
-let daxiom18 : [('f : event) -> (private 'f) -> (obligatory (reschedule_event 'f daily))].
+let daxiom18 : [('f : event) -> (private 'f) -> (not (obligatory (reschedule_event 'f daily)))].
 let daxiom19 : [('f : event) -> ('b : person) -> (participant 'f 'b) -> (permissible (request_event_update 'b 'f))].
 let daxiom20 : [('f : event) -> (organizer 'f b1) -> (obligatory (change_visibility 'f private))].
-let daxiom21 : [('f : event) -> (long 'f) -> (permissible (reschedule_event 'f daily))].
+let daxiom21 : [('f : event) -> (long 'f) -> (obligatiory (reschedule_event 'f daily))].
 
 Result:
-(daxiom18 f1 vis2) : (obligatory (reschedule_event f1 daily))
+(daxiom18 f1 vis2) : (not (obligatory (reschedule_event f1 daily)))
