@@ -1,33 +1,4 @@
-Scenario:
-In a company, there are three employees: Alice, Bob, and Carol. They have a group called "WorkTeam". They have three upcoming events: a team event, a team-building event, and a product launch event. Bob is the organizer of the team-building event. Carol is a participant in the product launch event. The team event is a conference. The team-building event is yearly. The team event is a monthly event and is a short event, while the product launch event is a long event. Alice is busy during the team event, while Bob is free during the product launch event. The team event is a private event, and the product launch event is a public event. Alice has a reminder set for the team event that is hours before the event. Bob has a reminder set for the team-building event that is days before the event.
-For this company, the following rules apply:
-If a person is busy during an event, it is impermissible to add them as a participant.
-If a person is free during an event, it is permissible to add them as a participant.
-If an event is a long event, it is obligatory to add groups as a participant.
-If an event has high priority for a person, then it is not obligatory to set a reminder for a few days before the event for that person.
-If an event is a conference, it is permissible to update the event to be public.
-If an event has low priority for a person, it is permissible to cancel the event.
-If an event is short, it is impermissible to reschedule the event yearly.
-If an event has low priority for a person, then it is obligatory to set a reminder for a few days before the event for that person.
-If an event is private, it is obligatory to remove Carol as a participant.
-If a person is a participant in an event, it is permissible to request an event update from them.
-If a person is the organizer of an event, it is obligatory to change the event's visibility to confidential.
-If an event is a monthly event, it is a short event.
-If an event is a yearly event, it is a long event.
-If an event is long, then a person has high priority for that event. 
-If an event is short, then a person is free for that event.
-If an event is a conference, it is a public event.
-If a person has a reminder set for a few hours before an event, they have high priority for that event.
-If a person has a reminder set for a few days before an event, they have low priority for that event.
-If an event is private, it is a meeting.
-If an event is public, it is a social event.
-If a person is the organizer of an event, they are a participant in that event.
-Question:
-Given the situation and the rules of the world, is it not obligatory for Carol to set a reminder for a few days before the team-building event?
-Solution:
-To determine whether it is obligatory for Carol to set a reminder for a few days before the yearly team-building event (f2), we need to follow the reasoning trace:
-(taxiom2 f2 rec4) : (long f2) – This states that the yearly team-building event (f2) is a long event since it occurs yearly.
-(taxiom3 b3 f2 r1) : (high b3 f2) – This states that Carol (b3) has high priority for the yearly team-building event (f2) since it is a long event.
-(daxiom14 f2 b3 r2) : (not (obligatory (set_reminder (days_before b3 f2)))) – This states that it is not obligatory for Carol to set a reminder for a few days before the yearly team-building event (f2) since it has high priority for her.
-Answer:
-Yes, it is not obligatory for Carol to set a reminder for a few days before the yearly team-building event.
+Context: 1- In a company, there are three employees: Alice, Bob, and Carol. 2- They have a group called "WorkTeam". 3- They have three upcoming events: a team event, a team-building event, and a product launch event. 4- Bob is the organizer of the team-building event. 5- Carol is a participant in the product launch event. 6- The team event is a conference. 7- The team-building event is yearly. 8- The team event is a monthly event and is a short event, while the product launch event is a long event. 9- Alice is busy during the team event, while Bob is free during the product launch event. 10- The team event is a private event, and the product launch event is a public event. 11- If a person is busy during an event, it is impermissible to add them as a participant. 12- If a person is free during an event, it is permissible to add them as a participant. 13- If an event is a long event, it is obligatory to add groups as a participant. 14- If an event has high priority for a person, then it is not obligatory to set a reminder for a few days before the event for that person. 15- If an event is a conference, it is permissible to update the event to be public. 16- If an event has low priority for a person, it is permissible to cancel the event. 17- If an event is short, it is impermissible to reschedule the event yearly. 18- If an event has low priority for a person, then it is obligatory to set a reminder for a few days before the event for that person. 19- If an event is private, it is obligatory to remove Carol as a participant. 20- If a person is a participant in an event, it is permissible to request an event update from them. 21- If a person is the organizer of an event, it is obligatory to change the event's visibility to confidential. 22- If an event is a monthly event, it is a short event. 23- If an event is a yearly event, it is a long event. 24- If an event is long, then Carol has high priority for that event. 25- If an event is a conference, it is a public event. 26- If an event is private, it is a meeting. 27- If an event is public, it is a social event. 28- If a person is the organizer of an event, they are a participant in that event.
+Question: Given the rules above, is it not obligatory for Carol to set a reminder for a few days before the team-building event?
+Reasoning: The team-building event is a yearly event. The team-building event is a long event. Carol has high priority for the team-building event. If an event has high priority for a person, then it is not obligatory to set a reminder for a few days before the event for that person. Thus, it is not obligatory for Carol to set a reminder for a few days before the yearly team-building event.
+Answer (yes or no): Yes, it is not obligatory for Carol to set a reminder for a few days before the yearly team-building event.

@@ -1,26 +1,4 @@
-Scenario:
-In a software company, there are three project managers: Alice, Bob, and Carol. They also have a team called "Developers". They have three upcoming events: a team meeting, a training session, and an event on new technologies. Bob is the organizer of the event on new technologies. Alice is a participant in the training session. The team meeting occurs every month, whereas the training session occurs every year. Bob considers the team meeting as high priority. The event on new technologies is a conference. Carol recieves an individual invitate to the training session, and the team "Developers" receives group invitations to the team meeting.
-For this software company, the following rules apply:
-If a person is the organizer of an event, it is obligatory to send a notification of an individual invite for that event to the person.
-If a group is a participant in an event, it is permissible for the group to accept group invitations to that event.
-If a person is a participant in an event, it is permissible to set a reminder for a few days before the event.
-If an event is public, it is obligatory to check Carol's availability for that event.
-If a person is free during an event, it is permissible for them to suggest an alternative time for the event.
-If a person is busy during an event, it is impermissible to reschedule the event to be yearly.
-If a person is tentative during an event, it is permissible to delegate the event to that person.
-If an event has high priority for a person, it is obligatory to update the event to be a conference.
-If an event has low priority for a person, it is permissible to change the event's visibility to public.
-If a person is free for an event, it is impermissible to set a reminder for a few days before the event.
-If a group is a participant in an event, it is impermissible to remove the group as a participant.
-If Bob is the organizer of an event, Alice is a participant in that event.
-If a person is busy during an event, the event is long.
-If a person is free during an event, the event is a social event.
-If a person is tentative during an event, the event is a personal event.
-Question:
-Given the situation and the rules of the world, is it permissible for Alice to set a reminder for a few days before the event on new technologies?
-Solution:
-To determine whether it is permissible for Alice to set a reminder for a few days before the event on new technologies (f2), we need to follow the reasoning trace:
-(taxiom1 f2 org2) : (participant f2 b1) – This states that Alice (b1) is a participant in the event (f2) since Bob (b2) is the organizer.
-(daxiom13 f2 b1 r1) : (permissible (set_reminder (days_before b1 f2))) – This states that it is permissible for Alice (b1) to set a reminder for a few days before the event (f2) since she is a participant.
-Answer:
-Yes, it is permissible for Alice to set a reminder for a few days before the event on new technologies (f2).
+Context: 1- In a software company, there are three project managers: Alice, Bob, and Carol. 2- They also have a team called "Developers". 3- They have three upcoming events: a team meeting, a training session, and an event on new technologies. 4- Bob is the organizer of the event on new technologies. 5- Alice is a participant in the training session. 6- The team meeting occurs every month, whereas the training session occurs every year. 7- Bob considers the team meeting as a high priority. 8- If a person is the organizer of an event, it is obligatory to send a notification of an individual invite for that event to the person. 9- If a group is a participant in an event, it is permissible for the group to accept group invitations to that event. 10- If a person is a participant in an event, it is permissible to set a reminder for a few days before the event. 11- If an event is public, it is obligatory to check Carol's availability for that event. 12- If a person is free during an event, it is permissible for them to suggest an alternative time for the event. 13- If a person is busy during an event, it is Impermissible to reschedule the event to be yearly. 14- If a person is tentative during an event, it is permissible to delegate the event to that person. 15- If an event has high priority for a person, it is obligatory to update the event to be a conference. 16- If an event has low priority for a person, it is permissible to change the event's visibility to public. 17- If a person is free for an event, it is impermissible to set a reminder for a few days before the event. 18- If a group is a participant in an event, it is impermissible to remove the group as a participant. 19- If Bob is the organizer of an event, Alice is a participant in that event. 20- If a person is busy during an event, the event is long. 21- If a person is free during an event, the event is a social event. 22- If a person is tentative during an event, the event is a personal event.
+Question: Given the rules above, is it permissible for Alice to set a reminder for a few days before the event on new technologies?
+Reasoning: Alice is a participant in the event on new technologies. Alice is allowed to set a reminder for a few days before the event on new technologies since it is permissible to do so for a participant.
+Answer (Yes or no): Yes, it is permissible for Alice to set a reminder for a few days before the event on new technologies.

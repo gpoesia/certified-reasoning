@@ -1,29 +1,4 @@
-Scenario:
-In a software company, there are three project managers: Alice, Bob, and Carol. They also have a development team called "Heroes". They have three upcoming events: a team event, a company event, and a project presentation. Bob is the organizer of the project presentation. Carol is a participant in the company event. The team event occurs every month, whereas the company event occurs every year. Alice considers the team event as high priority. The project presentation is a conference event. Carol receives an individual invite to the company event, and the development team "Heroes" receives group invitations to the team event.
-
-For this software company, the following rules apply:
-If a group is a participant in an event, it is permissible for the group to accept group invitations to that event.
-If a person is busy during an event, it is impermissible to reschedule the event to be monthly.
-If an event has high priority for a person, it is obligatory to set a reminder for a few days before the event for them.
-If a person has low priority for an event, it is obligatory to delegate the event to that person.
-If a person is a participant in an event, it is not obligatory to delegate the event to that person.
-If an event is a conference, it is permissible to update the event to be a public event.
-If a group is a participant in an event, it is impermissible to remove the group as a participant from that event.
-If a person is free during an event, it is obligatory for them to accept individual invitations to that event.
-If a person is tentative for an event, it is permissible for them to suggest an alternative time for the event.
-If an event is private, it is obligatory to check Bob's availability for that event.
-If Bob is the organizer of an event, Carol is a participant in that event.
-If an event is yearly and has high priority for Alice, it is a conference event.
-If an event is monthly and Alice is busy during that event, it is a meeting event.
-If Carol is a participant in an event and she is free during that event, the event can be delegated to her.
-If a group is a participant in an event and Bob is the organizer of that event, the event is public.
-
-Question:
-Given the situation and the rules of the world, is it not obligatory to delegate the project presentation to Carol?
-Solution:
-To determine whether it is permissible to delegate the project presentation (f2) to Carol, we need to follow the reasoning trace:
-(taxiom1 f2 org2) : (participant f2 b3) – This states that Carol (b3) is a participant in the project presentation (f2) since Bob (b2) is the organizer.
-(daxiom15 f2 b3 r1) : (not (obligatory (delegate_event f2 b3))) – This states that it is not obligatory to delegate the project presentation (f2) to Carol (b3) since she is a participant in the event.
-
-Answer:
-Yes, it is not obligatory to delegate the project presentation (f2) to Carol.
+Context: 1- In a software company, there are three project managers: Alice, Bob, and Carol. 2- They also have a development team called "Heroes". 3- They have three upcoming events: a team event, a company event, and a project presentation. 4- Bob is the organizer of the project presentation. 5- Carol is a participant in the company event. 6- The team event occurs every month, whereas the company event occurs every year. 7- Alice considers the team event as high priority. 8- The project presentation is a conference event. 9- If a group is a participant in an event, it is permissible for the group to accept group invitations to that event. 10- If a person is busy during an event, it is impermissible to reschedule the event to be monthly. 11- If an event has high priority for a person, it is obligatory to set a reminder for a few days before the event for them. 12- If a person has low priority for an event, it is obligatory to delegate the event to that person. 13- If a person is a participant in an event, it is not obligatory to delegate the event to that person. 14- If an event is a conference, it is permissible to update the event to be a public event. 15- If a group is a participant in an event, it is impermissible to remove the group as a participant from that event. 16- If a person is free during an event, it is obligatory for them to accept individual invitations to that event. 17- If a person is tentative for an event, it is permissible for them to suggest an alternative time for the event. 18- If an event is private, it is obligatory to check Bob's availability for that event. 19- If Bob is the organizer of an event, Carol is a participant in that event. 20- If an event is yearly and has high priority for Alice, it is a conference event. 21- If an event is monthly and Alice is busy during that event, it is a meeting event. 22- If Carol is a participant in an event and she is free during that event, the event can be delegated to her. 23- If a group is a participant in an event and Bob is the organizer of that event, the event is public.
+Question: Given the rules above, is it not obligatory to delegate the project presentation to Carol?
+Reasoning: Carol is a participant in the project presentation. It is not obligatory to delegate the event to participants. Therefore it is not obligatory to delegate the project presentation to Carol.
+Answer (Yes or no): Yes, it is not obligatory to delegate the project presentation to Carol.

@@ -1,34 +1,4 @@
-Scenario:
-In a sports club, there are three members: Alice, Bob, and Carol. The sports club has a group of members called the "HealthTeam". They have three upcoming events: a sports event, a marathon event, and a lecture. Carol is a participant in the lecture. The sports event is monthly. The marathon event is yearly. The sports event is a conference and is a short event, whereas the marathon event is a long event. Alice sets a reminder for a few hours before the sports event, and Bob sets a reminder for a few days before the marathon event. Alice is busy during the sports event, while Bob is free during the lecture. The sports event is a private event. The lecture is a public event.
-For this sports club, the following rules apply:
-If a person is busy during an event, it is impermissible to add them as a participant.
-If a person is free during an event, it is permissible to add them as a participant.
-If an event is a long event, it is obligatory to add all groups as a participant.
-If an event has high priority for a person, then it is obligatory to set a reminder for a few days before the event.
-If an event is a conference, it is permissible to update the event to be public.
-If an event has low priority for a person, it is impermissible to request an event update from them.
-If an event has low priority for a person, it is permissible to cancel the event.
-If an event is short, it is impermissible to reschedule the event yearly.
-If an event is private, it is obligatory to remove Carol as a participant.
-If a person is a participant in an event, it is permissible to request an event update from them.
-If Alice is the organizer of an event, it is obligatory to change the event's visibility to confidential.
-If an event is a monthly event, it is a short event.
-If an event is a yearly event, it is a long event.
-If an event is long, then a person has high priority for that event. 
-If an event is short, then a person is free for that event.
-If an event is long, Alice is the organizer.
-If a person is free during an event, they have high priority for that event.
-If a person has a reminder set for a few days before an event, they have low priority for that event.
-If an event is private, it is a meeting.
-If an event is public, it is a social event.
-If a person is the organizer of an event, they are a participant in that event.
-Question:
-Given the situation and the rules of the world, is it permissible to request an update from Alice for the yearly marathon event?
-Solution:
-To determine whether it is to request an update for the yearly marathon event (f2) from Alice, we need to follow the reasoning trace:
-(taxiom2 f2 rec4) : (long f2) – This states that the yearly marathon event (f2) is a long event since it occurs yearly.
-(taxiom5 f2 r1) : (organizer f2 b1) – This states that Alice (b1) is the organizer of the yearly marathon event (f2) due to it being a long event.
-(taxiom10 b1 f2 r2) : (participant f2 b1) – This states that Alice (b1) is a participant in the yearly marathon event (f2) since she is the organizer.
-(daxiom19 f2 b1 r3) : (permissible (request_event_update b1 f2)) – This states that it is permissible for to request an update for the yearly marathon event (f2) from Alice since she is a participant.
-Answer:
-Yes, it is permissible for to request an update for the yearly marathon event (f2) from Alice.
+Context: 1- In a sports club, there are three members: Alice, Bob, and Carol. 2- They have three upcoming events: a sports event, a marathon event, and a lecture. 3- Carol is a participant in the lecture. 4- The sports event is monthly. 5- The marathon event is yearly. 6- The sports event is a short event and is a conference, whereas the marathon event is a long event. 7- Alice is busy during the sports event, while Bob is free during the lecture. 8- The sports event is a private event. 9- The lecture is a public event. 10- If a person is busy during an event, it is impermissible to add them as a participant. 11- If a person is free during an event, it is permissible to add them as a participant. 12- If an event is a long event, it is obligatory to add all groups as a participant. 13- If an event has high priority for a person, then it is obligatory to set a reminder for a few days before the event. 14- If an event is a conference, it is permissible to update the event to be public. 15- If an event has low priority for a person, it is impermissible to request an event update from them. 16- If an event has low priority for a person, it is permissible to cancel the event. 17- If an event is short, it is impermissible to reschedule the event yearly. 18- If an event is private, it is obligatory to remove Carol as a participant. 19- If a person is a participant in an event, it is permissible to request an event update from them. 20- If Alice is the organizer of an event, it is obligatory to change the event's visibility to confidential. 21- If an event is a monthly event, it is a short event. 22- If an event is a yearly event, it is a long event. 23- If an event is long, Alice is the organizer. 24- If a person is free during an event, they have high priority for that event. 25- If an event is private, it is a meeting. 26- If an event is public, it is a social event. 27- If a person is the organizer of an event, they are a participant in that event.
+Question: Based on the rules and situation, is it permissible to request an update from Alice for the yearly marathon event?
+Reasoning: The yearly marathon event is a long event, and Alice is the organizer of the marathon event. As a result, she is a participant in the event and can be requested for an event update. Therefore, it is permissible to request an update from Alice for the yearly marathon event.
+Answer (Yes or no): Yes, it is permissible to request an update from Alice for the yearly marathon event.
