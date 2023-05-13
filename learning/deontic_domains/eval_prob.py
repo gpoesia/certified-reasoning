@@ -99,6 +99,7 @@ for p in problems:
         answer = parse_answer_from_response(response)    
         print(prompt)
         print(response)
+        print(answer)
     else:
         if '4_00' in p:
             prompt = base_prompt_2 + template.format(context=context, question=question)
@@ -107,9 +108,10 @@ for p in problems:
         response = ask_openai(prompt)
         answer = parse_answer_from_response(response)
     if 'negated' in p:
-        if 'yes' in answer.lower():
-            correct += 1
-    else:
         if 'no' in answer.lower():
             correct += 1
+    else:
+        if 'yes' in answer.lower():
+            correct += 1
     print(f'acc: {correct/total} ({correct}/{total})')
+    break
