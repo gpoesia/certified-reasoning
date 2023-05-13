@@ -78,18 +78,18 @@ Answer (Yes or no): Yes, it is impermissible for Bob to suggest an alternative t
 ]
 
 
-model_type = "chat"
+model_type = "text"
 
 template ="{context}\n{question}\nReasoning:"
 chat_template = "{context}\n{question}"
-problems = sorted([f for f in os.listdir('./') if f.endswith('.txt') and 'negated' not in f])
+problems = sorted([f for f in os.listdir('./') if f.endswith('.txt') and 'negated_1' in f])[:]
 correct = 0
 total = 0
+nd = 0
 for p in problems:
     total += 1
     context, question = get_problem(p)
     if 'chat' in model_type:
-
         message = {"role": "user", "content": chat_template.format(context=context, question=question)}
         if '4_00' in p:
             prompt = chat_prompt_2 + [message]
@@ -97,9 +97,6 @@ for p in problems:
             prompt = chat_prompt + [message]
         response = ask_openai_chat(prompt)
         answer = parse_answer_from_response(response)    
-        print(prompt)
-        print(response)
-        print(answer)
     else:
         if '4_00' in p:
             prompt = base_prompt_2 + template.format(context=context, question=question)
@@ -108,10 +105,21 @@ for p in problems:
         response = ask_openai(prompt)
         answer = parse_answer_from_response(response)
     if 'negated' in p:
-        if 'no' in answer.lower():
+        if 'not' in answer.lower():
+            nd += 1
+        elif 'no' in answer.lower():
             correct += 1
+        elif 'yes' in answer.lower():
+            pass
+        else:
+            nd += 1
     else:
-        if 'yes' in answer.lower():
+        if 'not' in answer.lower():
+            nd += 1
+        elif 'yes' in answer.lower():
             correct += 1
-    print(f'acc: {correct/total} ({correct}/{total})')
-    break
+        elif 'no' in answer.lower():
+            pass
+        else:
+            nd += 1
+    print(f'acc: {correct/total} ({correct}/{total})', nd)
