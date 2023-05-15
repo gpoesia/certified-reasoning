@@ -14,6 +14,7 @@ import copy
 from typing import List, Dict, Optional
 import shelve
 import itertools
+import os
 
 import openai
 import transformers
@@ -141,7 +142,7 @@ class OpenAIChatModel(LanguageModel):
         response = openai.ChatCompletion.create(model=self.model, messages=prompt, n=n,
                                                 temperature=temperature, top_p=self.top_p,
                                                 max_tokens=1, logit_bias=valid_bias)
-        prediction = [r['message']['content']for r in response['choices']]
+        prediction = [r['message']['content'] for r in response['choices']]
         tokens = [self.tokenizer.encode(p)[0] for p in prediction]
 
         if not tokens:
@@ -500,6 +501,12 @@ class OpenAILanguageModelReasoner(NaturalLanguageReasoner):
             prompt_file = 'prompts/syllogism_prompt'
             self._context_word = 'Assumptions'
             self._query_word = 'Question'
+            self._test_index = 3
+        elif 'deontic' in dataset:
+            prompt_file = 'prompts/deontic_events'
+            self._context_word = 'Context'
+            self._query_word = 'Question'
+            self._test_index = 1
         else:
             self._context_word = 'Context'
             self._query_word = 'Query'
@@ -532,7 +539,7 @@ class OpenAILanguageModelReasoner(NaturalLanguageReasoner):
             test = self._format_example(problem.test_example, len(in_context), True)
             prompt = f'\n{self._separator}\n'.join(in_context + [test])
         else:
-            test = self._format_example(problem.test_example, 3, True)
+            test = self._format_example(problem.test_example, self._test_index, True)
             prompt = copy.deepcopy(self._prompt)
             prompt += f'\n\n' + test
 
@@ -541,14 +548,13 @@ class OpenAILanguageModelReasoner(NaturalLanguageReasoner):
         response = openai.Completion.create(model=self._model,
                                             prompt=prompt,
                                             temperature=self._temperature,
-                                            max_tokens=20,
+                                            max_tokens=200,
                                             stop=self._separator)
 
         response_str = response.choices[0].text
         print(response_str)
         answer = re.search('Answer: (.+)$', response_str)
         answer = answer and answer.groups()[-1].strip()
-        print('Answer:', answer, '(correct?', answer == str(problem.test_example.answer), ')')
         return answer, response_str
 
 
@@ -583,8 +589,8 @@ class OpenAIChatModelReasoner(NaturalLanguageReasoner):
 
     def predict_answer(self, problem: object) -> bool:
         in_context = [m
-                    for i, e in enumerate(problem.train_examples[:3])
-                    for m in self._format_example(e, i, False)]
+                      for i, e in enumerate(problem.train_examples[:3])
+                      for m in self._format_example(e, i, False)]
 
         test = self._format_example(problem.test_example, 3, True)
         prompt = ([{"role": "system",
@@ -629,6 +635,8 @@ class PeanoLMReasoner(NaturalLanguageReasoner):
             prompt_file = 'prompts/peano_syllogism_realistic_inconsistent_prompt'
         elif 'syllogism-nonsense' in dataset:
             prompt_file = 'prompts/peano_syllogism_nonsense_prompt'
+        elif 'deontic' in dataset:
+            prompt_file = 'prompts/peano_deontic_events'
         else:
             prompt_file = 'prompts/peano_prontoqa_short_prompt'
 
@@ -654,7 +662,7 @@ class PeanoLMReasoner(NaturalLanguageReasoner):
                          )
 
         response = predict_constrained(self._completion_engine, lm, batch_size=800,
-                                       stop_tokens=[self._separator])
+                                       stop_tokens=[self._separator], max_violations=50)
         result = self._completion_engine.is_complete(response)
 
         done, answer = result if result is not None else (False, None)
@@ -745,13 +753,15 @@ def evaluate_reasoner(results_path: str,
 
         if key in results and not results[key]['error']:
             # print('Skipping', key)
-            success.append(results[key]['correct'])
+            # success.append(results[key]['correct'])
+            success.append(('Answer: Yes' in results[key]['reasoning']) == results[key]['answer'])
             continue
 
         try:
             prediction, reasoning = reasoner.predict_answer(p)
             error = None
-            correct = (prediction == p.test_example.answer)
+            correct = ('Answer: Yes' in reasoning) == p.test_example.answer
+            # correct = (prediction == p.test_example.answer)
             print(key, 'success?', correct)
         except (Exception, RuntimeError) as e:
             print('Error:', e)
@@ -920,7 +930,64 @@ def run_math_experiments():
             evaluate_reasoner('math_results.json', ds, r)
 
 
+def parse_deontic_logic_problem(path):
+    with open(path, 'r') as f:
+        lines = f.read().strip().splitlines()
+        pairs = []
+        for line in lines:
+            pair = line.split(':', 1)
+            pairs.append(pair)
+
+    context = pairs[0][1]
+    theory = [context.strip()]
+
+    question = pairs[1][1].strip()
+    reasoning = pairs[2][1].strip()
+    answer = pairs[3][1].strip().startswith('Yes')
+
+    example = PrOntoQAExample(theory, question, [reasoning], answer)
+    return PrOntoQAProblem(path, [], example)
+
+
+def load_deontic_logic_dataset():
+    dataset = PrOntoQADataset('deontic-logic-calendar', [])
+
+    ROOT = 'deontic_domains'
+
+    for path in os.listdir(ROOT):
+        if path.endswith('.txt'):
+            dataset.problems.append(parse_deontic_logic_problem(
+                os.path.join(ROOT, path)
+            ))
+
+    return dataset
+
+
+def run_deontic_logic_experiments():
+    datasets = [load_deontic_logic_dataset()]
+
+    fol_domain = domain.FirstOrderLogicDomain()
+    fol_completion_engine = PeanoCompletionEngine(
+        fol_domain,
+        fol_domain.start_derivation())
+
+    reasoners = [
+        # OpenAIChatModelReasoner('gpt-3.5-turbo'),
+        OpenAILanguageModelReasoner('text-davinci-003'),
+        PeanoLMReasoner(fol_completion_engine,
+                        'text-davinci-003'),
+        # PeanoChatLMReasoner(fol_completion_engine,
+        #                    'gpt-3.5-turbo')
+        # OpenAIChatModelReasoner('gpt-3.5-turbo'),
+    ]
+
+    for r in reasoners:
+        for ds in datasets:
+            evaluate_reasoner('deontic-results.json', ds, r, len(ds.problems))
+
+
 if __name__ == '__main__':
     # run_prontoqa_experiments()
-    run_syllogism_experiments()
+    # run_syllogism_experiments()
+    run_deontic_logic_experiments()
     # run_math_experiments()
