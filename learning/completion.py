@@ -155,7 +155,8 @@ class PeanoCompletionEngine:
         else:
             argument_regex = f'({param_regex}|{atom_regex})'
 
-        positive_property = rf'(\({atom_regex}( {argument_regex})+\))'
+        term_regex = rf'({argument_regex}|(\({atom_regex}( {argument_regex})+\)))'
+        positive_property = rf'(\({atom_regex}( {term_regex})+\))'
         proposition = rf'({positive_property}|(\(not {positive_property}\)))'
 
         if is_goal:
@@ -223,7 +224,7 @@ class PeanoCompletionEngine:
                     # Infer arities and declare new things.
                     ignore = False
                     for prop in block_content.split(' -> '):
-                        new_arities = infer_arities(prop)
+                        new_arities, toplevel = infer_arities(prop)
 
                         for k, v in new_arities.items():
                             if k not in arities:
@@ -233,7 +234,8 @@ class PeanoCompletionEngine:
                                 if v == 0:
                                     u.incorporate(f'let {k} : object.')
                                 else:
-                                    u.incorporate(f'{k} : [{" -> ".join(["object"] * v)} -> prop].')
+                                    rtype = 'prop' if k == toplevel else 'object'
+                                    u.incorporate(f'{k} : [{" -> ".join(["object"] * v)} -> {rtype}].')
                             elif v != arities[k]:
                                 ignore = True
                                 break
@@ -332,7 +334,6 @@ class PeanoCompletionEngine:
         ff = self.fast_forward_derivation(blocks)
         return self.domain.derivation_done(ff)
 
-
 def infer_sexp_arities(sexp: list, result: dict[str, int]):
     if isinstance(sexp, str):
         if result.setdefault(sexp, 0) != 0:
@@ -353,7 +354,11 @@ def infer_arities(rule: str) -> dict[str, int]:
     result = {}
     sexp, _ = util.parse_sexp(rule)
     infer_sexp_arities(sexp, result)
-    return result
+    if sexp[0] == 'not' and len(sexp) == 2:
+        toplevel = sexp[1][0] if isinstance(sexp[1], list) else sexp[1]
+    else:
+        toplevel = sexp[0]
+    return result, toplevel
 
 
 class PeanoCompletionEngineTest(unittest.TestCase):
@@ -616,3 +621,34 @@ Answer: True""", True)]
 
             self.assertTrue(done)
             self.assertEqual(prediction, answer)
+
+
+    def test_deontic_prompt_example(self):
+        solution = """Formalized context: 1- [[object:alice]] [[object:bob]] [[object:carol]] 2- [[object:fundraising]] [[object:training]] [[object:charity-gala]] 3- [[axiom:(organizer alice fundraising)]] [[axiom:(participant carol fundraising)]] 4- [[axiom:(conference fundraising)]] [[axiom:(social charity-gala)]] 5- [[axiom:(monthly training)]] 6- [[axiom:(individual-invite alice fundraising)]] 7- [[axiom:(free 'p 'e) -> (obligatory (check-availability 'p 'e))]] 8- [[axiom:(participant 'p 'e) -> (permissible (delegate 'e 'p))]] 9- [[axiom:(social 'e) -> (public 'e)]] 10- [[axiom:(free 'p 'e) -> (obligatory (suggest-alternative-time 'p 'e))]] 11- [[axiom:(organizer 'p 'e) -> (not (permissible (suggest-alternative-time 'p 'e)))]] 12- [[axiom:(long 'e) -> (permissible (change-visibility 'e confidential))]] 13- [[axiom:(public 'e) -> (long 'e)]] 14- [[axiom:(long 'e) -> (free carol 'e)]] 15- [[axiom:(free 'p 'e) -> (low-priority 'p 'e)]]
+        Formalized goal: [[goal:(obligatory (suggest-alternative-time carol charity-gala))]]
+        Reasoning: [[infer:(public charity-gala)]] The charity gala is a public event. [[infer:(long charity-gala)]] The charity gala is a long event. [[infer:(free carol charity-gala)]] Carol is free during the charity gala. [[infer:(obligatory (suggest-alternative-time carol charity-gala))]] – It is obligatory for Carol (b3) to suggest an alternative time for the charity gala.
+        Answer (Yes or no): Yes, it is obligatory for Carol to suggest an alternative time for the charity gala.
+        """
+
+        d = domain.FirstOrderLogicDomain()
+        prob = d.start_derivation()
+
+        ce = PeanoCompletionEngine(d, prob)
+        from transformers import AutoTokenizer
+        tokenizer = AutoTokenizer.from_pretrained("facebook/opt-13b", use_fast=False)
+
+        vocab = [tokenizer.decode([i]) for i in range(tokenizer.vocab_size)]
+
+        csd = StreamingCSD(ce, vocab)
+
+        tokens = tokenizer.encode(solution)
+
+        for i, t in enumerate(tokens):
+            if not csd.can_token_follow(t):
+                breakpoint()
+            csd.feed_prediction(t)
+
+        done, prediction = ce.is_complete(solution)
+
+        self.assertTrue(done)
+        self.assertTrue(prediction)
