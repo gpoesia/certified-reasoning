@@ -272,7 +272,7 @@ def plot_vegalite(template: str, data: list, output_path: str):
     with open(output_path + '.vl.json', 'w') as f:
         json.dump(spec, f)
 
-    alt.Chart.from_dict(spec).save(output_path, scale_factor=5)
+    # alt.Chart.from_dict(spec).save(output_path, scale_factor=5)
 
 
 def bootstrap_mean_ci(trials, confidence):

@@ -1,0 +1,57 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "facet": {
+    "field": "dataset",
+    "title": null,
+    "header": {
+      "labelFontSize": 20
+    }
+  },
+  "columns": 2,
+  "spec": {
+    "width": 300,
+    "height": 160,
+    "encoding": {
+      "x": { "field": "hops", "type": "quantitative",
+             "axis": {
+               "title": "# of hops",
+               "titleFontSize": 16, "labelFontSize": 14,
+               "tickMinStep": 1,
+               "tickCount": 5,
+               "labelExpr": "datum.value % 1 === 0 ? datum.value : ''"
+             }
+           },
+      "color": { "field": "base_model", "type": "nominal",
+                 "legend": {
+                   "title": "Model",
+                   "titleFontSize": 16,
+                   "labelFontSize": 14
+                 }
+               },
+      "opacity": {
+        "field": "guide", "type": "nominal",
+        "legend": {
+          "title": "+ LogicGuide?",
+          "titleFontSize": 16,
+          "labelFontSize": 14
+        }
+      },
+      "y": {
+        "scale": {"domain": [0.4, 1.0] },
+        "axis": {
+          "title": "Accuracy", "titleFontSize": 20, "labelFontSize": 20
+        }
+      }
+    },
+    "layer": [
+      {
+        "mark": "line",
+        "encoding": { "y": { "field": "correct", "type": "quantitative", "aggregate": "mean"} }
+      },
+      {
+        "mark": { "type": "errorband", "extent": "stderr" },
+        "encoding": { "y": { "field": "correct", "type": "quantitative"} }
+      }
+    ]
+  }
+}

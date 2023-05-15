@@ -13,6 +13,8 @@ import util
 
 
 PEANO_MODEL_PREFIX = 'peano-'
+STAR_PROBLEMS_PER_ITERATION = 40
+STAR_LAST_FULL_ITERATION = 2
 
 
 def format_reasoner_name(raw_name: str) -> str:
@@ -42,6 +44,14 @@ def format_base_reasoner_name(raw_name: str) -> str:
         return 'LLaMA 13B'
 
     raise ValueError(f'Unknown reasoner {raw_name}')
+
+
+def format_star_mode_name(raw_name: str):
+    if 'direct' in raw_name:
+        return 'Unguided'
+    if 'selective' in raw_name:
+        return 'Strict Guided'
+    return 'Guided'
 
 
 def has_guide(raw_name: str) -> bool:
@@ -91,7 +101,8 @@ def format_dataset_name(raw_name: str) -> str:
     return f'{ds} {ontology} {hops}H'
 
 
-def load_results(paths: list[str], dataset_filter: Optional[str]) -> list:
+def load_results(paths: list[str], dataset_filter: Optional[str],
+                 unknown_as_random_guess=True) -> list:
     records = []
 
     for path in paths:
@@ -107,8 +118,7 @@ def load_results(paths: list[str], dataset_filter: Optional[str]) -> list:
 
     return [r
             for r in records
-            if r['error'] is None and
-            (dataset_filter or '') in r['dataset']]
+            if (dataset_filter or '') in r['dataset']]
 
 
 def compute_success_rates(records: list) -> dict:
@@ -184,18 +194,27 @@ def generate_results_table(results_path: str, dataset_filter: str, output_path: 
 
 
 def generate_multihop_reasoning_plot(results_path: str, output_path: str):
-    results = load_results(results_path, None)
+    results = load_results(results_path, None, True)
     data = []
 
     for r in results:
         if not report_model(r['reasoner']):
             continue
 
+        if 'syllogism' in r['dataset']:
+            continue
+
+        # LLaMA results were first 40 problems on 3 different seeds
+        # rather than problems up to 120 in same seed.
+        if 'llama' in r['reasoner'] and ('proofwriter' not in r['dataset']) \
+           and int(r['problem'][len('example'):]) >= 40:
+            continue
+
         r['model'] = format_reasoner_name(r['reasoner'])
         r['base_model'] = format_base_reasoner_name(r['reasoner'])
         r['hops'] = get_dataset_name(r['dataset'])[2]
         r['dataset'] = base_dataset_name(r['dataset'])
-        r['guide'] = has_guide(r['reasoner'])
+        r['guide'] = 'Yes' if has_guide(r['reasoner']) else 'No'
         data.append(r)
 
     util.plot_vegalite('multihop-reasoning', data, output_path)
@@ -218,6 +237,26 @@ def generate_syllogism_plot(results_path: str, output_path: str):
     util.plot_vegalite('syllogism-validity', data, output_path)
 
 
+def generate_star_plot(results_path: str, output_path: str):
+    results = load_results(results_path, None)
+    data = []
+
+    for r in results:
+        if not report_model(r['reasoner']):
+            continue
+
+        r['model'] = format_reasoner_name(r['reasoner'])
+        r['iteration'] = int(r['problem'][len('example'):]) // STAR_PROBLEMS_PER_ITERATION
+
+        if r['iteration'] > STAR_LAST_FULL_ITERATION:
+            continue
+
+        r['mode'] = format_star_mode_name(r['reasoner'])
+        data.append(r)
+
+    util.plot_vegalite('star', data, output_path)
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--table', action='store_true',
@@ -228,6 +267,8 @@ def main():
                         help='Generate line plot of multihop reasoning results.')
     parser.add_argument('--plot-syllogism', action='store_true',
                         help='Generate bar plot of syllogistic reasoning results.')
+    parser.add_argument('--plot-star', action='store_true',
+                        help='Generate line plot of STaR results.')
     parser.add_argument('--results', help='Path to results file.', nargs='*')
     parser.add_argument('--dataset-filter', default='',
                         help='Only consider datasets with this substring.')
@@ -245,6 +286,8 @@ def main():
         generate_multihop_reasoning_plot(opt.results, opt.output)
     elif opt.plot_syllogism:
         generate_syllogism_plot(opt.results, opt.output)
+    elif opt.plot_star:
+        generate_star_plot(opt.results, opt.output)
 
 
 if __name__ == '__main__':
