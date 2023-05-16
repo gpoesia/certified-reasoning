@@ -24,9 +24,12 @@ let taxiom4 : [('f : event) -> (priority 'f) -> (high b2 'f) -> (low b1 'f)].
 calendar_good_taxioms = """
 
 """
+
+
 axiom_templates = "Deoontic Axioms:\n{deontic_axioms}\nTheory Axioms:\n{theory_axioms}"
 example_axioms = "Deoontic Axioms:\n{deontic_axioms}\nTheory Axioms:\n{theory_axioms}"
-system_axioms = """You are an AI assistant, help the user with different tasks for deontic logic.
+system_axioms = {}
+system_axioms['calendar'] = """You are an AI assistant, help the user with different tasks for deontic logic.
 Here is the theory for the domain.
 {theory}. You are asked to generate axioms based on templates. Be sure to stick to the templates.
 Use 'type for generics (example 'e : event) and directly the variable names for others (example: e1 and not 'e1, b1 and not 'b1). Be sure to always declare generics before using them (like ('e: event) -> (free a1 'e)).
@@ -39,6 +42,24 @@ These are good axioms:
 let taxiom : [('e : event) -> (yearly 'e) -> (long 'e)]. ; as yearly (recurrence) and long (duration) are different
 let taxiom : [('e: event) -> (meeting 'e) -> (private 'e)]. ; as meeting (category) and private (visibility) are different
 let taxiom : [('p : person) -> ('e : event) -> (high 'e 'p) -> (free 'e 'p)]. ; as high (priority) and free (availability) are different
+"""
+
+system_axioms['triage'] = """You are an AI assistant, help the user with different tasks for deontic logic. Here is the theory for the domain. 
+{theory}.
+You are asked to generate axioms based on templates. Be sure to stick to the templates.
+
+Use 'type for generics (example 'p : patient) and directly the variable names for others (example: p1 and not 'p1, h1 and not 'h1). Be sure to always declare generics before using them (like ('p: patient) -> (critical_condition 'p)).
+
+Don't write contradictory axioms. For theory axioms or taxioms, use different types of props within an axiom. Relate the axioms to each other so that one can follow from the other. Be especially creative with taxioms.
+
+These are bad axioms:
+let taxiom : [('p : patient) -> (priority 'p) -> (red 'p) -> (orange 'p)]. ; as red and orange are similar (both are priority)
+let taxiom : [('p : patient) -> (injury_disease 'p) -> (severe 'p) -> (critical 'p)]. ; as severe and critical are similar (both are injury_disease)
+
+These are good axioms:
+let taxiom : [('p : patient) -> (red 'p) -> (critical 'p)]. ; as red (priority) and critical (injury_disease) are different
+let taxiom : [('p : patient) -> (severe 'p) -> (unconscious 'p)]. ; as severe (injury_disease) and unconscious (consciousness_level) are different
+let taxiom : [('h : healthcare_professional) -> ('p : patient) -> (high_resources 'h) -> (assign_green 'h 'p)]. ; as high_resources (resource_availability) and assign_green (Assign Priority Levels) are different
 """
 
 def get_axiom_prompt(system_axioms, axiom_templates, example_axioms, example_context, context):

@@ -1,6 +1,5 @@
 from domain import DomainFromTheory, Problem
 from typing import Optional
-from completion import PeanoCompletionEngine
 
 class CalendarDomain(DomainFromTheory):
     def __init__(self, theory, with_equality=False):

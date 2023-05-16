@@ -8,7 +8,6 @@ import openai
 import peano
 from deontic_domains.axiom_templates import *
 from deontic_domains.prompts import *
-from deontic_domains.calendar import CalendarDomain, contexts, deontic_axioms, theory_axioms, domain_text 
 
 def get_args():
     parser = argparse.ArgumentParser()
@@ -18,7 +17,7 @@ def get_args():
     parser.add_argument('--max_tokens', type=int, default=400)
     parser.add_argument('--n_hops', type=int, default=2)
     parser.add_argument('--n_problems', type=int, default=1)
-    parser.add_argument('--domain', type=str, default="calendar")
+    parser.add_argument('--domain', type=str, default="triage")
     parser.add_argument('--verbose', action='store_true')
     parser.add_argument('--use_context', action='store_true')
     parser.add_argument('--use_axioms', action='store_true')
@@ -75,13 +74,13 @@ def parse_problem(problem):
     result = "\n".join(result)
     return context, deontic_axioms, theory_axioms, result
 
-def copy_problem(problem, calendar):
-    copied_problem = calendar.start_derivation(problem=problem.description, goal=None)
+def copy_problem(problem, domain):
+    copied_problem = domain.start_derivation(problem=problem.description, goal=None)
     copied_problem.universe = problem.universe.clone()
     return copied_problem
 
-def dfs_search(cal_problem, calendar, max_depth):
-    stack = [(cal_problem, 0, [])]
+def dfs_search(dom_problem, domain, max_depth):
+    stack = [(dom_problem, 0, [])]
     visited = set()
 
 
@@ -100,7 +99,7 @@ def dfs_search(cal_problem, calendar, max_depth):
             return path
 
 
-        actions = calendar.derivation_actions(cur_problem.universe)
+        actions = domain.derivation_actions(cur_problem.universe)
         random.shuffle(actions)
         if depth < max_depth - 1:
             actions = [action for action in actions if 'taxiom' in action]
@@ -108,7 +107,7 @@ def dfs_search(cal_problem, calendar, max_depth):
             actions = [action for action in actions if 'daxiom' in action]
 
         for action in actions:
-            temp_problem = copy_problem(cur_problem, calendar)
+            temp_problem = copy_problem(cur_problem, domain)
 
             if depth == 0:
                 outcomes = temp_problem.universe.apply(action)
@@ -120,20 +119,20 @@ def dfs_search(cal_problem, calendar, max_depth):
 
             random.shuffle(outcomes)
             for outcome in outcomes:
-                temp_problem_o = copy_problem(temp_problem, calendar)
+                temp_problem_o = copy_problem(temp_problem, domain)
                 if args.verbose:
                     print(f'outcome: {outcome}')
                 try: 
-                    calendar.define(temp_problem_o.universe, f'r{depth + 1}', outcome)
+                    domain.define(temp_problem_o.universe, f'r{depth + 1}', outcome)
                 except:
                     continue
                 stack.append((temp_problem_o, depth + 1, path + [outcome, action]))
     return None
 
-def exhaustive_search(problem, n_hops, calendar):
-    cal_problem = calendar.start_derivation(problem=problem, goal=None)
-    result = dfs_search(cal_problem, calendar, n_hops)
-    # result = dfs_search(cal_problem, calendar, 0, n_hops, [])
+def exhaustive_search(problem, n_hops, domain):
+    dom_problem = domain.start_derivation(problem=problem, goal=None)
+    result = dfs_search(dom_problem, domain, n_hops)
+    # result = dfs_search(dom_problem, domain, 0, n_hops, [])
     return result
 
 
@@ -142,14 +141,21 @@ def exhaustive_search(problem, n_hops, calendar):
 if __name__ == "__main__":
     args = get_args()
     theory_file = f"../environment/theories/{args.domain}.p" 
+    if args.domain == 'triage':
+        from deontic_domains.triage_domain import TriageDomain, contexts, deontic_axioms, theory_axioms, domain_text
+    elif args.domain == 'calendar':
+        from deontic_domains.calendar_domain import CalendarDomain, contexts, deontic_axioms, theory_axioms, domain_text 
+    else:
+        raise NotImplementedError
     with open(theory_file, 'r') as f:
         theory = f.read()
     n_hops = args.n_hops
     n_problems = args.n_problems
 
+
     # sample context using gpt-4
     if not args.load_problem:
-        system_context_dom = system_context.format(theory=theory)
+        system_context_dom = system_context[args.domain].format(theory=theory)
         example_context_dom = example_context.format(context=contexts)
         system_axioms_dom = system_axioms.format(theory=theory)
         axiom_templates_dom = axiom_templates.format(deontic_axioms=deontic_templates, theory_axioms=theory_templates)
@@ -225,30 +231,34 @@ let taxiom10 : [('b : person) -> ('f : event) -> (busy 'b 'f) -> (yearly 'f)].
         problem = f"{context}\n{gen_deontic_axioms}{gen_theory_axioms}"
 
         # define the theory
-        calendar = CalendarDomain('calendar.p')
+        if args.domain == "calendar":
+            domain = CalendarDomain('calendar.p')
+        elif args.domain == "triage":
+            domain = TriageDomain('triage.p')
+        
 
         # sample an outcome
         sampled_outcomes = []
 
         
         # Execute the exhaustive search
-        result = exhaustive_search(problem, n_hops, calendar)
+        result = exhaustive_search(problem, n_hops, domain)
         print("Exhaustive search result:", result)
 
         # store the problem, theory, context, outcome, and solution
         # check files to find the next problem id
         if result is not None:
-            file_num = len([f for f in os.listdir("deontic_domains/") if f.endswith(".p") and f"calendar_problem_{args.n_hops}" in f])
+            file_num = len([f for f in os.listdir("deontic_domains/") if f.endswith(".p") and f"{args.domain}_problem_{args.n_hops}" in f])
             
             # save the problem as problem_00.p
-            with open(f"deontic_domains/calendar_problem_{args.n_hops}_{file_num:02d}.p", 'w') as f:
+            with open(f"deontic_domains/{args.domain}_problem_{args.n_hops}_{file_num:02d}.p", 'w') as f:
                 f.write(problem)
                 f.write("\nResult:\n")
                 result_str = '\n'.join([str(r) for r in result[::2]])
                 f.write(result_str)
     else:
-        peano_files = sorted([f for f in os.listdir("deontic_domains/") if f.endswith(".p") and f"calendar_problem_{args.n_hops}" in f])
-        text_files = sorted([f for f in os.listdir("deontic_domains/") if f.endswith(".txt") and f"calendar_problem_{args.n_hops}"])
+        peano_files = sorted([f for f in os.listdir("deontic_domains/") if f.endswith(".p") and f"{args.domain}_problem_{args.n_hops}" in f])
+        text_files = sorted([f for f in os.listdir("deontic_domains/") if f.endswith(".txt") and f"{args.domain}_problem_{args.n_hops}"])
         # check which peano files have a corresponding text file
         problem_file = None
         example_file = []
@@ -260,7 +270,7 @@ let taxiom10 : [('b : person) -> ('f : event) -> (busy 'b 'f) -> (yearly 'f)].
                 example_file.append(f.split(".")[0])
         assert problem_file is not None, "No problem file found"        
         if len(example_file) == 0:
-            example_file = ['calendar_problem_4_04']
+            example_file = [f'{args.domain}_problem_4_04']
         # sample current problem
         with open(f"deontic_domains/{problem_file}.p", 'r') as f:
             problem = f.read()
