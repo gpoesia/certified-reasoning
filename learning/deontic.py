@@ -5,7 +5,6 @@ import argparse
 
 import openai
 
-import peano
 from deontic_domains.axiom_templates import *
 from deontic_domains.prompts import *
 
