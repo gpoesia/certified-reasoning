@@ -49,7 +49,7 @@ diagnose : [healthcare_professional -> patient -> action].
 
 treatment_plan : type.
 create_treatment_plan : [healthcare_professional -> patient -> action].
-administer_treatment : [healthcare_professional -> patient -> action].
+administer_treatment : [healthcare_professional -> patient -> consent -> action].
 
 monitor : type.
 monitor_patient : [healthcare_professional -> patient -> action].
@@ -121,8 +121,8 @@ unstable_mental_state : [patient -> prop].
 
 /* Patient consent */
 consent : type.
-provide_consent : [patient -> treatment -> action].
-withdraw_consent : [patient -> treatment -> action].
+consent_given : [patient -> treatment -> consent].
+consent_withdrawn : [patient -> treatment -> consent].
 
 /* Emergency */
 emergency : type.

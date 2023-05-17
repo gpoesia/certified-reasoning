@@ -2,7 +2,7 @@
 system_context = """You are an AI assistant, help the user with different tasks for deontic logic.
 Here is the theory for the domain.
 {theory}
-Each context structure should be different.
+Each context structure should be different. Generate contexts of a similar length.
 """
 example_context = "{context}"
 
@@ -11,19 +11,12 @@ def get_context_prompt(system_context, example_context):
         {"role": "system", "content": system_context},
         {"role": "user", "content": "Generate a context."},
         {"role": "assistant", "content": example_context},
-        {"role": "user", "content": "Generate another context, variables dont carry over. This should be different from the previous one. Remeber to use let in statements always. Be creative."},
+        {"role": "user", "content": "Generate another context, variables dont carry over. Remeber to use let in statements always. Be creative. Keep the length similar. This should be different from the previous one, use different props etc."},
     ]
     return messages_context
 
 
 # Prompts for generating the axioms
-calendar_bad_taxioms = """
-let taxiom3 : [('f : event) -> (recurrence 'f) -> (daily 'f) -> (weekly 'f)].
-let taxiom4 : [('f : event) -> (priority 'f) -> (high b2 'f) -> (low b1 'f)].
-"""
-calendar_good_taxioms = """
-
-"""
 
 
 axiom_templates = "Deoontic Axioms:\n{deontic_axioms}\nTheory Axioms:\n{theory_axioms}"

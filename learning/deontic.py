@@ -124,6 +124,7 @@ def dfs_search(dom_problem, domain, max_depth):
                 try: 
                     domain.define(temp_problem_o.universe, f'r{depth + 1}', outcome)
                 except:
+                    print(f'Error defining, {outcome}')
                     continue
                 stack.append((temp_problem_o, depth + 1, path + [outcome, action]))
     return None
@@ -154,9 +155,9 @@ if __name__ == "__main__":
 
     # sample context using gpt-4
     if not args.load_problem:
-        system_context_dom = system_context[args.domain].format(theory=theory)
+        system_context_dom = system_context.format(theory=theory)
         example_context_dom = example_context.format(context=contexts)
-        system_axioms_dom = system_axioms.format(theory=theory)
+        system_axioms_dom = system_axioms[args.domain].format(theory=theory)
         axiom_templates_dom = axiom_templates.format(deontic_axioms=deontic_templates, theory_axioms=theory_templates)
         example_axioms = deontic_axioms.format(deontic_axiom=deontic_axioms, theory_axioms=theory_axioms)
 
@@ -164,28 +165,26 @@ if __name__ == "__main__":
 
         if args.use_context:
             # manual intervention for getting hops
-            context = """let b1 : person.
-    let b2 : person.
-    let b3 : person.
-    let g2 : group.
-    let f1 : event.
-    let f2 : event.
-    let f3 : event.
+            context = """let h4 : healthcare_professional.
+let h5 : healthcare_professional.
+let p3 : patient.
+let p4 : patient.
+let eq3 : equipment.
+let eq4 : equipment.
 
-    let org2 : (organizer f1 b1).
-    let part2 : (participant f1 b3).
+let t3 : (physical_therapy p3).
+let t4 : (medication p4).
 
-    let vis1 : (public f1).
-    let vis2 : (confidential f3).
-    let dur1 : (short f2).
-    let cat2 : (conference f1).
-    let cat3 : (social f3).
-    let rec3 : (monthly f2).
+let res3 : (low_resources h4).
+let stab2 : (stable_condition p3).
 
-    let reminder1 : reminder = (hours_before b1 f1).
-    let reminder2 : reminder = (days_before b2 f2).
-    let inv3 : invite = (individual_invite b1 f1).
-    """
+let cons2 : (unconscious p3).
+let mob3 : (mobile p4).
+
+let inf1 : (infected p3).
+let preg1 : (pregnant p4).
+
+"""
         else:
             context_prompt = get_context_prompt(system_context_dom, example_context_dom)
             context = get_chat_response(context_prompt, args)
@@ -196,27 +195,27 @@ if __name__ == "__main__":
 
         if args.use_axioms:
             # manual intervention for getting n hops
-            gen_deontic_axioms = """let daxiom11 : [('f : event) -> ('b : person) -> (busy 'b 'f) -> (impermissible (accept (individual_invite 'b 'f)))].
-let daxiom12 : [('f : event) -> ('g : group) -> (group_participant 'g 'f) -> (permissible (send_notification (group_invite 'g 'f)))].
-let daxiom13 : [('f : event) -> ('b : person) -> (free 'b 'f) -> (obligatory (check_availability 'b 'f))].
-let daxiom14 : [('f : event) -> ('b : person) -> (participant 'f 'b) -> (permissible (delegate_event 'f 'b))].
-let daxiom15 : [('f : event) -> ('b : person) -> (organizer 'f 'b) -> (obligatory (update_event 'f social))].
-let daxiom16 : [('f : event) -> ('b : person) -> (long 'f) -> (permissible (set_reminder (days_before 'b 'f)))].
-let daxiom17 : [('f : event) -> ('g : group) -> (group_participant 'f 'g) -> (permissible (add_participant 'f 'b))].
-let daxiom18 : [('f : event) -> ('b : person) -> (busy 'b 'f) -> (impermissible (reschedule_event 'f daily))].
-let daxiom19 : [('f : event) -> ('b : person) -> (free 'b 'f) -> (obligatory (suggest_alternative_time 'b 'f))].
-let daxiom20 : [('f : event) -> (long 'f) -> (permissible (change_visibility 'f confidential))].
+            gen_deontic_axioms = """let daxiom11 : [('h : healthcare_professional) -> ('p : patient) -> (critical_condition 'p) -> (obligatory (perform_examination 'h 'p))].
+let daxiom12 : [('h : healthcare_professional) -> ('p : patient) -> (stable_condition 'p) -> (obligatory (assign_green 'h 'p))].
+let daxiom13 : [('h : healthcare_professional) -> ('p : patient) -> (infected 'p) -> (impermissible (discharge_patient 'h 'p))].
+let daxiom14 : [('h : healthcare_professional) -> ('p : patient) -> (pregnant 'p) -> (permissible (initiate_rehabilitation 'h 'p))].
+let daxiom15 : [('h : healthcare_professional) -> ('p : patient) -> (low_resources 'h) -> (not (obligatory (administer_treatment 'h 'p)))].
+let daxiom16 : [('h : healthcare_professional) -> ('p : patient) -> (mobile 'p) -> (permissible (create_treatment_plan 'h 'p))].
+let daxiom17 : [('h : healthcare_professional) -> ('e : equipment) -> (not_assigned_care 'h p3) -> (not (obligatory (use_equipment 'h p3 'e)))].
+let daxiom18 : [('h : healthcare_professional) -> ('p : patient) -> (conscious 'p) -> (not (obligatory (discharge_patient 'h 'p)))].
+let daxiom19 : [('h : healthcare_professional) -> ('p : patient) -> (unconscious 'p) -> (obligatory (monitor_patient 'h 'p))].
+let daxiom20 : [('h : healthcare_professional) -> ('p : patient) -> (assigned_care 'h 'p) -> (obligatory (provide_family_support 'h 'p))].
 """
-            gen_theory_axioms = """
-let taxiom1 : [('f : event) -> (social 'f) -> (public 'f)].
-let taxiom2 : [('b : person) -> ('f : event) -> (busy 'b 'f) -> (low 'b 'f)].
-let taxiom3 : [('f : event) -> (public 'f) -> (long 'f)].
-let taxiom4 : [('f : event) -> (long 'f) -> (free b3 'f)].
-let taxiom5 : [('b : person) -> ('f : event) -> (organizer 'b 'f) -> (confidential 'f)].
-let taxiom6 : [('b : person) -> ('f : event) -> (free 'b 'f) -> (low 'b 'f)].
-let taxiom7 : [('f : event) -> (short 'f) -> (conference 'f)].
-let taxiom8 : [('b : person) -> ('f : event) -> (participant 'b 'f) -> (daily 'f)].
-let taxiom10 : [('b : person) -> ('f : event) -> (busy 'b 'f) -> (yearly 'f)].
+            gen_theory_axioms = """let taxiom1 : [('p : patient) -> (infected 'p) -> (unstable_vitals 'p)].
+let taxiom2 : [('p : patient) -> (pregnant 'p) -> (unstable_vitals 'p)].
+let taxiom3 : [('p : patient) -> (stable_condition 'p) -> (conscious 'p)].
+let taxiom4 : [('h : healthcare_professional) -> ('p : patient) -> (conscious 'p) -> (not_assigned_care 'h 'p)].
+let taxiom5 : [('h : healthcare_professional) -> ('p : patient) -> (high_resources 'h) -> (assigned_care 'h 'p)].
+let taxiom6 : [('h : healthcare_professional) -> ('p : patient) -> (declare_emergency 'h) -> (critical_condition 'p)].
+let taxiom7 : [('h : healthcare_professional) -> ('p : patient) -> (assess_mental_health 'h 'p) -> (unstable_mental_state 'p)].
+let taxiom8 : [('h : healthcare_professional) -> ('p : patient) -> (provide_family_support 'h 'p) -> (stable_mental_state 'p)].
+let taxiom9 : [('p : patient) -> (assign_orange h4 'p) -> (critical_condition 'p)].
+let taxiom10 : [('p : patient) -> (unstable_vitals 'p) -> (assign_orange h4 'p)].
 """
         else:
             axiom_response = get_chat_response(axiom_prompt, args)
@@ -295,9 +294,3 @@ let taxiom10 : [('b : person) -> ('f : event) -> (busy 'b 'f) -> (yearly 'f)].
         with open(f"deontic_domains/{problem_file}.txt", 'w') as f:
             f.write(text)
         
-
-    # TODOS:
-    # convert context to a scenario - gpt-4
-    # convert deontic_axioms to constraint - gpt-4
-    # convert context + theory to a situation - gpt-4
-    # convert outcome to a question - gpt-4
