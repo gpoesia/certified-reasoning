@@ -8,24 +8,6 @@ PROMPT_TEMPLATE = [
     {'role': 'system', 'content': 'You are a helpful assistant that helps the user rewrite their files into the correct, canonical format, demonstrated by your first response.'},
     {'role': 'user', 'content': '''Problem #1
 Scenario:
-In a non-profit organization, there are three volunteers: Alice, Bob, and Carol. They have three upcoming events: a fundraising event, a training event, and a charity gala. Alice is the organizer of the fundraising event, and Carol is a participant. The fundraising event is public. The training event is a short event. The fundraising event is a conference, and the charity gala is a social event. The training event occurs monthly. Alice gets an individual invite to the fundraising event.
-If a person is free during an event, it is obligatory for them to check their availability for that event.
-If a person is a participant in an event, it is permissible to delegate the event to them.
-If a person is the organizer of an event, it is obligatory to update the event to be a social event.
-For long events, it is permissible to set a reminder for a few days before the event for them.
-If a person is busy during an event, it is impermissible to reschedule the event daily.
-If a person is free during an event, it is obligatory for them to suggest an alternative time for that event.
-If a person is the organizer of an event, it is impermissible for them to suggest an alternative time for that event.
-If an event is long, it is permissible to change its visibility to confidential.
-If an event is social, it must be public.
-If a person is busy during an event, their priority for that event is low.
-Public events are long events.
-If an event is long, Carol is free for that event.
-If a person is free during an event, their priority for that event is low.
-Short events are conferences.
-Question:
-Given the situation and the rules of the world, is it obligatory for Carol to suggest an alternative time for the charity gala?
-Scenario:
 In a non-profit organization, there are three volunteers: Alice, Bob, and Carol. The organization also has a local team called "CommunityHelpers". They have three upcoming events: a fundraising event, a training event, and a charity gala. Alice is the organizer of the fundraising event, and Carol is a participant. The fundraising event is public. The training event is a short event. The fundraising event is a conference, and the charity gala is a social event. The training event occurs monthly. Alice gets an individual invite to the fundraising event.
 For this organization, the following rules apply:
 If a person is free during an event, it is obligatory for them to check their availability for that event.
@@ -117,7 +99,7 @@ def renumber(path):
 
 
 def main():
-    for p in os.listdir('orig'):
+    for p in sorted([fi for fi in os.listdir('orig') if '_4_' not in fi]):
         # convert(f'orig/{p}')
         renumber(p)
 

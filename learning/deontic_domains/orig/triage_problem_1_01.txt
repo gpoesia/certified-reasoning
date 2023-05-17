@@ -1,0 +1,25 @@
+Scenario:
+In a clinic, there are three healthcare professionals: Anderson, Brown, and Clark. They are attending to two patients: Patient Emily and Patient Hannah. The clinic has two pieces of medical equipment: a CT scanner and an ultrasound machine. Emily is receiving physical therapy. Hannah has been prescribed medication. Emily has a stable condition but is infected. Hannah is pregnant. Emily has given consent for physical therapy (t3), while Hannah has withdrawn consent for medication (t4). Brown has been assigned to care for Emily. Clark is responsible for Hannah. Anderson is assessing Emily's mental health. Brown is providing mental health support for Hannah.
+Here are the rules of the world:
+If a patient is pregnant, it is permissible for the healthcare professional to perform an examination on them.
+If a patient is infected, it is obligatory for the healthcare professional to administer treatment to them.
+If a patient has a stable mental state, it is impermissible for the healthcare professional to provide family support to them.
+If a healthcare professional has consent_given for physical therapy, it is obligatory for them to administer physical therapy to the patient.
+If a patient has a yellow priority, it is obligatory for the healthcare professional to initiate life support for them.
+If a patient has a red priority, it is impermissible for the healthcare professional to use equipment for them.
+If a patient has a stable condition, it is not obligatory for the healthcare professional to allocate staff to them.
+If a healthcare professional is assigned care for a patient, it is permissible for them to use equipment for that patient.
+If a patient is pregnant, they are not infected.
+If a healthcare professional assesses a patient's mental health, the patient has a stable mental state.
+If a patient has a stable condition, they are conscious.
+If a patient is not infected, they have a yellow priority.
+If a healthcare professional has low resources, they have low staff.
+If a patient has a yellow priority, they have a stable condition.
+If a patient is mobile, the healthcare professional may initiate rehabilitation for them.
+Question:
+Is it permissible for Brown to use the CT scanner for Emily?
+Solution:
+To determine whether it is permissible for Brown to use the CT scanner for Emily, we need to follow the reasoning trace:
+(daxiom20 h5 eq3 care2) : (permissible (use_equipment h5 p3 eq3)) - This states that it is permissible for Brown to use equipment for Emily since they have been assigned to care for her.
+Answer:
+Yes, it is permissible for Brown to use the CT scanner for Emily.

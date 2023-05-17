@@ -1,0 +1,27 @@
+Scenario:
+In a medical clinic, there are three healthcare professionals: Adams, Brown, and Carter. They are attending to two patients: Patient Claire and Patient David. The clinic has two pieces of medical equipment: an X-ray machine and an ultrasound machine. Claire is undergoing physical therapy. David has been prescribed medication. Adams is working in a ward with low resources, while Brown is working in a ward with high resources. Claire has a stable condition. David has unstable vitals. Claire is unconscious. David is mobile. David has been assigned a green priority. Brown has been assigned to care for Claire. Brown is providing mental health support for Claire.
+Here are the rules of the world:
+If a patient has a stable condition, it is permissible for the healthcare professional to assign them a yellow priority.
+If a patient has unstable vitals, it is obligatory for the healthcare professional to assign them an orange priority.
+If a patient is mobile, it is not obligatory for the healthcare professional to initiate rehabilitation for the patient.
+If a patient is unconscious, it is obligatory for the healthcare professional to perform an examination on them.
+If the healthcare professional has low resources, it is impermissible for them to check the patient's history.
+If a patient is in a critical condition, it is obligatory for the healthcare professional to monitor them.
+If a healthcare professional is assigned care for Claire, it is obligatory for them to use equipment for her.
+If a healthcare professional is assigned care for a patient, it is permissible for them to check the patient's history.
+If a patient has a stable condition, it is permissible for the healthcare professional to create a treatment plan for them.
+If a patient has stable vitals, they have a stable condition.
+If a patient has unstable vitals, they have a critical condition.
+If a healthcare professional is a paramedic and a patient has a green priority, they are assigned care for the patient.
+If a healthcare professional has high resources, they are a paramedic.
+If a patient has a stable condition, they have a green priority.
+If a patient has an orange priority, Carter is assigned care for the patient.
+Question:
+Is it permissible for Brown to check David's patient history?
+Solution:
+To determine whether it is permissible for Brown to check David's patient history, we need to follow the reasoning trace:
+(taxiom4 h5 res4) : (paramedic h5) - This states that Brown is a paramedic because they work in a ward with high resources.
+(taxiom3 h5 p4 cond2 r1) : (assigned_care h5 p4) - This states that Brown is assigned care for David because David has a green priority and Brown is a paramedic.
+(daxiom19 h5 p4 r2) : (permissible (check_patient_history h5 p4)) - This states that it is permissible for Brown to check David's patient history because they are assigned care for David.
+Answer:
+Yes, it is permissible for Brown to check David's patient history.

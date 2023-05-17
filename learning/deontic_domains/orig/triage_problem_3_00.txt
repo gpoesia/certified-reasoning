@@ -1,0 +1,33 @@
+Scenario:
+In a clinic, there are three healthcare professionals: Adams, Brown, and Clark. They are attending to two patients: Patient Emily and Patient Frank. The clinic has two pieces of medical equipment: a blood pressure monitor and an X-ray machine. Emily has been prescribed medication. Frank has to undergo surgery. Adams is working in a ward with high resources, while Brown is working in a ward with low resources. Frank has a critical condition. Frank is immobile. Adams has been assigned to care for Emily. Adams is initiating rehabilitation for Emily. Brown is responsible for Frank. Brown is providing palliative care for Frank.
+
+Here are the rules of the world in this scenario:
+If a patient is in a critical condition, it is obligatory for the healthcare professional to assign them a red priority.
+If a patient has stable vitals, it is obligatory for the healthcare professional to assign them a green priority.
+If Emily is unconscious, it is obligatory for the healthcare professional to perform an examination on her.
+It is not obligatory for a healthcare professional to create a treatment plan for an immobile patient.
+If the healthcare professional has high resources, it is permissible for them to administer treatment to Emily.
+If a patient is in a critical condition, it is obligatory for Brown to monitor them.
+It is not obligatory for a healthcare professional to discharge a conscious patient.
+If the healthcare professional has low resources, it is impermissible for them to initiate rehabilitation for a patient.
+If a patient is mobile, it is obligatory for the healthcare professional to discharge them.
+If a healthcare professional is not assigned care for a patient, the patient is in a critical condition.
+If a patient is in a critical condition, they are given a red priority.
+If a patient has stable vitals, they are given a green priority.
+If a patient has a moderate condition, they are conscious.
+If Frank is immobile, he has a moderate condition.
+If a patient is in a critical condition, they have unstable vitals.
+If a healthcare professional has low resources, they are a nurse.
+If a healthcare professional is not assigned care for a patient, the patient is in a critical condition.
+
+Question:
+Is it not obligatory for Brown to discharge Frank?
+
+Solution:
+To determine whether it is not obligatory for Brown to discharge Frank, we need to follow the reasoning trace:
+(D mob2) : (moderate p2) - This states that Frank has a moderate condition as he is immobile.
+(C p2 r1) : (conscious p2) - This states that Frank is conscious because he has a moderate condition.
+(7 h2 p2 r2) : (not (obligatory (discharge_patient h2 p2))) - This states that it is not obligatory for Brown to discharge Frank because he is conscious.
+
+Answer:
+Yes, it is not obligatory for Brown to discharge Frank.

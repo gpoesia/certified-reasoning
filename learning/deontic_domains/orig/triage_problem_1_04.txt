@@ -1,0 +1,23 @@
+Scenario:
+In a clinic, there are two healthcare professionals: Adams and Brown. They are attending to two patients: Patient Claire and Patient Diana. The clinic has two pieces of medical equipment: an ultrasound machine and a blood pressure monitor. Claire is receiving physical therapy. Diana is on medication. Adams is working in a ward with low resources. Claire has a stable condition but is unconscious. Diana is mobile. Claire is infected. Diana, who is pregnant, is also a patient at the clinic.
+Here are the rules of the world:
+If a patient is pregnant, it is permissible for the healthcare professional to discharge them.
+If a patient is in a critical condition, it is obligatory for the healthcare professional to perform an examination on them.
+If a patient has a stable condition, it is obligatory for the healthcare professional to assign them a green priority.
+If a patient is infected, it is impermissible for the healthcare professional to discharge them.
+If a patient is pregnant, it is permissible for the healthcare professional to initiate rehabilitation for them.
+If the healthcare professional has low resources, it is not obligatory for them to administer treatment to a patient.
+If a healthcare professional is not assigned care for Claire, it is not obligatory for them to use equipment for Claire.
+If a patient is infected, they have unstable vitals.
+If a patient has a stable condition, they are conscious.
+If a healthcare professional has high resources, they are assigned care for the patient.
+If a healthcare professional assesses a patient's mental health, the patient has an unstable mental state.
+If a patient is assigned an orange priority by Adams, they are in a critical condition.
+If a patient has unstable vitals, Adams assigns them an orange priority.
+Question:
+Is it impermissible for Adams to discharge Claire?
+Solution:
+To determine whether it is impermissible for Adams to discharge Claire, we need to follow the reasoning trace:
+(daxiom13 h4 p3 inf1) : (impermissible (discharge_patient h4 p3)) - This states that it is impermissible for Adams to discharge Claire because she is infected.
+Answer:
+Yes, it is impermissible for Adams to discharge Claire.

@@ -24,18 +24,11 @@ let daxiom12 : [('h : healthcare_professional) -> ('p : patient) -> (stable_cond
 let daxiom13 : [('h : healthcare_professional) -> ('p : patient) -> (infected 'p) -> (impermissible (discharge_patient 'h 'p))].
 let daxiom14 : [('h : healthcare_professional) -> ('p : patient) -> (pregnant 'p) -> (permissible (initiate_rehabilitation 'h 'p))].
 let daxiom15 : [('h : healthcare_professional) -> ('p : patient) -> (low_resources 'h) -> (not (obligatory (administer_treatment 'h 'p)))].
-let daxiom16 : [('h : healthcare_professional) -> ('p : patient) -> (mobile 'p) -> (permissible (create_treatment_plan 'h 'p))].
 let daxiom17 : [('h : healthcare_professional) -> ('e : equipment) -> (not_assigned_care 'h p3) -> (not (obligatory (use_equipment 'h p3 'e)))].
-let daxiom18 : [('h : healthcare_professional) -> ('p : patient) -> (conscious 'p) -> (not (obligatory (discharge_patient 'h 'p)))].
-let daxiom19 : [('h : healthcare_professional) -> ('p : patient) -> (unconscious 'p) -> (obligatory (monitor_patient 'h 'p))].
-let daxiom20 : [('h : healthcare_professional) -> ('p : patient) -> (assigned_care 'h 'p) -> (obligatory (provide_family_support 'h 'p))].
 let taxiom1 : [('p : patient) -> (infected 'p) -> (unstable_vitals 'p)].
 let taxiom3 : [('p : patient) -> (stable_condition 'p) -> (conscious 'p)].
-let taxiom4 : [('h : healthcare_professional) -> ('p : patient) -> (conscious 'p) -> (not_assigned_care 'h 'p)].
 let taxiom5 : [('h : healthcare_professional) -> ('p : patient) -> (high_resources 'h) -> (assigned_care 'h 'p)].
-let taxiom6 : [('h : healthcare_professional) -> ('p : patient) -> (declare_emergency 'h) -> (critical_condition 'p)].
 let taxiom7 : [('h : healthcare_professional) -> ('p : patient) -> (assess_mental_health 'h 'p) -> (unstable_mental_state 'p)].
-let taxiom8 : [('h : healthcare_professional) -> ('p : patient) -> (provide_family_support 'h 'p) -> (stable_mental_state 'p)].
 let taxiom9 : [('p : patient) -> (assign_orange h4 'p) -> (critical_condition 'p)].
 let taxiom10 : [('p : patient) -> (unstable_vitals 'p) -> (assign_orange h4 'p)].
 

@@ -1,0 +1,31 @@
+Scenario:
+In a clinic, there are three healthcare professionals: Adams, Brown, and Clark. They are attending to two patients: Patient Emily and Patient Fiona. The clinic has two pieces of medical equipment: an Ultrasound machine and a Blood Pressure monitor. Emily is undergoing physical therapy, while Fiona is taking medication. Emily is in a stable condition. Emily is also infected. Fiona is pregnant. Emily has given consent for her physical therapy, while Fiona has withdrawn consent for her medication. Brown has been assigned to care for Emily. Clark is responsible for Fiona. Adams is assessing Emily's mental health. Brown is providing mental health support for Fiona.
+
+Here are the rules of the world in this scenario:
+If a patient is pregnant, it is permissible for the healthcare professional to perform an examination on them.
+If a patient is infected, it is obligatory for the healthcare professional to administer treatment to them.
+If a patient has withdrawn consent for a treatment, it is impermissible for the healthcare professional to administer that treatment.
+If a patient has a yellow priority, it is obligatory for the healthcare professional to initiate life support for them.
+If a patient is in a stable condition, it is not obligatory for the healthcare professional to allocate staff to them.
+If a patient is pregnant, it is permissible for the healthcare professional to provide family support for them.
+If a patient has an orange priority, it is not obligatory for the healthcare professional to initiate life support for them.
+If a healthcare professional has assigned care for a patient, it is permissible for them to use equipment for that patient.
+If a patient is pregnant, they are not infected.
+If a healthcare professional assesses a patient's mental health, the patient has a stable mental state.
+If a patient is in a stable condition, they are conscious.
+If a patient is mobile and undergoing treatment, they have given consent for the treatment.
+If a patient is not infected, they have a yellow priority.
+If a healthcare professional is providing mental health support for a patient, the patient is mobile.
+
+Question:
+Is it obligatory for Clark to initiate life support for Fiona?
+
+Solution:
+According to the reasoning trace, it is obligatory for Clark to initiate life support for Fiona because she has a yellow priority.
+Reasoning trace for the problem:
+(taxiom1 p4 preg1) : (not_infected p4) - This states that Fiona is not infected because she is pregnant.
+(taxiom5 p4 r1) : (yellow p4) - This states that Fiona has a yellow priority because she is not infected.
+(daxiom16 h6 p4 r2) : (obligatory (initiate_life_support h6 p4)) - This states that it is obligatory for Clark to initiate life support for Fiona because she has a yellow priority.
+
+Answer:
+Yes, it is obligatory for Clark to initiate life support for Fiona.

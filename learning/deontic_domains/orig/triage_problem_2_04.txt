@@ -1,0 +1,25 @@
+Scenario:
+In a rural clinic, there are two healthcare professionals: Taylor and Lee. They are attending to two patients: Patient Claire and Patient David. The clinic has two pieces of medical equipment: an ultrasound machine and a blood pressure monitor. Claire requires physical therapy. David has been prescribed medication. Taylor is working in a ward with low resources. Claire has a stable condition but is unconscious. David is mobile. Claire is infected. David's wife is pregnant.
+Here are the rules of the world:
+If a patient is in a critical condition, it is obligatory for the healthcare professional to perform an examination on them.
+If a patient is pregnant, it is permissible for the healthcare professional to initiate rehabilitation for them.
+If the healthcare professional has low resources, it is not obligatory for them to administer treatment to the patient.
+If the healthcare professional has high resources, it is obligatory for them to discharge the patient.
+If a patient is mobile, it is permissible for the healthcare professional to create a treatment plan for them.
+It is not obligatory for a healthcare professional to discharge a conscious patient.
+If a patient is unconscious, it is obligatory for the healthcare professional to monitor them.
+If a healthcare professional is assigned care for a patient, it is obligatory for them to provide family support for the patient.
+If a patient is infected, they have unstable vitals.
+If a patient is pregnant, they have unstable vitals.
+If a patient has a stable condition, they are conscious.
+If a healthcare professional is not assigned care for a conscious patient, they do not have to provide family support.
+If a healthcare professional declares an emergency, the patient is in a critical condition.
+If a patient has unstable vitals, Taylor assigns them an orange priority.
+Question:
+Is it not obligatory for Lee to discharge Claire?
+Solution:
+To determine whether it is not obligatory for Lee to discharge Claire, we need to follow the reasoning trace:
+(taxiom3 p3 stab2) : (conscious p3) - This states that Claire is conscious because she has a stable condition.
+(daxiom18 h5 p3 r1) : (not (obligatory (discharge_patient h5 p3))) - This states that it is not obligatory for Lee to discharge Claire because she is conscious.
+Answer:
+Yes, it is not obligatory for Lee to discharge Claire.

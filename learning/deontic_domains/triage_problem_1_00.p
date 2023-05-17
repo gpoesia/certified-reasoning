@@ -23,6 +23,7 @@ let daxiom2 : [('h : healthcare_professional) -> ('p : patient) -> (stable_vital
 let daxiom3 : [('h : healthcare_professional) -> (unconscious p1) -> (obligatory (perform_examination 'h p1))].
 let daxiom4 : [('h : healthcare_professional) -> ('p : patient) -> (immobile 'p) -> (not (obligatory (create_treatment_plan 'h 'p)))].
 let daxiom5 : [('h : healthcare_professional) -> (high_resources 'h) -> (permissible (administer_treatment 'h p1))].
+let daxiom11 : [('h : healthcare_professional) -> ('p : patient) -> (medication 'p) -> (not (obligatory (assign_red 'h 'p)))].
 let daxiom6 : [('p : patient) -> (immobile 'p) -> (permissible (monitor_patient h2 'p))].
 let daxiom7 : [('h : healthcare_professional) -> ('p : patient) -> (conscious 'p) -> (not (obligatory (discharge_patient 'h 'p)))].
 let daxiom8 : [('h : healthcare_professional) -> ('p : patient) -> (low_resources 'h) -> (impermissible (initiate_rehabilitation 'h 'p))].
@@ -30,10 +31,6 @@ let daxiom10 : [('h : healthcare_professional) -> ('e : equipment) -> (not_assig
 let taxiom1 : [('p : patient) -> (critical_condition 'p) -> (red 'p)].
 let taxiom2 : [('p : patient) -> (stable_vitals 'p) -> (green 'p)].
 let taxiom3 : [('p : patient) -> (moderate 'p) -> (conscious 'p)].
-let taxiom4 : [(immobile p2) -> (moderate p2)].
-let taxiom5 : [('h : healthcare_professional) -> (high_resources 'h) -> (general_practitioner 'h)].
-let taxiom6 : [('p : patient) -> (critical_condition 'p) -> (unstable_vitals 'p)].
-let taxiom7 : [(conscious p2) -> (stable_vitals p2)].
 let taxiom8 : [('h : healthcare_professional) -> (low_resources 'h) -> (nurse 'h)].
 let taxiom9 : [('p : patient) -> (medication 'p) -> (stable_vitals 'p)].
 let taxiom10 : [('h : healthcare_professional) -> ('p : patient) -> (not_assigned_care 'h 'p) -> (critical_condition 'p)].

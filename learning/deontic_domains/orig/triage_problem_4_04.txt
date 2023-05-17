@@ -1,0 +1,38 @@
+Scenario:
+In a clinic, there are two healthcare professionals: Brown and White. They are attending to two patients: Patient Carol and Patient Diana. The clinic has two pieces of medical equipment: an ultrasound machine and an X-ray machine. Carol is undergoing physical therapy, while Diana has been prescribed medication. Brown is working in a ward with low resources. Carol is in a stable condition but is unconscious. Diana is mobile. Carol has an infection. Diana is pregnant.
+
+Here are the rules of the world in this scenario:
+If a patient is in a critical condition, it is permissible for the healthcare professional to perform an examination on them.
+If a patient is in a stable condition, it is obligatory for the healthcare professional to assign them a green priority.
+If a patient is pregnant, it is impermissible for the healthcare professional to perform an examination on them.
+If a patient is infected, it is impermissible for the healthcare professional to discharge them.
+If a patient is pregnant, it is permissible for the healthcare professional to initiate rehabilitation for them.
+If the healthcare professional has low resources, it is not obligatory for them to administer treatment to the patient.
+If a patient is mobile, it is permissible for the healthcare professional to create a treatment plan for them.
+If a healthcare professional is not assigned care for Carol, it is not obligatory for them to use equipment for Carol.
+It is not obligatory for a healthcare professional to discharge a conscious patient.
+If a patient is unconscious, it is obligatory for the healthcare professional to monitor them.
+If a healthcare professional is assigned care for a patient, it is obligatory for them to provide family support to the patient.
+If a patient is infected, they have unstable vitals.
+If a patient is pregnant, they have unstable vitals.
+If a patient is in a stable condition, they are conscious.
+If a healthcare professional has low resources, they are not assigned care for the patient.
+If a healthcare professional has high resources, they are assigned care for the patient.
+If a healthcare professional declares an emergency, the patient is in a critical condition.
+If a healthcare professional assesses a patient's mental health, the patient has an unstable mental state.
+If a healthcare professional provides family support to a patient, the patient has a stable mental state.
+If a patient is assigned an orange priority by Brown, they are in a critical condition.
+If a patient has unstable vitals, Brown assigns them an orange priority.
+
+Question:
+Is it permissible for White to perform an examination on Carol?
+
+Solution:
+To determine whether it is permissible for White to perform an examination on Carol, we need to follow the reasoning trace:
+(taxiom1 p3 inf1) : (unstable_vitals p3) - This states that Carol has unstable vitals as she is infected.
+(taxiom10 p3 r1) : (assign_orange h4 p3) - This states that Brown assigns Carol an orange priority because she has unstable vitals.
+(taxiom9 p3 r2) : (critical_condition p3) - This states that Carol is in a critical condition as she has been assigned an orange priority.
+(daxiom11 h5 p3 r3) : (permissible (perform_examination h5 p3)) - This states that it is permissible for White to perform an examination on Carol, who is in a critical condition.
+
+Answer:
+Yes, it is permissible for White to perform an examination on Carol.

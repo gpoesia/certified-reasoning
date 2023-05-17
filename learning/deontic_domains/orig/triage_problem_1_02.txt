@@ -1,0 +1,25 @@
+Scenario:
+In a clinic, there are three healthcare professionals: Adams, Brown, and Clark. They are attending to two patients: Patient Emily and Patient Fred. The clinic has two pieces of medical equipment: an ultrasound machine and a blood pressure monitor. Emily is undergoing physical therapy. Fred has been prescribed medication. Adams is working in a ward with low resources, while Brown is working in a ward with high resources. Emily has a stable condition. Fred has unstable vitals. Emily is unconscious. Fred is mobile. Fred has been assigned a green priority. Brown has been assigned to care for Emily. Brown is providing mental health support for Emily.
+Here are the rules of the world:
+If a patient is in a stable condition, it is permissible for the healthcare professional to assign them a yellow priority.
+If a patient is unconscious, it is obligatory for the healthcare professional to perform an examination on them.
+If a patient is in a critical condition, it is obligatory for the healthcare professional to monitor them.
+If a patient has an orange priority, it is impermissible for the healthcare professional to use equipment for them.
+It is not obligatory for a healthcare professional to discharge a conscious patient.
+If a healthcare professional has been assigned care for a patient, it is obligatory for them to use equipment for the patient.
+If a healthcare professional has been assigned care for a patient, it is obligatory for them to check the patient's history.
+If a patient is in a stable condition, it is permissible for the healthcare professional to create a treatment plan for them.
+If a patient has stable vitals, they are in a stable condition.
+If a patient has unstable vitals, they are in a critical condition.
+If a healthcare professional has a patient with a green priority and they are a paramedic, they are assigned care for the patient.
+If a healthcare professional has high resources, they are a paramedic.
+If a patient is in a stable condition, they have a green priority.
+If a healthcare professional has been assigned care for a patient, they have a follow-up plan for the patient.
+If a healthcare professional initiates rehabilitation for a patient, the patient has a medical history.
+Question:
+Is it obligatory for Brown to use the blood pressure monitor for Emily?
+Solution:
+To determine whether it is obligatory for Brown to use the blood pressure monitor for Emily, we need to follow the reasoning trace:
+(daxiom18 h5 eq4 care2) : (obligatory (use_equipment h5 p3 eq4)) - This states that it is obligatory for Brown to use equipment for Emily since they have been assigned care for her.
+Answer:
+Yes, it is obligatory for Brown to use the blood pressure monitor for Emily.

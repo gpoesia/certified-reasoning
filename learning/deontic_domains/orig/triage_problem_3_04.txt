@@ -1,0 +1,27 @@
+Scenario:
+In a small clinic, there are two healthcare professionals: Martin and Brown. They are attending to two patients: Patient Claire and Patient David. The clinic has two pieces of medical equipment: an ultrasound machine and a blood pressure monitor. Claire has been prescribed physical therapy. David has been prescribed medication. Martin is working in a ward with low resources. Claire has a stable condition but is unconscious. David is mobile. Claire is infected. David's wife is pregnant.
+Here are the rules of the world:
+If a patient is in a critical condition, it is obligatory for the healthcare professional to perform an examination on them.
+If a patient is infected, it is impermissible for the healthcare professional to discharge them.
+If a healthcare professional is not assigned to care for David, it is permissible for them to use equipment for Claire.
+If the healthcare professional has low resources, it is not obligatory for them to administer treatment to a patient.
+If a patient is mobile, it is permissible for the healthcare professional to create a treatment plan for them.
+If a healthcare professional is not assigned care for Claire, it is impermissible for them to use equipment for Claire.
+It is not obligatory for a healthcare professional to discharge a conscious patient.
+If a healthcare professional is assigned care for a patient, it is obligatory for them to provide family support for the patient.
+If a patient is infected, they have unstable vitals.
+If a patient is pregnant, they have unstable vitals.
+If a patient has a stable condition, they are conscious.
+If a healthcare professional has high resources, they are assigned care for a patient.
+If a patient is conscious, the healthcare professional is not assigned care for them.
+If a healthcare professional provides family support for a patient, the patient has a stable mental state.
+If a patient has unstable vitals, they are assigned an orange priority by Martin.
+Question:
+Is it impermissible for Martin to use the blood pressure monitor for Claire?
+Solution:
+To determine whether it is impermissible for Martin to use the blood pressure monitor for Claire, we need to follow the reasoning trace:
+(taxiom3 p3 stab2) : (conscious p3) - This states that Claire is conscious because she has a stable condition.
+(taxiom4 h4 p3 r1) : (not_assigned_care h4 p3) - This states that Martin is not assigned care for Claire because Claire is conscious.
+(daxiom17 h4 eq4 r2) : (impermissible (use_equipment h4 p3 eq4)) - This states that it is impermissible for Martin to use the blood pressure monitor for Claire because he is not assigned care for her.
+Answer:
+Yes, it is impermissible for Martin to use the blood pressure monitor for Claire.

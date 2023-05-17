@@ -27,11 +27,9 @@ let daxiom11 : [('h : healthcare_professional) -> ('p : patient) -> (pregnant 'p
 let daxiom12 : [('h : healthcare_professional) -> ('p : patient) -> (infected 'p) -> (obligatory (administer_treatment 'h 'p))].
 let daxiom19 : [('h : healthcare_professional) -> ('p : patient) -> (stable_mental_state 'p) -> (impermissible (provide_family_support 'h 'p))].
 let daxiom14 : [('h : healthcare_professional) -> (consent_given p3 t3) -> (obligatory (administer_treatment 'h p3 t3))].
-let daxiom15 : [('h : healthcare_professional) -> (consent_withdrawn p4 t4) -> (impermissible (administer_treatment 'h p4 t4))].
 let daxiom16 : [('h : healthcare_professional) -> ('p : patient) -> (yellow 'p) -> (obligatory (initiate_life_support 'h 'p))].
-let daxiom20 : [('h : healthcare_professional) -> ('e : equipment) -> (red p3) -> (impermissible (use_equipment 'h p3 'e))].
+let daxiom2 : [('h : healthcare_professional) -> ('e : equipment) -> (red p3) -> (impermissible (use_equipment 'h p3 'e))].
 let daxiom17 : [('h : healthcare_professional) -> ('p : patient) -> (stable_condition 'p) -> (not (obligatory (allocate_staff 'h 'p)))].
-let daxiom18 : [('h : healthcare_professional) -> ('p : patient) -> (pregnant 'p) -> (permissible (provide_family_support 'h 'p))].
 let daxiom20 : [('h : healthcare_professional) -> ('e : equipment) -> (assigned_care 'h p3) -> (permissible (use_equipment 'h p3 'e))].
 let taxiom1 : [('p : patient) -> (pregnant 'p) -> (not_infected 'p)].
 let taxiom2 : [('h : healthcare_professional) -> ('p : patient) -> (assess_mental_health 'h 'p) -> (stable_mental_state 'p)].
@@ -39,7 +37,6 @@ let taxiom3 : [('p : patient) -> (stable_condition 'p) -> (conscious 'p)].
 let taxiom5 : [('p : patient) -> (not_infected 'p) -> (yellow 'p)].
 let taxiom6 : [('h : healthcare_professional) -> (low_resources 'h) -> (low_staff 'h)].
 let taxiom10 : [('p : patient) -> (yellow 'p) -> (stable_condition 'p)].
-let taxiom4 : [('p : patient) -> ('t : treatment) -> (mobile 'p) -> (consent_given 'p)].
 let taxiom9 : [('h : healthcare_professional) -> ('p : patient) -> (mobile 'p) -> (initiate_rehabilitation 'h 'p)].
 
 Result:

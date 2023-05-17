@@ -1,4 +1,5 @@
 import os
+import time
 import random
 import argparse
 
@@ -25,9 +26,16 @@ def get_args():
     return args
 
 def get_chat_response(prompt_messages, args):
-    response = openai.ChatCompletion.create(model=args.model, messages=prompt_messages,
-                                                temperature=args.temperature,
-                                                max_tokens=args.max_tokens)
+    success = False
+    while not success:
+        try:
+            response = openai.ChatCompletion.create(model=args.model, messages=prompt_messages,
+                                                    temperature=args.temperature,
+                                                    max_tokens=args.max_tokens)
+            success = True
+        except openai.error.RateLimitError:
+            print("Error in chat response, retrying...")
+            time.sleep(60)
     prediction = response['choices'][0]['message']['content']
     return prediction
 
@@ -152,20 +160,20 @@ if __name__ == "__main__":
     n_hops = args.n_hops
     n_problems = args.n_problems
 
+    for n in range(n_problems):
+        # sample context using gpt-4
+        if not args.load_problem:
+            system_context_dom = system_context.format(theory=theory)
+            example_context_dom = example_context.format(context=contexts)
+            system_axioms_dom = system_axioms[args.domain].format(theory=theory)
+            axiom_templates_dom = axiom_templates.format(deontic_axioms=deontic_templates, theory_axioms=theory_templates)
+            example_axioms = deontic_axioms.format(deontic_axiom=deontic_axioms, theory_axioms=theory_axioms)
 
-    # sample context using gpt-4
-    if not args.load_problem:
-        system_context_dom = system_context.format(theory=theory)
-        example_context_dom = example_context.format(context=contexts)
-        system_axioms_dom = system_axioms[args.domain].format(theory=theory)
-        axiom_templates_dom = axiom_templates.format(deontic_axioms=deontic_templates, theory_axioms=theory_templates)
-        example_axioms = deontic_axioms.format(deontic_axiom=deontic_axioms, theory_axioms=theory_axioms)
 
 
-
-        if args.use_context:
-            # manual intervention for getting hops
-            context = """let h4 : healthcare_professional.
+            if args.use_context:
+                # manual intervention for getting hops
+                context = """let h4 : healthcare_professional.
 let h5 : healthcare_professional.
 let p3 : patient.
 let p4 : patient.
@@ -183,19 +191,18 @@ let mob3 : (mobile p4).
 
 let inf1 : (infected p3).
 let preg1 : (pregnant p4).
-
 """
-        else:
-            context_prompt = get_context_prompt(system_context_dom, example_context_dom)
-            context = get_chat_response(context_prompt, args)
-        if args.verbose:
-            print(f"Context: {context}")
+            else:
+                context_prompt = get_context_prompt(system_context_dom, example_context_dom)
+                context = get_chat_response(context_prompt, args)
+            if args.verbose:
+                print(f"Context: {context}")
 
-        axiom_prompt = get_axiom_prompt(system_axioms_dom, axiom_templates_dom, example_axioms, example_context_dom, context)
+            axiom_prompt = get_axiom_prompt(system_axioms_dom, axiom_templates_dom, example_axioms, example_context_dom, context)
 
-        if args.use_axioms:
-            # manual intervention for getting n hops
-            gen_deontic_axioms = """let daxiom11 : [('h : healthcare_professional) -> ('p : patient) -> (critical_condition 'p) -> (obligatory (perform_examination 'h 'p))].
+            if args.use_axioms:
+                # manual intervention for getting n hops
+                gen_deontic_axioms = """let daxiom11 : [('h : healthcare_professional) -> ('p : patient) -> (critical_condition 'p) -> (obligatory (perform_examination 'h 'p))].
 let daxiom12 : [('h : healthcare_professional) -> ('p : patient) -> (stable_condition 'p) -> (obligatory (assign_green 'h 'p))].
 let daxiom13 : [('h : healthcare_professional) -> ('p : patient) -> (infected 'p) -> (impermissible (discharge_patient 'h 'p))].
 let daxiom14 : [('h : healthcare_professional) -> ('p : patient) -> (pregnant 'p) -> (permissible (initiate_rehabilitation 'h 'p))].
@@ -206,7 +213,7 @@ let daxiom18 : [('h : healthcare_professional) -> ('p : patient) -> (conscious '
 let daxiom19 : [('h : healthcare_professional) -> ('p : patient) -> (unconscious 'p) -> (obligatory (monitor_patient 'h 'p))].
 let daxiom20 : [('h : healthcare_professional) -> ('p : patient) -> (assigned_care 'h 'p) -> (obligatory (provide_family_support 'h 'p))].
 """
-            gen_theory_axioms = """let taxiom1 : [('p : patient) -> (infected 'p) -> (unstable_vitals 'p)].
+                gen_theory_axioms = """let taxiom1 : [('p : patient) -> (infected 'p) -> (unstable_vitals 'p)].
 let taxiom2 : [('p : patient) -> (pregnant 'p) -> (unstable_vitals 'p)].
 let taxiom3 : [('p : patient) -> (stable_condition 'p) -> (conscious 'p)].
 let taxiom4 : [('h : healthcare_professional) -> ('p : patient) -> (conscious 'p) -> (not_assigned_care 'h 'p)].
@@ -217,80 +224,83 @@ let taxiom8 : [('h : healthcare_professional) -> ('p : patient) -> (provide_fami
 let taxiom9 : [('p : patient) -> (assign_orange h4 'p) -> (critical_condition 'p)].
 let taxiom10 : [('p : patient) -> (unstable_vitals 'p) -> (assign_orange h4 'p)].
 """
-        else:
-            axiom_response = get_chat_response(axiom_prompt, args)
-            gen_deontic_axioms, gen_theory_axioms = get_axioms(axiom_response) 
-
-        if args.verbose:
-            print(f"Deontic Axioms: {gen_deontic_axioms}")
-            print(f"Theory Axioms: {gen_theory_axioms}")
-
-        # define the context
-        problem = f"{context}\n{gen_deontic_axioms}{gen_theory_axioms}"
-
-        # define the theory
-        if args.domain == "calendar":
-            domain = CalendarDomain('calendar.p')
-        elif args.domain == "triage":
-            domain = TriageDomain('triage.p')
-        
-
-        # sample an outcome
-        sampled_outcomes = []
-
-        
-        # Execute the exhaustive search
-        result = exhaustive_search(problem, n_hops, domain)
-        print("Exhaustive search result:", result)
-
-        # store the problem, theory, context, outcome, and solution
-        # check files to find the next problem id
-        if result is not None:
-            file_num = len([f for f in os.listdir("deontic_domains/") if f.endswith(".p") and f"{args.domain}_problem_{args.n_hops}" in f])
-            
-            # save the problem as problem_00.p
-            with open(f"deontic_domains/{args.domain}_problem_{args.n_hops}_{file_num:02d}.p", 'w') as f:
-                f.write(problem)
-                f.write("\nResult:\n")
-                result_str = '\n'.join([str(r) for r in result[::2]])
-                f.write(result_str)
-    else:
-        peano_files = sorted([f for f in os.listdir("deontic_domains/") if f.endswith(".p") and f"{args.domain}_problem_{args.n_hops}" in f])
-        text_files = sorted([f for f in os.listdir("deontic_domains/") if f.endswith(".txt") and f"{args.domain}_problem_{args.n_hops}"])
-        # check which peano files have a corresponding text file
-        problem_file = None
-        example_file = []
-        for f in peano_files:
-            text_file = f.split(".")[0] + ".txt"
-            if text_file not in text_files:
-                problem_file = f.split(".")[0]
             else:
-                example_file.append(f.split(".")[0])
-        assert problem_file is not None, "No problem file found"        
-        if len(example_file) == 0:
-            example_file = [f'{args.domain}_problem_4_04']
-        # sample current problem
-        with open(f"deontic_domains/{problem_file}.p", 'r') as f:
-            problem = f.read()
-            context, gen_deontic_axioms, gen_theory_axioms, result = parse_problem(problem)
-        example = random.choice(example_file)
-        with open(f"deontic_domains/{example}.p", 'r') as f:
-            problem = f.read()
-            example_context, example_deontic_axioms, example_theory_axioms, example_result = parse_problem(problem)
-        # read example text
-        with open(f"deontic_domains/{example}.txt", 'r') as f:
-            example_text = f.read()
-        
-        if args.verbose:
-            print("Context:", context)
-            print("Deontic Axioms:", gen_deontic_axioms)
-            print("Theory Axioms:", gen_theory_axioms)
-            print("Result:", result)
-        
-        prompt = get_text_prompt(domain_text, theory, example_context, example_deontic_axioms+example_theory_axioms, example_result, example_text,
-                                context, gen_deontic_axioms+gen_theory_axioms, result)
-        text = get_chat_response(prompt, args)
+                axiom_response = get_chat_response(axiom_prompt, args)
+                gen_deontic_axioms, gen_theory_axioms = get_axioms(axiom_response) 
 
-        with open(f"deontic_domains/{problem_file}.txt", 'w') as f:
-            f.write(text)
-        
+            if args.verbose:
+                print(f"Deontic Axioms: {gen_deontic_axioms}")
+                print(f"Theory Axioms: {gen_theory_axioms}")
+
+            # define the context
+            problem = f"{context}\n{gen_deontic_axioms}{gen_theory_axioms}"
+
+            # define the theory
+            if args.domain == "calendar":
+                domain = CalendarDomain('calendar.p')
+            elif args.domain == "triage":
+                domain = TriageDomain('triage.p')
+            
+
+            # sample an outcome
+            sampled_outcomes = []
+
+            
+            # Execute the exhaustive search
+            result = exhaustive_search(problem, n_hops, domain)
+            print("Exhaustive search result:", result)
+
+            # store the problem, theory, context, outcome, and solution
+            # check files to find the next problem id
+            if result is not None:
+                file_num = len([f for f in os.listdir("deontic_domains/") if f.endswith(".p") and f"{args.domain}_problem_{args.n_hops}" in f])
+                
+                # save the problem as problem_00.p
+                with open(f"deontic_domains/{args.domain}_problem_{args.n_hops}_{file_num:02d}.p", 'w') as f:
+                    f.write(problem)
+                    f.write("\nResult:\n")
+                    result_str = '\n'.join([str(r) for r in result[::2]])
+                    f.write(result_str)
+        else:
+            peano_files = sorted([f for f in os.listdir("deontic_domains/") if f.endswith(".p") and f"{args.domain}_problem_{args.n_hops}" in f])
+            text_files = sorted([f for f in os.listdir("deontic_domains/") if f.endswith(".txt") and f"{args.domain}_problem_{args.n_hops}"])
+            # check which peano files have a corresponding text file
+            problem_file = None
+            example_file = []
+            for f in peano_files:
+                text_file = f.split(".")[0] + ".txt"
+                if text_file not in text_files:
+                    problem_file = f.split(".")[0]
+                else:
+                    example_file.append(f.split(".")[0])
+            assert problem_file is not None, "No problem file found"        
+            if len(example_file) == 0:
+                example_file = [f'{args.domain}_problem_4_00']
+            example_file = [f'{args.domain}_problem_4_00']
+
+
+            # sample current problem
+            with open(f"deontic_domains/{problem_file}.p", 'r') as f:
+                problem = f.read()
+                context, gen_deontic_axioms, gen_theory_axioms, result = parse_problem(problem)
+            example = random.choice(example_file)
+            with open(f"deontic_domains/{example}.p", 'r') as f:
+                problem = f.read()
+                example_context, example_deontic_axioms, example_theory_axioms, example_result = parse_problem(problem)
+            # read example text
+            with open(f"deontic_domains/{example}.txt", 'r') as f:
+                example_text = f.read()
+            
+            if args.verbose:
+                print("Context:", context)
+                print("Deontic Axioms:", gen_deontic_axioms)
+                print("Theory Axioms:", gen_theory_axioms)
+                print("Result:", result)
+            
+            prompt = get_text_prompt(domain_text, theory, example_context, example_deontic_axioms+example_theory_axioms, example_result, example_text,
+                                    context, gen_deontic_axioms+gen_theory_axioms, result)
+            text = get_chat_response(prompt, args)
+
+            with open(f"deontic_domains/{problem_file}.txt", 'w') as f:
+                f.write(text)
+            

@@ -1,0 +1,4 @@
+Context: 1- In a clinic, there are three healthcare professionals: Adams, Brown, and Clark. 2- They are attending to two patients: Patient Emily and Patient Fred. 3- The clinic has two pieces of medical equipment: an ultrasound machine and a blood pressure monitor. 4- Emily is undergoing physical therapy. 5- Fred has been prescribed medication. 6- Adams is working in a ward with low resources, while Brown is working in a ward with high resources. 7- Emily has a stable condition. 8- Fred has unstable vitals. 9- Emily is unconscious. 10- Fred is mobile. 11- Fred has been assigned a green priority. 12- Brown has been assigned to care for Emily. 13- Brown is providing mental health support for Emily.
+Question: Given the rules of the world, is it not obligatory for Brown to use the blood pressure monitor for Emily?
+Reasoning:
+Answer (Yes or no): No

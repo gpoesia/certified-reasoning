@@ -1,0 +1,30 @@
+Scenario:
+In a clinic, there are three healthcare professionals: Adams, Brown, and Clark. They are attending to two patients: Patient Emily and Patient Frank. The clinic has two pieces of medical equipment: a blood pressure monitor and an X-ray machine. Emily has been prescribed medication. Frank needs surgery. Adams works in an area with high resources, while Brown works in an area with low resources. Frank has a critical condition. Adams has been assigned to care for Emily. Adams is initiating rehabilitation for Emily. Brown is responsible for Frank. Brown is providing palliative care for Frank.
+
+Here are the rules of the world:
+If a patient is in a critical condition, it is obligatory for the healthcare professional to assign them a red priority.
+If a patient has stable vitals, it is obligatory for the healthcare professional to assign them a green priority.
+If Emily is unconscious, it is obligatory for the healthcare professional to perform an examination on her.
+It is not obligatory for a healthcare professional to create a treatment plan for an immobile patient.
+If the healthcare professional has high resources, it is permissible for them to administer treatment to Emily.
+If a patient is taking medication, it is not obligatory for the healthcare professional to assign them a red priority.
+If a patient is immobile, it is permissible for Brown to monitor them.
+It is not obligatory for a healthcare professional to discharge a conscious patient.
+If the healthcare professional has low resources, it is impermissible for them to initiate rehabilitation for a patient.
+If a healthcare professional is not assigned care for Emily, it is not obligatory for them to use equipment for Emily.
+If a patient is in a critical condition, they are given a red priority.
+If a patient has stable vitals, they are given a green priority.
+If a patient has a moderate condition, they are conscious.
+If a healthcare professional has low resources, they are a nurse.
+If a patient is being treated with medication, they have stable vitals.
+If a healthcare professional is not assigned care for a patient, the patient is in a critical condition.
+
+Question:
+Is it obligatory for Adams to assign Frank a red priority?
+
+Solution:
+To determine whether it is obligatory for Adams to assign Frank a red priority, we need to follow the reasoning trace:
+(daxiom1 h1 p2 crit1) : (obligatory (assign_red h1 p2)) - This states that it is obligatory for the healthcare professional (Adams) to assign a red priority to a patient (Frank) with a critical condition.
+
+Answer:
+Yes, it is obligatory for Adams to assign Frank a red priority.

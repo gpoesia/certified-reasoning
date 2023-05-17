@@ -1,0 +1,23 @@
+Scenario:
+In a clinic, there are three healthcare professionals: Brown, Green, and White. They are attending to two patients: Patient Carol and Patient Dave. The clinic has two pieces of medical equipment: an X-ray machine and a blood pressure monitor. Carol is undergoing physical therapy, while Dave has been prescribed medication. Brown is working in a ward with low resources, while Green is working in a ward with high resources. Carol has a stable condition but is unconscious. Dave has unstable vitals. Carol is mobile. Dave has been assigned a green priority. Green has been assigned to care for Carol. Green is providing mental health support for Carol.
+Here are the rules of the world:
+If a patient has unstable vitals, it is obligatory for the healthcare professional to assign them an orange priority.
+If a patient is unconscious, it is obligatory for the healthcare professional to perform an examination on them.
+If the healthcare professional has low resources, it is impermissible for them to administer treatment to a patient.
+If a patient is in a critical condition, it is permissible for the healthcare professional to monitor them.
+It is not obligatory for a healthcare professional to discharge a conscious patient.
+If a healthcare professional is assigned care for Carol, it is obligatory for them to use equipment for Carol.
+If the healthcare professional has low resources, it is impermissible for them to monitor a patient.
+If a patient has a stable condition, it is permissible for the healthcare professional to create a treatment plan for them.
+If a patient has stable vitals, they have a stable condition.
+If a patient has unstable vitals, they have a critical condition.
+If a patient has a stable condition, they are given a green priority.
+If a healthcare professional is assigned care for a patient, they have a follow-up plan for the patient.
+Question:
+Is it permissible for White to monitor Dave?
+Solution:
+To determine whether it is permissible for White to monitor Dave, we need to follow the reasoning trace:
+(taxiom2 p4 crit2) : (critical_condition p4) - This states that Dave has a critical condition as he has unstable vitals.
+(daxiom16 h6 p4 r1) : (permissible (monitor_patient h6 p4)) - This states that it is permissible for White to monitor Dave since he is in a critical condition.
+Answer:
+Yes, it is permissible for White to monitor Dave.

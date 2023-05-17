@@ -1,0 +1,27 @@
+Scenario:
+In a clinic, there are three healthcare professionals: Adams, Brown, and Clark. They are attending to two patients: Patient Emma and Patient Frank. The clinic has two pieces of medical equipment: an ultrasound machine and an X-ray machine. Emma is receiving physical therapy. Frank has been prescribed medication. Adams is working with a high staff availability, while Brown is working with low resources. Emma has unstable vitals. Frank is in a stable condition. Emma is unconscious. Frank is mobile. Adams has been assigned to care for Emma. Adams is initiating rehabilitation for Emma. Brown is responsible for Frank. Brown is providing mental health support for Frank.
+Here are the rules of the world:
+If a patient has unstable vitals, it is obligatory for the healthcare professional to assign them a red priority.
+If Patient Emma is unconscious, it is obligatory for the healthcare professional to perform an examination on her.
+If the healthcare professional has low resources, it is impermissible for them to administer treatment to a patient.
+If the healthcare professional has high staff availability, it is permissible for them to discharge a patient.
+If a patient has unstable vitals, it is obligatory for the healthcare professional to monitor them.
+If a patient is conscious, it is impermissible for the healthcare professional to discharge them.
+If a patient is conscious, it is not obligatory for the healthcare professional to discharge them.
+If a healthcare professional has no follow-up plan for a patient, it is obligatory for them to provide family support for the patient.
+If a patient has unstable vitals, they are in a critical condition.
+If a patient is in a stable condition, they are conscious.
+If a patient is conscious, they have a moderate condition.
+If a healthcare professional has a patient with a moderate condition, they have no follow-up plan for the patient.
+If a healthcare professional initiates rehabilitation for a patient, the patient is in a stable condition.
+If a healthcare professional provides mental health support for a patient, the patient has an unstable mental state.
+If a healthcare professional has low resources, they cannot initiate rehabilitation for a patient.
+Question:
+Is it impermissible for Brown to discharge Emma?
+Solution:
+To determine whether it is impermissible for Brown to discharge Emma, we need to follow the reasoning trace:
+(taxiom7 h4 p3 rehab2) : (stable_condition p3) - This states that Emma is in a stable condition as Adams initiated rehabilitation for her.
+(taxiom2 p3 r1) : (conscious p3) - This states that Emma is conscious because she is in a stable condition.
+(daxiom17 h5 p3 r2) : (impermissible (discharge_patient h5 p3)) - This states that it is impermissible for Brown to discharge Emma because she is conscious.
+Answer:
+Yes, it is impermissible for Brown to discharge Emma.

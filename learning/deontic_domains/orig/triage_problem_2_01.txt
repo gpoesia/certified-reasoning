@@ -1,0 +1,23 @@
+Scenario:
+In a clinic, there are three healthcare professionals: Brown, Lee, and Green. They are attending to two patients: Patient Claire and Patient David. The clinic has two pieces of medical equipment: an X-ray machine and an ultrasound machine. Claire is undergoing physical therapy. David has been prescribed medication. Claire is in a stable condition but is infected. David's wife is pregnant. Claire has given consent for physical therapy, while David has withdrawn consent for medication. Lee has been assigned to care for Claire. Green is responsible for David. Brown has assessed Claire's mental health. Lee is providing mental health support for David.
+Here are the rules of the world:
+If a patient is infected, it is obligatory for the healthcare professional to administer treatment.
+If a patient has a stable mental state, it is impermissible for the healthcare professional to provide family support.
+If consent is given for physical therapy, it is obligatory for the healthcare professional to administer the treatment.
+It is not obligatory for a healthcare professional to allocate staff for a patient in a stable condition.
+If a patient is pregnant, it is permissible for the healthcare professional to provide family support.
+If a patient has a yellow priority, it is permissible for the healthcare professional to provide family support.
+If a healthcare professional is assigned care for a patient, it is permissible for them to use equipment for the patient.
+If a patient is pregnant, they are not infected.
+If a healthcare professional assesses a patient's mental health, the patient has a stable mental state.
+If a patient is in a stable condition, they are conscious.
+If a patient has a yellow priority, they are in a stable condition.
+If a patient is mobile and undergoing treatment, they have given consent.
+Question:
+Is it impermissible for Green to provide family support to Claire?
+Solution:
+To determine whether it is impermissible for Green to provide family support to Claire, we need to follow the reasoning trace:
+(taxiom2 h4 p3 mental1) : (stable_mental_state p3) - This states that Claire has a stable mental state because Brown has assessed her mental health.
+(daxiom19 h6 p3 r1) : (impermissible (provide_family_support h6 p3)) - This states that it is impermissible for Green to provide family support to Claire because she has a stable mental state.
+Answer:
+Yes, it is impermissible for Green to provide family support to Claire.

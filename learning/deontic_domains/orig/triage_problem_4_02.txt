@@ -1,0 +1,32 @@
+Scenario:
+In a clinic, there are three healthcare professionals: Adams, Brown, and Clark. They are attending to two patients: Patient Emily and Patient Frank. The clinic has two pieces of medical equipment: a blood pressure monitor and a glucose meter. Emily is undergoing physical therapy, and Frank is taking medication. Adams is working in a ward with low resources, while Brown is working in a ward with high resources. Emily is in a stable condition, but Frank has unstable vitals. Emily is unconscious, and Frank is mobile. Brown has been assigned to care for Emily and is providing mental health support for her.
+
+Here are the rules of the world in this scenario:
+If a patient is in a stable condition, it is permissible for the healthcare professional to assign them a yellow priority.
+If a patient has unstable vitals, it is obligatory for the healthcare professional to assign them an orange priority.
+If a patient is mobile, it is not obligatory for the healthcare professional to initiate rehabilitation for them.
+If a patient has a red priority, it is not obligatory for the healthcare professional to check their patient history.
+If a patient is unconscious, it is obligatory for the healthcare professional to perform an examination on them.
+If the healthcare professional has low resources, it is impermissible for them to administer treatment to the patient.
+If a patient is in a critical condition, it is obligatory for the healthcare professional to monitor them.
+It is not obligatory for a healthcare professional to discharge a conscious patient.
+If a healthcare professional is assigned care for Emily, it is obligatory for them to use equipment for Emily.
+If a healthcare professional is assigned care for a patient, it is obligatory for them to check the patient's history.
+If a patient is in a stable condition, it is permissible for the healthcare professional to create a treatment plan for them.
+If a patient has stable vitals, then they are in a stable condition.
+If a patient has unstable vitals, then they are in a critical condition.
+If a patient is in a critical condition, then they are assigned an orange priority.
+If a patient is in a stable condition, then they are assigned a green priority.
+If a healthcare professional is assigned to care for a patient, then there is a follow-up plan for the patient by that healthcare professional.
+If a healthcare professional initiates rehabilitation for a patient, then the patient has a medical history.
+If a patient is assigned an orange priority, then they are under the care of Clark.
+Question:
+Is it obligatory for Clark to check Frank's patient history?
+Solution:
+Here is the reasoning trace for the problem:
+(taxiom2 p4 crit2) : (critical_condition p4) - This states that Frank is in a critical condition as he has unstable vitals.
+(taxiom6 p4 r1) : (orange p4) - This states that Frank has been assigned an orange priority because he is in a critical condition.
+(taxiom10 p4 r2) : (assigned_care h6 p4) - This states that Clark has been assigned to care for Frank because he has an orange priority.
+(daxiom19 h6 p4 r3) : (obligatory (check_patient_history h6 p4)) - This states that it is obligatory for Clark to check Frank's patient history because she is assigned to care for him.
+Answer:
+Yes, it is obligatory for Clark to check Frank's patient history since she is assigned to care for him, and Frank is in a critical condition with an orange priority.

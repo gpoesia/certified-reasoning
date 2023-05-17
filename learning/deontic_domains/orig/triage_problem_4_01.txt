@@ -1,0 +1,31 @@
+
+In a clinic, there are three healthcare professionals: Adams, Brown, and Clark. They are attending to two patients: Patient Emily and Patient Fiona. The clinic has two pieces of medical equipment: a blood pressure monitor and an ultrasound machine. Emily is receiving physical therapy, while Fiona has been prescribed medication. Emily has a stable condition but is infected. Fiona is pregnant. Emily has given consent for physical therapy, while Fiona has withdrawn consent for her medication. Brown is responsible for Emily's care, while Clark is responsible for Fiona's care. Adams is assessing Emily's mental health, and Brown is providing mental health support for Fiona.
+Here are the rules of the world in this scenario:
+If a patient is pregnant, it is permissible for the healthcare professional to perform an examination on them.
+If a patient has allergies, it is permissible for the healthcare professional to allocate staff for them.
+If a patient is infected, it is obligatory for the healthcare professional to administer treatment to them.
+If a patient is infected, it is impermissible for the healthcare professional to provide family support for them.
+If a patient has given consent for a treatment, it is obligatory for the healthcare professional to administer that treatment.
+If a patient has withdrawn consent for a treatment, it is impermissible for the healthcare professional to administer that treatment.
+If a patient has unstable vitals, it is obligatory for the healthcare professional to initiate life support for them.
+If a patient is in a stable condition, it is impermissible for the healthcare professional to allocate staff for them.
+If a patient is pregnant, it is permissible for the healthcare professional to provide family support for them.
+If a healthcare professional is assigned care for a patient, it is permissible for them to use equipment for that patient.
+If a patient is pregnant, they are not infected.
+If a healthcare professional assesses a patient's mental health, the patient has a stable mental state.
+If a patient is in a stable condition, they are conscious.
+If a patient is not infected, they are given a yellow priority.
+If a healthcare professional has low resources, they have low staff.
+If a patient is given a yellow priority, they are in a stable condition.
+If a patient is mobile, they have given consent for treatment.
+If a patient is mobile, the healthcare professional can initiate rehabilitation for them.
+Question:
+Is it impermissible for Brown to allocate staff for Fiona?
+Solution:
+To determine whether it is impermissible for Brown to allocate staff for Fiona, we need to follow the reasoning trace:
+(taxiom1 p4 preg1) : (not_infected p4) - This states that Fiona is not infected because she is pregnant.
+(taxiom5 p4 r1) : (yellow p4) - This states that Fiona has been assigned a yellow priority as she is not infected.
+(taxiom10 p4 r2) : (stable_condition p4) - This states that Fiona is in a stable condition because she has been assigned a yellow priority.
+(daxiom17 h5 p4 r3) : (impermissible (allocate_staff h5 p4)) - This states that it is impermissible for Brown to allocate staff for Fiona because she is in a stable condition.
+Answer:
+Yes, it is impermissible for Brown to allocate staff for Fiona.

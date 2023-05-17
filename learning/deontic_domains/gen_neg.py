@@ -27,7 +27,7 @@ def parse_and_negate_problem(file_path):
     answer = "Answer (Yes or no): No"
     return context, [question_1, question_2], answer
 
-files = sorted([f for f in os.listdir('./') if f.endswith('.txt') and 'negated' not in f])
+files = sorted([f for f in os.listdir('./') if f.endswith('.txt') and 'negated' not in f and 'triage' in f])
 file_template = '{context}\n{question}\nReasoning:\n{answer}'
 for f in files: 
     context, questions, answer = parse_and_negate_problem(f)
