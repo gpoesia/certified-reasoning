@@ -89,7 +89,7 @@ class OpenAIChatModel(LanguageModel):
 
         # Only keep tokens that cannot be extended. This is crucial, because
         # the model has *never* seen a sequence of non-maximal tokens in its
-        # input, and if we force it to output a sequence of maximal tokens,
+        # input, and if we force it to output such a sequence,
         # a logit bias is often not enough to constrain it (it outputs near
         # zero probability for the valid tokens even after adding 100 to
         # the logits).
@@ -106,6 +106,13 @@ class OpenAIChatModel(LanguageModel):
         # after predicting '2'. The solution is to only let the model
         # output maximal valid tokens, avoiding this issue.
         # TODO: this is a hack, make synchromesh compatible with tiktoken
+
+        if len(valid_tokens) > 1000:
+            token_lens = [len(self.get_token(i)) for i in valid_tokens]
+            # sort valid tokens by length
+            valid_tokens = [x for _, x in sorted(zip(token_lens, valid_tokens))]
+            valid_tokens = valid_tokens[:1000]
+
         valid_tokens = [[t] for t in valid_tokens]
         valid_tokens = filter_maximal_tokens(valid_tokens, self.tokenizer)
         valid_tokens = [t[0] for t in valid_tokens]
@@ -567,6 +574,21 @@ class OpenAIChatModelReasoner(NaturalLanguageReasoner):
     def name(self) -> str:
         return self._model
 
+    def prepare_for(self, dataset: str):
+        if 'deontic' in dataset:
+            prompt_file = 'prompts/chat_deontic_events.json'
+            self._index = 1
+            self._question_word = 'Question'
+        else:
+            self._question_word = 'Query'
+            prompt_file = None
+
+        self._prompt = None
+        if prompt_file:
+            with open(prompt_file, 'r') as f:
+                self._prompt = json.load(f)
+                print('Loaded chat prompt from', prompt_file)
+
     def _format_example(self, example: object,
                         index: int, is_test: bool):
         lines = []
@@ -575,7 +597,7 @@ class OpenAIChatModelReasoner(NaturalLanguageReasoner):
 
         lines.append(f'Problem #{index + 1}')
         lines.append(f'Context: {" ".join(example.theory)}')
-        lines.append(f'Query: {example.query}')
+        lines.append(f'{self._question_word}: {example.query}')
 
         messages.append({'role': 'user', 'content': '\n'.join(lines)})
 
@@ -588,14 +610,18 @@ class OpenAIChatModelReasoner(NaturalLanguageReasoner):
         return messages
 
     def predict_answer(self, problem: object) -> bool:
-        in_context = [m
-                      for i, e in enumerate(problem.train_examples[:3])
-                      for m in self._format_example(e, i, False)]
+        if self._prompt is None:
+            in_context = [m
+                          for i, e in enumerate(problem.train_examples[:3])
+                          for m in self._format_example(e, i, False)]
 
-        test = self._format_example(problem.test_example, 3, True)
-        prompt = ([{"role": "system",
-                    "content": "You are an AI reasoner that always follows the specified format."}]
-                + in_context)
+            test = self._format_example(problem.test_example, 3, True)
+            prompt = ([{"role": "system",
+                        "content": "You are an AI reasoner that always follows the specified format."}]
+                      + in_context)
+        else:
+            prompt = copy.deepcopy(self._prompt)
+            test = self._format_example(problem.test_example, self._index, True)
 
         prompt += test
 
@@ -686,6 +712,9 @@ class PeanoChatLMReasoner(NaturalLanguageReasoner):
         return f'peano-chat-{self._model}'
 
     def prepare_for(self, dataset: str):
+        self._number = True
+        self._question_word = 'Query'
+
         if 'trueontology' in dataset:
             prompt_file = 'prompts/peano_chat_prontoqa_trueontology_short_prompt'
         elif 'falseontology' in dataset:
@@ -695,6 +724,11 @@ class PeanoChatLMReasoner(NaturalLanguageReasoner):
         elif 'syllogism' in dataset:
             prompt_file = 'prompts/peano_chat_syllogism_nonsense_prompt'
             self._index = 3
+        elif 'deontic' in dataset:
+            prompt_file = 'prompts/peano_chat_deontic_events'
+            self._index = 2
+            self._number = False
+            self._question_word = 'Question'
         else:
             prompt_file = 'prompts/peano_chat_prontoqa_short_prompt'
 
@@ -703,10 +737,16 @@ class PeanoChatLMReasoner(NaturalLanguageReasoner):
             print('Loaded chat prompt from', prompt_file)
 
     def _format_problem(self, problem: object) -> List[Dict[str, str]]:
-        context = f' '.join(f'{i+1}- {sentence}'
-                            for i, sentence in enumerate(problem.test_example.theory))
+        if self._number:
+            context = f' '.join(f'{i+1}- {sentence}'
+                                for i, sentence in enumerate(problem.test_example.theory))
+        else:
+            context = f' '.join(f'{sentence}'
+                                for sentence in problem.test_example.theory)
+
         query = problem.test_example.query
-        chat_problem = [{"role": "user", "content": f"Problem #{self._index}\nContext: {context}\nQuery: {query.strip()}"}]
+        chat_problem = [{"role": "user",
+                         "content": f"Problem #{self._index}\nContext: {context}\n{self._question_word}: {query.strip()}"}]
         return chat_problem
     
     def predict_answer(self, problem: object) -> bool:
@@ -721,7 +761,12 @@ class PeanoChatLMReasoner(NaturalLanguageReasoner):
                              cache_path='.openai_cache')
 
         response = predict_constrained(self._completion_engine, lm, batch_size=800)
-        done, answer = self._completion_engine.is_complete(response)
+        pred = self._completion_engine.is_complete(response)
+
+        if pred is None:
+            return 'Unknown', response
+
+        done, answer = pred
 
         if not done:
             return 'Unknown', response
@@ -758,15 +803,21 @@ def evaluate_reasoner(results_path: str,
             continue
 
         try:
-            prediction, reasoning = reasoner.predict_answer(p)
+            while True:
+                try:
+                    prediction, reasoning = reasoner.predict_answer(p)
+                    break
+                except (openai.error.RateLimitError, openai.error.APIError):
+                    print('Rate limited. Waiting...')
+                    import time; time.sleep(10)
+                    pass
+
             error = None
-            correct = ('Answer: Yes' in reasoning) == p.test_example.answer
-            # correct = (prediction == p.test_example.answer)
+            correct = (prediction == p.test_example.answer)
             print(key, 'success?', correct)
-        except (Exception, RuntimeError) as e:
+        except (ValueError, openai.error.InvalidRequestError, RuntimeError) as e:
             print('Error:', e)
             correct = False
-            raise
             error = str(e)
             prediction, reasoning = None, None
 
@@ -973,12 +1024,12 @@ def run_deontic_logic_experiments():
 
     reasoners = [
         # OpenAIChatModelReasoner('gpt-3.5-turbo'),
-        OpenAILanguageModelReasoner('text-davinci-003'),
-        PeanoLMReasoner(fol_completion_engine,
-                        'text-davinci-003'),
-        # PeanoChatLMReasoner(fol_completion_engine,
-        #                    'gpt-3.5-turbo')
-        # OpenAIChatModelReasoner('gpt-3.5-turbo'),
+        PeanoChatLMReasoner(fol_completion_engine,
+                            'gpt-3.5-turbo'),
+
+        # OpenAILanguageModelReasoner('text-davinci-003'),
+        # PeanoLMReasoner(fol_completion_engine,
+        #                'text-davinci-003'),
     ]
 
     for r in reasoners:

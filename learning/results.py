@@ -113,20 +113,43 @@ def load_results(paths: list[str], dataset_filter: Optional[str],
         records.extend(results_obj.values())
 
     for r in records:
-        if r['prediction'] not in ('True', 'False'):
+        if not r['reasoning']:
             r['correct'] = 0.5
+            continue
+
+        if r['prediction'] in ('No', 'False') or 'Answer: No' in r['reasoning']:
+            r['prediction'] = False
+        if r['prediction'] in ('Yes', 'True') or 'Answer: Yes' in r['reasoning']:
+            r['prediction'] = True
+
+        if r['prediction'] not in (True, False):
+            print(r['prediction'])
+            r['correct'] = 0.5
+            continue
+
+        r['correct'] = r['prediction'] == r['answer']
+
+        #if unknown_as_random_guess and (r['prediction'] not in ('True', 'False')):
+        #    r['correct'] = 0.5
 
     return [r
             for r in records
             if (dataset_filter or '') in r['dataset']]
 
 
-def compute_success_rates(records: list) -> dict:
+def compute_success_rates(records: list, strict=False) -> dict:
     successes = collections.defaultdict(list)
     result = {}
 
     for r in records:
-        successes[(r['dataset'], r['reasoner'])].append(int(r['correct']))
+        correct = float(r['correct'])
+
+        #if not strict and (r['prediction'] not in ('True', 'False')):
+        #    correct = 0.5
+
+        successes[(r['dataset'], r['reasoner'])].append(correct)
+
+
 
     for k, v in successes.items():
         result[k] = np.mean(v)
@@ -231,7 +254,7 @@ def generate_syllogism_plot(results_path: str, output_path: str):
         r['model'] = format_reasoner_name(r['reasoner'])
         r['base_model'] = format_base_reasoner_name(r['reasoner'])
         r['dataset'] = syllogism_dataset_name(r['dataset'])
-        r['guide'] = has_guide(r['reasoner'])
+        r['guide'] = 'Yes' if has_guide(r['reasoner']) else 'No'
         data.append(r)
 
     util.plot_vegalite('syllogism-validity', data, output_path)
@@ -257,6 +280,82 @@ def generate_star_plot(results_path: str, output_path: str):
     util.plot_vegalite('star', data, output_path)
 
 
+def compute_dataset_stats():
+    import lm_tool
+
+    prontoqa = lm_tool.PrOntoQADataset('prontoqa', [])
+    proofwriter = lm_tool.PrOntoQADataset('proofwriter', [])
+
+    for hops in [1]:
+        for ontology in ['', '_trueontology', '_falseontology']:
+            path = f'./prontoqa/{hops}hop_random{ontology}_seed19.json'
+            d = lm_tool.PrOntoQADataset.load(path)
+            prontoqa.problems.extend(d.problems)
+
+        path = f'./proofwriter/proofwriter_{hops}hop.json'
+        d = lm_tool.PrOntoQADataset.load(path)
+        proofwriter.problems.extend(d.problems)
+
+    def median_assumptions(ds):
+        return np.median([len(p.test_example.theory) for p in ds.problems])
+
+    print('Median context size for PrOntoQA:', median_assumptions(prontoqa))
+    print('Median context size for ProofWriter:', median_assumptions(proofwriter))
+
+
+def compute_deontic_results():
+    results = load_results(['deontic-results.json'], 'deontic')
+
+    srs = compute_success_rates(results)
+
+    print(srs)
+
+
+def compute_solutions_stats():
+    import lm_tool
+
+    results = json.load(open('results-0514.json'))
+
+    guided_results = [r for r in results.values()
+                      if 'peano' in r['reasoner'] and report_model(r['reasoner'])]
+
+    unguided_results = [r for r in results.values()
+                        if 'peano' not in r['reasoner'] and report_model(r['reasoner'])]
+
+    guided_failures = [r for r in guided_results if not r['correct']]
+    certified_failures = [r for r in guided_results
+                          if (r['prediction'] in ('True', 'False') and
+                              r['answer'] != r['prediction'])]
+
+    print('Fraction of results where model proved the goal and was wrong:', len(certified_failures) / len(guided_failures))
+
+    exhausted_inferences = [r for r in guided_results
+                            if r['reasoning'] and 'infer:nothing' in r['reasoning']]
+
+    exhausted_and_unknown = [r for r in exhausted_inferences
+                             if not ('Answer: True' in r['reasoning'] or 'Answer: False' in r['reasoning'])]
+
+    exhausted_and_false = [r for r in exhausted_inferences
+                             if 'Answer: False' in r['reasoning']]
+
+    print('Fraction of exhausted reasoning where model abstains:', len(exhausted_and_unknown) / len(exhausted_inferences))
+    print('Fraction of exhausted reasoning where model answers false:', len(exhausted_and_false) / len(exhausted_inferences))
+
+    unguided_unknown = [r for r in unguided_results
+                        if 'Answer:' in r['reasoning'] and '3.5' not in r['reasoner']
+                        and not ('Answer: True' in r['reasoning'] or 'Answer: False' in r['reasoning'])]
+
+    print(len(unguided_unknown), 'unknown results in not GPT-3.5 Turbo models.')
+
+    unguided_unknown_gpt35 = [r for r in unguided_results
+                        if 'Answer:' in r['reasoning'] and '3.5' in r['reasoner']
+                        and not ('Answer: True' in r['reasoning'] or 'Answer: False' in r['reasoning'])]
+
+    unguided_gpt35 = [r for r in unguided_results if '3.5' in r['reasoner']]
+
+    print(len(unguided_unknown_gpt35) / len(unguided_gpt35), 'unknown results from GPT-3.5 Turbo')
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--table', action='store_true',
@@ -269,6 +368,12 @@ def main():
                         help='Generate bar plot of syllogistic reasoning results.')
     parser.add_argument('--plot-star', action='store_true',
                         help='Generate line plot of STaR results.')
+    parser.add_argument('--deontic-results', action='store_true',
+                        help='Compute deontic logic results.')
+    parser.add_argument('--stats', action='store_true',
+                        help='Compute dataset stats.')
+    parser.add_argument('--solution-stats', action='store_true',
+                        help='Compute model solution stats.')
     parser.add_argument('--results', help='Path to results file.', nargs='*')
     parser.add_argument('--dataset-filter', default='',
                         help='Only consider datasets with this substring.')
@@ -288,6 +393,12 @@ def main():
         generate_syllogism_plot(opt.results, opt.output)
     elif opt.plot_star:
         generate_star_plot(opt.results, opt.output)
+    elif opt.stats:
+        compute_dataset_stats()
+    elif opt.solution_stats:
+        compute_solutions_stats()
+    elif opt.deontic_results:
+        compute_deontic_results()
 
 
 if __name__ == '__main__':

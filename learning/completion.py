@@ -98,10 +98,10 @@ class PeanoCompletionEngine:
         assert not block_contents
 
         if block_keyword in ('prop', 'object', 'relation'):
-            return regex.compile('[a-zA-Z0-9-_]+' + end_marker)
+            return regex.compile('[a-zA-Z0-9-_]{1,50}' + end_marker)
 
         if block_keyword == 'var':
-            return regex.compile('[a-zA-Z0-9-_]+' + end_marker)
+            return regex.compile('[a-z0-9-_]{1,50}' + end_marker)
 
         if block_keyword == 'eq':
             return regex.compile('[\\(\\)a-zA-Z0-9\\-=+\\*/ ]+' + end_marker)
@@ -147,7 +147,7 @@ class PeanoCompletionEngine:
         raise ValueError(f'Invalid block type {block_keyword}.')
 
     def _make_freeform_proposition_regex(self, is_goal: bool) -> regex.Regex:
-        atom_regex = '([a-zA-Z0-9-_]+)'
+        atom_regex = '([a-zA-Z0-9-_]{1,50})'
         param_regex = '(\'[a-z])'
 
         if is_goal:
@@ -155,8 +155,8 @@ class PeanoCompletionEngine:
         else:
             argument_regex = f'({param_regex}|{atom_regex})'
 
-        term_regex = rf'({argument_regex}|(\({atom_regex}( {argument_regex})+\)))'
-        positive_property = rf'(\({atom_regex}( {term_regex})+\))'
+        term_regex = rf'({argument_regex}|(\({atom_regex}( {argument_regex}){{1,2}}\)))'
+        positive_property = rf'(\({atom_regex}( {term_regex}){{1,2}}\))'
         proposition = rf'({positive_property}|(\(not {positive_property}\)))'
 
         if is_goal:

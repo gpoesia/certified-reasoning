@@ -8,8 +8,8 @@ import os
 import logging
 import json
 import itertools
+import subprocess
 
-import altair as alt
 import torch
 import wandb
 import numpy as np
@@ -269,10 +269,13 @@ def plot_vegalite(template: str, data: list, output_path: str):
 
     spec['data'] = {'values': data}
 
-    with open(output_path + '.vl.json', 'w') as f:
+    json_path = output_path + '.vl.json'
+
+    with open(json_path, 'w') as f:
         json.dump(spec, f)
 
-    # alt.Chart.from_dict(spec).save(output_path, scale_factor=5)
+    with open(output_path, 'wb') as f:
+        subprocess.run(['vl2png', json_path, '--scale', '5'], stdout=f, check=True)
 
 
 def bootstrap_mean_ci(trials, confidence):
