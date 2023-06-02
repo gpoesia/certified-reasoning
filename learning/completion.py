@@ -33,7 +33,7 @@ def regex_not_containing(m):
     return f'({"|".join(options)})*'
 
 
-def _split_block(b: str) -> (str, str):
+def _split_block(b: str):
     colon = b.index(':')
     return (b[:colon], b[colon+1:])
 
@@ -331,6 +331,50 @@ class PeanoCompletionEngine:
 
         ff = self.fast_forward_derivation(blocks)
         return self.domain.derivation_done(ff)
+    
+
+# TODO: implement a retrieval completion engine using PeanoCompletionEngine as a reference
+class ImplicitRetrievalCompletionEngine:
+    '''CSD completion engine.'''
+    def __init__(self, domain, start_derivation,
+                 format_fn=lambda s: s, start_marker='[[', end_marker=']]',
+                 infer_atoms=True, done_when_exhausted=False):
+        self.domain = domain
+        self.start_derivation = start_derivation
+        self.start_marker = start_marker
+        self.end_marker = end_marker
+        self.format_fn = format_fn
+        self.infer_atoms = infer_atoms
+        self.done_when_exhausted = done_when_exhausted
+    
+    def _get_open_block(self, prefix: str) -> Optional[str]:
+        pass
+
+    def complete(self, prefix: str):
+        pass
+
+    # some of these methods are most certainly unnecessary, kept here for completion
+    def _make_freeform_proposition_regex(self, is_goal: bool) -> regex.Regex:
+        pass
+
+    def _make_proposition_regex(self,
+                                previous_blocks: list[tuple[str, str]],
+                                is_goal: bool) -> regex.Regex:
+        pass
+
+
+    def fast_forward_derivation(self, verified_blocks: list[tuple[str, str]]):
+        pass
+
+    def enumerate_choices(self, universe):
+        pass
+
+    def get_verified_blocks(self, prefix: str) -> list[tuple[str, str]]:
+        pass
+
+    def is_complete(self, prefix: str) -> bool:
+        pass
+
 
 
 def infer_sexp_arities(sexp: list, result: dict[str, int]):
