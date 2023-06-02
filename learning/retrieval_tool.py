@@ -24,22 +24,17 @@ from lm_tool import NaturalLanguageReasoner, OpenAIChatModel
 
 # Matches the JSON structure of a BeerQA problem
 @dataclass
-class BeerQAExample:
+class BeerQAProblem:
     id: str
     src: str
     answers: list[str]
     question: str
     context: list[str]
 
-# Convenience class created to represent different sets of BeerQA problems. 
-# For example, 1 hop versus 2 hop problems
-class BeerQAProblem:
-    split: str
-    questions: list[BeerQAExample]
-
 @dataclass
 class BeerQADataset:
     id: str      # this is just the path
+    split: str
     problems: list[BeerQAProblem]
 
     @staticmethod
@@ -55,25 +50,19 @@ class BeerQADataset:
         if "data" in data:
             for item in data["data"]:
 
-                example = BeerQAExample(
+                problem = BeerQAProblem(
                     id = item['id'],
                     src = item['src'],
                     answers = item['answers'],
                     question = item['question'],
                     context = item['context']
                 )
-                problems.append(example)
+                problems.append(problem)
         
-        return BeerQADataset(split=dataset_split, problems=problems)
+        return BeerQADataset(id=path, split=dataset_split, problems=problems)
     
 
-# Matches the JSON structure of a BeerQA problem
-@dataclass
-class QasperQAExample:
-    pass
-
-# Convenience class created to represent different sets of BeerQA problems. 
-# For example, 1 hop versus 2 hop problems
+# TODO
 class QasperQAProblem:
     pass
 
