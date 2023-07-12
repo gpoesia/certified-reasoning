@@ -11,19 +11,6 @@ import util
 from synchromesh import StreamingCSD
 
 
-class CountingDomain:
-    def __init__(self, start, step, end):
-        self.start = start
-        self.step = step
-        self.end = end
-
-    def actions(self, blocks):
-        return {str(self.start + len(blocks) * self.step)}
-
-    def is_complete(self, blocks: list[str]) -> bool:
-        return len(blocks) > 0 and int(blocks[-1]) >= self.end
-
-
 def regex_not_containing(m):
     'Returns a regular expression for any string that does not contain m.'
     options = []
@@ -333,6 +320,7 @@ class PeanoCompletionEngine:
 
         ff = self.fast_forward_derivation(blocks)
         return self.domain.derivation_done(ff)
+
 
 def infer_sexp_arities(sexp: list, result: dict[str, int]):
     if isinstance(sexp, str):

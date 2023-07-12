@@ -186,7 +186,8 @@ class OpenAIChatModel(LanguageModel):
         prediction = response['choices'][0]['message']['content']
         if prefix:
             # match the prefix string to see if there is a match in the prediction 
-            # this is to account for the cases where the model apologizes
+            # this is to account for the cases where the model repeatedly
+            # apologizes for its incomplete response, and this violates the guide again and again.
             # TODO: do a better substring match as the model might just repeat a part of the prefix
             if prefix in prediction:
                 # Find the index where the prefix ends
@@ -820,6 +821,14 @@ def evaluate_reasoner(results_path: str,
             correct = False
             error = str(e)
             prediction, reasoning = None, None
+        except BaseException as e:
+            if type(e).__name__ == 'PanicException':
+                print('Peano panicked.')
+                correct = False
+                error = str(e)
+                prediction, reasoning = None, None
+            else:
+                raise
 
         success.append(correct)
 
@@ -841,7 +850,7 @@ def evaluate_reasoner(results_path: str,
     print(f'Accuracy: {100 * sum(success) / len(success):.2f}%')
 
 
-def run_syllogism_experiments(max_problems=20):
+def run_syllogism_experiments(max_problems=120):
     dataset_path = './content_effects/syllogism_problems.json'
     dataset_types = ['realistic-consistent', 'realistic-inconsistent', 'nonsense']
 
@@ -854,32 +863,10 @@ def run_syllogism_experiments(max_problems=20):
     )
 
     reasoners = [
-            #OpenAILanguageModelReasoner('text-davinci-003'),
-            #OpenAILanguageModelReasoner('text-curie-001'),
-            #OpenAILanguageModelReasoner('babbage'),
-            #OpenAIChatModelReasoner('gpt-3.5-turbo'),
-        #OpenAILanguageModelReasoner('gpt-4'),
-        # OpenAILanguageModelReasoner('text-davinci-003'),
-        # PeanoLMReasoner(fol_completion_engine,
-        #                'prompts/',
-        #                'text-davinci-003'),
-        # OpenAILanguageModelReasoner('text-davinci-003'),
-        # PeanoLMReasoner(fol_completion_engine, 'text-davinci-003'),
-        # OpenAIChatModelReasoner('gpt-3.5-turbo'),
+        OpenAILanguageModelReasoner('text-davinci-003'),
+        OpenAIChatModelReasoner('gpt-3.5-turbo'),
+        PeanoLMReasoner(fol_completion_engine, 'text-davinci-003'),
         PeanoChatLMReasoner(fol_completion_engine, 'gpt-3.5-turbo'),
-        # PeanoLMReasoner(fol_completion_engine,
-        #                 'prompts/',
-        #                 'text-davinci-003'),
-        # PeanoLMReasoner(fol_completion_engine,
-        #                 'prompts/',
-        #                 'text-curie-001'),
-        # PeanoLMReasoner(fol_completion_engine,
-        #                 'prompts/',
-        #                 'babbage'),
-        # OpenAIChatModelReasoner('gpt-4'),
-        # PeanoLMReasoner(fol_completion_engine,
-        #                'prompts/',
-        #                'code-davinci-002'),
     ]
 
     for r in reasoners:
@@ -888,23 +875,23 @@ def run_syllogism_experiments(max_problems=20):
             evaluate_reasoner(f'syllogisms-results.json', ds, r, max_problems)
 
 
-def run_prontoqa_experiments(max_problems=40):
+def run_prontoqa_experiments(max_problems=120):
     datasets = [
-        # PrOntoQADataset.load('./prontoqa/1hop_random_seed19.json'),
-        # PrOntoQADataset.load('./prontoqa/2hop_random_seed19.json'),
+        PrOntoQADataset.load('./prontoqa/1hop_random_seed19.json'),
+        PrOntoQADataset.load('./prontoqa/2hop_random_seed19.json'),
         PrOntoQADataset.load('./prontoqa/3hop_random_seed19.json'),
-        # PrOntoQADataset.load('./prontoqa/4hop_random_seed19.json'),
-        # PrOntoQADataset.load('./prontoqa/5hop_random_seed19.json'),
-        # PrOntoQADataset.load('./prontoqa/1hop_random_trueontology_seed19.json'),
-        # PrOntoQADataset.load('./prontoqa/2hop_random_trueontology_seed19.json'),
-        # PrOntoQADataset.load('./prontoqa/3hop_random_trueontology_seed19.json'),
-        # PrOntoQADataset.load('./prontoqa/4hop_random_trueontology_seed19.json'),
-        # PrOntoQADataset.load('./prontoqa/5hop_random_trueontology_seed19.json'),
-        # PrOntoQADataset.load('./prontoqa/1hop_random_falseontology_seed19.json'),
-        # PrOntoQADataset.load('./prontoqa/2hop_random_falseontology_seed19.json'),
-        # PrOntoQADataset.load('./prontoqa/3hop_random_falseontology_seed19.json'),
-        # PrOntoQADataset.load('./prontoqa/4hop_random_falseontology_seed19.json'),
-        # PrOntoQADataset.load('./prontoqa/5hop_random_falseontology_seed19.json'),
+        PrOntoQADataset.load('./prontoqa/4hop_random_seed19.json'),
+        PrOntoQADataset.load('./prontoqa/5hop_random_seed19.json'),
+        PrOntoQADataset.load('./prontoqa/1hop_random_trueontology_seed19.json'),
+        PrOntoQADataset.load('./prontoqa/2hop_random_trueontology_seed19.json'),
+        PrOntoQADataset.load('./prontoqa/3hop_random_trueontology_seed19.json'),
+        PrOntoQADataset.load('./prontoqa/4hop_random_trueontology_seed19.json'),
+        PrOntoQADataset.load('./prontoqa/5hop_random_trueontology_seed19.json'),
+        PrOntoQADataset.load('./prontoqa/1hop_random_falseontology_seed19.json'),
+        PrOntoQADataset.load('./prontoqa/2hop_random_falseontology_seed19.json'),
+        PrOntoQADataset.load('./prontoqa/3hop_random_falseontology_seed19.json'),
+        PrOntoQADataset.load('./prontoqa/4hop_random_falseontology_seed19.json'),
+        PrOntoQADataset.load('./prontoqa/5hop_random_falseontology_seed19.json'),
     ]
 
     fol_domain = domain.FirstOrderLogicDomain()
@@ -913,72 +900,17 @@ def run_prontoqa_experiments(max_problems=40):
         fol_domain.start_derivation())
 
     reasoners = [
-            #OpenAILanguageModelReasoner('text-davinci-003'),
-            #OpenAILanguageModelReasoner('text-curie-001'),
-            #OpenAILanguageModelReasoner('babbage'),
-            #OpenAIChatModelReasoner('gpt-3.5-turbo'),
-        #OpenAILanguageModelReasoner('gpt-4'),
-        # OpenAILanguageModelReasoner('text-davinci-003'),
-        # PeanoLMReasoner(fol_completion_engine,
-        #                'prompts/peano_prontoqa_long_prompt',
-        #                'text-davinci-003'),
+        OpenAILanguageModelReasoner('text-davinci-003'),
+        OpenAIChatModelReasoner('gpt-3.5-turbo'),
+        PeanoLMReasoner(fol_completion_engine,
+                        'text-davinci-003'),
         PeanoChatLMReasoner(fol_completion_engine,
                             'gpt-3.5-turbo')
-        # OpenAIChatModelReasoner('gpt-3.5-turbo'),
-        # PeanoLMReasoner(fol_completion_engine,
-        #                 'prompts/peano_prontoqa_short_prompt',
-        #                 'text-davinci-003'),
-        # PeanoLMReasoner(fol_completion_engine,
-        #                 'prompts/peano_prontoqa_short_prompt',
-        #                 'text-curie-001'),
-        # PeanoLMReasoner(fol_completion_engine,
-        #                 'prompts/peano_prontoqa_short_prompt',
-        #                 'babbage'),
-        # OpenAIChatModelReasoner('gpt-4'),
-        # PeanoLMReasoner(fol_completion_engine,
-        #                'prompts/peano_prontoqa_long_prompt',
-        #                'code-davinci-002'),
     ]
 
     for r in reasoners:
         for ds in datasets:
             evaluate_reasoner('results.json', ds, r, max_problems)
-
-
-def run_math_experiments():
-    datasets = [
-        MathDataset.generate(30, 't')
-    ]
-
-    ka_domain = domain.AlgebraDomain()
-    ka_domain.load_tactics([
-        tactics.Tactic(
-            'eval_rewrite',
-            [
-                tactics.Step(['eval'], ['?a'], '?0'),
-                tactics.Step(['rewrite'], ['?0', '?b@*'], '?1'),
-            ]
-        )
-    ])
-
-    completion_engine = PeanoCompletionEngine(
-        ka_domain,
-        ka_domain.start_derivation(),
-        util.format_infix
-        )
-
-    reasoners = [
-        # OpenAIChatModelReasoner('gpt-4')
-        OpenAIChatModelReasoner('gpt-3.5-turbo'),
-        OpenAILanguageModelReasoner('text-davinci-003'),
-        # PeanoLMReasoner(completion_engine,
-        #                'prompts/peano_substeval_prompt',
-        #                'text-davinci-003'),
-    ]
-
-    for ds in datasets:
-        for r in reasoners:
-            evaluate_reasoner('math_results.json', ds, r)
 
 
 def parse_deontic_logic_problem(path):
@@ -1006,7 +938,7 @@ def load_deontic_logic_dataset():
     ROOT = 'deontic_domains'
 
     for path in os.listdir(ROOT):
-        if path.endswith('.txt'):
+        if path.endswith('.txt') and 'triage' not in path:
             dataset.problems.append(parse_deontic_logic_problem(
                 os.path.join(ROOT, path)
             ))
@@ -1023,13 +955,12 @@ def run_deontic_logic_experiments():
         fol_domain.start_derivation())
 
     reasoners = [
-        # OpenAIChatModelReasoner('gpt-3.5-turbo'),
+        OpenAIChatModelReasoner('gpt-3.5-turbo'),
+        OpenAILanguageModelReasoner('text-davinci-003'),
         PeanoChatLMReasoner(fol_completion_engine,
                             'gpt-3.5-turbo'),
-
-        # OpenAILanguageModelReasoner('text-davinci-003'),
-        # PeanoLMReasoner(fol_completion_engine,
-        #                'text-davinci-003'),
+        PeanoLMReasoner(fol_completion_engine,
+                        'text-davinci-003'),
     ]
 
     for r in reasoners:
@@ -1038,7 +969,6 @@ def run_deontic_logic_experiments():
 
 
 if __name__ == '__main__':
-    # run_prontoqa_experiments()
-    # run_syllogism_experiments()
+    run_prontoqa_experiments()
+    run_syllogism_experiments()
     run_deontic_logic_experiments()
-    # run_math_experiments()
