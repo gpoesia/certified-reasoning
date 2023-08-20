@@ -21,7 +21,6 @@ import transformers
 import tiktoken
 
 import domain
-import tactics
 import util
 
 from completion_engine import CompletionEngine
