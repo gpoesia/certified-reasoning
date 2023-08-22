@@ -11,3 +11,5 @@ wandb
 openai
 tokenizers
 regex
+tiktoken
+lark-parser
