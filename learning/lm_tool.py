@@ -19,13 +19,14 @@ import os
 import openai
 import transformers
 import tiktoken
+import torch
 
 import domain
 import util
 
-from completion_engine import CompletionEngine
-from language_model import OpenAIModel, LanguageModel, download_or_use_cached, filter_maximal_tokens
-from synchromesh import predict_constrained
+from synchromesh import CompletionEngine, predict_constrained
+from synchromesh.language_model import OpenAIModel, HuggingFaceModel, LanguageModel, download_or_use_cached, filter_maximal_tokens
+from transformers import AutoTokenizer, AutoModelForCausalLM, StoppingCriteria, StoppingCriteriaList
 
 
 from completion import PeanoCompletionEngine
@@ -494,11 +495,13 @@ class NaturalLanguageReasoner:
         pass
 
 
-class OpenAILanguageModelReasoner(NaturalLanguageReasoner):
-    def __init__(self, model: str, temperature: float = 0.0):
+class VanillaLanguageModelReasoner(NaturalLanguageReasoner):
+    def __init__(self, predict_fn, model: str, temperature: float = 0.0, max_examples=4):
         self._model = model
         self._temperature = temperature
         self._separator = '###'
+        self._predict_fn = predict_fn
+        self._max_examples = max_examples
 
     def name(self) -> str:
         return self._model
@@ -542,7 +545,7 @@ class OpenAILanguageModelReasoner(NaturalLanguageReasoner):
     def predict_answer(self, problem: object) -> bool:
         if not hasattr(self, '_prompt'):
             in_context = [self._format_example(e, i, False)
-                          for i, e in enumerate(problem.train_examples[:4])]
+                          for i, e in enumerate(problem.train_examples[:self._max_examples])]
             test = self._format_example(problem.test_example, len(in_context), True)
             prompt = f'\n{self._separator}\n'.join(in_context + [test])
         else:
@@ -551,18 +554,53 @@ class OpenAILanguageModelReasoner(NaturalLanguageReasoner):
             prompt += f'\n\n' + test
 
         rate_limiter.wait()
+        response_str = self._predict_fn(
+                prompt=prompt,
+                max_tokens=700,
+                stop=self._separator)
 
-        response = openai.Completion.create(model=self._model,
-                                            prompt=prompt,
-                                            temperature=self._temperature,
-                                            max_tokens=200,
-                                            stop=self._separator)
-
-        response_str = response.choices[0].text
         print(response_str)
         answer = re.search('Answer: (.+)$', response_str)
         answer = answer and answer.groups()[-1].strip()
         return answer, response_str
+
+
+class OpenAILanguageModelReasoner(VanillaLanguageModelReasoner):
+    def __init__(self, model: str, temperature: float):
+        def predict_fn(prompt, max_tokens, stop):
+            response = openai.Completion.create(model=model,
+                                                prompt=prompt,
+                                                temperature=temperature,
+                                                max_tokens=max_tokens,
+                                                stop=stop)
+            return response.choices[0].text
+        super().__init__(self, predict_fn, model, temperature, 4)
+
+
+class HuggingFaceLanguageModelReasoner(VanillaLanguageModelReasoner):
+    def __init__(self, model: str, temperature: float):
+        self._tokenizer = AutoTokenizer.from_pretrained(model)
+        self._hf_model = AutoModelForCausalLM.from_pretrained(model, load_in_4bit=True, device_map="auto")
+
+        def predict_fn(prompt, max_tokens, stop):
+            # HACK: get first token from stop sequence if it comes after a newline.
+            stop_token = self._tokenizer.encode('\n' + stop, add_special_tokens=False)[2]
+            input_tokens = self._tokenizer.encode(prompt, return_tensors='pt').to('cuda')
+
+            out = self._hf_model.generate(
+                    input_tokens,
+                    max_new_tokens=max_tokens,
+                    eos_token_id=stop_token,
+                    pad_token_id=stop_token)
+
+            output_tokens = out[0][len(input_tokens[0]):].tolist()
+
+            if stop_token in output_tokens:
+                output_tokens = output_tokens[:output_tokens.index(stop_token)]
+
+            return self._tokenizer.decode(output_tokens).strip()
+
+        super().__init__(predict_fn, model, temperature, 3)
 
 
 class OpenAIChatModelReasoner(NaturalLanguageReasoner):
@@ -639,9 +677,11 @@ class OpenAIChatModelReasoner(NaturalLanguageReasoner):
 class PeanoLMReasoner(NaturalLanguageReasoner):
     def __init__(self, completion_engine: CompletionEngine,
                  model: str,
+                 make_lm,
                  temperature: float = 0.0):
         self._completion_engine = completion_engine
         self._model = model
+        self._make_lm = make_lm
         self._temperature = temperature
         self._separator = '###'
 
@@ -680,12 +720,7 @@ class PeanoLMReasoner(NaturalLanguageReasoner):
     def predict_answer(self, problem: PrOntoQAProblem) -> bool:
         prompt = f'{self._prompt}\n{self._format_problem(problem)}'
 
-        lm = OpenAIModel(self._model,
-                         prompt,
-                         temperature=self._temperature,
-                         before_prediction_hook=rate_limiter.wait,
-                         cache_path='.openai_cache'
-                         )
+        lm = self._make_lm(self._model, prompt)
 
         response = predict_constrained(self._completion_engine, lm, batch_size=800,
                                        stop_tokens=[self._separator], max_violations=50)
@@ -697,6 +732,33 @@ class PeanoLMReasoner(NaturalLanguageReasoner):
             return 'Unknown', response
 
         return str(answer), response
+
+
+class PeanoOpenAILMReasoner(NaturalLanguageReasoner):
+    def __init__(self, model: str, temperature: float = 0):
+        def make_lm(m, prompt):
+            return OpenAIModel(m, prompt, 
+                         temperature=temperature,
+                         before_prediction_hook=rate_limiter.wait,
+                         cache_path='.openai_cache'
+                         )
+        super().__init__(model, make_lm, temperature)
+
+
+class PeanoHuggingFaceLMReasoner(PeanoLMReasoner):
+    def __init__(self, completion_engine, model: str, temperature: float = 0.1):
+        self._tokenizer = AutoTokenizer.from_pretrained(model)
+        self._hf_model = AutoModelForCausalLM.from_pretrained(model, load_in_8bit=True, device_map='auto')
+
+        def make_lm(m, prompt):
+            return HuggingFaceModel(
+                    self._hf_model,
+                    prompt,
+                    tokenizer=self._tokenizer,
+                    temperature=temperature,
+                    )
+
+        super().__init__(completion_engine, model, make_lm, temperature)
 
 
 class PeanoChatLMReasoner(NaturalLanguageReasoner):
@@ -807,15 +869,15 @@ def evaluate_reasoner(results_path: str,
                 try:
                     prediction, reasoning = reasoner.predict_answer(p)
                     break
-                except (openai.error.RateLimitError, openai.error.APIError):
+                except (openai.RateLimitError, openai.APIError):
                     print('Rate limited. Waiting...')
                     import time; time.sleep(10)
                     pass
 
             error = None
-            correct = (prediction == p.test_example.answer)
+            correct = (str(prediction) == str(p.test_example.answer))
             print(key, 'success?', correct)
-        except (ValueError, openai.error.InvalidRequestError, RuntimeError) as e:
+        except (ValueError, openai.OpenAIError, RuntimeError) as e:
             print('Error:', e)
             correct = False
             error = str(e)
@@ -899,12 +961,19 @@ def run_prontoqa_experiments(max_problems=120):
         fol_domain.start_derivation())
 
     reasoners = [
-        OpenAILanguageModelReasoner('text-davinci-003'),
-        OpenAIChatModelReasoner('gpt-3.5-turbo'),
-        PeanoLMReasoner(fol_completion_engine,
-                        'text-davinci-003'),
-        PeanoChatLMReasoner(fol_completion_engine,
-                            'gpt-3.5-turbo')
+        # NOTE: right now, each HuggingFaceLanguageModelReasoner will load the model
+        # separately. Perhaps run one at a time for now.
+
+        # HuggingFaceLanguageModelReasoner('/path/to/llama', 0.1),
+        # PeanoHuggingFaceLMReasoner(fol_completion_engine,
+        #                            '/path/to/llama')
+
+        # OpenAILanguageModelReasoner('text-davinci-003'),
+        # OpenAIChatModelReasoner('gpt-3.5-turbo'),
+        # PeanoLMReasoner(fol_completion_engine,
+        #                 'text-davinci-003'),
+        # PeanoChatLMReasoner(fol_completion_engine,
+        #                     'gpt-3.5-turbo')
     ]
 
     for r in reasoners:
@@ -969,5 +1038,5 @@ def run_deontic_logic_experiments():
 
 if __name__ == '__main__':
     run_prontoqa_experiments()
-    run_syllogism_experiments()
-    run_deontic_logic_experiments()
+    # run_syllogism_experiments()
+    # run_deontic_logic_experiments()
