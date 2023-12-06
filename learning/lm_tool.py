@@ -863,20 +863,23 @@ def evaluate_reasoner(results_path: str,
             # success.append(results[key]['correct'])
             success.append(('Answer: Yes' in results[key]['reasoning']) == results[key]['answer'])
             continue
+        elapsed = 0
 
         try:
             while True:
                 try:
+                    before = time.time()
                     prediction, reasoning = reasoner.predict_answer(p)
+                    elapsed = time.time() - before
                     break
                 except (openai.RateLimitError, openai.APIError):
                     print('Rate limited. Waiting...')
-                    import time; time.sleep(10)
+                    time.sleep(10)
                     pass
 
             error = None
             correct = (str(prediction) == str(p.test_example.answer))
-            print(key, 'success?', correct)
+            print(key, 'success?', correct, f'({elapsed:.2f}s)')
         except (ValueError, openai.OpenAIError, RuntimeError) as e:
             print('Error:', e)
             correct = False
@@ -938,21 +941,21 @@ def run_syllogism_experiments(max_problems=120):
 
 def run_prontoqa_experiments(max_problems=120):
     datasets = [
-        PrOntoQADataset.load('./prontoqa/1hop_random_seed19.json'),
-        PrOntoQADataset.load('./prontoqa/2hop_random_seed19.json'),
-        PrOntoQADataset.load('./prontoqa/3hop_random_seed19.json'),
-        PrOntoQADataset.load('./prontoqa/4hop_random_seed19.json'),
+        #PrOntoQADataset.load('./prontoqa/1hop_random_seed19.json'),
+        #PrOntoQADataset.load('./prontoqa/2hop_random_seed19.json'),
+        #PrOntoQADataset.load('./prontoqa/3hop_random_seed19.json'),
+        #PrOntoQADataset.load('./prontoqa/4hop_random_seed19.json'),
         PrOntoQADataset.load('./prontoqa/5hop_random_seed19.json'),
-        PrOntoQADataset.load('./prontoqa/1hop_random_trueontology_seed19.json'),
-        PrOntoQADataset.load('./prontoqa/2hop_random_trueontology_seed19.json'),
-        PrOntoQADataset.load('./prontoqa/3hop_random_trueontology_seed19.json'),
-        PrOntoQADataset.load('./prontoqa/4hop_random_trueontology_seed19.json'),
-        PrOntoQADataset.load('./prontoqa/5hop_random_trueontology_seed19.json'),
-        PrOntoQADataset.load('./prontoqa/1hop_random_falseontology_seed19.json'),
-        PrOntoQADataset.load('./prontoqa/2hop_random_falseontology_seed19.json'),
-        PrOntoQADataset.load('./prontoqa/3hop_random_falseontology_seed19.json'),
-        PrOntoQADataset.load('./prontoqa/4hop_random_falseontology_seed19.json'),
-        PrOntoQADataset.load('./prontoqa/5hop_random_falseontology_seed19.json'),
+        #PrOntoQADataset.load('./prontoqa/1hop_random_trueontology_seed19.json'),
+        #PrOntoQADataset.load('./prontoqa/2hop_random_trueontology_seed19.json'),
+        #PrOntoQADataset.load('./prontoqa/3hop_random_trueontology_seed19.json'),
+        #PrOntoQADataset.load('./prontoqa/4hop_random_trueontology_seed19.json'),
+        #PrOntoQADataset.load('./prontoqa/5hop_random_trueontology_seed19.json'),
+        #PrOntoQADataset.load('./prontoqa/1hop_random_falseontology_seed19.json'),
+        #PrOntoQADataset.load('./prontoqa/2hop_random_falseontology_seed19.json'),
+        #PrOntoQADataset.load('./prontoqa/3hop_random_falseontology_seed19.json'),
+        #PrOntoQADataset.load('./prontoqa/4hop_random_falseontology_seed19.json'),
+        #PrOntoQADataset.load('./prontoqa/5hop_random_falseontology_seed19.json'),
     ]
 
     fol_domain = domain.FirstOrderLogicDomain()
@@ -961,12 +964,14 @@ def run_prontoqa_experiments(max_problems=120):
         fol_domain.start_derivation())
 
     reasoners = [
-        # NOTE: right now, each HuggingFaceLanguageModelReasoner will load the model
-        # separately. Perhaps run one at a time for now.
+        # NOTE: right now, each HuggingFaceLanguageModelReasoner will load the model weights
+        # separately. Perhaps run one at a time for now depending on how much memory you have.
 
-        # HuggingFaceLanguageModelReasoner('/path/to/llama', 0.1),
+        # HuggingFaceLanguageModelReasoner('HF_MODEL_ID_OR_PATH', 0.1),
         # PeanoHuggingFaceLMReasoner(fol_completion_engine,
-        #                            '/path/to/llama')
+        #                            'HF_MODEL_ID_OR_PATH'),
+        # HF_MODEL_ID_OR_PATH can be a path a local model (e.g., LLaMA 2 weights) or a HuggingFace
+        # model string. Essentially, anything that AutoModelForCausalLM would be able to load.
 
         # OpenAILanguageModelReasoner('text-davinci-003'),
         # OpenAIChatModelReasoner('gpt-3.5-turbo'),
