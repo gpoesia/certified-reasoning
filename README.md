@@ -21,24 +21,24 @@ This repository is forked from a frozen version of [gpoesia/peano](https://githu
 Peano is still being actively developed, but to keep this repository (certified-reasoning) stable,
 the updates will only be merged here periodically and without breaking the experiments from the paper.
 
-To set up, first pull the `synchromesh` submodule (it will be a proper Python package some day, but the main API is still changing, so once that stabilizes):
-
-```sh
-[certified-reasoning] $ git submodule update --init
-Submodule path 'learning/ext/synchromesh': checked out 'ff524f9ee20a03192efe2d3b84ae555d7c7fe88d'
-[certified-reasoning] $
-```
-
-You'll then need to do two changes to environment variables (which you might want to do in your `~/.bashrc` or equivalent if you want to make them permanent):
-- Add `learning/ext/synchromesh/synchromesh` to your `PYTHONPATH`. Using the absolute path is usually more robust.
-- If you want to test with OpenAI models, put your OpenAI API key in the `OPENAI_API_KEY` environment variable.
-
-Then install the Python dependencies (do that in a virtualenv / conda environment if you prefer).
+First, set up a conda environment or virtualenv (technically optional but recommended). Install dependencies with:
 
 ```sh
 [certified-reasoning] $ cd learning/
 [learning] $ pip install -r requirements.txt 
 ```
+
+Then, set up `synchromesh` (it will be a proper Python package soon, but until then):
+
+```sh
+(base) [certified-reasoning] $ git clone https://github.com/kanishkg/synchromesh.git
+[...]
+(base) [certified-reasoning] $ cd synchromesh
+(base) [synchromesh] $ python setup.py install
+```
+
+You'll then need to do two changes to environment variables (which you might want to do in your `~/.bashrc` or equivalent if you want to make them permanent):
+- If you want to test with OpenAI models, put your OpenAI API key in the `OPENAI_API_KEY` environment variable.
 
 Now you should compile and link the Peano environment (instructions in the section below).
 After that, you should be able to run the current experiments on PrOntoQA:
@@ -47,7 +47,7 @@ After that, you should be able to run the current experiments on PrOntoQA:
 [learning] $ python lm_tool.py
 ```
 
-This will just run one vanilla OpenAI model (`gpt3.5-turbo` - it will use up credits!) on one PrOntoQA split. The current default experiment is quite small. Right now, what experiment to run is hardcoded in `lm_tool.py`. You can uncomment the `PeanoLMReasoner` in `run_prontoqa_experiment` to test one of the models using the Peano guide.
+This will just run one vanilla OpenAI model (`gpt3.5-turbo` - it will use up credits!) on one PrOntoQA split. The current default experiment is quite small. Right now, what experiment to run is hardcoded in `lm_tool.py`. You can uncomment the `PeanoLMReasoner` in `run_prontoqa_experiment` to test one of the models using the Peano guide. We're recently packaged and pushed the support for Hugging Face models, so you can run with LLaMA (or other models) as well.
 
 ### Implementing a Language Model Guide
 
